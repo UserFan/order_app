@@ -1,0 +1,16 @@
+= simple_form_for(@user) do |f|
+  = f.error_notification
+  = f.input :full_name, autocomplete: "off", required: true, autofocus: true
+  = f.input :position, required: true if current_user.admin? || current_user.super_admin?
+  = f.input :role,  :disabled => current_user == @user,  
+      :collection => User.roles.keys.map {|role| [role.titleize,role]}, 
+       as: :radio_buttons if current_user.admin? || current_user.super_admin?
+  = f.input :email, required: true
+  = f.input :mobile, required: true
+  = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: false
+  = f.input :password_confirmation, required: false
+  .form-group
+  
+    //= button_tag "Отмена", type: :back, class: "btn btn-primary pull-right"
+    = link_to "Отмена", :back, class: "btn btn-info pull-right"
+    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"
