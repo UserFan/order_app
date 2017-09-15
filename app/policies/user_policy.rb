@@ -7,20 +7,22 @@ class UserPolicy
   end
 
   def new?
-    @current_user.admin? || @current_user.super_admin?
+
+    @current_user.moderator? || @current_user.super_admin?
   end
 
   def index?
+    #binding.pry
     return false if @current_user == @user
-    @current_user.admin? || @current_user.super_admin?
+    @current_user.moderator? || @current_user.super_admin?
   end
 
   def create?
-    @current_user.admin? || @current_user.super_admin?
+    @current_user.moderator? || @current_user.super_admin?
   end
 
   def show?
-    @current_user.admin? || @current_user.super_admin? or @current_user == @user
+    @current_user.moderator? || @current_user.super_admin? or @current_user == @user
   end
 
   def update?
@@ -30,14 +32,14 @@ class UserPolicy
   def edit?
     # binding.pry
     @current_user.super_admin? ||
-    @current_user.admin? && !@user.super_admin? ||
+    @current_user.moderator? && !@user.super_admin? ||
     @current_user == @user
   end
 
   def destroy?
     return false if @current_user == @user
-    return false if @current_user.admin? && @user.super_admin?
-    return false if @current_user.user? || @current_user.vip?
+    return false if @current_user.moderator? && @user.super_admin?
+    return false if @current_user.user? || @current_user.guide?
     true
   end
 

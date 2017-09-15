@@ -7,7 +7,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.1]
       t.string  :full_name,          null: false, default: ""
       t.string  :mobile,             null: false, default: ""
       t.integer :position,           null: false, default: 0
-      t.integer :role,               null: false, default: 0
+      t.integer :role,               null: false, default: 1
       t.boolean :admin,              null: false, default: 0
 
       ## Recoverable

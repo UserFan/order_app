@@ -59,7 +59,8 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    added_attrs = [:full_name, :position, :role, :mobile, :email, :password, :password_confirmation, :remember_me]
+    added_attrs = [:full_name, :position, (:role if current_user != @user), :mobile, :email, :password,
+                    :password_confirmation, :remember_me]
     params.require(:user).permit (added_attrs)
   end
 
