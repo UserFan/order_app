@@ -1,28 +1,21 @@
-class UserPolicy
-  attr_reader :current_user, :model
-
-  def initialize(current_user, model)
-    @current_user = current_user
-    @user = model
-  end
+class UserPolicy < ApplicationPolicy
 
   def new?
-
-    @current_user.moderator? || @current_user.super_admin?
+    user.moderator? || user.super_admin?
   end
 
   def index?
     #binding.pry
-    return false if @current_user == @user
-    @current_user.moderator? || @current_user.super_admin?
+    return false if user == record
+    user.moderator? || user.super_admin?
   end
 
   def create?
-    @current_user.moderator? || @current_user.super_admin?
+    user.moderator? || user.super_admin?
   end
 
   def show?
-    @current_user.moderator? || @current_user.super_admin? or @current_user == @user
+    user.moderator? || user.super_admin? or user == record
   end
 
   def update?
@@ -31,16 +24,27 @@ class UserPolicy
 
   def edit?
     # binding.pry
-    @current_user.super_admin? ||
-    @current_user.moderator? && !@user.super_admin? ||
-    @current_user == @user
+    user.super_admin? ||
+    user.moderator? && !record.super_admin? ||
+    user == record
   end
 
   def destroy?
-    return false if @current_user == @user
-    return false if @current_user.moderator? && @user.super_admin?
-    return false if @current_user.user? || @current_user.guide?
+    return false if user == record
+    return false if user.moderator? && record.super_admin?
+    return false if user.user? || user.guide?
     true
   end
 
+  def permitted_attributes
+    if user == record && (user.super_admin? || user.moderator?)
+      [:full_name, :position, :mobile, :email, :password,
+        :password_confirmation, :remember_me]
+    elsif user == record && !user.super_admin? && !user.moderator?
+      [:full_name, :mobile, :password, :password_confirmation, :remember_me]
+    elsif user.super_admin? || user.moderator?
+      [:full_name, :position, :role, :mobile, :email, :password,
+        :password_confirmation, :remember_me]
+    end
+  end
 end

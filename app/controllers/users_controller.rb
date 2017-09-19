@@ -6,13 +6,13 @@ class UsersController < ApplicationController
   after_action :verify_authorized
 
   def index
-    @users = User.all
     authorize User
+    @users = User.all    
   end
 
   def new
-    @user = User.new
     authorize User
+    @user = User.new
   end
 
   def show
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)    # Not the final implementation!
+    @user = User.new(permitted_attributes(User))    # Not the final implementation!
     authorize @user
     if @user.save
       redirect_to users_path
@@ -35,12 +35,9 @@ class UsersController < ApplicationController
 
   def update
     authorize @user
-    if @user.update_without_password(user_params)
+    if @user.update_without_password(permitted_attributes(@user))
      redirect_to users_path
     else
-    #  redirect_to root_path
-    #   end
-    # else
       render 'edit'
     end
   end
@@ -59,19 +56,11 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    added_attrs = [:full_name, :position, (:role if current_user != @user), :mobile, :email, :password,
-                    :password_confirmation, :remember_me]
-    params.require(:user).permit (added_attrs)
+    params.require(:user).permit([:full_name, :position, :role, :mobile, :email, :password,
+                    :password_confirmation, :remember_me])
   end
 
   def set_user
-      @user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
-
-  # def user_super_admin
-  #   if @user.super_admin? and !current_user.super_admin?
-  #     flash[:error] = "Данную запись нельзя редактировать"
-  #     redirect_to request.referrer
-  #   end
-  # end
 end
