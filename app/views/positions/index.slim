@@ -1,22 +1,20 @@
 h1 Справочник 'Должности'.
 .container
   = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
-br
-  .table-responsive
-    table.table.table-striped.sortable
-      thead
+  table.table data-locale="ru-RU" data-classes="table-no-bordered" data-sort-name="name" data-sort-order="asc" data-search="true" data-filter-control="true" data-toggle="table"
+    thead
+      tr
+        th data-field="name" data-filter-control="input" data-sortable="true" Наименование
+    tbody
+      - @positions.each do |position|
         tr
-          th Наименование
-      tbody
-        - @positions.each do |position|
-          tr
-            td
-              = position.name
-              - if policy(position).edit?
-                = link_to edit_position_path(position), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                    "title" => "Корректировка данных" do
-                  span.glyphicon.glyphicon-pencil.edit-button
-              - if policy(position).destroy?
-                = link_to position, method: :delete, data: { confirm: "Вы действительно хотите удалить должность?" },
-                    "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить должность" do
-                     span.glyphicon.glyphicon-trash.edit-button
+          td
+            = position.name
+            - if policy(position).edit?
+              = link_to edit_position_path(position), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                  "title" => "Корректировка данных" do
+                span.glyphicon.glyphicon-pencil.edit-button
+            - if policy(position).destroy?
+              = link_to position, method: :delete, data: { confirm: "Вы действительно хотите удалить должность?" },
+                  "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить должность" do
+                   span.glyphicon.glyphicon-trash.edit-button

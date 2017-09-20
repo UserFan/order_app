@@ -3,25 +3,26 @@ h1 Пользователи системы.
   .row
     = link_to "Добавить пользователя",  new_user_path, class: "btn btn-primary"
   br
-  .table-responsive
-    table.table.table-condensed
-      tr
-        th Пользователь
-        th Должность
-        th Адрес E-mail
-        th Мобильный телефон
-      - @users.each do |user|
+    table.table data-locale="ru-RU" data-search="true" data-filter-control="true" data-classes="table-no-bordered" data-toggle="table" data-sort-name="full_name" data-sort-order="asc"
+      thead
         tr
-          td
-            = user.full_name
-            - if policy(user).edit?
-              = link_to edit_user_path(user), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                  "title" => "Корректировка данных пользователя" do
-                span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(user).destroy?
-              = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить пользователя?" },
-               "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить пользователя" do
-                span.glyphicon.glyphicon-trash.edit-button
-          td = user.position
-          td = user.email
-          td = user.mobile
+          th data-field="full_name" data-sortable="true" Пользователь
+          th data-field="position" Должность
+          th data-field="email" Адрес E-mail
+          th data-field="mobile" Мобильный телефон
+      tbody
+        - @users.each do |user|
+          tr
+            td
+              = user.full_name
+              - if policy(user).edit?
+                = link_to edit_user_path(user), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                    "title" => "Корректировка данных пользователя" do
+                  span.glyphicon.glyphicon-pencil.edit-button
+              - if policy(user).destroy?
+                = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить пользователя?" },
+                 "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить пользователя" do
+                  span.glyphicon.glyphicon-trash.edit-button
+            td = user.position
+            td = user.email
+            td = user.mobile
