@@ -15,6 +15,4 @@
 //= require rails-ujs
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require bootstrap-table
-//= require bootstrap-table-locale-all
 //= require_tree .

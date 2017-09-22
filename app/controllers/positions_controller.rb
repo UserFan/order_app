@@ -6,7 +6,9 @@ class PositionsController < ApplicationController
 
   def index
     authorize Position
-    @positions = Position.all
+    @q = Position.ransack(params[:q])
+    @positions = @q.result(disinct: true)
+    #@positions = Position.all
   end
 
   def show

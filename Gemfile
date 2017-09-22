@@ -59,4 +59,4 @@ gem "slim-rails"
 gem 'devise'
 gem 'pundit'
 gem 'pry'
-gem "bootstrap-table-rails"
+gem 'ransack'

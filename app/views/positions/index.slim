@@ -1,10 +1,14 @@
 h1 Справочник 'Должности'.
 .container
   = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
-  table.table data-locale="ru-RU" data-classes="table-no-bordered" data-sort-name="name" data-sort-order="asc" data-search="true" data-filter-control="true" data-toggle="table"
+.row
+  .col-md-3.col-md-offset-9
+    = search_form_for(@q) do |f|
+      = f.input :name_cont, label: false, placeholder: 'Поиск'
+  table.table.table-striped.table-responsive
     thead
       tr
-        th data-field="name" data-filter-control="input" data-sortable="true" Наименование
+        th =sort_link(@q, :name, 'Наименование', default_order: :asc)
     tbody
       - @positions.each do |position|
         tr
