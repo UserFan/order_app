@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users
 
   match '/catalog', to: 'pages#catalog', via: 'get'
+  
   #resources :positions
   scope 'catalog' do
     resources :positions

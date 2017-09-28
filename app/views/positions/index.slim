@@ -1,10 +1,13 @@
 h1 Справочник 'Должности'.
 .container
   = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
-.row
-  .col-md-3.col-md-offset-9
-    = search_form_for(@q) do |f|
-      = f.input :name_cont, label: false, placeholder: 'Поиск'
+  .row
+    .col-md-3.col-md-offset-9.input-group
+      = search_form_for(@q) do |f|
+        = f.input :name_cont, label: false, placeholder: 'Поиск', class: "form-control"
+      span.input-group-btn
+        button.btn.btn-primary type="submit"
+          span.glyphicon.glyphicon-search
   table.table.table-striped.table-responsive
     thead
       tr
@@ -18,7 +21,7 @@ h1 Справочник 'Должности'.
               = link_to edit_position_path(position), "data-toggle" => "tooltip", "data-placement" => "bottom",
                   "title" => "Корректировка данных" do
                 span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(position).destroy?
+            - if policy(position).destroy? && position.can_destroy?
               = link_to position, method: :delete, data: { confirm: "Вы действительно хотите удалить должность?" },
                   "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить должность" do
                    span.glyphicon.glyphicon-trash.edit-button

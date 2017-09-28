@@ -23,6 +23,6 @@ h1 Пользователи системы.
               = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить пользователя?" },
                "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить пользователя" do
                 span.glyphicon.glyphicon-trash.edit-button
-          td = user.position
+          td = user.position.name
           td = user.email
           td = user.mobile

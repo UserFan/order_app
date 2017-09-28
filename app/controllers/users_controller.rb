@@ -1,13 +1,14 @@
 class UsersController < ApplicationController
 
   before_action :set_user, except: [ :index, :new, :create ]
-  #before_action :user_super_admin, only: [ :edit, :update, :destroy ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
     authorize User
-    @users = User.all    
+    @q = User.ransack(params[:q])
+    @q.sorts = ['full_name asc', 'created_at desc'] if @q.sorts.empty?
+    @users = @q.result(disinct: true)
   end
 
   def new
@@ -54,11 +55,6 @@ class UsersController < ApplicationController
 
 
   private
-
-  def user_params
-    params.require(:user).permit([:full_name, :position, :role, :mobile, :email, :password,
-                    :password_confirmation, :remember_me])
-  end
 
   def set_user
     @user = User.find(params[:id])

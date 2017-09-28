@@ -7,6 +7,7 @@ class PositionsController < ApplicationController
   def index
     authorize Position
     @q = Position.ransack(params[:q])
+    @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @positions = @q.result(disinct: true)
     #@positions = Position.all
   end
@@ -47,10 +48,10 @@ class PositionsController < ApplicationController
     authorize @position
     if @position.destroy
       flash[:success] = "Должность удачно удален."
-      redirect_to positions_path
     else
       flash[:error] = "Должность не может буть удален. Есть связанные данные"
     end
+    redirect_to positions_path
   end
 
 

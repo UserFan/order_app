@@ -1,32 +1,29 @@
 class User < ApplicationRecord
+  belongs_to :position
+  belongs_to :role
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  validates :full_name, :role, :position, :mobile, presence: true
-
-  #enum role: [:user, :vip, :admin, :super_admin]
-  #after_initialize :set_default_role, :if => :new_record?
-
-  def set_default_role
-    self.role ||= :user
-  end
+  validates :full_name, :role_id, :position_id, :mobile, presence: true
 
   def super_admin?
-    self.role == 4
+    self.role_id == 4
   end
 
   def moderator?
-    self.role == 3
+    self.role_id == 3
   end
 
   def guide?
-    self.role == 2
+    self.role_id == 2
   end
 
   def user?
-    self.role == 1
+    self.role_id == 1
   end
+
 
 end
