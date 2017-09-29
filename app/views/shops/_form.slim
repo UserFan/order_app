@@ -1,0 +1,11 @@
+= simple_form_for(@shop) do |f|
+  = f.error_notification
+  = f.input :name, autocomplete: "off", required: true, autofocus: true
+  = f.input :adress, required: true
+  = f.input :gps, required: true
+  = f.input :type_id, required: true
+  = f.input :photo
+  = f.association :user, include_blank: false
+  .form-group
+    = link_to "Отмена", :back, class: "btn btn-info pull-right"
+    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

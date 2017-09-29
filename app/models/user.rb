@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   belongs_to :position
   belongs_to :role
+  has_many :shop, dependent: :restrict_with_error
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

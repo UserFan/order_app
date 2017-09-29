@@ -2,12 +2,12 @@ h1 Справочник 'Должности'.
 .container
   = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
   .row
-    .col-md-3.col-md-offset-9.input-group
-      = search_form_for(@q) do |f|
+    .col-md-3.col-md-offset-9
+      = search_form_for (@q), class: "input-group add-on" do |f|
         = f.input :name_cont, label: false, placeholder: 'Поиск', class: "form-control"
-      span.input-group-btn
-        button.btn.btn-primary type="submit"
-          span.glyphicon.glyphicon-search
+        span.input-group-btn
+          button.btn.btn-primary type="submit"
+            span.glyphicon.glyphicon-search
   table.table.table-striped.table-responsive
     thead
       tr
