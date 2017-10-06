@@ -57,7 +57,7 @@ class ShopsController < ApplicationController
 
   private
 
-  def set_position
+  def set_shop
     @shop = Shop.find(params[:id])
   end
 end

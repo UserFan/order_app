@@ -1,6 +1,6 @@
-h1 Торговые объекты
+h1 Справочник 'Должности'.
 .container
-  = link_to "Добавить торговый объект",  new_shop_path, class: "btn btn-primary"
+  = link_to "Добавить тип",  new_type_path, class: "btn btn-primary"
   .row
     .col-md-3.col-md-offset-9
       = search_form_for (@q), class: "input-group add-on" do |f|
@@ -13,15 +13,15 @@ h1 Торговые объекты
       tr
         th =sort_link(@q, :name, 'Наименование', default_order: :asc)
     tbody
-      - @shops.each do |shop|
+      - @types.each do |type|
         tr
           td
-            = shop.name
-            - if policy(shop).edit?
-              = link_to edit_shop_path(shop), "data-toggle" => "tooltip", "data-placement" => "bottom",
+            = type.name
+            - if policy(type).edit?
+              = link_to edit_type_path(type), "data-toggle" => "tooltip", "data-placement" => "bottom",
                   "title" => "Корректировка данных" do
                 span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(shop).destroy? && shop.can_destroy?
-              = link_to shop, method: :delete, data: { confirm: "Вы действительно хотите удалить торговый объект?" },
-                  "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить торговый объект" do
+            - if policy(type).destroy? && type.can_destroy?
+              = link_to type, method: :delete, data: { confirm: "Вы действительно хотите удалить запись?" },
+                  "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить запись" do
                    span.glyphicon.glyphicon-trash.edit-button

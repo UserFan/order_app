@@ -2,12 +2,6 @@
 ru:
   simple_form:
     labels:
-      event:
-        title: 'Название'
-        description: 'Описание'
-        starts_at: 'Начинается'
-        ends_at: 'Заканчивается'
-        repeats: 'Повтор'
       user:
         new:
           username: 'Полное имя'
@@ -35,26 +29,31 @@ ru:
           password: "Новый пароль"
           password_confirmation: "Подтверждение нового пароля"
           current_password: "Ваш текущий пароль"
-      article:
+      type:
         new:
-          title: "Заголовок"
-          content: "Текст статьи"
+          name: "Наименование"
         edit:
-          title: "Заголовок"
-          content: "Текст статьи"
-      photo:
+          name: "Наименование"
+      position:
         new:
-          description: "Описание"
-          image: "Путь к изображению"
+          name: "Наименование"
         edit:
-          description: "Описание"
-      album:
+          name: "Наименование"
+      shop:
         new:
-          name: "Имя"
-          description: "Описание"
+          name: "Наименование объекта"
+          adress: "Адрес объекта"
+          type: "Тип объекта"
+          gps: "Координаты GPS"
+          photo: "Фото объекта"
+          user: "Ответственный за объект"
         edit:
-          name: "Имя"
-          description: "Описание"
+          name: "Наименование объекта"
+          adress: "Адрес объекта"
+          type: "Тип объекта"
+          gps: "Координаты GPS"
+          photo: "Фото объекта"
+          user: "Ответственный за объект" 
       contact:
         edit:
           chirch_name: "Имя церкви"

@@ -7,15 +7,16 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    user.moderator? || user.super_admin?
   end
 
   def show?
     scope.where(:id => record.id).exists?
+    user.moderator? || user.super_admin?
   end
 
   def create?
-    false
+    user.moderator? || user.super_admin?
   end
 
   def new?
@@ -23,7 +24,7 @@ class ApplicationPolicy
   end
 
   def update?
-    false
+    user.moderator? || user.super_admin?
   end
 
   def edit?
@@ -31,7 +32,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    false
+    user.moderator? || user.super_admin?
   end
 
   def scope
