@@ -6,3 +6,11 @@ Ransack.configure do |config|
     compounds: true,
     type: :string
 end
+
+Ransack.configure do |c|
+  c.custom_arrows = {
+    up_arrow: '<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>',
+    down_arrow: '<span class="glyphicon glyphicon-sort-by-attributes"></span>',
+    default_arrow: '<i class="default-arrow-icon"></i>'
+  }
+end

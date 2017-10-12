@@ -23,6 +23,8 @@ class ShopsController < ApplicationController
 
   def edit
     authorize @shop
+    gon.latitude = @shop.latitude
+    gon.longitude = @shop.longitude
   end
 
   def create

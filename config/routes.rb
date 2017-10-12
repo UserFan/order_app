@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     resources :positions
     resources :shops
     resources :types
+    resources :categories
+    resources :statuses
   end
 
 
