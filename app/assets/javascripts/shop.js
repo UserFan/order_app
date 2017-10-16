@@ -1,8 +1,9 @@
 ymaps.ready(init)
 
 function init() {
+
     var myMap = new ymaps.Map("map", {
-            center: [gon.latitude, gon.longitude],
+            center: [$('#map').data('lat'), $('#map').data('lon')],
             zoom: 16
         }, {
             searchControlProvider: 'yandex#search'
@@ -13,7 +14,7 @@ function init() {
             // Описание геометрии.
             geometry: {
                 type: "Point",
-                coordinates: [gon.latitude, gon.longitude]
+                coordinates: [$('#map').data('lat'), $('#map').data('lon')]
             },
             // Свойства.
             properties: {

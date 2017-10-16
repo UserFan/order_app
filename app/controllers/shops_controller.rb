@@ -9,7 +9,6 @@ class ShopsController < ApplicationController
     @q = Shop.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @shops = @q.result(disinct: true)
-    #@positions = Position.all
   end
 
   def show
@@ -23,8 +22,6 @@ class ShopsController < ApplicationController
 
   def edit
     authorize @shop
-    gon.latitude = @shop.latitude
-    gon.longitude = @shop.longitude
   end
 
   def create
