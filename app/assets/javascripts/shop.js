@@ -1,4 +1,4 @@
-ymaps.ready(init)
+ymaps.ready(init);
 
 function init() {
 
@@ -32,4 +32,4 @@ function init() {
         myMap.geoObjects
             .add(myGeoObject)
 
-}
+};

@@ -10,7 +10,7 @@
       = f.association :type, as: :radio_buttons, required: true
       = f.input :address, as: :text, required: true
       = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
-      = f.label :photo
+      = f.input :closed, html5: true
       = f.file_field :photo
     .form-group
       = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"

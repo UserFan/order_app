@@ -19,7 +19,7 @@ h1 Торговые объекты
           td
             = image_tag(shop.photo.icon.url) if shop.photo?
           td
-            strong = shop.name
+            = link_to "#{shop.name}", shop_path(shop), "data-turbolinks" => "false"
             br
             = shop.address
             - if policy(shop).edit?

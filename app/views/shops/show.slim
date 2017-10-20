@@ -1,0 +1,35 @@
+.row
+  .col-xs-6.col-md-6
+    = image_tag(@shop.photo.url, class: "img-responsive img-thumbnail") if @shop.photo?
+
+  .col-xs-6.col-md-6
+    table.table.table-striped.table-responsive
+      tbody
+        tr
+          td
+            b Наименование объекта:
+          td = @shop.name
+        tr
+          td
+            b Тип объекта:
+          td = @shop.type.name
+        tr
+          td
+            b Адрес объекта:
+          td = @shop.address
+        tr
+          td
+            b Ответственное лицо:
+          td = @shop.user.full_name
+        tr
+          td.span.glyphicon.glyphicon-phone-alt
+          td = @shop.user.mobile
+        tr
+          td
+            b Объект закрыть:
+          td = @shop.closed
+
+    - if (@shop.address.present?)
+      #map data-lat=@shop.latitude data-lon=@shop.longitude
+
+    = link_to "Назад", :back, class: "btn btn-info pull-right main-group"
