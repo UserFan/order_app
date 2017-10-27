@@ -1,4 +1,4 @@
-ymaps.ready(init);
+var MapYa = function () { ymaps.ready(init) };
 
 function init() {
 
@@ -33,3 +33,13 @@ function init() {
             .add(myGeoObject)
 
 };
+
+var date_pic = function () { $('.datepicker').datetimepicker(); };
+
+document.addEventListener('turbolinks:load', function () {
+        date_pic();
+});
+
+document.addEventListener('turbolinks:load', function () {
+  MapYa();
+});

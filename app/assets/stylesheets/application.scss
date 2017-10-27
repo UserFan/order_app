@@ -1,5 +1,6 @@
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+@import 'bootstrap-datetimepicker';
 
 
 //.edit-button { padding-left: 5px; }
@@ -11,4 +12,23 @@
   margin-top: 30px;
   width: 550px;
   height: 250px;
+}
+.main_closed {
+  text-decoration: blink;
+  color: red;
+}
+
+#blink {
+  -webkit-animation: blink 3s linear infinite;
+  animation: blink 3s linear infinite;
+}
+@-webkit-keyframes blink {
+  10% { text-shadow: 0 0px 1px hsl(0, 100%, 40%); }
+  60% { text-shadow: 0 0px 1px crimson; }
+  90% { text-shadow: 0 30px 40px transparent; }  
+}
+@keyframes blink {
+  10% { text-shadow: 0 0px 1px hsl(0, 100%, 40%); }
+  60% { text-shadow: 0 0px 1px crimson; }
+  90% { text-shadow: 0 30px 40px transparent; }
 }

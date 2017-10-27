@@ -1,32 +1,57 @@
 h1 Торговые объекты
 .container
-  = link_to "Добавить торговый объект",  new_shop_path, class: "btn btn-primary"
-  .row
-    .col-md-3.col-md-offset-9
-      = search_form_for (@q), class: "input-group add-on" do |f|
-        = f.input :name_cont, label: false, placeholder: 'Поиск', class: "form-control"
-        span.input-group-btn
-          button.btn.btn-primary type="submit"
-            span.glyphicon.glyphicon-search
-  table.table.table-striped.table-responsive
-    thead
-      tr
-        th Фото
-        th =sort_link(@q, :name, 'Наименование', default_order: :asc)
-    tbody
-      - @shops.each do |shop|
-        tr
-          td
-            = image_tag(shop.photo.icon.url) if shop.photo?
-          td
-            = link_to "#{shop.name}", shop_path(shop), "data-turbolinks" => "false"
-            br
-            = shop.address
-            - if policy(shop).edit?
-              = link_to edit_shop_path(shop), "data-turbolinks" => "false", "data-toggle" => "tooltip", "data-placement" => "bottom",
-                  "title" => "Корректировка данных" do
-                span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(shop).destroy? && shop.can_destroy?
-              = link_to shop, method: :delete, data: { confirm: "Вы действительно хотите удалить торговый объект?" },
-                  "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить торговый объект" do
-                   span.glyphicon.glyphicon-trash.edit-button
+.row
+  .col-sm-12.col-md-12
+    .col-sm-3.col-md-3
+      ul.nav.nav-pills.nav-stacked
+        = active_link_to 'Все объекты', shops_path, active: :exact, wrap_tag: :li
+        concat = content_tag(:span, "#{@shops_count}", class: ["badge", "pull-right"])
+        = active_link_to 'Действующие объекты', shops_path(q: {closed_present: '1'}), active: :exact, wrap_tag: :li
+        = active_link_to 'Закрытые объекты', shops_path(q: {closed_present: '0'}), active: :exact, wrap_tag: :li
+
+        li
+          = link_to q:{} do
+           | Все объекты
+           span.badge.pull-right #{@shops_count}
+        //li class="#{active_class(q: {closed_present: '0'})}"
+      //    = link_to q: {closed_present: '0'} do
+      //     | Действующие объекты
+      //     span.badge.pull-right #{@shops_open}
+    //    li class="#{active_class(q: {closed_present: '1'})}"
+    //      - if @shops_closed != 0
+    //       = link_to q: {closed_present: '1'} do
+      //       | Закрытые объекты
+      //       span.badge.pull-right #{@shops_closed}
+    .col-sm-9.col-md-9
+      .row
+        .col-sm-3.col-md-3
+          = link_to "Добавить торговый объект",  new_shop_path, class: "btn btn-primary"
+        .col-md-5.col-md-offset-9
+          = search_form_for (@q), class: "input-group add-on" do |f|
+            = f.input :name_cont, label: false, placeholder: 'Поиск', class: "form-control"
+            span.input-group-btn
+              button.btn.btn-primary type="submit"
+                span.glyphicon.glyphicon-search
+        table.table.table-striped.table-responsive
+          thead
+            tr
+              th Фото
+              th =sort_link(@q, :name, 'Наименование', default_order: :asc)
+          tbody
+            - @shops.each do |shop|
+              tr
+                td
+                  = image_tag(shop.photo.icon.url) if shop.photo?
+                td
+                  = link_to "#{shop.name}", shop_path(shop)
+                  = content_tag(:span,' Объект закрыть!!!', :id=>'blink') if shop.closed.present?
+                  br
+                  = shop.address
+                  - if policy(shop).edit?
+                    = link_to edit_shop_path(shop), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                        "title" => "Корректировка данных" do
+                      span.glyphicon.glyphicon-pencil.edit-button
+                  - if policy(shop).destroy? && shop.can_destroy?
+                    = link_to shop, method: :delete, data: { confirm: "Вы действительно хотите удалить торговый объект?" },
+                        "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить торговый объект" do
+                         span.glyphicon.glyphicon-trash.edit-button
