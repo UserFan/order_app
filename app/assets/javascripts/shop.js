@@ -19,7 +19,7 @@ function init() {
             // Свойства.
             properties: {
                 // Контент метки.
-                hintContent: 'Ну давай уже тащи'
+                hintContent: 'Арыш Мае'
             }
         }, {
             // Опции.

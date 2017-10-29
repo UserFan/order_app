@@ -6,8 +6,8 @@ h1 Торговые объекты
       ul.nav.nav-pills.nav-stacked
         = active_link_to 'Все объекты', shops_path, active: :exact, wrap_tag: :li
         concat = content_tag(:span, "#{@shops_count}", class: ["badge", "pull-right"])
-        = active_link_to 'Действующие объекты', shops_path(q: {closed_present: '1'}), active: :exact, wrap_tag: :li
-        = active_link_to 'Закрытые объекты', shops_path(q: {closed_present: '0'}), active: :exact, wrap_tag: :li
+        = active_link_to 'Действующие объекты', shops_path(q: {closed_not_null: '0'}), active: :exact, wrap_tag: :li
+        = active_link_to 'Закрытые объекты', shops_path(q: {closed_not_null: '1'}), active: :exact, wrap_tag: :li
 
         li
           = link_to q:{} do
@@ -44,7 +44,7 @@ h1 Торговые объекты
                   = image_tag(shop.photo.icon.url) if shop.photo?
                 td
                   = link_to "#{shop.name}", shop_path(shop)
-                  = content_tag(:span,' Объект закрыть!!!', :id=>'blink') if shop.closed.present?
+                  = content_tag(:span,' Объект закрыт!', :id=>'blink') if shop.closed.present?
                   br
                   = shop.address
                   - if policy(shop).edit?

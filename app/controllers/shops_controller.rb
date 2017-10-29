@@ -9,8 +9,8 @@ class ShopsController < ApplicationController
     @q = Shop.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @shops = @q.result(disinct: true)
-    @shops_closed = Shop.ransack(closed_present: '1').result.count
-    @shops_open = Shop.ransack(closed_present: '0').result.count
+    @shops_closed = Shop.ransack(closed_not_null: '1').result.count
+    @shops_open = Shop.ransack(closed_not_null: '0').result.count
     @shops_count = Shop.count
   end
 

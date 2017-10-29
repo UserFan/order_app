@@ -8,6 +8,7 @@ class CreateShops < ActiveRecord::Migration[5.1]
       t.string  :gps,                 null: false, default: ""
       t.integer :type_id,             null: false, default: 0
       t.string  :photo
+      t.datetime :closed,             null: false
       t.integer :user_id,             null: false, default: 0
       t.timestamps
     end
