@@ -8,5 +8,5 @@ class Shop < ApplicationRecord
 
   belongs_to :user
   belongs_to :type
-
+  has_many :order, dependent: :restrict_with_error
 end

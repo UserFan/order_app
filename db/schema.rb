@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023105414) do
+ActiveRecord::Schema.define(version: 20171101085102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,24 @@ ActiveRecord::Schema.define(version: 20171023105414) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "category_id", default: 0, null: false
+    t.datetime "date_open", null: false
+    t.integer "shop_id", default: 0, null: false
+    t.string "short_descript", default: "", null: false
+    t.text "description"
+    t.datetime "date_closed"
+    t.string "photo"
+    t.integer "user_id", default: 0, null: false
+    t.integer "status_id", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_orders_on_category_id"
+    t.index ["shop_id"], name: "index_orders_on_shop_id"
+    t.index ["status_id"], name: "index_orders_on_status_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "positions", force: :cascade do |t|

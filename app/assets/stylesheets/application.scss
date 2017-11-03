@@ -12,6 +12,8 @@
   margin-top: 30px;
   width: 550px;
   height: 250px;
+  //max-width: 100%;
+//  height: auto;
 }
 .main_closed {
   text-decoration: blink;
@@ -25,7 +27,7 @@
 @-webkit-keyframes blink {
   10% { text-shadow: 0 0px 1px hsl(0, 100%, 40%); }
   60% { text-shadow: 0 0px 1px crimson; }
-  90% { text-shadow: 0 30px 40px transparent; }  
+  90% { text-shadow: 0 30px 40px transparent; }
 }
 @keyframes blink {
   10% { text-shadow: 0 0px 1px hsl(0, 100%, 40%); }

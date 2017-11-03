@@ -56,6 +56,27 @@ ru:
           photo: "Фото объекта"
           user: "Ответственный за объект"
           closed: "Объект закрыть"
+      order:
+        new:
+          category: "Категория заявки"
+          date_open: "Дата заявки"
+          shop: "Торговый объект"
+          short_descript: "Краткое описание"
+          description: "Описание"
+          date_closed: "Дата закрытия заявки"
+          photo: "Фото"
+          user: "На контроле"
+          status: "Статус заявки"
+        edit:
+          category: "Категория заявки"
+          date_open: "Дата заявки"
+          shops: "Торговый объект"
+          short_descript: "Краткое описание"
+          description: "Описание"
+          date_closed: "Дата закрытия заявки"
+          photo: "Фото"
+          user: "На контроле"
+          status: "Статус заявки"
       contact:
         edit:
           chirch_name: "Имя церкви"

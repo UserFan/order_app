@@ -16,6 +16,8 @@ Rails.application.routes.draw do
     resources :statuses
   end
 
+  resources :orders
+
 
 
   root  'pages#home'

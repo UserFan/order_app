@@ -6,6 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+if Role.present?
+  Role.create(name: 'Пользователь')
+  Role.create(name: 'Руководитель')
+  Role.create(name: 'Модератор')
+  Role.create(name: 'Администратор системы')
+end
+
+Position.create(name: 'Администратор системы') if Position.present?
+
 if User.present?
   User.create(full_name: 'Администратор системы',
                position_id: 1,
@@ -15,12 +24,3 @@ if User.present?
                admin: true,
                password: 'fan2533hq')
 end
-
-if Role.present?
-  Role.create(name: 'Пользователь')
-  Role.create(name: 'Руководитель')
-  Role.create(name: 'Модератор')
-  Role.create(name: 'Администратор системы')
-end
-
-Position.create(name: 'Администратор системы') if Position.present?

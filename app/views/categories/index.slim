@@ -1,13 +1,14 @@
-h1 Справочник 'Должности'.
+h1 Справочник 'Категория заявок'
 .container
   = link_to "Добавить категорию",  new_category_path, class: "btn btn-primary"
   .row
-    .col-md-3.col-md-offset-9
+    .col-sm-4.col-md-3.col-sm-offset-8.col-md-offset-9
       = search_form_for (@q), class: "input-group add-on" do |f|
         = f.input :name_cont, label: false, placeholder: 'Поиск', class: "form-control"
         span.input-group-btn
           button.btn.btn-primary type="submit"
             span.glyphicon.glyphicon-search
+  br
   table.table.table-striped.table-responsive
     thead
       tr

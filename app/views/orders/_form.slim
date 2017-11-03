@@ -1,0 +1,18 @@
+.row
+  = simple_form_for (@order), remote: true, html: {:multipart => true} do |f|
+    = f.error_notification
+    .col-xs-6.col-md-6
+      = image_tag(@order.photo.thumb.url) if @order.photo?
+    //  = f.file_field :photo
+    .col-xs-6.col-md-6.col-md-offset-1
+      = f.association :category, label_method: :name, value_method: :id, required: true
+      = f.association :shop, label_method: :name, value_method: :id, required: true
+      = f.input :date_open, :as => :date_picker, :placeholder => "дата закрытия объекта", required: true
+      = f.input :short_descript, required: true
+      = f.input :description, as: :text
+      = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия объекта"
+      = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+      = f.association :status, label_method: :name, value_method: :id, required: true, include_blank: true
+    .form-group
+      = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"
+      = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"

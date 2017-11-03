@@ -1,15 +1,23 @@
-h1 Пользователи системы.
+h1 Пользователи системы
+br
 .container
   .row
     = link_to "Добавить пользователя",  new_user_path, class: "btn btn-primary"
+  .row
+    .col-sm-4.col-md-3.col-sm-offset-8.col-md-offset-9
+      = search_form_for (@q), class: "input-group add-on" do |f|
+        = f.input :full_name_cont, label: false, placeholder: 'Поиск', class: "form-control"
+        span.input-group-btn
+          button.btn.btn-primary type="submit"
+            span.glyphicon.glyphicon-search
   br
   table.table.table-striped.table-responsive
     thead
       tr
-        th Пользователь
-        th Должность
-        th Адрес E-mail
-        th Мобильный телефон
+        th =sort_link(@q, :full_name, 'Пользователь', default_order: :asc)
+        th =sort_link(@q, :position_name, 'Должность', default_order: :asc)
+        th =sort_link(@q, :email, 'Адрес E-mail', default_order: :asc)
+        th =sort_link(@q, :mobile, 'Мобильный телефон', default_order: :asc)
     tbody
       - @users.each do |user|
         tr
