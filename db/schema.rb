@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171101085102) do
+ActiveRecord::Schema.define(version: 20171107100507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,11 +28,11 @@ ActiveRecord::Schema.define(version: 20171101085102) do
     t.string "short_descript", default: "", null: false
     t.text "description"
     t.datetime "date_closed"
-    t.string "photo"
     t.integer "user_id", default: 0, null: false
     t.integer "status_id", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "photos"
     t.index ["category_id"], name: "index_orders_on_category_id"
     t.index ["shop_id"], name: "index_orders_on_shop_id"
     t.index ["status_id"], name: "index_orders_on_status_id"

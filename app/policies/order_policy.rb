@@ -8,7 +8,7 @@ class OrderPolicy < ApplicationPolicy
 
 
   def permitted_attributes
-    [:category_id, :date_open, :shop_id, :short_descript, :description, :date_closed, :user_id, :status_id] if user.super_admin? || user.moderator?
+    [:category_id, :date_open, :shop_id, :short_descript, :description,:date_closed, :user_id, :status_id, photos: []] if user.super_admin? || user.moderator?
   end
 
 end

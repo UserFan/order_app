@@ -12,6 +12,7 @@ module OrderApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
+    config.encoding = "utf-8"
     config.time_zone = 'Moscow'
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
