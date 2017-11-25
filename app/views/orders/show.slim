@@ -3,7 +3,8 @@
     - if @order.photos?
       ul
         - @order.photos.each do |photo|
-          li = image_tag(@order.photo.url, class: "img-responsive img-thumbnail")
+          li
+            = image_tag(photo.url, class: "img-responsive img-thumbnail")
 
   .col-xs-6.col-md-6
     table.table.table-striped.table-responsive

@@ -41,14 +41,14 @@ br
                   = order.status.name
                 td
                   = link_to "#{order.date_open}", order_path(order)
-                //  = content_tag(:span,' Объект закрыт!', :id=>'blink') if shop.closed.present?
+                    //  = content_tag(:span,' Объект закрыт!', :id=>'blink') if shop.closed.present?
                   - if policy(order).edit?
-                    = link_to edit_order_path(shop), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                        "title" => "Корректировка данных" do
-                      span.glyphicon.glyphicon-pencil.edit-button
+                    = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                      "title" => "Корректировка данных" do
+                        span.glyphicon.glyphicon-pencil.edit-button
                   - if policy(order).destroy? && order.can_destroy?
                     = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
-                        "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                      "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
                          span.glyphicon.glyphicon-trash.edit-button
                 td
                   = order.category.name

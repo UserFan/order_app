@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-  mount_uploader :photo, ImageUploader
+  mount_uploaders :photos, ImageUploader
 
   belongs_to :category
   belongs_to :status
