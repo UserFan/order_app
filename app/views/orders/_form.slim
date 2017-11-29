@@ -6,15 +6,13 @@
         ul
           - @order.photos.each do |photo|
             li = image_tag(photo.thumb.url)
-    //  = image_tag(@order.photo.thumb.url) if @order.photo?
-    //  = f.file_field :photo
     .col-xs-6.col-md-6.col-md-offset-1
       = f.association :category, label_method: :name, value_method: :id, required: true
       = f.association :shop, label_method: :name, value_method: :id, required: true
-      = f.input :date_open, :as => :date_picker, :placeholder => "дата закрытия объекта", required: true
+      = f.input :date_open, :as => :date_picker, :placeholder => "дата закрытия заявки", required: true, input_html: { class: 'datepicker' }
       = f.input :short_descript, required: true
       = f.input :description, as: :text
-      = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия объекта"
+      = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
       = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
       = f.association :status, label_method: :name, value_method: :id, required: true, include_blank: true
       = f.file_field :photos, multiple: true

@@ -2,9 +2,10 @@
   .col-xs-6.col-md-6
     - if @order.photos?
       ul
+        b Фото заявки:
         - @order.photos.each do |photo|
           li
-            = image_tag(photo.url, class: "img-responsive img-thumbnail")
+            = image_tag(photo.thumb.url, class: "img-responsive img-thumbnail")
 
   .col-xs-6.col-md-6
     table.table.table-striped.table-responsive

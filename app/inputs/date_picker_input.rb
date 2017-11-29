@@ -1,4 +1,5 @@
 class DatePickerInput < SimpleForm::Inputs::StringInput
+
   def input(wrapper_options)
     set_html_options
     set_value_html_option
@@ -43,7 +44,7 @@ class DatePickerInput < SimpleForm::Inputs::StringInput
   end
 
   def picker_pattern
-    I18n.t('datepicker.pformat', default: 'DD/MM/YYYY')
+    I18n.t('datepicker.pformat', default: 'DD.MM.YYYY')
   end
 
   def date_view_header_format
@@ -54,7 +55,10 @@ class DatePickerInput < SimpleForm::Inputs::StringInput
     {
         locale: I18n.locale.to_s,
         format: picker_pattern,
+        #allowInputToggle: true,
         dayViewHeaderFormat: date_view_header_format
+
+
     }
   end
 

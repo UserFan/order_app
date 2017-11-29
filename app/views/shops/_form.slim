@@ -13,7 +13,8 @@
       = f.association :type, as: :radio_buttons, required: true
       = f.input :address, as: :text, required: true
       = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
-      = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта"
+      = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
+      //= f.input :closed, input_html: { class: 'datepicker' }, :as => :string
       = f.file_field :photo
 
     .form-group
