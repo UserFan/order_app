@@ -2,32 +2,49 @@ h1 Заявки от торговых объектов
 br
 .container
 .row
+  .col-sm-8.col-md-8
+    ul.nav.nav-pills
+      = active_link_to orders_path, active: :exact, wrap_tag: :li do
+        | Всего заявок
+        span.badge.pull-right #{@orders_count}
+      = active_link_to orders_path(q: {date_closed_not_null: '0'}), active: :exact, wrap_tag: :li do
+        | Заявки в работе
+        span.badge.pull-right #{@orders_open}
+      = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, wrap_tag: :li do
+        | Выполненые заявки
+        - if @orders_closed !=0
+          span.badge.pull-right #{@orders_closed}
+      = active_link_to orders_path(q: {date_closed_not_null: '0'}), active: :exact, wrap_tag: :li do
+        | Просрочные заявки
+        span.badge.pull-right #{@orders_closed}
+  .col-sm-4.col-md-4
+    = search_form_for (@q), class: "input-group add-on" do |f|
+      = f.input :short_descript_or_shop_name_or_category_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control"
+      span.input-group-btn
+        button.btn.btn-primary type="submit"
+          span.glyphicon.glyphicon-search
+
+
+  .row
+  br
+  .col-sm-3.col-md-3
+    = link_to "Новая заявка",  new_order_path, class: "btn btn-success"
+  .row
+  br
   .col-sm-12.col-md-12
-    .col-sm-3.col-md-3
-      ul.nav.nav-pills.nav-stacked
-        = active_link_to orders_path, active: :exact, wrap_tag: :li do
-          | Все заявки
-          span.badge.pull-right 2
-        = active_link_to orders_path(q: {date_closed_not_null: '0'}), active: :exact, wrap_tag: :li do
-          | Заявки в работе
-          span.badge.pull-right 1
-        = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, wrap_tag: :li do
-          | Выполненые заявки
-          span.badge.pull-right 1
-    .col-sm-9.col-md-9
-      .row
-        .col-sm-3.col-md-3
-          = link_to "Новая заявка",  new_order_path, class: "btn btn-primary"
-        .col-sm-5.col-md-5.col-sm-offset-4.col-md-offset-9
-          = search_form_for (@q), class: "input-group add-on" do |f|
-            = f.input :short_descript_cont, label: false, placeholder: 'Поиск', class: "form-control"
-            span.input-group-btn
-              button.btn.btn-primary type="submit"
-                span.glyphicon.glyphicon-search
-      br
-      table.table.table-striped.table-responsive
-          thead
+    table.table.table-striped.table-responsive
+        thead
+          tr
+            th =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
+            th =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
+            th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
+            th =sort_link(@q, :shop_name, 'От торгового объекта', default_order: :asc)
+            th =sort_link(@q, :short_descript, 'Краткое описание', default_order: :asc)
+            th =sort_link(@q, :date_closed, 'Заявка выполнена', default_order: :asc)
+        tbody
+          - @orders.each do |order|
             tr
+<<<<<<< HEAD
               th =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
               th =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
               th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
@@ -58,3 +75,27 @@ br
                   = order.short_descript
                 td
                   = order.date_closed
+=======
+              td
+                = order.status.name
+              td
+                = link_to l(order.date_open, format: :date), order_path(order)
+                  //  = content_tag(:span,' Объект закрыт!', :id=>'blink') if shop.closed.present?
+              td
+                = order.category.name
+              td
+                = order.shop.name
+              td
+                = order.short_descript
+              td
+                = l(order.date_closed, format: :date) if order.date_closed
+              td
+                - if policy(order).edit?
+                  = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                    "title" => "Корректировка данных" do
+                      span.glyphicon.glyphicon-pencil.edit-button
+                - if policy(order).destroy? && order.can_destroy?
+                  = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
+                    "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                       span.glyphicon.glyphicon-trash.edit-button
+>>>>>>> c21d49a2c1d0bfeb947589a42556ec7ef87166c0

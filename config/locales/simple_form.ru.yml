@@ -60,6 +60,7 @@ ru:
         new:
           category: "Категория заявки"
           date_open: "Дата заявки"
+          date_execution: "Срок исполнения"
           shop: "Торговый объект"
           short_descript: "Краткое описание"
           description: "Описание"
@@ -70,7 +71,8 @@ ru:
         edit:
           category: "Категория заявки"
           date_open: "Дата заявки"
-          shops: "Торговый объект"
+          date_execution: "Срок исполнения"
+          shop: "Торговый объект"
           short_descript: "Краткое описание"
           description: "Описание"
           date_closed: "Дата закрытия заявки"
