@@ -40,7 +40,7 @@ br
                 td
                   = order.status.name
                 td
-                  = link_to "#{order.date_open}", order_path(order)
+                  = link_to @order.date_open, order_path(order)
                     //  = content_tag(:span,' Объект закрыт!', :id=>'blink') if shop.closed.present?
                   - if policy(order).edit?
                     = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
