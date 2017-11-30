@@ -6,5 +6,5 @@ class Order < ApplicationRecord
   belongs_to :shop
   belongs_to :user
 
-  validates :category_id, :date_open, :short_descript, :status_id, presence: true
+  validates :category_id, :date_open, :date_execution, :short_descript, :status_id, presence: true
 end
