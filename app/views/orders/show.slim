@@ -1,12 +1,18 @@
 .row
   .col-xs-6.col-md-6
-    - if @order.photos?
-      ul
-        b Фото заявки:
-        - @order.photos.each do |photo|
-          li
-            = image_tag(photo.thumb.url, class: "img-responsive img-thumbnail")
+    //- if @order.photos?
+    #carousel-example-generic.pull-right.carousel.slide data-ride="carousel"
+      .carousel-inner
 
+        .item.active
+          = image_tag(@order.photos[0].large.url)
+        - @order.photos.each do |photo|
+          .item
+            = image_tag(photo.large.url)
+      a.left.carousel-control data-slide="prev" href="#carousel-example-generic"
+        span.glyphicon.glyphicon-chevron-left
+      a.right.carousel-control data-slide="next" href="#carousel-example-generic"
+        span.glyphicon.glyphicon-chevron-right
   .col-xs-6.col-md-6
     table.table.table-striped.table-responsive
       tbody
