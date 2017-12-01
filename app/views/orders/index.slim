@@ -44,38 +44,6 @@ br
         tbody
           - @orders.each do |order|
             tr
-<<<<<<< HEAD
-              th =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
-              th =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
-              th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
-              th =sort_link(@q, :shop_name, 'От торгового объекта', default_order: :asc)
-              th =sort_link(@q, :short_descript, 'Краткое описание', default_order: :asc)
-
-          tbody
-            - @orders.each do |order|
-              tr
-                td
-                  = order.status.name
-                td
-                  = link_to @order.date_open, order_path(order)
-                    //  = content_tag(:span,' Объект закрыт!', :id=>'blink') if shop.closed.present?
-                  - if policy(order).edit?
-                    = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                      "title" => "Корректировка данных" do
-                        span.glyphicon.glyphicon-pencil.edit-button
-                  - if policy(order).destroy? && order.can_destroy?
-                    = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
-                      "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
-                         span.glyphicon.glyphicon-trash.edit-button
-                td
-                  = order.category.name
-                td
-                  = order.shop.name
-                td
-                  = order.short_descript
-                td
-                  = order.date_closed
-=======
               td
                 = order.status.name
               td
@@ -98,4 +66,3 @@ br
                   = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
                     "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
                        span.glyphicon.glyphicon-trash.edit-button
->>>>>>> c21d49a2c1d0bfeb947589a42556ec7ef87166c0
