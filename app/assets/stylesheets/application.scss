@@ -34,3 +34,19 @@
   60% { text-shadow: 0 0px 1px crimson; }
   90% { text-shadow: 0 30px 40px transparent; }
 }
+
+.carousel {
+    margin-top: 20px;
+}
+.item .thumb {
+    width: 25%;
+	cursor: pointer;
+	float: left;
+}
+.item .thumb img {
+	width: 100%;
+	margin: 2px;
+}
+.item img {
+	width: 100%;
+}
