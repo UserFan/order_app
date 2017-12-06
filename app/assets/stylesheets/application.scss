@@ -36,8 +36,9 @@
 }
 
 .carousel {
-    margin-bottom: 0;
-    padding: 0 40px 30px 40px;
+  margin-left: 50px;
+  margin-right: 50px;
+  //  padding: 0 40px 30px 40px;
 }
 
 .item .thumb {
@@ -55,23 +56,25 @@
 	width: 100%;
 }
 
-.carousel-control {
-	left: -12px;
-}
+.carousel-control.left,
 .carousel-control.right {
-	right: -12px;
+  background: none;
+  border: none;
 }
-/* Changes the position of the indicators */
-.carousel-indicators {
-	right: 50%;
-	top: auto;
-	bottom: 0px;
-	margin-right: -19px;
+
+.carousel-control.left {
+  margin-left: -25px;
 }
-/* Changes the colour of the indicators */
-.carousel-indicators li {
-	background: #c0c0c0;
+
+.carousel-control.right {
+  margin-right: -25px;
 }
-.carousel-indicators .active {
-background: #333333;
+
+.carousel-control {
+  width: 0%;
+}
+
+.glyphicon-chevron-left, .glyphicon-chevron-right {
+  color: grey;
+  font-size: 40px;
 }
