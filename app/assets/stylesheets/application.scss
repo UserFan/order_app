@@ -36,17 +36,42 @@
 }
 
 .carousel {
-    margin-top: 20px;
+    margin-bottom: 0;
+    padding: 0 40px 30px 40px;
 }
+
 .item .thumb {
-    width: 25%;
+  width: 25%;
 	cursor: pointer;
 	float: left;
 }
+
 .item .thumb img {
 	width: 100%;
 	margin: 2px;
 }
+
 .item img {
 	width: 100%;
+}
+
+.carousel-control {
+	left: -12px;
+}
+.carousel-control.right {
+	right: -12px;
+}
+/* Changes the position of the indicators */
+.carousel-indicators {
+	right: 50%;
+	top: auto;
+	bottom: 0px;
+	margin-right: -19px;
+}
+/* Changes the colour of the indicators */
+.carousel-indicators li {
+	background: #c0c0c0;
+}
+.carousel-indicators .active {
+background: #333333;
 }
