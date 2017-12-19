@@ -2,12 +2,12 @@
   .row
     .col-xs-6.col-md-6
       - if @order.photos?
-        #carousel.carousel.slide. data-ride="carousel"
+        #carousel.carousel.slide data-ride="carousel"
           /! Slides
           .carousel-inner
             - @order.photos.each_with_index do |photo, index|
               div class=("#{index == 0 ? 'item active' : 'item'}")
-                = image_tag(photo.large.url, :class => "img-responsive img-fluid")
+                = image_tag(photo.large.url, :class => "img-rounded img-responsive")
       .clearfix
       .row
         #thumbcarousel.carousel.slide data-interval="false"
@@ -16,7 +16,7 @@
               div class=("#{index == 0 ? 'item active' : 'item'}")
 
                 .thumb data-slide-to="#{index}" data-target="#carousel"
-                  = image_tag(photo.thumb.url)
+                  = image_tag(photo.thumb.url, :class => "img-thumbnail")
           /! /.Slides
           /! Controls
           a.left.carousel-control data-slide="prev" href="#thumbcarousel" role="button"

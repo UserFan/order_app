@@ -40,7 +40,7 @@ class ImageUploader < CarrierWave::Uploader::Base
    end
 
    version :large do
-     process resize_to_fit: [900, 600]
+     process resize_to_fit: [1200, 780]
    end
 
    version :icon do

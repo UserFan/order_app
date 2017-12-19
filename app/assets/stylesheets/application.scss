@@ -38,8 +38,10 @@
 .carousel {
   margin-left: 50px;
   margin-right: 50px;
+
   //  padding: 0 40px 30px 40px;
 }
+
 
 .item .thumb {
   width: 25%;
@@ -50,10 +52,12 @@
 .item .thumb img {
 	width: 100%;
 	margin: 2px;
+
 }
 
 .item img {
 	width: 100%;
+  height: auto;
 }
 
 .carousel-control.left,
