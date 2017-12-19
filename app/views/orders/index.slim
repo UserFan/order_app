@@ -32,7 +32,7 @@ br
   .row
   br
   .col-sm-12.col-md-12
-    table.table.table-striped.table-responsive
+    table.table-hover.table.table-striped.table-responsive
         thead
           tr
             th =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
@@ -43,12 +43,11 @@ br
             th =sort_link(@q, :date_closed, 'Заявка выполнена', default_order: :asc)
         tbody
           - @orders.each do |order|
-            tr
+            tr.table-row data-href="#{order_path(order)}"
               td
                 = order.status.name
               td
-                = link_to l(order.date_open, format: :date), order_path(order)
-                  //  = content_tag(:span,' Объект закрыт!', :id=>'blink') if shop.closed.present?
+                = l(order.date_open, format: :date)
               td
                 = order.category.name
               td
@@ -57,7 +56,7 @@ br
                 = order.short_descript
               td
                 = l(order.date_closed, format: :date) if order.date_closed
-              td
+              td.row-skip
                 - if policy(order).edit?
                   = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
                     "title" => "Корректировка данных" do

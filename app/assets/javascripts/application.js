@@ -19,3 +19,15 @@
 //= require bootstrap-datetimepicker
 //= require turbolinks
 //= require_tree .
+
+
+var ClickRowTable = function() {
+                          $(".table-row td").click(function() {
+                           if (!$(this).hasClass("row-skip")) {
+                             window.document.location = $(this).parent().data("href")
+                          }
+                          });
+                      };
+document.addEventListener('turbolinks:load', function () {
+  ClickRowTable();
+});
