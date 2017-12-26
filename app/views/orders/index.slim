@@ -33,35 +33,35 @@ br
   br
   .col-sm-12.col-md-12
     table.table-hover.table.table-striped.table-responsive
-        thead
-          tr
-            th =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
-            th =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
-            th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
-            th =sort_link(@q, :shop_name, 'От торгового объекта', default_order: :asc)
-            th =sort_link(@q, :short_descript, 'Краткое описание', default_order: :asc)
-            th =sort_link(@q, :date_closed, 'Заявка выполнена', default_order: :asc)
-        tbody
-          - @orders.each do |order|
-            tr.table-row data-href="#{order_path(order)}"
-              td
-                = order.status.name
-              td
-                = l(order.date_open, format: :date)
-              td
-                = order.category.name
-              td
-                = order.shop.name
-              td
-                = order.short_descript
-              td
-                = l(order.date_closed, format: :date) if order.date_closed
-              td.row-skip
-                - if policy(order).edit?
-                  = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                    "title" => "Корректировка данных" do
-                      span.glyphicon.glyphicon-pencil.edit-button
-                - if policy(order).destroy? && order.can_destroy?
-                  = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
-                    "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
-                       span.glyphicon.glyphicon-trash.edit-button
+      thead
+        tr
+          th =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
+          th =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
+          th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
+          th =sort_link(@q, :shop_name, 'От торгового объекта', default_order: :asc)
+          th =sort_link(@q, :short_descript, 'Краткое описание', default_order: :asc)
+          th =sort_link(@q, :date_closed, 'Заявка выполнена', default_order: :asc)
+      tbody
+        - @orders.each do |order|
+          tr.table-row data-href="#{order_path(order)}"
+            td
+              = order.status.name
+            td
+              = l(order.date_open, format: :date)
+            td
+              = order.category.name
+            td
+              = order.shop.name
+            td
+              = order.short_descript
+            td
+              = l(order.date_closed, format: :date) if order.date_closed
+            td.row-skip
+              - if policy(order).edit?
+                = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                  "title" => "Корректировка данных" do
+                    span.glyphicon.glyphicon-pencil.edit-button
+              - if policy(order).destroy? && order.can_destroy?
+                = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
+                  "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                     span.glyphicon.glyphicon-trash.edit-button

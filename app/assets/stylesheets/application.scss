@@ -2,6 +2,20 @@
 @import 'bootstrap';
 @import 'bootstrap-datetimepicker';
 
+th a {
+     display:block;
+      //background-color: Fuchsia;
+
+      /* Making the headerlinks 100% width */
+      width:100%;
+
+      /* Making the headerlinks 100% height ??? */
+      height: 100%;
+}
+
+th a:hover {
+  text-decoration: none;
+}
 
 //.edit-button { padding-left: 5px; }
 .edit-button.glyphicon-pencil { padding-left: 25px; }
