@@ -27,7 +27,8 @@
         tr
           td
             b Объект закрыт:
-          td = @shop.closed
+          td = l(@shop.closed, format: :date) if (@shop.closed.present?)
+
     .clearfix
     .row
       .col-xs-12.col-md-12

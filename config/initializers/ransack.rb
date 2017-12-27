@@ -9,8 +9,9 @@ end
 
 Ransack.configure do |c|
   c.custom_arrows = {
-    up_arrow: '<span class="glyphicon glyphicon-sort-by-attributes-alt"></span>',
-    down_arrow: '<span class="glyphicon glyphicon-sort-by-attributes"></span>',
-    default_arrow: '<i class="default-arrow-icon"></i>'
+    up_arrow: '<span class="glyphicon glyphicon-sort-by-attributes-alt main-icon"></span>',
+    down_arrow: '<span class="glyphicon glyphicon-sort-by-attributes main-icon"></span>',
+    default_arrow: '<i class="default-arrow-icon main-icon"></i>'
+     
   }
 end

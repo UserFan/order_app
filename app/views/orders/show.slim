@@ -34,7 +34,7 @@
           tr
             td
               b Дата заявки:
-            td = @order.date_open
+            td = l(@order.date_open, format: :date)
           tr
             td
               b Наименование объекта:
@@ -50,7 +50,8 @@
           tr
             td
               b Дата закрытия заявки:
-            td = @order.date_closed
+            td  = l(@order.date_closed, format: :date) if (@order.date_closed.present?)
+
           tr
             td
               b На контроле:
