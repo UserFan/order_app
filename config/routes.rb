@@ -14,6 +14,11 @@ Rails.application.routes.draw do
     resources :types
     resources :categories
     resources :statuses
+    resources :apcs
+    resources :communications
+    resources :keyboards
+    resources :modems
+    resources :monitors
   end
 
   resources :orders
