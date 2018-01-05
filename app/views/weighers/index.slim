@@ -1,6 +1,6 @@
 h1 Справочник 'Тоговые весы'
 .container
-  = link_to "Добавить",  new_scales_path, class: "btn btn-primary"
+  = link_to "Добавить",  new_weigher_path, class: "btn btn-primary"
   .row
     .col-sm-4.col-md-3.col-sm-offset-8.col-md-offset-9
       = search_form_for (@q), class: "input-group add-on" do |f|
@@ -14,15 +14,15 @@ h1 Справочник 'Тоговые весы'
       tr
         th =sort_link(@q, :name, 'Наименование', default_order: :asc)
     tbody
-      - @scaleses.each do |scales|
+      - @weighers.each do |weigher|
         tr
           td
-            = scales.name
-            - if policy(scales).edit?
-              = link_to edit_scales_path(scales), "data-toggle" => "tooltip", "data-placement" => "bottom",
+            = weigher.name
+            - if policy(weigher).edit?
+              = link_to edit_weigher_path(weigher), "data-toggle" => "tooltip", "data-placement" => "bottom",
                   "title" => "Корректировка данных" do
                 span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(scales).destroy? && scales.can_destroy?
-              = link_to scales, method: :delete, data: { confirm: "Вы действительно хотите удалить запись?" },
+            - if policy(weigher).destroy? && weigher.can_destroy?
+              = link_to weigher, method: :delete, data: { confirm: "Вы действительно хотите удалить запись?" },
                   "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить запись" do
                    span.glyphicon.glyphicon-trash.edit-button

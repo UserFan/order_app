@@ -1,63 +1,63 @@
-class TypesController < ApplicationController
+class ScanersController < ApplicationController
 
   before_action :set_type, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
-    authorize Type
-    @q =Type.ransack(params[:q])
+    authorize Scaner
+    @q =Scaner.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @types = @q.result(disinct: true)
+    @scaners = @q.result(disinct: true)
     #@positions = Position.all
   end
 
   def show
-    authorize @type
+    authorize @scaner
   end
 
   def new
-    authorize Type
-    @type = Type.new
+    authorize Scaner
+    @scaner = Scaner.new
   end
 
   def edit
-    authorize @type
+    authorize @scaner
   end
 
   def create
-    authorize Type
-    @type = Type.new(permitted_attributes(Type))    # Not the final implementation!
-    if @type.save
-      redirect_to types_path
+    authorize Scaner
+    @scaner = Scaner.new(permitted_attributes(Scaner))    # Not the final implementation!
+    if @scaner.save
+      redirect_to scaners_path
     else
       render 'new'
     end
   end
 
   def update
-    authorize @type
-    if @type.update_attributes(permitted_attributes(@type))
-     redirect_to types_path
+    authorize @scaner
+    if @scaner.update_attributes(permitted_attributes(@scaner))
+     redirect_to scaners_path
     else
       render 'edit'
     end
   end
 
   def destroy
-    authorize @type
-    if @type.destroy
+    authorize @scaner
+    if @scaner.destroy
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to types_path
+    redirect_to scaners_path
   end
 
 
   private
 
   def set_type
-    @type = Type.find(params[:id])
+    @scaner = Scaner.find(params[:id])
   end
 end

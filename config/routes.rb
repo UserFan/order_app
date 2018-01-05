@@ -23,8 +23,8 @@ Rails.application.routes.draw do
     resources :printers
     resources :providers
     resources :routers
-    resources :stabilizers 
-    resources :scaleses
+    resources :stabilizers
+    resources :weighers
     resources :scaners
   end
 
