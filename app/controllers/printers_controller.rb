@@ -1,63 +1,63 @@
-class TypesController < ApplicationController
+class PrintersController < ApplicationController
 
   before_action :set_type, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
-    authorize Type
-    @q =Type.ransack(params[:q])
+    authorize Printer
+    @q =Printer.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @types = @q.result(disinct: true)
+    @printers = @q.result(disinct: true)
     #@positions = Position.all
   end
 
   def show
-    authorize @type
+    authorize @printer
   end
 
   def new
-    authorize Type
-    @type = Type.new
+    authorize Printer
+    @printer = Printer.new
   end
 
   def edit
-    authorize @type
+    authorize @printer
   end
 
   def create
-    authorize Type
-    @type = Type.new(permitted_attributes(Type))    # Not the final implementation!
-    if @type.save
-      redirect_to types_path
+    authorize Printer
+    @printer = Printer.new(permitted_attributes(Printer))    # Not the final implementation!
+    if @printer.save
+      redirect_to printers_path
     else
       render 'new'
     end
   end
 
   def update
-    authorize @type
-    if @type.update_attributes(permitted_attributes(@type))
-     redirect_to types_path
+    authorize @printer
+    if @printer.update_attributes(permitted_attributes(@printer))
+     redirect_to printers_path
     else
       render 'edit'
     end
   end
 
   def destroy
-    authorize @type
-    if @type.destroy
+    authorize @printer
+    if @printer.destroy
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to types_path
+    redirect_to printers_path
   end
 
 
   private
 
   def set_type
-    @type = Type.find(params[:id])
+    @printer = Printer.find(params[:id])
   end
 end

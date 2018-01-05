@@ -18,7 +18,14 @@ Rails.application.routes.draw do
     resources :communications
     resources :keyboards
     resources :modems
-    resources :monitors
+    resources :displays
+    resources :commouses
+    resources :printers
+    resources :providers
+    resources :routers
+    resources :stabilizers 
+    resources :scaleses
+    resources :scaners
   end
 
   resources :orders

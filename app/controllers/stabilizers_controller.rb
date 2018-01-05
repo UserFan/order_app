@@ -1,63 +1,63 @@
-class TypesController < ApplicationController
+class StabilizersController < ApplicationController
 
   before_action :set_type, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
-    authorize Type
-    @q =Type.ransack(params[:q])
+    authorize Stabilizer
+    @q =Stabilizer.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @types = @q.result(disinct: true)
+    @stabilizers = @q.result(disinct: true)
     #@positions = Position.all
   end
 
   def show
-    authorize @type
+    authorize @stabilizer
   end
 
   def new
-    authorize Type
-    @type = Type.new
+    authorize Stabilizer
+    @stabilizer = Stabilizer.new
   end
 
   def edit
-    authorize @type
+    authorize @stabilizer
   end
 
   def create
-    authorize Type
-    @type = Type.new(permitted_attributes(Type))    # Not the final implementation!
-    if @type.save
-      redirect_to types_path
+    authorize Stabilizer
+    @stabilizer = Stabilizer.new(permitted_attributes(Stabilizer))    # Not the final implementation!
+    if @stabilizer.save
+      redirect_to stabilizers_path
     else
       render 'new'
     end
   end
 
   def update
-    authorize @type
-    if @type.update_attributes(permitted_attributes(@type))
-     redirect_to types_path
+    authorize @stabilizer
+    if @stabilizer.update_attributes(permitted_attributes(@stabilizer))
+     redirect_to stabilizers_path
     else
       render 'edit'
     end
   end
 
   def destroy
-    authorize @type
-    if @type.destroy
+    authorize @stabilizer
+    if @stabilizer.destroy
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to types_path
+    redirect_to stabilizers_path
   end
 
 
   private
 
   def set_type
-    @type = Type.find(params[:id])
+    @stabilizer = Stabilizer.find(params[:id])
   end
 end

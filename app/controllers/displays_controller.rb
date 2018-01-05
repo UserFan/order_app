@@ -1,63 +1,63 @@
-class MonitorsController < ApplicationController
+class DisplaysController < ApplicationController
 
   before_action :set_type, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
-    authorize Monitor
-    @q = Monitor.ransack(params[:q])
+    authorize Display
+    @q = Display.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @monitors = @q.result(disinct: true)
+    @displays = @q.result(disinct: true)
     #@positions = Position.all
   end
 
   def show
-    authorize @monitor
+    authorize @display
   end
 
   def new
-    authorize Monitor
-    @monitor = Monitor.new
+    authorize Display
+    @display = Display.new
   end
 
   def edit
-    authorize @monitor
+    authorize @display
   end
 
   def create
-    authorize Monitor
-    @monitor = Monitor.new(permitted_attributes(Monitor))    # Not the final implementation!
-    if @monitor.save
-      redirect_to monitors_path
+    authorize Display
+    @display = Display.new(permitted_attributes(Display))    # Not the final implementation!
+    if @display.save
+      redirect_to displays_path
     else
       render 'new'
     end
   end
 
   def update
-    authorize @monitor
-    if @monitor.update_attributes(permitted_attributes(@monitor))
-     redirect_to monitors_path
+    authorize @display
+    if @display.update_attributes(permitted_attributes(@display))
+     redirect_to displays_path
     else
       render 'edit'
     end
   end
 
   def destroy
-    authorize @monitor
-    if @monitor.destroy
+    authorize @display
+    if @display.destroy
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to monitors_path
+    redirect_to displays_path
   end
 
 
   private
 
   def set_type
-    @monitor = Monitor.find(params[:id])
+    @display = Display.find(params[:id])
   end
 end

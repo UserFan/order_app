@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171228100214) do
+ActiveRecord::Schema.define(version: 20180105110608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,10 +27,20 @@ ActiveRecord::Schema.define(version: 20171228100214) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "commouses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "communications", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "displays", force: :cascade do |t|
+    t.string "name"
   end
 
   create_table "keyboards", force: :cascade do |t|
@@ -39,19 +49,7 @@ ActiveRecord::Schema.define(version: 20171228100214) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "mice", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "modems", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "monitors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -106,7 +104,7 @@ ActiveRecord::Schema.define(version: 20171228100214) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "scales", force: :cascade do |t|
+  create_table "scaleses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

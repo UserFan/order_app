@@ -1,6 +1,6 @@
-h1 Справочник 'Тип объектов'
+h1 Справочник 'Тоговые весы'
 .container
-  = link_to "Добавить тип",  new_type_path, class: "btn btn-primary"
+  = link_to "Добавить",  new_scales_path, class: "btn btn-primary"
   .row
     .col-sm-4.col-md-3.col-sm-offset-8.col-md-offset-9
       = search_form_for (@q), class: "input-group add-on" do |f|
@@ -14,15 +14,15 @@ h1 Справочник 'Тип объектов'
       tr
         th =sort_link(@q, :name, 'Наименование', default_order: :asc)
     tbody
-      - @types.each do |type|
+      - @scaleses.each do |scales|
         tr
           td
-            = type.name
-            - if policy(type).edit?
-              = link_to edit_type_path(type), "data-toggle" => "tooltip", "data-placement" => "bottom",
+            = scales.name
+            - if policy(scales).edit?
+              = link_to edit_scales_path(scales), "data-toggle" => "tooltip", "data-placement" => "bottom",
                   "title" => "Корректировка данных" do
                 span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(type).destroy? && type.can_destroy?
-              = link_to type, method: :delete, data: { confirm: "Вы действительно хотите удалить запись?" },
+            - if policy(scales).destroy? && scales.can_destroy?
+              = link_to scales, method: :delete, data: { confirm: "Вы действительно хотите удалить запись?" },
                   "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить запись" do
                    span.glyphicon.glyphicon-trash.edit-button

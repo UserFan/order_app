@@ -1,6 +1,6 @@
-h1 Справочник 'Принтеры (МФУ)'
+h1 Справочник 'Монитор'
 .container
-  = link_to "Добавить",  new_printer_path, class: "btn btn-primary"
+  = link_to "Добавить",  new_display_path, class: "btn btn-primary"
   .row
     .col-sm-4.col-md-3.col-sm-offset-8.col-md-offset-9
       = search_form_for (@q), class: "input-group add-on" do |f|
@@ -14,15 +14,15 @@ h1 Справочник 'Принтеры (МФУ)'
       tr
         th =sort_link(@q, :name, 'Наименование', default_order: :asc)
     tbody
-      - @printers.each do |printer|
+      - @displays.each do |display|
         tr
           td
-            = printer.name
-            - if policy(printer).edit?
-              = link_to edit_printer_path(printer), "data-toggle" => "tooltip", "data-placement" => "bottom",
+            = display.name
+            - if policy(display).edit?
+              = link_to edit_display_path(display), "data-toggle" => "tooltip", "data-placement" => "bottom",
                   "title" => "Корректировка данных" do
                 span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(printer).destroy? && printer.can_destroy?
-              = link_to printer, method: :delete, data: { confirm: "Вы действительно хотите удалить запись?" },
+            - if policy(display).destroy? && display.can_destroy?
+              = link_to display, method: :delete, data: { confirm: "Вы действительно хотите удалить запись?" },
                   "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить запись" do
                    span.glyphicon.glyphicon-trash.edit-button

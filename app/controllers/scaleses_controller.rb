@@ -1,63 +1,63 @@
-class TypesController < ApplicationController
+class ScalesesController < ApplicationController
 
   before_action :set_type, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
-    authorize Type
-    @q =Type.ransack(params[:q])
+    authorize Scales
+    @q = Scales.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @types = @q.result(disinct: true)
+    @scaleses = @q.result(disinct: true)
     #@positions = Position.all
   end
 
   def show
-    authorize @type
+    authorize @scales
   end
 
   def new
-    authorize Type
-    @type = Type.new
+    authorize Scales
+    @scales = Scales.new
   end
 
   def edit
-    authorize @type
+    authorize @scales
   end
 
   def create
-    authorize Type
-    @type = Type.new(permitted_attributes(Type))    # Not the final implementation!
-    if @type.save
-      redirect_to types_path
+    authorize Scales
+    @scales = Scales.new(permitted_attributes(Scales))    # Not the final implementation!
+    if @scales.save
+      redirect_to scaleses_path
     else
       render 'new'
     end
   end
 
   def update
-    authorize @type
-    if @type.update_attributes(permitted_attributes(@type))
-     redirect_to types_path
+    authorize @scales
+    if @scales.update_attributes(permitted_attributes(@scales))
+     redirect_to scaleses_path
     else
       render 'edit'
     end
   end
 
   def destroy
-    authorize @type
-    if @type.destroy
+    authorize @scales
+    if @scales.destroy
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to types_path
+    redirect_to scaleses_path
   end
 
 
   private
 
   def set_type
-    @type = Type.find(params[:id])
+    @scales = Scales.find(params[:id])
   end
 end

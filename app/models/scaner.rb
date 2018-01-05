@@ -1,3 +1,3 @@
-class Type < ApplicationRecord
+class Scaner < ApplicationRecord
     #has_many :shop, dependent: :restrict_with_error
 end
