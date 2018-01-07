@@ -47,7 +47,7 @@
 #    auth_methods: %w(password)
 #  }
 
-set :default_env, { 'DEVISE_SECRET_KEY' => ENV['DEVISE_SECRET_KEY'] }
+set :default_env, { 'SECRET_KEY_BASE' => ENV['SECRET_KEY_BASE'] }
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
