@@ -49,6 +49,7 @@
 
 set :default_env, {
   "SECRET_KEY_BASE" => ENV['PRODUCTION_SECRET_KEY']
+  "DEVISE_SECRET_KEY" => ENV['DEVISE_SECRET_KEY']
 }
 #
 # The server-based syntax can be used to override options:
