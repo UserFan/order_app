@@ -46,6 +46,8 @@
 #    forward_agent: false,
 #    auth_methods: %w(password)
 #  }
+
+set :default_env, { 'DEVISE_SECRET_KEY' => ENV['DEVISE_SECRET_KEY'] }
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
