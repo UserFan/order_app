@@ -34,38 +34,44 @@ set :puma_init_active_record, true  # Change to false when not using ActiveRecor
 # set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 namespace :puma do
 desc 'Create Directories for Puma Pids and Socket'
-task :make_dirs do
-on roles(:app) do
-execute "mkdir #{shared_path}/tmp/sockets -p"
-execute "mkdir #{shared_path}/tmp/pids -p"
-end
-end
+  task :make_dirs do
+    on roles(:app) do
+      execute "mkdir #{shared_path}/tmp/sockets -p"
+      execute "mkdir #{shared_path}/tmp/pids -p"
+    end
+  end
 before :start, :make_dirs
 end
+
 namespace :deploy do
 desc "Make sure local git is in sync with remote."
-task :check_revision do
-on roles(:app) do
-unless `git rev-parse HEAD` == `git rev-parse origin/master`
-puts "WARNING: HEAD is not the same as origin/master"
-puts "Run `git push` to sync changes."
-exit
+  task :check_revision do
+    on roles(:app) do
+      unless `git rev-parse HEAD` == `git rev-parse origin/master`
+        puts "WARNING: HEAD is not the same as origin/master"
+        puts "Run `git push` to sync changes."
+        exit
+      end
+    end
+desc "reload the database with seed data"
+  task :seed do
+    run "cd #{current_path}; rake db:seed RAILS_ENV=#{rails_env}"
+  end
 end
-end
-end
+
 desc 'Initial Deploy'
-task :initial do
-on roles(:app) do
-before 'deploy:restart', 'puma:start'
-invoke 'deploy'
-end
-end
+  task :initial do
+    on roles(:app) do
+      before 'deploy:restart', 'puma:start'
+      invoke 'deploy'
+    end
+  end
 desc 'Restart application'
-task :restart do
-on roles(:app), in: :sequence, wait: 5 do
-invoke 'puma:restart'
-end
-end
+  task :restart do
+    on roles(:app), in: :sequence, wait: 5 do
+      invoke 'puma:restart'
+    end
+  end
 before :starting,     :check_revision
 after  :finishing,    :compile_assets
 after  :finishing,    :cleanup
