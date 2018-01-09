@@ -39,6 +39,66 @@ ru:
           name: "Наименование"
         edit:
           name: "Наименование"
+      apc:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      commouse:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      communication:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      display:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      keyboard:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      modem:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      printer:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      provider:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      router:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      scaner:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      stabilizer:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      weigher:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
       shop:
         new:
           name: "Наименование объекта"
@@ -56,6 +116,21 @@ ru:
           photo: "Фото объекта"
           user: "Ответственный за объект"
           closed: "Объект закрыть"
+      system_unit:
+        new:
+          cpu: 'Процессор (CPU)'
+          ram: 'Оперативная память (RAM)'
+          motherboard: 'Материнская плата'
+          hdd: 'Накопитель (HDD/SDD)'
+          name: 'Наименование'
+          os: 'Операционная система (установленная)'
+        edit:
+          cpu: 'Процессор (CPU)'
+          ram: 'Оперативная память (RAM)'
+          motherboard: 'Материнская плата'
+          hdd: 'Накопитель (HDD/SDD)'
+          name: 'Наименование'
+          os: 'Операционная система (установленная)'
       order:
         new:
           category: "Категория заявки"

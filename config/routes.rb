@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :stabilizers
     resources :weighers
     resources :scaners
+    resources :system_units
   end
 
   resources :orders
