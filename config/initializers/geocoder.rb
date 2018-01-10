@@ -5,8 +5,8 @@ Geocoder.configure(
   # ip_lookup: :freegeoip,      # name of IP address geocoding service (symbol)
   language: :ru,              # ISO-639 language code
   use_https: true,           # use HTTPS for lookup requests? (if supported)
-  http_proxy: 'ubuntu_server:fan2533hq@192.168.100.3:3128',            # HTTP proxy server (user:pass@host:port)
-  # https_proxy: nil,           # HTTPS proxy server (user:pass@host:port)
+  http_proxy: '192.168.100.250:8080',            # HTTP proxy server (user:pass@host:port)
+  https_proxy: '192.168.100.250:8080',           # HTTPS proxy server (user:pass@host:port)
   #api_key: 'AIzaSyC-h88sf4nUzlbwYMTadBWiuMsgsLROL-s',               # API key for geocoding service
   #api_key: 'AIzaSyCjYy3b7rgVrFMk0xINN_sAtHHzMdfBqbU'
   # cache: nil,                 # cache object (must respond to #[], #[]=, and #del)
