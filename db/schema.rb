@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180112071331) do
+ActiveRecord::Schema.define(version: 20180112134900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,26 +28,26 @@ ActiveRecord::Schema.define(version: 20180112071331) do
   end
 
   create_table "cashboxes", force: :cascade do |t|
-    t.integer "shop_id", default: 0, null: false
-    t.integer "display_id", default: 0, null: false
+    t.bigint "shop_id", default: 0, null: false
+    t.bigint "display_id", default: 0, null: false
     t.string "display_sn"
-    t.integer "system_unit_id", default: 0, null: false
+    t.bigint "system_unit_id", default: 0, null: false
     t.string "system_unit_sn"
-    t.integer "keyboard_id", default: 0, null: false
+    t.bigint "keyboard_id", default: 0, null: false
     t.string "keyboard_sn"
     t.integer "display_client_id", default: 0, null: false
     t.string "display_client_sn"
-    t.integer "stabilizer_id", default: 0, null: false
+    t.bigint "stabilizer_id", default: 0, null: false
     t.string "stabilizer_sn"
-    t.integer "apc_id", default: 0, null: false
+    t.bigint "apc_id", default: 0, null: false
     t.string "apc_sn"
-    t.integer "scaner_id", default: 0, null: false
+    t.bigint "scaner_id", default: 0, null: false
     t.string "scaner_sn"
-    t.integer "bank_unit_id", default: 0, null: false
+    t.bigint "bank_unit_id", default: 0, null: false
     t.string "terminal_sn"
-    t.integer "fiscal_id", default: 0, null: false
+    t.bigint "fiscal_id", default: 0, null: false
     t.string "fiscal_sn"
-    t.integer "organozation_unit_id", default: 0, null: false
+    t.bigint "organization_unit_id", default: 0, null: false
     t.string "comment"
     t.integer "cashbox_photos_id", default: 0, null: false
     t.datetime "created_at", null: false
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20180112071331) do
     t.index ["display_id"], name: "index_cashboxes_on_display_id"
     t.index ["fiscal_id"], name: "index_cashboxes_on_fiscal_id"
     t.index ["keyboard_id"], name: "index_cashboxes_on_keyboard_id"
-    t.index ["organozation_unit_id"], name: "index_cashboxes_on_organozation_unit_id"
+    t.index ["organization_unit_id"], name: "index_cashboxes_on_organization_unit_id"
     t.index ["scaner_id"], name: "index_cashboxes_on_scaner_id"
     t.index ["shop_id"], name: "index_cashboxes_on_shop_id"
     t.index ["stabilizer_id"], name: "index_cashboxes_on_stabilizer_id"

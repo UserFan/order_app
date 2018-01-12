@@ -1,3 +1,3 @@
 class Apc < ApplicationRecord
-    #has_many :shop, dependent: :restrict_with_error
+  has_many :cashbox, dependent: :restrict_with_error
 end
