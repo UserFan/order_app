@@ -1,0 +1,6 @@
+= simple_form_for(@organization_unit) do |f|
+  = f.error_notification
+  = f.input :name, autocomplete: "off", required: true, autofocus: true
+  .form-group
+    = link_to "Отмена", :back, class: "btn btn-info pull-right"
+    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

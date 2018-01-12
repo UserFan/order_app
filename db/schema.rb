@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110091513) do
+ActiveRecord::Schema.define(version: 20180112071331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,51 @@ ActiveRecord::Schema.define(version: 20180110091513) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "bank_units", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cashboxes", force: :cascade do |t|
+    t.integer "shop_id", default: 0, null: false
+    t.integer "display_id", default: 0, null: false
+    t.string "display_sn"
+    t.integer "system_unit_id", default: 0, null: false
+    t.string "system_unit_sn"
+    t.integer "keyboard_id", default: 0, null: false
+    t.string "keyboard_sn"
+    t.integer "display_client_id", default: 0, null: false
+    t.string "display_client_sn"
+    t.integer "stabilizer_id", default: 0, null: false
+    t.string "stabilizer_sn"
+    t.integer "apc_id", default: 0, null: false
+    t.string "apc_sn"
+    t.integer "scaner_id", default: 0, null: false
+    t.string "scaner_sn"
+    t.integer "bank_unit_id", default: 0, null: false
+    t.string "terminal_sn"
+    t.integer "fiscal_id", default: 0, null: false
+    t.string "fiscal_sn"
+    t.integer "organozation_unit_id", default: 0, null: false
+    t.string "comment"
+    t.integer "cashbox_photos_id", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["apc_id"], name: "index_cashboxes_on_apc_id"
+    t.index ["bank_unit_id"], name: "index_cashboxes_on_bank_unit_id"
+    t.index ["cashbox_photos_id"], name: "index_cashboxes_on_cashbox_photos_id"
+    t.index ["display_client_id"], name: "index_cashboxes_on_display_client_id"
+    t.index ["display_id"], name: "index_cashboxes_on_display_id"
+    t.index ["fiscal_id"], name: "index_cashboxes_on_fiscal_id"
+    t.index ["keyboard_id"], name: "index_cashboxes_on_keyboard_id"
+    t.index ["organozation_unit_id"], name: "index_cashboxes_on_organozation_unit_id"
+    t.index ["scaner_id"], name: "index_cashboxes_on_scaner_id"
+    t.index ["shop_id"], name: "index_cashboxes_on_shop_id"
+    t.index ["stabilizer_id"], name: "index_cashboxes_on_stabilizer_id"
+    t.index ["system_unit_id"], name: "index_cashboxes_on_system_unit_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -41,6 +86,12 @@ ActiveRecord::Schema.define(version: 20180110091513) do
 
   create_table "displays", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "fiscals", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "keyboards", force: :cascade do |t|
@@ -72,6 +123,12 @@ ActiveRecord::Schema.define(version: 20180110091513) do
     t.index ["shop_id"], name: "index_orders_on_shop_id"
     t.index ["status_id"], name: "index_orders_on_status_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "organization_units", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "positions", force: :cascade do |t|

@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     resources :weighers
     resources :scaners
     resources :system_units
+    resources :bank_units
+    resources :organization_units
+    resources :fiscals
   end
 
   resources :orders

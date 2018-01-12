@@ -99,6 +99,66 @@ ru:
           name: "Наименование"
         edit:
           name: "Наименование"
+      bank_unit:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      fiscal:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      organization_unit:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
+      cashbox:
+        new:
+          display_id: 'Монитор'
+          display_sn: 'Сер.(S/N) № '
+          system_unit_id: 'Системный блок'
+          system_unit_sn: 'Сер.(S/N) №'
+          keyboard_id: 'Клавиатура'
+          keyboard_sn: 'Сер.(S/N) №'
+          display_client_id: 'Дисплей покупателя'
+          display_client_sn: 'Сер.(S/N) №'
+          stabilizer_id: 'Стабилизатор напряжения'
+          stabilizer_sn: 'Сер.(S/N) №'
+          apc_id: 'Источник бесперебойного питания (ИБП)'
+          apc_sn: 'Сер.(S/N) №'
+          scaner_id: 'Сканер'
+          scaner_sn: 'Сер.(S/N) №'
+          bank_unit_id: 'Баноковский терминал'
+          terminal_sn: 'Сер.(S/N) №'
+          fiscal_id: 'Фискальный аппарат'
+          fiscal_sn: 'Сер.(S/N) №'
+          organization_unit_id: 'Юридическое лицо'
+          comment: 'Коментарии'
+          cashbox_photos_id: 'Фото кассового оборудования'
+        edit:
+          display_id: 'Монитор'
+          display_sn: 'Сер.(S/N) № '
+          system_unit_id: 'Системный блок'
+          system_unit_sn: 'Сер.(S/N) №'
+          keyboard_id: 'Клавиатура'
+          keyboard_sn: 'Сер.(S/N) №'
+          display_client_id: 'Дисплей покупателя'
+          display_client_sn: 'Сер.(S/N) №'
+          stabilizer_id: 'Стабилизатор напряжения'
+          stabilizer_sn: 'Сер.(S/N) №'
+          apc_id: 'Источник бесперебойного питания (ИБП)'
+          apc_sn: 'Сер.(S/N) №'
+          scaner_id: 'Сканер'
+          scaner_sn: 'Сер.(S/N) №'
+          bank_unit_id: 'Баноковский терминал'
+          terminal_sn: 'Сер.(S/N) №'
+          fiscal_id: 'Фискальный аппарат'
+          fiscal_sn: 'Сер.(S/N) №'
+          organization_unit_id: 'Юридическое лицо'
+          comment: 'Коментарии'
+          cashbox_photos_id: 'Фото кассового оборудования'
       shop:
         new:
           name: "Наименование объекта"

@@ -1,60 +1,65 @@
 .row
-  = simple_form_for (@shop), remote: true, html: {:multipart => true} do |f|
-    = f.error_notification
+  .container
     .col-xs-4.col-md-4
-      = image_tag(@shop.photo.thumb.url, :class => "img-rounded img-responsive") if @shop.photo?
+      = image_tag(@shop.photo.thumb.url, :class => "mg-responsive img-thumbnail") if @shop.photo?
       .clearfix
       .row
         .col-xs-12.col-md-12
           - if (@shop.address.present?)
-            #map.img-responsive data-lat=@shop.latitude data-lon=@shop.longitude
+            #map.img-responsive.img-thumbnail data-lat=@shop.latitude data-lon=@shop.longitude
     .col-xs-8.col-md-7.col-md-offset-1
-      ul.nav.nav-tabs
-        li.active
-          a data-toggle="tab" href="#panel1"
-            span Первичные
+      .container
+      = simple_form_for (@shop), remote: true, html: {:multipart => true} do |f|
+        = f.error_notification
+        ul.nav.nav-tabs
+          li.active
+            a data-toggle="tab" href="#panel1"
+              span Первичные
+              br
+              span данные
+          li
+            a data-toggle="tab" href="#panel2"
+              span Кассовое и всесовое
+              br
+              span оборудование
+          li
+            a data-toggle="tab" href="#panel3"
+              span Компьютер и
+              br
+              span оргтехника
+          li
+            a data-toggle="tab" href="#panel4"
+              span Коммуникационное
+              br
+              span оборудование
+        .tab-content
+          #panel1.tab-pane.fade.in.active
             br
-            span данные
-        li
-          a data-toggle="tab" href="#panel2"
-            span Кассовое и всесовое
-            br
-            span оборудование
-        li
-          a data-toggle="tab" href="#panel3"
-            span Компьютер и
-            br
-            span оргтехника
-        li
-          a data-toggle="tab" href="#panel4"
-            span Коммуникационное
-            br
-            span оборудование
-
-      .tab-content
-        #panel1.tab-pane.fade.in.active
-          .col-sm-12.col-md-12
-            br
-            = f.input :name, autocomplete: "off", required: true, autofocus: true
-            = f.association :type, as: :radio_buttons, required: true
-            = f.input :address, as: :text, required: true
-            = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
-            = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
+            .col-sm-7.col-md-6
+              = f.input :name, autocomplete: "off", required: true, autofocus: true
+            .col-sm-4.col-md-5.col-md-offset-1
+              = f.association :type, as: :radio_buttons, required: true
+            .col-sm-12.col-md-12
+              = f.input :address, as: :text, required: true
+            .col-sm-8.col-md-8
+              = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+            .col-sm-4.col-md-4
+              = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
             //= f.input :closed, input_html: { class: 'datepicker' }, :as => :string
-            //= f.file_field :photo
-            = f.input :photo, as: :file
-        #panel2.tab-pane.fade
-          .col-sm-12.col-md-12
-            h3 Панель 2
-            p Содержимое 2 панели...
-        #panel3.tab-pane.fade
-          .col-sm-12.col-md-12
-            h3 Панель 3
-            p Содержимое 3 панели...
-        #panel4.tab-pane.fade
-          .col-sm-12.col-md-12
-            h3 Панель 4
-            p Содержимое 4 панели...
-    .form-group
-      = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"
-      = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
+            .col-sm-12.col-md-12
+              = f.input :photo, as: :file
+          #panel2.tab-pane.fade
+            .col-sm-12.col-md-12
+              h3 Панель 2
+              p Содержимое 2 панели...
+          #panel3.tab-pane.fade
+            .col-sm-12.col-md-12
+              h3 Панель 3
+              p Содержимое 3 панели...
+          #panel4.tab-pane.fade
+            .col-sm-12.col-md-12
+              h3 Панель 4
+              p Содержимое 4 панели...
+        .form-group
+          = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"
+          = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"

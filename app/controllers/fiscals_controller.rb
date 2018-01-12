@@ -1,62 +1,61 @@
-class ApcsController < ApplicationController
-
+class FiscalsController < ApplicationController
   before_action :set_type, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
-    authorize Apc
-    @q = Apc.ransack(params[:q])
+    authorize Fiscal
+    @q =Fiscal.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @apcs = @q.result(disinct: true)
+    @fiscals = @q.result(disinct: true)  
   end
 
   def show
-    authorize @apc
+    authorize @fiscal
   end
 
   def new
-    authorize Apc
-    @apc = Apc.new
+    authorize Fiscal
+    @fiscal = Fiscal.new
   end
 
   def edit
-    authorize @apc
+    authorize @fiscal
   end
 
   def create
-    authorize Apc
-    @apc = Apc.new(permitted_attributes(Apc))    # Not the final implementation!
-    if @apc.save
-      redirect_to apcs_path
+    authorize Fiscal
+    @fiscal = Fiscal.new(permitted_attributes(Fiscal))    # Not the final implementation!
+    if @fiscal.save
+      redirect_to fiscals_path
     else
       render 'new'
     end
   end
 
   def update
-    authorize @apc
-    if @apc.update_attributes(permitted_attributes(@apc))
-     redirect_to apcs_path
+    authorize @fiscal
+    if @fiscal.update_attributes(permitted_attributes(@fiscal))
+     redirect_to fiscals_path
     else
       render 'edit'
     end
   end
 
   def destroy
-    authorize @apc
-    if @apc.destroy
+    authorize @fiscal
+    if @fiscal.destroy
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to apcs_path
+    redirect_to fiscals_path
   end
 
 
   private
 
   def set_type
-    @apc = Apc.find(params[:id])
+    @fiscal = Fiscal.find(params[:id])
   end
 end
