@@ -1,5 +1,5 @@
 .row
-  = simple_form_for (@cashbox), wrapper: :horizontal_form do |f|
+  = simple_form_for (@cashbox), url: shop_cashboxes_path, wrapper: :horizontal_form do |f|
     = f.error_notification
     .col-xs-4.col-md-4
       = f.input :shop_id
@@ -22,14 +22,7 @@
     .col-xs-4.col-md-4
       = f.input :fiscal_sn
     .col-xs-8.col-md-8
-      //  = f.input :display_client_id do
-      //  = f.select :display_id, Display.all, include_blank: true, wrapper_html: { class: 'form-control select'}
-
-
-      //= f.input :display_id, collection: @display
-      //= f.association :display_client_id, :collection => Display.all.order(:name)
       = f.input :display_client_id, collection: Display.all, required: true
-      //= f.association :display, label_method: :name, value_method: :id, required: true
     .col-xs-4.col-md-4
       = f.input :display_client_sn
     .col-xs-8.col-md-8

@@ -1,6 +1,6 @@
 class CashboxesController < ApplicationController
 
-  before_action :set_shop, except: [ :index, :new, :create ]
+  before_action :set_shop, except: [:index]
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -23,11 +23,12 @@ class CashboxesController < ApplicationController
   end
 
   def create
-    #authorize Cashbox
-    binding.pry
-    @cashbox = @shop.build_cashboxes(permitted_attributes(Cashbox))    # Not the final implementation!
+    authorize Cashbox
+    #binding.pry
+
+    @cashbox = @shop.cashboxes.build(permitted_attributes(Cashbox))    # Not the final implementation!
     if @cashbox.save
-      redirect_to 'back'
+      redirect_to
     else
       render 'new'
     end
@@ -56,6 +57,8 @@ class CashboxesController < ApplicationController
   private
 
   def set_shop
-    @cashbox = Cashbox.find(params[:id])
+    #@cashbox = Cashbox.find(params[:id])
+    @shop = Shop.find(params[:shop_id])
   end
+
 end
