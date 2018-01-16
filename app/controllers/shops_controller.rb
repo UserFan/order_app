@@ -16,6 +16,7 @@ class ShopsController < ApplicationController
 
   def show
     authorize @shop
+    @cashboxes = @shop.cashboxes.all
   end
 
   def new

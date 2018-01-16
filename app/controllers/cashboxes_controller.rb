@@ -6,9 +6,7 @@ class CashboxesController < ApplicationController
 
   def index
     authorize Cashbox
-    @q = Cashbox.ransack(params[:q])
-    @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @cashboxes = @q.result(disinct: true)
+
   end
 
   def show
@@ -25,10 +23,11 @@ class CashboxesController < ApplicationController
   end
 
   def create
-    authorize Cashbox
-    @cashbox = Cashbox.new(permitted_attributes(Cashbox))    # Not the final implementation!
+    #authorize Cashbox
+    binding.pry
+    @cashbox = @shop.build_cashboxes(permitted_attributes(Cashbox))    # Not the final implementation!
     if @cashbox.save
-      redirect_to cashboxs_path
+      redirect_to 'back'
     else
       render 'new'
     end

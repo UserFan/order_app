@@ -1,5 +1,5 @@
 class Cashbox < ApplicationRecord
-  belongs_to :shop
+
   belongs_to :apc
   belongs_to :bank_unit
   belongs_to :display
@@ -9,6 +9,8 @@ class Cashbox < ApplicationRecord
   belongs_to :scaner
   belongs_to :stabilizer
   belongs_to :system_unit
+  belongs_to :shop
 
+  validates :shop_id, presence: true
   #validates :category_id, :date_open, :date_execution, :short_descript, :status_id, presence: true
 end
