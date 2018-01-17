@@ -1,6 +1,6 @@
 class ShopsController < ApplicationController
 
-  before_action :set_shop, except: [ :index, :new, :create ]
+  before_action :set_shop, except: [:index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -12,11 +12,12 @@ class ShopsController < ApplicationController
     @shops_closed = Shop.ransack(closed_not_null: '1').result.count
     @shops_open = Shop.ransack(closed_not_null: '0').result.count
     @shops_count = Shop.count
+
   end
 
   def show
     authorize @shop
-    @cashboxes = @shop.cashboxes.all
+    @cashboxes = @shop.cashboxes.find(params[:id])
   end
 
   def new
@@ -26,6 +27,7 @@ class ShopsController < ApplicationController
 
   def edit
     authorize @shop
+    @cashboxes = @shop.cashboxes.all
   end
 
   def create

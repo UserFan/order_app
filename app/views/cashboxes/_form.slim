@@ -1,8 +1,6 @@
 .row
   = simple_form_for (@cashbox), url: shop_cashboxes_path, wrapper: :horizontal_form do |f|
     = f.error_notification
-    .col-xs-4.col-md-4
-      = f.input :shop_id
     .col-xs-8.col-md-8
       = f.association :organization_unit, label_method: :name, value_method: :id, required: true
     .col-xs-5.col-md-5

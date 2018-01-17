@@ -1,6 +1,7 @@
 class CashboxesController < ApplicationController
 
   before_action :set_shop, except: [:index]
+  before_action :set_cashbox, except: [:index, :create, :new]
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -28,7 +29,7 @@ class CashboxesController < ApplicationController
 
     @cashbox = @shop.cashboxes.build(permitted_attributes(Cashbox))    # Not the final implementation!
     if @cashbox.save
-      redirect_to
+      redirect_to @shop
     else
       render 'new'
     end
@@ -61,4 +62,7 @@ class CashboxesController < ApplicationController
     @shop = Shop.find(params[:shop_id])
   end
 
+  def set_cashbox
+    @cashbox = Cashbox.find(params[:id])
+  end
 end
