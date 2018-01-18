@@ -59,7 +59,7 @@
                 .row
                   ol
                     - @shop.cashboxes.each do |cashbox|
-                     //li = link_to "Касса: #{cashbox.organization_unit.name}", edit_shop_cashbox_path(@shop)
+                     li = link_to "Касса: #{cashbox.organization_unit.name}", edit_shop_cashbox_path(@shop, cashbox)
                      = "#{cashbox.cash_full}".html_safe
             .col-sm-5.col-md-5
               h5 Весовое оборудование:

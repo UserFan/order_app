@@ -16,7 +16,7 @@ class CashboxesController < ApplicationController
 
   def new
     authorize Cashbox
-    @cashbox = Cashbox.new
+    @cashbox = @shop.cashboxes.new
   end
 
   def edit
@@ -38,7 +38,7 @@ class CashboxesController < ApplicationController
   def update
     authorize @cashbox
     if @cashbox.update_attributes(permitted_attributes(@cashbox))
-     redirect_to cashboxs_path
+     redirect_to @shop
     else
       render 'edit'
     end
@@ -58,11 +58,10 @@ class CashboxesController < ApplicationController
   private
 
   def set_shop
-    #@cashbox = Cashbox.find(params[:id])
     @shop = Shop.find(params[:shop_id])
   end
 
   def set_cashbox
-    @cashbox = Cashbox.find(params[:cashbox_id])
+    @cashbox = @shop.cashboxes.find(params[:id])
   end
 end

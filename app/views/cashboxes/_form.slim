@@ -1,5 +1,5 @@
 .row
-  = simple_form_for (@cashbox), url: shop_cashboxes_path, wrapper: :horizontal_form do |f|
+  = simple_form_for (@cashbox), url: (@cashbox.new_record? ? shop_cashboxes_path : shop_cashbox_path), wrapper: :horizontal_form do |f|
     = f.error_notification
     .col-xs-8.col-md-8
       = f.association :organization_unit, label_method: :name, value_method: :id, required: true
