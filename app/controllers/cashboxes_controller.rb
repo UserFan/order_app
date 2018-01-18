@@ -63,6 +63,6 @@ class CashboxesController < ApplicationController
   end
 
   def set_cashbox
-    @cashbox = Cashbox.find(params[:id])
+    @cashbox = Cashbox.find(params[:cashbox_id])
   end
 end
