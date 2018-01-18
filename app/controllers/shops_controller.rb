@@ -17,7 +17,7 @@ class ShopsController < ApplicationController
 
   def show
     authorize @shop
-    @cashboxes = @shop.cashboxes.find(params[:id])
+    #@cashboxes = @shop.cashboxes.find(params[:id])
   end
 
   def new

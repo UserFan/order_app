@@ -1,4 +1,5 @@
 class Cashbox < ApplicationRecord
+
   belongs_to :apc
   belongs_to :bank_unit
   belongs_to :display
@@ -12,5 +13,8 @@ class Cashbox < ApplicationRecord
 
   validates :shop_id, presence: true
   #validates :category_id, :date_open, :date_execution, :short_descript, :status_id, presence: true
+  def cash_full
+    "M: #{self.display.name} еее: #{self.keyboard.name}"
+  end
 
 end
