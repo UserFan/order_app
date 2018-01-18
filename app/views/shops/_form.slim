@@ -52,7 +52,14 @@
             .col-sm-12.col-md-12
               h5 Кассовое оборудование
               = link_to "Добавить", new_shop_cashbox_path(@shop)
+<<<<<<< HEAD
               = "Монитор: #{@shop.displays.name1}"
+=======
+              - if @shop.cashboxes.present?
+                ul
+                  - @shop.cashboxes.each do |cashbox|
+                    li = "Монитор: #{cashbox.cash_full}"
+>>>>>>> d619957a82f0138c57fa60eecaafc014b5f3f303
           #panel3.tab-pane.fade
             .col-sm-12.col-md-12
               h3 Панель 3

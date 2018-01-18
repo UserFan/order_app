@@ -10,6 +10,6 @@ class Shop < ApplicationRecord
   belongs_to :type
   has_many :orders, dependent: :restrict_with_error
   has_many :cashboxes, dependent: :restrict_with_error
-  has_many :displays, through: :cashboxes
+
 
 end
