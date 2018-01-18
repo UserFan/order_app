@@ -52,7 +52,7 @@
             .col-sm-12.col-md-12
               h5 Кассовое оборудование
               = link_to "Добавить", new_shop_cashbox_path(@shop)
-              = "Монитор: #{@shop.cashboxes.cash_full}"
+              = "Монитор: #{@shop.displays.name1}"
           #panel3.tab-pane.fade
             .col-sm-12.col-md-12
               h3 Панель 3
