@@ -20,7 +20,6 @@ class Cashbox < ApplicationRecord
                 #{self.system_unit.hdd}/
                 #{self.system_unit.os}"<br>}
     str = <<-STR
-          <li><b>Касса:</b> #{self.organization_unit.name}</li>
           <ul><li><b>Системный блок:</b> #{sys_unit}</li>
           <li><b>Дисплей:</b> #{self.display.name}</li>
           <li><b>Калавиатура:</b> #{self.keyboard.name}</li>

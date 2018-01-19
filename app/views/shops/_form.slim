@@ -11,29 +11,29 @@
       .container
       = simple_form_for (@shop), remote: true, html: {:multipart => true} do |f|
         = f.error_notification
-        ul.nav.nav-tabs
+        ul.nav.nav-tabs#myTab role="tablist"
           li.active
-            a data-toggle="tab" href="#panel1"
+            a data-toggle="tab" href="#panel1" role="tab"
               span Первичные
               br
               span данные
           li
-            a data-toggle="tab" href="#panel2"
+            a data-toggle="tab" href="#panel2" role="tab"
               span Кассовое и всесовое
               br
               span оборудование
           li
-            a data-toggle="tab" href="#panel3"
+            a data-toggle="tab" href="#panel3" role="tab"
               span Компьютер и
               br
               span оргтехника
           li
-            a data-toggle="tab" href="#panel4"
+            a data-toggle="tab" href="#panel4" role="tab"
               span Коммуникационное
               br
               span оборудование
         .tab-content
-          #panel1.tab-pane.fade.in.active
+          #panel1.tab-pane.fade.in.active role="tabpanel"
             br
             .col-sm-7.col-md-6
               = f.input :name, autocomplete: "off", required: true, autofocus: true
@@ -49,9 +49,9 @@
             .col-sm-12.col-md-12
               = f.input :photo, as: :file
             .form-group
-              = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"
+              = link_to "Отмена", shops_path, class: "btn btn-info pull-right main-group"
               = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
-          #panel2.tab-pane.fade
+          #panel2.tab-pane.fade role="tabpanel"
             .col-sm-7.col-md-7
               h5 Кассовое оборудование:
               = link_to "Добавить", new_shop_cashbox_path(@shop)
@@ -63,11 +63,11 @@
                      = "#{cashbox.cash_full}".html_safe
             .col-sm-5.col-md-5
               h5 Весовое оборудование:
-          #panel3.tab-pane.fade
+          #panel3.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
               h3 Панель 3
               p Содержимое 3 панели...
-          #panel4.tab-pane.fade
+          #panel4.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
               h3 Панель 4
               p Содержимое 4 панели...

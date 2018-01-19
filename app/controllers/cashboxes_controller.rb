@@ -1,6 +1,6 @@
 class CashboxesController < ApplicationController
 
-  before_action :set_shop, except: [:index]
+  before_action :set_shop, except: [:index, :edit]
   before_action :set_cashbox, except: [:index, :create, :new]
   before_action :authenticate_user!
   after_action :verify_authorized
@@ -29,7 +29,7 @@ class CashboxesController < ApplicationController
 
     @cashbox = @shop.cashboxes.build(permitted_attributes(Cashbox))    # Not the final implementation!
     if @cashbox.save
-      redirect_to @shop
+      render 'shops/edit'
     else
       render 'new'
     end
@@ -38,7 +38,10 @@ class CashboxesController < ApplicationController
   def update
     authorize @cashbox
     if @cashbox.update_attributes(permitted_attributes(@cashbox))
-     redirect_to @shop
+      #return redirect_back(fallback_location: root_path)
+
+      redirect_to "#{edit_shop_path(@shop)}#panel2"
+
     else
       render 'edit'
     end
@@ -51,7 +54,7 @@ class CashboxesController < ApplicationController
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to cashboxs_path
+      redirect_to cashboxs_path
   end
 
 
@@ -62,6 +65,6 @@ class CashboxesController < ApplicationController
   end
 
   def set_cashbox
-    @cashbox = @shop.cashboxes.find(params[:id])
+    @cashbox = Cashbox.find(params[:id])
   end
 end
