@@ -17,21 +17,24 @@
               span Первичные
               br
               span данные
-          li
-            a data-toggle="tab" href="#panel2" role="tab"
-              span Кассовое и всесовое
-              br
-              span оборудование
-          li
-            a data-toggle="tab" href="#panel3" role="tab"
-              span Компьютер и
-              br
-              span оргтехника
-          li
-            a data-toggle="tab" href="#panel4" role="tab"
-              span Коммуникационное
-              br
-              span оборудование
+          - if !@shop.new_record?
+            li
+              a data-toggle="tab" href="#panel2" role="tab"
+                span Кассовое и всесовое
+                br
+                span оборудование
+          - if !@shop.new_record?
+            li
+              a data-toggle="tab" href="#panel3" role="tab"
+                span Компьютер и
+                br
+                span оргтехника
+          - if !@shop.new_record?
+            li
+              a data-toggle="tab" href="#panel4" role="tab"
+                span Коммуникационное
+                br
+                span оборудование
         .tab-content
           #panel1.tab-pane.fade.in.active role="tabpanel"
             br
@@ -54,7 +57,7 @@
           #panel2.tab-pane.fade role="tabpanel"
             .col-sm-7.col-md-7
               h5 Кассовое оборудование:
-              = link_to "Добавить", new_shop_cashbox_path(@shop)
+              = link_to "Добавить", new_shop_cashbox_path(@shop) if !@shop.new_record?
               - if @shop.cashboxes.present?
                 .row
                   ol
