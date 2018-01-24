@@ -1,0 +1,76 @@
+.row
+  .container
+    .col-xs-4.col-md-4
+      = image_tag(@shop.photo.thumb.url, :class => "mg-responsive img-thumbnail") if @shop.photo?
+      .clearfix
+      .row
+        .col-xs-12.col-md-12
+          - if (@shop.address.present?)
+            #map.img-responsive.img-thumbnail data-lat=@shop.latitude data-lon=@shop.longitude
+    .col-xs-8.col-md-7.col-md-offset-1
+      .container
+      = simple_form_for (@shop), remote: true, html: {:multipart => true} do |f|
+        = f.error_notification
+        ul.nav.nav-tabs#myTab role="tablist"
+          li.active
+            a data-toggle="tab" href="#panel1" role="tab"
+              span Первичные
+              br
+              span данные
+          - if !@shop.new_record?
+            li
+              a data-toggle="tab" href="#panel2" role="tab"
+                span Кассовое и всесовое
+                br
+                span оборудование
+          - if !@shop.new_record?
+            li
+              a data-toggle="tab" href="#panel3" role="tab"
+                span Компьютер и
+                br
+                span оргтехника
+          - if !@shop.new_record?
+            li
+              a data-toggle="tab" href="#panel4" role="tab"
+                span Коммуникационное
+                br
+                span оборудование
+        .tab-content
+          #panel1.tab-pane.fade.in.active role="tabpanel"
+            br
+            .col-sm-7.col-md-6
+              = f.input :name, autocomplete: "off", required: true, autofocus: true
+            .col-sm-4.col-md-5.col-md-offset-1
+              = f.association :type, as: :radio_buttons, required: true
+            .col-sm-12.col-md-12
+              = f.input :address, as: :text, required: true
+            .col-sm-8.col-md-8
+              = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+            .col-sm-4.col-md-4
+              = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
+            //= f.input :closed, input_html: { class: 'datepicker' }, :as => :string
+            .col-sm-12.col-md-12
+              = f.input :photo, as: :file
+            .form-group
+              = link_to "Отмена", shops_path, class: "btn btn-info pull-right main-group"
+              = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
+          #panel2.tab-pane.fade role="tabpanel"
+            .col-sm-7.col-md-7
+              h5 Кассовое оборудование:
+              = link_to "Добавить", new_shop_cashbox_path(@shop) if !@shop.new_record?
+              - if @shop.cashboxes.present?
+                .row
+                  ol
+                    - @shop.cashboxes.each do |cashbox|
+                     li = link_to "Касса: #{cashbox.organization_unit.name}", edit_shop_cashbox_path(@shop, cashbox)
+                     = "#{cashbox.cash_full}".html_safe
+            .col-sm-5.col-md-5
+              h5 Весовое оборудование:
+          #panel3.tab-pane.fade role="tabpanel"
+            .col-sm-12.col-md-12
+              h3 Панель 3
+              p Содержимое 3 панели...
+          #panel4.tab-pane.fade role="tabpanel"
+            .col-sm-12.col-md-12
+              h3 Панель 4
+              p Содержимое 4 панели...

@@ -9,7 +9,7 @@ class Shop < ApplicationRecord
   belongs_to :user
   belongs_to :type
   has_many :orders, dependent: :restrict_with_error
-  has_many :cashboxes, dependent: :restrict_with_error
-
+  has_many :cashboxes, inverse_of: :shop, dependent: :restrict_with_error
+  accepts_nested_attributes_for :cashboxes, reject_if: :all_blank, allow_destroy: true
 
 end

@@ -18,6 +18,7 @@
 //= require moment/ru
 //= require bootstrap-datetimepicker
 //= require turbolinks
+//= require cocoon
 //= require_tree .
 
 
