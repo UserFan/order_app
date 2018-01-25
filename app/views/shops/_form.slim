@@ -10,51 +10,55 @@
               span Первичные данные
           li
             a data-toggle="tab" href="#panel2" role="tab"
-              span Кассовое и всесовое оборудование
+              span Кассовое оборудование
           li
             a data-toggle="tab" href="#panel3" role="tab"
-              span Компьютер и оргтехника
+              span Весовое оборудование
           li
             a data-toggle="tab" href="#panel4" role="tab"
+              span Компьютер и оргтехника
+          li
+            a data-toggle="tab" href="#panel5" role="tab"
               span Коммуникационное борудование
         .tab-content
           #panel1.tab-pane.fade.in.active role="tabpanel"
             br
             .col-sm-4.col-md-4
               = image_tag(@shop.photo.thumb.url, :class => "mg-responsive img-thumbnail") if @shop.photo?
-              br
+              .row
+                br
                 .col-sm-12.col-md-12
                   = f.input :photo, as: :file
-            .col-sm-4.col-md-4
-              = f.input :name, autocomplete: "off", required: true, autofocus: true
-            .col-sm-4.col-md-3.col-md-offset-1
-              = f.association :type, as: :radio_buttons, required: true
             .col-sm-8.col-md-8
-              = f.input :address, as: :text, required: true
-            .col-sm-5.col-md-5
-              = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
-            .col-sm-3.col-md-3
-              = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
-            //= f.input :closed, input_html: { class: 'datepicker' }, :as => :string
-            .form-group
-              = link_to "Отмена", shops_path, class: "btn btn-info pull-left main-group"
-              = f.button :submit, "Сохранить", class: "btn btn-primary pull-left main-group"
+              .col-sm-7.col-md-7
+                = f.input :name, autocomplete: "off", required: true, autofocus: true
+              .col-sm-4.col-md-4.col-md-offset-1
+                = f.association :type, as: :radio_buttons, required: true
+              .col-sm-12.col-md-12
+                = f.input :address, as: :text, required: true
+              .col-sm-8.col-md-8
+                = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+              .col-sm-4.col-md-4
+                = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
+              //= f.input :closed, input_html: { class: 'datepicker' }, :as => :string
+              .form-group
+                = link_to "Отмена", shops_path, class: "btn btn-info pull-right main-group"
+                = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
           #panel2.tab-pane.fade role="tabpanel"
+
             .col-sm-12.col-md-12
-              h5 Кассовое оборудование:
-              .row
-
-                #cashboxes
-                  .links
-                    = link_to_add_association 'add cashbox', f, :cashboxes,
-                      data: { association_insertion_method: :prepend,
-                              association_insertion_node: '#cashboxes-list'}
-                .col-sm-5.col-md-5
-                  #cashboxes-list
-                    = f.simple_fields_for :cashboxes do |cashbox|
-                      .col-sm-10.col-md-10
-                        = render 'cashbox_fields', f: cashbox
-
+              #cashboxes
+                h4 Кассовое оборудование:
+                .links
+                  = link_to_add_association f, :cashboxes, class: 'btn btn-success btn-sm',
+                    data: { association_insertion_method: :prepend,
+                            association_insertion_node: '#cashboxes-list'}
+                br
+                #cashboxes-list
+                  - @item_index = 1
+                  = f.simple_fields_for :cashboxes do |cashbox, index|
+                    = render 'cashbox_fields', f: cashbox, locals: { index: 1456 }
+                    - @item_index += 1
           #panel3.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
               h3 Панель 3
@@ -63,3 +67,7 @@
             .col-sm-12.col-md-12
               h3 Панель 4
               p Содержимое 4 панели...
+          #panel5.tab-pane.fade role="tabpanel"
+            .col-sm-12.col-md-12
+              h3 Панель 5
+              p Содержимое 5 панели...

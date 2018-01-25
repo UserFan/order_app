@@ -34,6 +34,11 @@ ru:
           name: "Наименование"
         edit:
           name: "Наименование"
+      category:
+        new:
+          name: "Наименование"
+        edit:
+          name: "Наименование"
       position:
         new:
           name: "Наименование"
@@ -116,49 +121,50 @@ ru:
           name: "Наименование"
       cashbox:
         new:
-          display_id: 'Монитор'
+          display: 'Монитор'
           display_sn: 'Сер.(S/N) № '
-          system_unit_id: 'Системный блок'
+          system_unit: 'Системный блок'
           system_unit_sn: 'Сер.(S/N) №'
-          keyboard_id: 'Клавиатура'
+          keyboard: 'Клавиатура'
           keyboard_sn: 'Сер.(S/N) №'
           display_client_id: 'Дисплей покупателя'
           display_client_sn: 'Сер.(S/N) №'
-          stabilizer_id: 'Стабилизатор напряжения'
+          stabilizer: 'Стабилизатор напряжения'
           stabilizer_sn: 'Сер.(S/N) №'
-          apc_id: 'Источник бесперебойного питания (ИБП)'
+          apc: 'Источник бесперебойного питания (ИБП)'
           apc_sn: 'Сер.(S/N) №'
-          scaner_id: 'Сканер'
+          scaner: 'Сканер'
           scaner_sn: 'Сер.(S/N) №'
-          bank_unit_id: 'Баноковский терминал'
+          bank_unit: 'Баноковский терминал'
           terminal_sn: 'Сер.(S/N) №'
-          fiscal_id: 'Фискальный аппарат'
+          fiscal: 'Фискальный аппарат'
           fiscal_sn: 'Сер.(S/N) №'
-          organization_unit_id: 'Юридическое лицо'
+          organization_units: 'Юридическое лицо'
           comment: 'Коментарии'
           cashbox_photos_id: 'Фото кассового оборудования'
         edit:
-          display_id: 'Монитор'
+          display: 'Монитор'
           display_sn: 'Сер.(S/N) № '
-          system_unit_id: 'Системный блок'
+          system_unit: 'Системный блок'
           system_unit_sn: 'Сер.(S/N) №'
-          keyboard_id: 'Клавиатура'
+          keyboard: 'Клавиатура'
           keyboard_sn: 'Сер.(S/N) №'
           display_client_id: 'Дисплей покупателя'
           display_client_sn: 'Сер.(S/N) №'
-          stabilizer_id: 'Стабилизатор напряжения'
+          stabilizer: 'Стабилизатор напряжения'
           stabilizer_sn: 'Сер.(S/N) №'
-          apc_id: 'Источник бесперебойного питания (ИБП)'
+          apc: 'Источник бесперебойного питания (ИБП)'
           apc_sn: 'Сер.(S/N) №'
-          scaner_id: 'Сканер'
+          scaner: 'Сканер'
           scaner_sn: 'Сер.(S/N) №'
-          bank_unit_id: 'Баноковский терминал'
+          bank_unit: 'Баноковский терминал'
           terminal_sn: 'Сер.(S/N) №'
-          fiscal_id: 'Фискальный аппарат'
+          fiscal: 'Фискальный аппарат'
           fiscal_sn: 'Сер.(S/N) №'
-          organization_unit_id: 'Юридическое лицо'
+          organization_unit: 'Юридическое лицо'
           comment: 'Коментарии'
           cashbox_photos_id: 'Фото кассового оборудования'
+
       shop:
         new:
           name: "Наименование объекта"
@@ -168,6 +174,7 @@ ru:
           photo: "Фото объекта"
           user: "Ответственный за объект"
           closed: "Объект закрыть"
+
         edit:
           name: "Наименование объекта"
           address: "Адрес объекта"
@@ -176,6 +183,7 @@ ru:
           photo: "Фото объекта"
           user: "Ответственный за объект"
           closed: "Объект закрыть"
+        
       system_unit:
         new:
           cpu: 'Процессор (CPU)'

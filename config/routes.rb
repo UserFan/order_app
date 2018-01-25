@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   scope 'catalog' do
     resources :positions
     resources :shops do
-      resources :cashboxes
+      resources :cashboxes  
     end
     resources :types
     resources :categories

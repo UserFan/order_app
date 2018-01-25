@@ -58,6 +58,6 @@ class CategoriesController < ApplicationController
     private
 
     def set_category
-      @type = Category.find(params[:id])
+      @category = Category.find(params[:id])
     end
 end

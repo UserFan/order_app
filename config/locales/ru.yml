@@ -6,6 +6,35 @@ ru:
         restrict_dependent_destroy:
           has_one: 'Невозможно удалить запись, так как существует зависимость: %{record}'
           has_many: 'Невозможно удалить запись, так как существуют зависимости: %{record}'
+    models:
+      cashbox: "Кассовый блок"
+    attributes:
+        cashbox:
+          organization_unit: "Юридическое лицо:"
+          display: "Дисплей:"
+          display_sn: "Серийный (S/N) №:"
+          system_unit: "Системный блок:"
+          system_unit_sn: "Серийный (S/N) №:"
+          keyboard: "Клавиатура:"
+          keyboard_sn: "Серийный (S/N) №:"
+          display_client_id: "Дисплей покупателя:"
+          display_client_sn: "Серийный (S/N) №:"
+          stabilizer: "Стабилизатор напряжения:"
+          stabilizer_sn: "Серийный (S/N) №:"
+          apc: "Источник беспер-ого пит-я(ИБП):"
+          apc_sn: "Серийный (S/N) №:"
+          scaner: "Сканер:"
+          scaner_sn: "Серийный (S/N) №:"
+          fiscal: "Фискальный аппарат:"
+          fiscal_sn: "Серийный (S/N) №:"
+          bank_unit: "Банковский терминал:"
+          terminal_sn: "Серийный (S/N) №:"
+          cashbox_photos_id: "Фото кассового блока:"
+          comment: "Комментарий:"
+  cocoon:
+      defaults:
+        add: "Добавить запись"
+        remove: "Удалить запись"
   date:
     abbr_day_names:
     - Вс

@@ -43,6 +43,10 @@ th a span {
   color: red;
 }
 
+.text-panel {
+  float: left;
+}
+
 #blink {
   -webkit-animation: blink 3s linear infinite;
   animation: blink 3s linear infinite;
