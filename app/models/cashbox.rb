@@ -11,6 +11,10 @@ class Cashbox < ApplicationRecord
   belongs_to :system_unit
   belongs_to :shop
 
+  has_many :cash_images, dependent: :restrict_with_error
+
+  accepts_nested_attributes_for :cash_images, reject_if: :all_blank, allow_destroy: true
+
   validates :shop_id, presence: true
   #validates :category_id, :date_open, :date_execution, :short_descript, :status_id, presence: true
   def cash_full

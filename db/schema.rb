@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180116073321) do
+ActiveRecord::Schema.define(version: 20180126073628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 20180116073321) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "cash_images", force: :cascade do |t|
+    t.bigint "cashbox_id", default: 0, null: false
+    t.datetime "date_add", null: false
+    t.jsonb "images"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cashbox_id"], name: "index_cash_images_on_cashbox_id"
   end
 
   create_table "cashboxes", force: :cascade do |t|
@@ -156,6 +165,12 @@ ActiveRecord::Schema.define(version: 20180116073321) do
   end
 
   create_table "routers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scaleses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

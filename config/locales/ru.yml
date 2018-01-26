@@ -21,7 +21,7 @@ ru:
           display_client_sn: "Серийный (S/N) №:"
           stabilizer: "Стабилизатор напряжения:"
           stabilizer_sn: "Серийный (S/N) №:"
-          apc: "Источник беспер-ого пит-я(ИБП):"
+          apc: "ИБП:"
           apc_sn: "Серийный (S/N) №:"
           scaner: "Сканер:"
           scaner_sn: "Серийный (S/N) №:"

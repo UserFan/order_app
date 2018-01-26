@@ -23,6 +23,8 @@ class ShopsController < ApplicationController
   def new
     authorize Shop
     @shop = Shop.new
+    #cashbox = @shop.cashboxes.build
+    #cashbox.build_cash_images
   end
 
   def edit

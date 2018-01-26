@@ -1,0 +1,8 @@
+.nested-fields
+  .col-sm-12.col-md-12
+  .row
+    .col-sm-6.col-md-6
+      = f.input :date_add, :as => :date_picker, :placeholder => "дата фото", input_html: { class: 'datepicker' }
+    .col-sm-4.col-md-4
+      = f.input :images, as: :file
+    //= link_to_remove_association "Удалить", f, class: 'btn btn-danger btn-xs'
