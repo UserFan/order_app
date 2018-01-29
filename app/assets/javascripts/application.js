@@ -32,8 +32,8 @@ var ClickRowTable = function() {
 
 var date_pic = function () { $('.datepicker').datetimepicker();
 
-$('#cash_images-list').on('cocoon:after-insert', function() {
-  $('.datepicker').datetimepicker() });  
+$('.nested-fields').on('cocoon:after-insert', function() {
+  $('.datepicker').datetimepicker() });
 
 };
 

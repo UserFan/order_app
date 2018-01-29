@@ -54,9 +54,9 @@
                 .links
                   = link_to_add_association f, :cashboxes, class: 'btn btn-success btn-sm',
                     data: { association_insertion_method: :prepend,
-                            association_insertion_node: '#cashboxes-list'}
+                            association_insertion_node: '#cashboxes-list1'}
                 br
-                #cashboxes-list
+                #cashboxes-list1
                   - @item_index = 1
                   = f.simple_fields_for :cashboxes do |cashbox, index|
                     = f.error_notification
