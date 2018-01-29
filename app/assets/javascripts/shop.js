@@ -35,12 +35,6 @@ function init() {
 };
 
 
-var date_pic = function () { $('.datepicker').datetimepicker(); };
-
-document.addEventListener('turbolinks:load', function () {
-        date_pic();
-});
-
 document.addEventListener('turbolinks:load', function () {
   MapYa();
 });

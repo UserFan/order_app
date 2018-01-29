@@ -15,7 +15,7 @@ class Cashbox < ApplicationRecord
 
   accepts_nested_attributes_for :cash_images, reject_if: :all_blank, allow_destroy: true
 
-  validates :shop_id, presence: true
+  validates :shop_id, :display, presence: true
   #validates :category_id, :date_open, :date_execution, :short_descript, :status_id, presence: true
   def cash_full
     sys_unit = %Q{"#{self.system_unit.motherboard}/

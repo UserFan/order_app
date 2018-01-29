@@ -4,4 +4,5 @@ class CashImage < ApplicationRecord
   belongs_to :cashbox
 
   validates :cashbox_id, :date_add, presence: true
+  
 end

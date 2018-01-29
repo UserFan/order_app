@@ -3,6 +3,10 @@
     .col-xs-12.col-md-12
       = simple_form_for (@shop), remote: true, html: {:multipart => true} do |f|
         = f.error_notification
+        .col-xs-11.col-md-11.col-md-offset-1
+          .form-group
+            = link_to "Отмена", shops_path, class: "btn btn-info pull-right main-group"
+            = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
 
         ul.nav.nav-tabs#myTab role="tablist"
           li.active
@@ -41,9 +45,7 @@
               .col-sm-4.col-md-4
                 = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
               //= f.input :closed, input_html: { class: 'datepicker' }, :as => :string
-              .form-group
-                = link_to "Отмена", shops_path, class: "btn btn-info pull-right main-group"
-                = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
+
           #tabpage2.tab-pane.fade role="tabpanel"
 
             .col-sm-12.col-md-12
@@ -57,6 +59,7 @@
                 #cashboxes-list
                   - @item_index = 1
                   = f.simple_fields_for :cashboxes do |cashbox, index|
+                    = f.error_notification
                     = render 'cashbox_fields', f: cashbox, locals: { index: 1456 }
                     - @item_index += 1
           #tabpage3.tab-pane.fade role="tabpanel"

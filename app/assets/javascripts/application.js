@@ -29,6 +29,21 @@ var ClickRowTable = function() {
                           }
                           });
                       };
+
+var date_pic = function () { $('.datepicker').datetimepicker();
+
+$('#cash_images-list').on('cocoon:after-insert', function() {
+  $('.datepicker').datetimepicker() });  
+
+};
+
+
+document.addEventListener('turbolinks:load', function () {
+        date_pic();
+});
+
+
+
 document.addEventListener('turbolinks:load', function () {
   ClickRowTable();
 });

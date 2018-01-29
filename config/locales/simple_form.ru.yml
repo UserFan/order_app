@@ -121,50 +121,101 @@ ru:
           name: "Наименование"
       cashbox:
         new:
-          display: 'Монитор'
-          display_sn: 'Сер.(S/N) № '
-          system_unit: 'Системный блок'
-          system_unit_sn: 'Сер.(S/N) №'
-          keyboard: 'Клавиатура'
-          keyboard_sn: 'Сер.(S/N) №'
-          display_client_id: 'Дисплей покупателя'
-          display_client_sn: 'Сер.(S/N) №'
-          stabilizer: 'Стабилизатор напряжения'
-          stabilizer_sn: 'Сер.(S/N) №'
-          apc: 'Источник бесперебойного питания (ИБП)'
-          apc_sn: 'Сер.(S/N) №'
-          scaner: 'Сканер'
-          scaner_sn: 'Сер.(S/N) №'
-          bank_unit: 'Баноковский терминал'
-          terminal_sn: 'Сер.(S/N) №'
-          fiscal: 'Фискальный аппарат'
-          fiscal_sn: 'Сер.(S/N) №'
-          organization_units: 'Юридическое лицо'
-          comment: 'Коментарии'
-          cashbox_photos_id: 'Фото кассового оборудования'
+          organization_unit: "Юридическое лицо:"
+          display: "Дисплей:"
+          display_sn: "Серийный (S/N) №:"
+          system_unit: "Системный блок:"
+          system_unit_sn: "Серийный (S/N) №:"
+          keyboard: "Клавиатура:"
+          keyboard_sn: "Серийный (S/N) №:"
+          display_client_id: "Дисплей покупателя:"
+          display_client_sn: "Серийный (S/N) №:"
+          stabilizer: "Стабилизатор напряжения:"
+          stabilizer_sn: "Серийный (S/N) №:"
+          apc: "ИБП:"
+          apc_sn: "Серийный (S/N) №:"
+          scaner: "Сканер:"
+          scaner_sn: "Серийный (S/N) №:"
+          fiscal: "Фискальный аппарат:"
+          fiscal_sn: "Серийный (S/N) №:"
+          bank_unit: "Банковский терминал:"
+          terminal_sn: "Серийный (S/N) №:"
+          cashbox_photos_id: "Фото кассового блока:"
+          comment: "Комментарий:"
         edit:
-          display: 'Монитор'
-          display_sn: 'Сер.(S/N) № '
-          system_unit: 'Системный блок'
-          system_unit_sn: 'Сер.(S/N) №'
-          keyboard: 'Клавиатура'
-          keyboard_sn: 'Сер.(S/N) №'
-          display_client_id: 'Дисплей покупателя'
-          display_client_sn: 'Сер.(S/N) №'
-          stabilizer: 'Стабилизатор напряжения'
-          stabilizer_sn: 'Сер.(S/N) №'
-          apc: 'Источник бесперебойного питания (ИБП)'
-          apc_sn: 'Сер.(S/N) №'
-          scaner: 'Сканер'
-          scaner_sn: 'Сер.(S/N) №'
-          bank_unit: 'Баноковский терминал'
-          terminal_sn: 'Сер.(S/N) №'
-          fiscal: 'Фискальный аппарат'
-          fiscal_sn: 'Сер.(S/N) №'
-          organization_unit: 'Юридическое лицо'
-          comment: 'Коментарии'
-          cashbox_photos_id: 'Фото кассового оборудования'
-
+          organization_unit: "Юридическое лицо:"
+          display: "Дисплей:"
+          display_sn: "Серийный (S/N) №:"
+          system_unit: "Системный блок:"
+          system_unit_sn: "Серийный (S/N) №:"
+          keyboard: "Клавиатура:"
+          keyboard_sn: "Серийный (S/N) №:"
+          display_client_id: "Дисплей покупателя:"
+          display_client_sn: "Серийный (S/N) №:"
+          stabilizer: "Стабилизатор напряжения:"
+          stabilizer_sn: "Серийный (S/N) №:"
+          apc: "ИБП:"
+          apc_sn: "Серийный (S/N) №:"
+          scaner: "Сканер:"
+          scaner_sn: "Серийный (S/N) №:"
+          fiscal: "Фискальный аппарат:"
+          fiscal_sn: "Серийный (S/N) №:"
+          bank_unit: "Банковский терминал:"
+          terminal_sn: "Серийный (S/N) №:"
+          cashbox_photos_id: "Фото кассового блока:"
+          comment: "Комментарий:"
+      cashboxes:
+        new:
+          organization_unit: "Юридическое лицо:"
+          display: "Дисплей:"
+          display_sn: "Серийный (S/N) №:"
+          system_unit: "Системный блок:"
+          system_unit_sn: "Серийный (S/N) №:"
+          keyboard: "Клавиатура:"
+          keyboard_sn: "Серийный (S/N) №:"
+          display_client_id: "Дисплей покупателя:"
+          display_client_sn: "Серийный (S/N) №:"
+          stabilizer: "Стабилизатор напряжения:"
+          stabilizer_sn: "Серийный (S/N) №:"
+          apc: "ИБП:"
+          apc_sn: "Серийный (S/N) №:"
+          scaner: "Сканер:"
+          scaner_sn: "Серийный (S/N) №:"
+          fiscal: "Фискальный аппарат:"
+          fiscal_sn: "Серийный (S/N) №:"
+          bank_unit: "Банковский терминал:"
+          terminal_sn: "Серийный (S/N) №:"
+          cashbox_photos_id: "Фото кассового блока:"
+          comment: "Комментарий:"
+        edit:
+          organization_unit: "Юридическое лицо:"
+          display: "Дисплей:"
+          display_sn: "Серийный (S/N) №:"
+          system_unit: "Системный блок:"
+          system_unit_sn: "Серийный (S/N) №:"
+          keyboard: "Клавиатура:"
+          keyboard_sn: "Серийный (S/N) №:"
+          display_client_id: "Дисплей покупателя:"
+          display_client_sn: "Серийный (S/N) №:"
+          stabilizer: "Стабилизатор напряжения:"
+          stabilizer_sn: "Серийный (S/N) №:"
+          apc: "ИБП:"
+          apc_sn: "Серийный (S/N) №:"
+          scaner: "Сканер:"
+          scaner_sn: "Серийный (S/N) №:"
+          fiscal: "Фискальный аппарат:"
+          fiscal_sn: "Серийный (S/N) №:"
+          bank_unit: "Банковский терминал:"
+          terminal_sn: "Серийный (S/N) №:"
+          cashbox_photos_id: "Фото кассового блока:"
+          comment: "Комментарий:"
+      cash_images:
+        new:
+          date_add: "Дата:"
+          images: "Фото кассового блока:"
+        edit:
+          date_add: "Дата:"
+          images: "Фото кассового блока:"
       shop:
         new:
           name: "Наименование объекта"
@@ -183,7 +234,7 @@ ru:
           photo: "Фото объекта"
           user: "Ответственный за объект"
           closed: "Объект закрыть"
-        
+
       system_unit:
         new:
           cpu: 'Процессор (CPU)'
