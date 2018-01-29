@@ -54,13 +54,13 @@
                 .links
                   = link_to_add_association f, :cashboxes, class: 'btn btn-success btn-sm',
                     data: { association_insertion_method: :prepend,
-                            association_insertion_node: '#cashboxes-list1'}
+                            association_insertion_node: '#cashboxes-list'}
                 br
-                #cashboxes-list1
+                #cashboxes-list
                   - @item_index = 1
-                  = f.simple_fields_for :cashboxes do |cashbox, index|
+                  = f.simple_fields_for :cashboxes do |cashbox|
                     = f.error_notification
-                    = render 'cashbox_fields', f: cashbox, locals: { index: 1456 }
+                    = render 'cashbox_fields', f: cashbox
                     - @item_index += 1
           #tabpage3.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12

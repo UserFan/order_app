@@ -49,9 +49,6 @@
         .col-sm-12.col-md-12
           .links
             = link_to_add_association "Добавить фото", f, :cash_images, class: 'btn btn-success btn-sm',
-              data: { association_insertion_method: :append,
-                      association_insertion_node: '#cash_images-list'}
-          br
-          #cash_images-list
-            = f.simple_fields_for :cash_images do |image|
-              = render 'cash_image_fields', f: image
+              data: { association_insertion_method: :append }
+          = f.simple_fields_for :cash_images, html: {:multipart => true} do |image|
+            = render 'cash_image_fields', f: image
