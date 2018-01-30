@@ -10,6 +10,13 @@ class Shop < ApplicationRecord
   belongs_to :type
   has_many :orders, dependent: :restrict_with_error
   has_many :cashboxes, inverse_of: :shop, dependent: :restrict_with_error
+  has_many :computers, inverse_of: :shop, dependent: :restrict_with_error
+  has_many :shop_weighers, inverse_of: :shop, dependent: :restrict_with_error
+  has_many :shop_communications, inverse_of: :shop, dependent: :restrict_with_error
+
   accepts_nested_attributes_for :cashboxes, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :computers, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :shop_weighers, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :shop_communications, reject_if: :all_blank, allow_destroy: true
 
 end

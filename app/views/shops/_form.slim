@@ -50,7 +50,7 @@
 
             .col-sm-12.col-md-12
               #cashboxes
-                h4 Кассовое оборудование:
+                h3 Кассовое оборудование:
                 .links
                   = link_to_add_association f, :cashboxes, class: 'btn btn-success btn-sm',
                     data: { association_insertion_method: :prepend,
@@ -64,13 +64,42 @@
                     - @item_index += 1
           #tabpage3.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
-              h3 Панель 3
-              p Содержимое 3 панели...
+            #weigher
+              h3 Весы и весовое оборудование:
+              .links
+                = link_to_add_association f, :shop_weighers, class: 'btn btn-success btn-sm',
+                  data: { association_insertion_method: :prepend,
+                          association_insertion_node: '#weigher-list'}
+              br
+              #weigher-list
+                = f.simple_fields_for :shop_weighers do |weigher|
+                  = f.error_notification
+                  = render 'shop_weigher_fields', f: weigher
           #tabpage4.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
-              h3 Панель 4
-              p Содержимое 4 панели...
+            #computers
+              h3 Компьютер и оргтехника:
+              .links
+                = link_to_add_association f, :computers, class: 'btn btn-success btn-sm',
+                  data: { association_insertion_method: :prepend,
+                          association_insertion_node: '#computers-list'}
+              br
+              #computers-list
+                = f.simple_fields_for :computers do |computer|
+                  = f.error_notification
+                  = render 'computer_fields', f: computer
           #tabpage5.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
-              h3 Панель 5
-              p Содержимое 5 панели...
+            #communications
+              h3 Коммуникация и комуникационное оборудования:
+              .links
+                = link_to_add_association f, :shop_communications, class: 'btn btn-success btn-sm',
+                  data: { association_insertion_method: :prepend,
+                          association_insertion_node: '#communications-list'}
+              br
+              #communications-list
+                - @item_index = 1
+                = f.simple_fields_for :shop_communications do |communication|
+                  = f.error_notification
+                  = render 'shop_communication_fields', f: communication
+                  - @item_index += 1

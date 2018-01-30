@@ -1,3 +1,3 @@
 class Modem < ApplicationRecord
-    #has_many :shop, dependent: :restrict_with_error
+  has_many :item_communications, dependent: :restrict_with_error
 end

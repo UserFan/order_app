@@ -1,3 +1,3 @@
 class Printer < ApplicationRecord
-    #has_many :shop, dependent: :restrict_with_error
+  has_many :computers, dependent: :restrict_with_error
 end

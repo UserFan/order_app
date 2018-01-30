@@ -1,0 +1,14 @@
+.nested-fields
+  .well.well-sm
+    .col-sm-12.col-md-12
+    .pull-right
+      = link_to_remove_association "<i class='glyphicon glyphicon-remove'></i>".html_safe, f, class: 'btn btn-danger btn-xs'
+    .row
+      .col-sm-3.col-md-3
+        = f.association :weigher, label_method: :name, value_method: :id, required: true
+      .col-sm-3.col-md-3
+        = f.input :weigher_sn
+      .col-sm-2.col-md-2
+        = f.input :ip_address
+      .col-sm-3.col-md-3
+        = f.input :comment, as: :text
