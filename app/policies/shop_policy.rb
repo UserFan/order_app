@@ -24,7 +24,7 @@ class ShopPolicy < ApplicationPolicy
      shop_weighers_attributes: [:id, :shop_id, :weigher_id, :weigher_sn, :ip_address, :comment, :_destroy],
      shop_communications_attributes: [:id, :shop_id, :router_id, :router_sn, :_destroy,
      item_communications_attributes: [:id, :shop_communication_id, :provider_id, :communication_id,
-                                      :modem_id, :modem_sn, :simphone_number, :sim_number,
+                                      :modem_id, :modem_sn, :simphone_number, :sim_number, :master,
                                       :login_name, :pass_name, :comment, :_destroy]]] if user.super_admin? || user.moderator?
   end
 

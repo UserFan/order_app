@@ -1,22 +1,26 @@
 .row
   = simple_form_for (@order), remote: true, html: {:multipart => true} do |f|
     = f.error_notification
-    .col-xs-6.col-md-6
-      - if @order.photos?
-        ul
-          - @order.photos.each do |photo|
-            li = image_tag(photo.thumb.url)
-    .col-xs-6.col-md-6
-      = f.association :category, label_method: :name, value_method: :id, required: true
-      = f.association :shop, label_method: :name, value_method: :id, required: true
-      = f.input :date_open, :as => :date_picker, :placeholder => "дата закрытия заявки", required: true, input_html: { class: 'datepicker' }
-      = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }
-      = f.input :short_descript, required: true
-      = f.input :description, as: :text
-      = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
-      = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
-      = f.association :status, label_method: :name, value_method: :id, required: true, include_blank: true
-      = f.file_field :photos, multiple: true
-    .form-group
-      = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"
-      = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
+    .col-sm-12-col-md-12
+      .col-xs-4.col-md-4
+        - if @order.photos?
+          ul
+            - @order.photos.each do |photo|
+              li = image_tag(photo.thumb.url)
+      .row
+        br
+        .col-sm-12.col-md-12
+          = f.file_field :photos, multiple: true
+      .col-xs-8.col-md-8
+        = f.association :category, label_method: :name, value_method: :id, required: true
+        = f.association :shop, label_method: :name, value_method: :id, required: true
+        = f.input :date_open, :as => :date_picker, :placeholder => "дата закрытия заявки", required: true, input_html: { class: 'datepicker' }
+        = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }
+        = f.input :short_descript, required: true
+        = f.input :description, as: :text
+        = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
+        = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+        = f.association :status, label_method: :name, value_method: :id, required: true, include_blank: true
+      .form-group
+        = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"
+        = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
