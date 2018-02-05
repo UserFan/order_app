@@ -59,7 +59,6 @@
                 #cashboxes-list
                   - @item_index = 1
                   = f.simple_fields_for :cashboxes do |cashbox|
-                    = f.error_notification
                     = render 'cashbox_fields', f: cashbox
                     - @item_index += 1
           #tabpage3.tab-pane.fade role="tabpanel"
@@ -73,7 +72,6 @@
               br
               #weigher-list
                 = f.simple_fields_for :shop_weighers do |weigher|
-                  = f.error_notification
                   = render 'shop_weigher_fields', f: weigher
           #tabpage4.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
@@ -86,7 +84,6 @@
               br
               #computers-list
                 = f.simple_fields_for :computers do |computer|
-                  = f.error_notification
                   = render 'computer_fields', f: computer
           #tabpage5.tab-pane.fade role="tabpanel"
             .col-sm-12.col-md-12
@@ -98,8 +95,5 @@
                           association_insertion_node: '#communications-list'}
               br
               #communications-list
-                - @item_index = 1
                 = f.simple_fields_for :shop_communications do |communication|
-                  = f.error_notification
-                  = render 'shop_communication_fields', f: communication
-                  - @item_index += 1
+                  = render 'shop_communication_fields', f: communication                  

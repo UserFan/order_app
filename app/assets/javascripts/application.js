@@ -30,10 +30,11 @@ var ClickRowTable = function() {
                           });
                       };
 
-var date_pic = function () { $('.datepicker').datetimepicker();
+var date_pic = function () {
 
-$('.nested-fields').on('cocoon:after-insert', function() {
-  $('.datepicker').datetimepicker() });
+  $('.datepicker').datetimepicker();
+
+  $('form').on('cocoon:after-insert', function() { $('.datepicker').datetimepicker() });
 
 };
 

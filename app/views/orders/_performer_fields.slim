@@ -1,0 +1,17 @@
+.nested-fields
+  .well.well-sm
+    .col-sm-12.col-md-12
+    .pull-right
+      = link_to_remove_association "<i class='glyphicon glyphicon-remove'></i>".html_safe, f, class: 'btn btn-danger btn-xs'
+    .row
+      .performer-edit
+        .col-sm-4.col-md-4
+          = f.association :user, label_method: :full_name, value_method: :id, required: true
+          .row.coexecutor-edit
+          = f.input :coexecutor
+        .col-sm-3.col-md-3
+          = f.input :date_performance, :as => :date_picker, required: true, :placeholder => "Срок исполнения", input_html: { class: 'datepicker' }
+        .col-sm-3.col-md-3
+          = f.input :date_close_performance, :as => :date_picker, :placeholder => "Дата снятия с контроля", input_html: { class: 'datepicker' }
+        .col-sm-2.col-md-2.message-edit
+          = f.input :message

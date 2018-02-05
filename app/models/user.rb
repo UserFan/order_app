@@ -4,6 +4,7 @@ class User < ApplicationRecord
   #belongs_to :order
   has_many :shops, dependent: :restrict_with_error
   has_many :orders, dependent: :restrict_with_error
+  has_many :performers, dependent: :restrict_with_error
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
