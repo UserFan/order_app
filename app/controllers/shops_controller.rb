@@ -17,19 +17,15 @@ class ShopsController < ApplicationController
 
   def show
     authorize @shop
-    #@cashboxes = @shop.cashboxes.find(params[:id])
   end
 
   def new
     authorize Shop
     @shop = Shop.new
-    #cashbox = @shop.cashboxes.build
-    #cashbox.build_cash_images
   end
 
   def edit
     authorize @shop
-    @cashboxes = @shop.cashboxes.all
   end
 
   def create
@@ -40,12 +36,13 @@ class ShopsController < ApplicationController
     else
       render 'new'
     end
+
   end
 
   def update
     authorize @shop
     if @shop.update_attributes(permitted_attributes(@shop))
-     redirect_to shops_path
+      redirect_to shops_path
     else
       render 'edit'
     end

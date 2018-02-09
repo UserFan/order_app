@@ -1,8 +1,8 @@
 .row
   .container
     .col-xs-12.col-md-12
-      = simple_form_for (@shop), remote: true, html: {:multipart => true} do |f|
-        = f.error_notification
+      = simple_form_for (@shop), html: {:multipart => true} do |f|
+        = render 'shared/error_messages', object: f.object
         .col-xs-11.col-md-11.col-md-offset-1
           .form-group
             = link_to "Отмена", shops_path, class: "btn btn-info pull-right main-group"
@@ -58,7 +58,7 @@
                 br
                 #cashboxes-list
                   - @item_index = 1
-                  = f.simple_fields_for :cashboxes do |cashbox|
+                  = f.simple_fields_for :cashboxes, @shop.cashboxes do |cashbox|
                     = render 'cashbox_fields', f: cashbox
                     - @item_index += 1
           #tabpage3.tab-pane.fade role="tabpanel"
@@ -96,4 +96,4 @@
               br
               #communications-list
                 = f.simple_fields_for :shop_communications do |communication|
-                  = render 'shop_communication_fields', f: communication                  
+                  = render 'shop_communication_fields', f: communication

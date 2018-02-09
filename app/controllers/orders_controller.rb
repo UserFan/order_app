@@ -6,12 +6,21 @@ class OrdersController < ApplicationController
 
   def index
     authorize Order
-    @q = Order.ransack(params[:q])
+
+    if current_user.super_admin? || current_user.moderator?
+      @q = Order.ransack(params[:q])
+      @orders_closed = Order.ransack(date_closed_not_null: 1).result.count
+      @orders_open = Order.ransack(date_closed_not_null: 0).result.count
+      @orders_count = Order.count
+    else
+      @q = current_user.orders.ransack(params[:q])
+      @orders_closed = current_user.orders.ransack(date_closed_not_null: 1).result.count
+      @orders_open = current_user.orders.ransack(date_closed_not_null: 0).result.count
+      @orders_count = current_user.orders.count
+    end
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @orders = @q.result(disinct: true)
-    @orders_closed = Order.ransack(date_closed_not_null: '1').result.count
-    @orders_open = Order.ransack(date_closed_not_null: '0').result.count
-    @orders_count = Order.count
+
   end
 
   def show

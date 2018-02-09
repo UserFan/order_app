@@ -6,31 +6,110 @@ ru:
         restrict_dependent_destroy:
           has_one: 'Невозможно удалить запись, так как существует зависимость: %{record}'
           has_many: 'Невозможно удалить запись, так как существуют зависимости: %{record}'
-    models:
-      cashbox: "Кассовый блок"
     attributes:
-        cashbox:
-          organization_unit: "Юридическое лицо:"
-          display: "Дисплей:"
-          display_sn: "Серийный (S/N) №:"
-          system_unit: "Системный блок:"
-          system_unit_sn: "Серийный (S/N) №:"
-          keyboard: "Клавиатура:"
-          keyboard_sn: "Серийный (S/N) №:"
-          display_client_id: "Дисплей покупателя:"
-          display_client_sn: "Серийный (S/N) №:"
-          stabilizer: "Стабилизатор напряжения:"
-          stabilizer_sn: "Серийный (S/N) №:"
-          apc: "ИБП:"
-          apc_sn: "Серийный (S/N) №:"
-          scaner: "Сканер:"
-          scaner_sn: "Серийный (S/N) №:"
-          fiscal: "Фискальный аппарат:"
-          fiscal_sn: "Серийный (S/N) №:"
-          bank_unit: "Банковский терминал:"
-          terminal_sn: "Серийный (S/N) №:"
-          cashbox_photos_id: "Фото кассового блока:"
-          comment: "Комментарий:"
+      shop/cashboxes:
+        organization_unit: "Юридическое лицо (каcсовый оборудование):"
+        display: "Дисплей (каcсовый оборудование):"
+        display_sn: "Серийный (S/N) №:"
+        system_unit: "Системный блок (каcсовый оборудование):"
+        system_unit_sn: "Серийный (S/N) №:"
+        keyboard: "Клавиатура (каcсовый оборудование):"
+        keyboard_sn: "Серийный (S/N) №:"
+        display_client_id: "Дисплей покупателя (каcсовый оборудование):"
+        display_client_sn: "Серийный (S/N) №:"
+        stabilizer: "Стабилизатор напряжения (каcсовый оборудование):"
+        stabilizer_sn: "Серийный (S/N) №:"
+        apc: "ИБП (каcсовый оборудование):"
+        apc_sn: "Серийный (S/N) №:"
+        scaner: "Сканер (каcсовый оборудование):"
+        scaner_sn: "Серийный (S/N) №:"
+        fiscal: "Фискальный аппарат (каcсовый оборудование):"
+        fiscal_sn: "Серийный (S/N) №:"
+        bank_unit: "Банковский терминал (каcсовый оборудование):"
+        terminal_sn: "Серийный (S/N) №:"
+        cashbox_photos_id: "Фото кассового блока (каcсовый оборудование):"
+        comment: "Комментарий:"
+
+      shop/cashboxes/cash_images:
+        date_add: "Дата (фото касс-го оборуд-я):"
+        images: "Фото кассового блока:"
+
+      shop:
+        name: "Наименование объекта"
+        address: "Адрес объекта"
+        type: "Тип объекта"
+        gps: "Координаты GPS"
+        photo: "Фото объекта"
+        user: "Ответственный за объект"
+        closed: "Объект закрыть"
+
+      shop/shop_communications:
+        router: "Роутер (Коммуникационное оборудование):"
+        router_sn: "Серийный (S/N) №:"
+
+      shop/shop_communications/item_communications:
+        provider: "Провайдер (Коммуникационное оборудование):"
+        communication: "Тип связи (Коммуникационное оборудование):"
+        modem_id: "4G Модем (Коммуникационное оборудование):"
+        modem_sn: "Серийный (S/N) №:"
+        simphone_number: "№(тел.) сим-карты (Коммуникационное оборудование):"
+        sim_number: "№ сим-карты (Коммуникационное оборудование):"
+        master: "Основная коммуникация (Коммуникационное оборудование):"
+        login_name: "Логин (Коммуникационное оборудование):"
+        pass_name: "Пароль (Коммуникационное оборудование):"
+        comment: "Комментарий:"
+
+      shop/computers:
+        display: "Дисплей (Компьютерное оборудование):"
+        display_sn: "Серийный (S/N) №:"
+        system_unit: "Системный блок (Компьютерное оборудование):"
+        system_unit_sn: "Серийный (S/N) №:"
+        keyboard: "Клавиатура (Компьютерное оборудование):"
+        keyboard_sn: "Серийный (S/N) №:"
+        commouse: "Манипулятор(мышь) (Компьютерное оборудование):"
+        commouse_sn: "Серийный (S/N) №:"
+        printer: "Принтер(МФУ) (Компьютерное оборудование):"
+        printer_sn: "Серийный (S/N) №:"
+        stabilizer: "Стабилизатор напряжения (Компьютерное оборудование):"
+        stabilizer_sn: "Серийный (S/N) №:"
+        teamview_id: "ID Teamviewer (Компьютерное оборудование):"
+        ip_address: "IP адрес компьютера (Компьютерное оборудование):"
+        comment: "Комментарий:"
+
+      shop/shop_weighers:
+        weigher: "Весы (Весовое оборудование):"
+        weigher_sn: "Серийный (S/N) №:"
+        ip_address: "IP адрес весов (Весовое оборудование):"
+        comment: "Комментарий:"
+
+      system_units:
+        cpu: 'Процессор (CPU)'
+        ram: 'Оперативная память (RAM)'
+        motherboard: 'Материнская плата'
+        hdd: 'Накопитель (HDD/SDD)'
+        name: 'Наименование'
+        os: 'Операционная система (установленная)'
+
+      order:
+        category: "Категория заявки:"
+        date_open: "Дата заявки:"
+        date_execution: "Срок исполнения:"
+        shop: "Торговый объект:"
+        short_descript: "Краткое описание:"
+        description: "Полное описание:"
+        date_closed: "Дата закрытия:"
+        photo: "Фото:"
+        user_id: "На контроле:"
+        status: "Статус заявки:"
+
+      order/performers:
+        user: "Исполнитель:"
+        date_performance: "Срок исполнения (Исполнителя):"
+        date_close_performance: "Снят с контроля:"
+        coexecutor: "Соисполнитель"
+        message: "Отправить сообщение"
+        comment: "Комментарий:"
+
   cocoon:
       defaults:
         add: "Добавить запись"

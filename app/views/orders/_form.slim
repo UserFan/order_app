@@ -1,8 +1,8 @@
 .row
   .container
     .col-xs-12.col-md-12
-      = simple_form_for (@order), remote: true, html: {:multipart => true} do |f|
-        = f.error_notification
+      = simple_form_for (@order), html: {:multipart => true} do |f|
+        = render 'shared/error_messages', object: f.object
         .col-xs-3.col-md-3
           - if @order.photos?
             ul
@@ -26,7 +26,7 @@
             = f.input :description, as: :text
           .row
           .col-xs-7.col-md-7
-            = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+            = f.input :user_id, collection: User.all, required: true, label_method: :full_name, value_method: :id
           .col-xs-3.col-md-3
             = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }
           .col-xs-12.col-md-12

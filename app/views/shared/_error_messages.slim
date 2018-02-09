@@ -1,0 +1,8 @@
+- if object.errors.any?
+  #error_explanation
+    .alert.alert-danger.alert-dismissable
+      button.close aria-hidden="true" data-dismiss="alert" type="button"  &times;
+      | Возникли следующие ошибки:
+      ul
+        - object.errors.full_messages.each do |msg|
+          li = msg

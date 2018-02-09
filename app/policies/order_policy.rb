@@ -6,6 +6,14 @@ class OrderPolicy < ApplicationPolicy
     user.moderator? || user.super_admin?
   end
 
+  def index?
+    true
+  end
+
+  def show?
+    true
+  end
+
 
   def permitted_attributes
     [:category_id, :date_open, :date_execution, :shop_id, :short_descript,
