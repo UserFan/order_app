@@ -8,6 +8,11 @@ class Performer < ApplicationRecord
 
   def val_date_performance
 
+    if self.coexecutor?
+
+      errors.add(:date_performance, "Дата меньше даты исполнения основного исполнителя") if self.date_performance < self.order.date_executor
+    end
+
 
     if self.date_performance.present?
       errors.add(:date_performance, "Дата больше даты исполнения заявки") if self.date_performance > self.order.date_execution
