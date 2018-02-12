@@ -15,7 +15,9 @@ class Order < ApplicationRecord
   validate :val_date_execution
 
   def date_executor
-      self.performers.find_by(:coexecutor => 'f').date_performance
+    #return self.performers.date_performance if self.performers.executor?
+    self.performers.find_by(:coexecutor => 'f').date_performance
+
   end
 
   def val_date_execution
