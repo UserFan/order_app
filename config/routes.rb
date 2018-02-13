@@ -10,9 +10,7 @@ Rails.application.routes.draw do
   #resources :positions
   scope 'catalog' do
     resources :positions
-    resources :shops do
-      resources :cashboxes 
-    end
+    resources :shops 
     resources :types
     resources :categories
     resources :statuses

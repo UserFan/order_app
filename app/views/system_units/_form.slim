@@ -7,5 +7,5 @@
   = f.input :hdd, autocomplete: "off", required: true
   = f.input :os, autocomplete: "off", required: true
   .form-group
-    = link_to "Отмена", :back, class: "btn btn-info pull-right"
+    = link_to "Отмена", system_units_path, class: "btn btn-info pull-right"
     = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

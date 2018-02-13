@@ -29,96 +29,64 @@ ru:
           password: "Новый пароль"
           password_confirmation: "Подтверждение нового пароля"
           current_password: "Ваш текущий пароль"
-      type:
+
+      type: &name
         new:
           name: "Наименование"
         edit:
           name: "Наименование"
-      category:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+
       position:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       apc:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       commouse:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       communication:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       display:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       keyboard:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       modem:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       printer:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       provider:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       router:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       scaner:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       stabilizer:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       weigher:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       bank_unit:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       fiscal:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
+      status:
+        <<: *name
+
       organization_unit:
-        new:
-          name: "Наименование"
-        edit:
-          name: "Наименование"
+        <<: *name
+
       cashbox:
         new:
           organization_unit: "Юридическое лицо:"
@@ -164,6 +132,7 @@ ru:
           terminal_sn: "Серийный (S/N) №:"
           cashbox_photos_id: "Фото кассового блока:"
           comment: "Комментарий:"
+
       cashboxes:
         new:
           organization_unit: "Юридическое лицо:"
@@ -209,6 +178,7 @@ ru:
           terminal_sn: "Серийный (S/N) №:"
           cashbox_photos_id: "Фото кассового блока:"
           comment: "Комментарий:"
+
       cash_images:
         new:
           date_add: "Дата:"
@@ -410,7 +380,7 @@ ru:
           description: "Полное описание:"
           date_closed: "Дата закрытия:"
           photo: "Фото:"
-          user: "На контроле:"
+          user_id: "На контроле:"
           status: "Статус заявки:"
         edit:
           category: "Категория заявки:"
@@ -421,7 +391,7 @@ ru:
           description: "Полное описание:"
           date_closed: "Дата закрытия:"
           photo: "Фото:"
-          user: "На контроле:"
+          user_id: "На контроле:"
           status: "Статус заявки:"
 
       performer:
@@ -455,26 +425,6 @@ ru:
           message: "Отправить сообщение"
           comment: "Комментарий:"
 
-      contact:
-        edit:
-          chirch_name: "Имя церкви"
-          phone: "Телефон церкви"
-          address: "Адрес церкви"
-          latitude: "Широта, на которой находится церковь"
-          longitude: "Долгота, на которой находится церковь"
-      welcome_message:
-        edit:
-          content: "Основной текст"
-      sermon:
-        new:
-          title: "Название проведенной проповеди"
-          recorded_date: "Дата записи"
-          record: "Аудиозапись"
-          preacher: "ФИО проповедника"
-        edit:
-          title: "Название проведенной проповеди"
-          recorded_date: "Дата записи"
-          preacher: "ФИО проповедника"
     required:
       text: "Обязательное поле"
       mark: "*"
@@ -483,7 +433,7 @@ ru:
       # html: '<abbr title="required">*</abbr>'
     error_notification:
       default_message: "Возникли следующие ошибки:"
-    # Labels and hints examples
+
     # labels:
     #   defaults:
     #     password: 'Password'

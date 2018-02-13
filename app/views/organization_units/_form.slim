@@ -2,5 +2,5 @@
   = f.error_notification
   = f.input :name, autocomplete: "off", required: true, autofocus: true
   .form-group
-    = link_to "Отмена", :back, class: "btn btn-info pull-right"
+    = link_to "Отмена", organization_units_path, class: "btn btn-info pull-right"
     = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

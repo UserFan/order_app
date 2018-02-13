@@ -6,5 +6,5 @@ class ShopCommunication < ApplicationRecord
 
   accepts_nested_attributes_for :item_communications, reject_if: :all_blank, allow_destroy: true
 
-  validates :router_id, presence: true
+
 end
