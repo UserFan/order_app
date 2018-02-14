@@ -6,19 +6,10 @@ class Performer < ApplicationRecord
 
   validate :val_date_performance
 
-  def executor?
-    self.coexecutor == false
-  end
-
-  def count_executor?
-    return count_executor if executor?
-  #self.find_by(:coexecutor => 'f').date_performance
-  end
-
-  def val_date_performance
+    def val_date_performance
 
     if self.coexecutor?
-      errors.add(:date_performance, "Дата больше даты исполнения основного исполнителя") if self.date_performance > self.order.date_executor
+      errors.add(:date_performance, "Дата больше даты исполнения основного исполнителя #{self.order.date_executor}") if self.date_performance > self.order.date_executor
     end
 
 
