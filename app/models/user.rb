@@ -7,6 +7,7 @@ class User < ApplicationRecord
 
   has_many  :performers, foreign_key: :user_id, dependent: :restrict_with_error
   has_many :orders, through: :performers, foreign_key: :user_id
+  has_many :executions, through: :performers, foreign_key: :user_id
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -29,6 +30,5 @@ class User < ApplicationRecord
   def user?
     self.role_id == 1
   end
-
 
 end

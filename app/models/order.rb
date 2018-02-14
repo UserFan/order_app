@@ -8,6 +8,7 @@ class Order < ApplicationRecord
 
   has_many :performers, inverse_of: :order, dependent: :restrict_with_error
   has_many :users, through: :performers, foreign_key: :user_id
+  has_many :executions, through: :performers, foreign_key: :order_id
   accepts_nested_attributes_for :performers, reject_if: :all_blank, allow_destroy: true
 
   validates :user_id, :date_open, :date_execution, :short_descript, presence: true
@@ -15,8 +16,8 @@ class Order < ApplicationRecord
   validate :val_date_execution
 
 
-  def executor_count
-     self.performers.where(coexecutor: false).count
+  def count_executors
+    self.performers.where(coexecutor: false).count
   end
 
   def date_executor

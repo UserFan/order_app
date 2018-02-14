@@ -1,6 +1,6 @@
 .container
   .row
-    .col-sm-4.col-md-4
+    .col-xs-6.col-md-6
       - if @order.photos?
         #carousel.carousel.slide data-ride="carousel"
           /! Slides
@@ -24,7 +24,7 @@
           a.right.carousel-control data-slide="next" href="#thumbcarousel" role="button"
             span.glyphicon.glyphicon-chevron-right
           /! /.Carousel Wrapper
-    .col-sm-8.col-md-8
+    .col-xs-6.col-md-6
       table.table.table-striped.table-responsive
         tbody
           tr
@@ -49,12 +49,9 @@
             td = @order.description
           tr
             td
-              b Срок исполнения:
-            td = l(@order.date_execution, format: :date)
-          tr
-            td
-              b Статус заявки:
-            td = @order.status.name
+              b Дата закрытия заявки:
+            td  = l(@order.date_closed, format: :date) if (@order.date_closed.present?)
+
           tr
             td
               b На контроле:

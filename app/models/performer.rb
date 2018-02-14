@@ -2,16 +2,17 @@ class Performer < ApplicationRecord
   belongs_to :order
   belongs_to :user
 
+  has_many :executions, dependent: :restrict_with_error
+
   validates :order_id, :date_performance, presence: true
 
   validate :val_date_performance
 
-    def val_date_performance
+  def val_date_performance
 
     if self.coexecutor?
-      errors.add(:date_performance, "Дата больше даты исполнения основного исполнителя #{self.order.date_executor}") if self.date_performance > self.order.date_executor
+      errors.add(:date_performance, "Дата больше даты исполнения основного исполнителя") if self.date_performance > self.order.date_executor
     end
-
 
     if self.date_performance.present?
       errors.add(:date_performance, "Дата больше даты исполнения заявки") if self.date_performance > self.order.date_execution
@@ -20,7 +21,6 @@ class Performer < ApplicationRecord
 
       errors.add(:date_performance, "Дата меньше даты срока исполнения заявки более 5 дней") if self.date_performance < (self.order.date_execution - 5.days)
     end
-
 
     if self.date_close_performance.present?
 
@@ -35,6 +35,5 @@ class Performer < ApplicationRecord
       errors.add(:date_performance, "Дата меньше даты закрытия заявке более чем 10 дней.") if self.date_performance < (self.order.date_closed - 10.days)
       errors.add(:date_close_performance, "Дата меньше даты закрытия заявке более чем 10 дней.") if self.date_close_performance < (self.order.date_closed - 10.days)
     end
-
   end
 end
