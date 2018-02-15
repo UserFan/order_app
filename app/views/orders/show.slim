@@ -61,15 +61,29 @@
             td = @order.control_name
           tr
             td
-              b Статус заявки:
-            td = @order.status.name
+              b Дата закрытия заявки:
+            td = l(@order.date_execution, format: :date)
       .row
       .col-sm-12.col-md-12
         .panel.panel-info
           .panel-heading Исполнители:
           .panel-body
-              - @order.performers.each do |performer|
-                li = performer.user.full_name
-             
+            ul
+              li
+                b Ответственный исполнитель:
+                - @order.performers.each do |performer|
+                  ul
+                    - if !performer.coexecutor
+                      li
+                        b = performer.user.full_name
+                        
+              li
+                em Соисполнители:
+                - @order.performers.each do |performer|
+                  ul
+                    - if performer.coexecutor
+                      li
+                        = performer.user.full_name
+
 
       = link_to "Назад", :back, class: "btn btn-info pull-right main-group"

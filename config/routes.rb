@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   #resources :positions
   scope 'catalog' do
     resources :positions
-    resources :shops 
+    resources :shops
     resources :types
     resources :categories
     resources :statuses
@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   end
 
   resources :orders
+  resources :execution, only: [:create, :destroy]
+
 
 
 
