@@ -1,33 +1,6 @@
 .row
-  .col-xs-6.col-md-6
+  .col-xs-4.col-md-4
     = image_tag(@shop.photo.url, class: "img-responsive img-thumbnail") if @shop.photo?
-
-  .col-xs-6.col-md-6
-    table.table.table-striped.table-responsive
-      tbody
-        tr
-          td
-            b Наименование объекта:
-          td = @shop.name
-        tr
-          td
-            b Тип объекта:
-          td = @shop.type.name
-        tr
-          td
-            b Адрес объекта:
-          td = @shop.address
-        tr
-          td
-            b Ответственное лицо:
-          td = @shop.user.full_name
-        tr
-          td.span.glyphicon.glyphicon-phone-alt
-          td = @shop.user.mobile
-        tr
-          td
-            b Объект закрыт:
-          td = l(@shop.closed, format: :date) if (@shop.closed.present?)
 
     .clearfix
     .row
@@ -35,4 +8,101 @@
         - if (@shop.address.present?)
           #map.img-responsive data-lat=@shop.latitude data-lon=@shop.longitude
 
-    = link_to "Назад", :back, class: "btn btn-info pull-right main-group"
+  .col-xs-8.col-md-8
+    = link_to "Закрыть", :back, class: "btn btn-info pull-right main-group"
+    .row
+    ul.nav.nav-tabs#myTab role="tablist"
+      li.active
+        a data-toggle="tab" href="#tabpage1" role="tab"
+          span Первичные
+          br данные
+      li
+        a data-toggle="tab" href="#tabpage2" role="tab"
+          span Кассовое
+          br оборудование
+      li
+        a data-toggle="tab" href="#tabpage3" role="tab"
+          span Весовое
+          br оборудование
+      li
+        a data-toggle="tab" href="#tabpage4" role="tab"
+          span Компьютер и
+          br оргтехника
+      li
+        a data-toggle="tab" href="#tabpage5" role="tab"
+          span Коммуникационное
+          br оборудование
+    .tab-content
+      #tabpage1.tab-pane.fade.in.active role="tabpanel"
+        br
+        .col-sm-12.col-md-12
+          table.table.table-striped.table-responsive
+            tbody
+              tr
+                td
+                  b Наименование объекта:
+                td = @shop.name
+              tr
+                td
+                  b Тип объекта:
+                td = @shop.type.name
+              tr
+                td
+                  b Адрес объекта:
+                td = @shop.address
+              tr
+                td
+                  b Ответственное лицо:
+                td = @shop.user.full_name
+              tr
+                td.span.glyphicon.glyphicon-phone-alt
+                td = @shop.user.mobile
+
+              - if @shop.closed.present?
+                tr
+                  td
+                    b Объект закрыт:
+                  td = l(@shop.closed, format: :date)
+
+      #tabpage2.tab-pane.fade role="tabpanel"
+        .col-sm-12.col-md-12
+         - @cashbox_number = 1
+         - @shop.cashboxes.each do |cashbox|
+           h4
+             b "Кассовый блок № #{@cashbox_number}"
+           = cashbox.cash_full.html_safe
+           - if cashbox.cash_images.any?
+             ul
+               li
+                 b Фото кассового блоко от:
+               - cashbox.cash_images.each do |cashbox_image|
+                 ul
+                   li = link_to "#{l(cashbox_image.date_add, format: :date)}", cash_image_path(cashbox_image)
+           - @cashbox_number += 1
+
+      #tabpage3.tab-pane.fade role="tabpanel"
+        .col-sm-12.col-md-12
+         - @weigher_number = 1
+         - @shop.shop_weighers.each do |weigher|
+           h4
+             b "Весовое оборудование № #{@weigher_number}"
+           = weigher.shop_weigher_full.html_safe
+           - @weigher_number += 1
+
+
+      #tabpage4.tab-pane.fade role="tabpanel"
+        .col-sm-12.col-md-12
+         - @shop.computers.each do |computer|
+           = computer.computer_full.html_safe
+
+
+      #tabpage5.tab-pane.fade role="tabpanel"
+        .col-sm-12.col-md-12
+          ul
+            li
+              b Коммуникационное оборудование:
+            - @shop.shop_communications.each do |communication|
+              ul
+                li
+                  b Роутер:
+                  = communication.router.name

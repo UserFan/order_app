@@ -1,7 +1,7 @@
 class ExecutionPolicy < ApplicationPolicy
 
   def new?
-    user == record
+    true
   end
 
   def index?
@@ -29,7 +29,7 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:comment, :order_execution, :images[]] if user == record?
+    [:comment, :order_execution, :images[]] 
   end
 
 end

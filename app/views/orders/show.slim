@@ -76,7 +76,7 @@
                     - if !performer.coexecutor
                       li
                         b = performer.user.full_name
-                        
+                        = link_to "отметка о выполнении",  new_execution_path if current_user == performer.user
               li
                 em Соисполнители:
                 - @order.performers.each do |performer|

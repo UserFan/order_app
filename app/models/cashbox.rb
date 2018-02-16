@@ -24,15 +24,17 @@ class Cashbox < ApplicationRecord
                 #{self.system_unit.hdd}/
                 #{self.system_unit.os}<br>}
     str = <<-STR
-          <ul><li><b>Системный блок:</b> #{sys_unit}</li>
-          <li><b>Дисплей:</b> #{self.display.name}</li>
-          <li><b>Калавиатура:</b> #{self.keyboard.name}</li>
-          <li><b>Дисплей покупателя:</b> #{self.display_clien_name}</li>
-          <li><b>Сканер:</b> #{self.scaner.name}</li>
-          <li><b>Банковский терминал:</b> #{self.bank_unit.name}</li>
-          <li><b>Стабилизатор:</b> #{self.stabilizer.name}</li>
-          <li><b>ИБП:</b> #{self.apc.name}</li>
-          <li><b>Фискальный апарат:</b> #{self.fiscal.name}</li></ul><br>
+          <ul><li><b>Юридическое лицо:</b> #{self.organization_unit.name}</li>
+            <ul><li><b>Системный блок:</b> #{sys_unit}</li>
+            <li><b>Дисплей:</b> #{self.display.name}</li>
+            <li><b>Калавиатура:</b> #{self.keyboard.name}</li>
+            <li><b>Дисплей покупателя:</b> #{self.display_clien_name}</li>
+            <li><b>Сканер:</b> #{self.scaner.name}</li>
+            <li><b>Банковский терминал:</b> #{self.bank_unit.name}</li>
+            <li><b>Стабилизатор:</b> #{self.stabilizer.name}</li>
+            <li><b>ИБП:</b> #{self.apc.name}</li>
+            <li><b>Фискальный апарат:</b> #{self.fiscal.name}</li>
+            <li><b>Коментарий:</b> #{self.comment}</li></ul></ul>
          STR
     return str
 

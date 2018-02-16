@@ -1,0 +1,18 @@
+.col-xs-12.col-md-12
+  h4.text-center Снимки кассового блока от #{l(@cash_image.date_add, format: :date)}
+.row
+br
+  .col-xs-12.col-md-6.text-center
+    - if @cash_image.images?
+      #carousel-example-generic.carousel.slide data-ride="carousel"
+        /! Slides
+        .carousel-inner
+          - @cash_image.images.each_with_index do |photo, index|
+            div class=("#{index == 0 ? 'item active' : 'item'}")
+              = image_tag(photo.large.url, :class => "img-rounded img-responsive")
+
+        /! Controls
+        a.left.carousel-control data-slide="prev" href="#carousel-example-generic"
+          span.glyphicon.glyphicon-chevron-left
+        a.right.carousel-control data-slide="next" href="#carousel-example-generic"
+          span.glyphicon.glyphicon-chevron-right

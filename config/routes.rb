@@ -33,10 +33,8 @@ Rails.application.routes.draw do
   end
 
   resources :orders
-  resources :execution, only: [:create, :destroy]
-
-
-
+  resources :executions
+  resources :cash_images, only: [:show]
 
   root  'pages#home'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
