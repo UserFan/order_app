@@ -12,6 +12,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :performers, reject_if: :all_blank, allow_destroy: true
 
   validates :user_id, :date_open, :date_execution, :short_descript, presence: true
+  #validate :exec_dates
 
   validate :val_date_execution
 
@@ -20,20 +21,9 @@ class Order < ApplicationRecord
     self.performers.where(coexecutor: false).count
   end
 
-  def date_executor
-    performer = self.performers.find_by(coexecutor: false)
-    #return self.performers.date_performance if self.performers.executor?
-    if performer.date_performance_changed?
-      return performer.date_performance_change[0]
-    else
-      return performer.date_performance
-    end
-  end
-
   def val_date_execution
     if self.date_execution.present?
       errors.add(:date_execution, "Дата меньше даты заявки") if self.date_execution < self.date_open
-
       errors.add(:date_execution, "Дата больше даты заявки более 30 дней") if self.date_execution > (self.date_open + 30.days)
     end
 
@@ -48,5 +38,21 @@ class Order < ApplicationRecord
 
     User.find(self.user_id).full_name
 
+  end
+
+  private
+
+  def exec_dates
+  #  executor = performers.find_by(coexecutor: false)
+  #  coexec   = performers.find_by(coexecutor: true)
+
+  #  if (date_execution < executor.date_performance)
+  #    errors.add(:base, '11111')
+  #  end
+
+
+  #  if (coexec.date_performance > executor.date_performance)
+  #    errors.add(:base, '2222')
+  #  end
   end
 end

@@ -3,17 +3,12 @@ class Performer < ApplicationRecord
   belongs_to :user
 
   has_many :executions, dependent: :restrict_with_error
-
+  
   validates :order_id, :date_performance, presence: true
 
   validate :val_date_performance
 
   def val_date_performance
-
-    if self.coexecutor?
-      errors.add(:date_performance, "Дата больше даты исполнения основного исполнителя") if self.date_performance > self.order.date_executor
-    end
-
     if self.date_performance.present?
       errors.add(:date_performance, "Дата больше даты исполнения заявки") if self.date_performance > self.order.date_execution
 

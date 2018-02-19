@@ -76,7 +76,9 @@
                     - if !performer.coexecutor
                       li
                         b = performer.user.full_name
-                        = link_to "отметка о выполнении",  new_execution_path if current_user == performer.user
+                        br
+                          = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id) if (current_user == performer.user)
+                        / = link_to "отметка о выполнении",  new_execution_path if (current_user == performer.user) && (@order.date_closed.present?)
               li
                 em Соисполнители:
                 - @order.performers.each do |performer|
@@ -84,6 +86,8 @@
                     - if performer.coexecutor
                       li
                         = performer.user.full_name
+                        br = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id) if current_user == performer.user
 
 
-      = link_to "Назад", :back, class: "btn btn-info pull-right main-group"
+
+      = link_to "Закрыть", orders_path, class: "btn btn-info pull-right main-group"

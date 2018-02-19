@@ -8,6 +8,7 @@ class CashImagesController < ApplicationController
 
   def show
     authorize @cash_image
+    
   end
 
   private

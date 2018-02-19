@@ -48,7 +48,11 @@ class OrdersController < ApplicationController
 
   def update
     authorize @order
-    if @order.update_attributes(permitted_attributes(@order))
+    a = @order.assign_attributes(permitted_attributes(@order))
+    # binding.pry
+    b = @order.save
+    # binding.pry
+    if b
      redirect_to orders_path
     else
       render 'edit'

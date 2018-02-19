@@ -1,8 +1,10 @@
-.col-xs-12.col-md-12
-  h4.text-center Снимки кассового блока от #{l(@cash_image.date_add, format: :date)}
-.row
-br
-  .col-xs-12.col-md-6.text-center
+.container
+  .col-xs-12.col-md-12
+    h4.text-center Снимки кассового блока от #{l(@cash_image.date_add, format: :date)}
+  .row
+  br
+
+  .col-xs-12.col-md-8.col-md-offset-2
     - if @cash_image.images?
       #carousel-example-generic.carousel.slide data-ride="carousel"
         /! Slides
@@ -16,3 +18,7 @@ br
           span.glyphicon.glyphicon-chevron-left
         a.right.carousel-control data-slide="next" href="#carousel-example-generic"
           span.glyphicon.glyphicon-chevron-right
+
+.col-xs-12.col-md-4.col-md-offset-3
+  br
+  = link_to "Закрыть", shop_path(@cash_image.shop), class: "btn btn-info pull-right main-group center-block"

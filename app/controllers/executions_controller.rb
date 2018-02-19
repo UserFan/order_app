@@ -1,7 +1,7 @@
 class ExecutionsController < ApplicationController
 
   #before_action :set_execution except: [:index, :new, :create ]
-  before_action :set_performer except: [:index]
+  before_action :set_performer, except: :index
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -15,8 +15,7 @@ class ExecutionsController < ApplicationController
 
   def new
     authorize Execution
-
-  #  @execution = Execution.new
+    @execution = Execution.new
   end
 
   def edit
