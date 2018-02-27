@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
 
   def new
     authorize Order
-    @order = Order.new
+    @order = OrderForm.new
   end
 
   def edit
@@ -38,7 +38,7 @@ class OrdersController < ApplicationController
 
   def create
     authorize Order
-    @order = Order.new(permitted_attributes(Order))    # Not the final implementation!
+    @order = OrderForm.new(permitted_attributes(order_form_params))    # Not the final implementation!
     if @order.save
       redirect_to orders_path
     else

@@ -76,4 +76,5 @@ gem 'mini_magick'
 gem 'geocoder'
 gem 'active_link_to'
 gem 'json'
-gem "cocoon"
+gem 'cocoon'
+gem 'virtus'
