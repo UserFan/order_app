@@ -44,5 +44,5 @@
             = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
 
         .form-group
-          = link_to "Отмена", :back, class: "btn btn-info pull-right main-group"
+          = link_to "Отмена", orders_path, class: "btn btn-info pull-right main-group"
           = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
