@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
 
-  before_action :set_order, except: [ :index, :new, :create ]
+  before_action :set_order, except: [ :index, :new, :create, :edit ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -34,6 +34,8 @@ class OrdersController < ApplicationController
   end
 
   def edit
+
+    @order = edit_form
     authorize @order
   end
 
@@ -50,7 +52,7 @@ class OrdersController < ApplicationController
 
   def update
     authorize @order
-    @order_update = OrderForm.new(@order)
+    @order_update = edit_form
     # binding.pry
     # binding.pry
     if @order_update.validate(params[:order])
@@ -74,6 +76,12 @@ class OrdersController < ApplicationController
   private
 
   def set_order
-    @order = Order.find(params[:id])
+    @order ||= Order.find(params[:id])
+  end
+
+
+
+  def edit_form
+    OrderForm.new(Order.find(params[:id]))
   end
 end
