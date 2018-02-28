@@ -25,11 +25,12 @@ class OrdersController < ApplicationController
 
   def show
     authorize @order
+
   end
 
   def new
     authorize Order
-    @order = OrderForm.new
+    @order = OrderForm.new(Order.new)
   end
 
   def edit
@@ -38,8 +39,9 @@ class OrdersController < ApplicationController
 
   def create
     authorize Order
-    @order = OrderForm.new(permitted_attributes(order_form_params))    # Not the final implementation!
-    if @order.save
+    @order = OrderForm.new(Order.new)    # Not the final implementation!
+    if @order.validate(params[:order])
+      @order.save
       redirect_to orders_path
     else
       render 'new'
@@ -48,12 +50,12 @@ class OrdersController < ApplicationController
 
   def update
     authorize @order
-    a = @order.assign_attributes(permitted_attributes(@order))
+    @order_update = OrderForm.new(@order)
     # binding.pry
-    b = @order.save
     # binding.pry
-    if b
-     redirect_to orders_path
+    if @order_update.validate(params[:order])
+      @order_update.save
+      redirect_to orders_path
     else
       render 'edit'
     end

@@ -1,50 +1,22 @@
-class OrderForm
+class OrderForm < Reform::Form
+  include Reform::Form::ActiveModel
+  include Reform::Form::ActiveModel::FormBuilderMethods
+  include Reform::Form::ActiveModel::ModelReflections
 
-  include ActiveModel::Model
-  include ActiveModel::Conversion
-  include ActiveModel::Validations
+  model :order
 
-  include Virtus
+  property :category_id
+  property :date_open
+  property :date_execution
+  property :shop_id
+  property :short_descript
+  property :description
+  property :date_closed
+  property :user_id
+  property :status_id
+  property :photos
 
-  attr_accessor :order, :performer, :category, :date_open, :date_execution, :shop_id, :short_descript,
-   :description,:date_closed, :user_id, :status_id, :photos
-  # Attributes (DSL provided by Virtus)
-  #attribute :email, String
-  #attribute :amount, Integer
-  #attribute :paid, Boolean, default: false)
+  validates :category_id, :date_open, :date_execution, :shop_id, :short_descript, :user_id, :status_id, presence: true
 
-  # Access the expense record after it's saved
-  #attr_reader :expense
-
-  # Validations
-  #validates :email, presence: true
-  #validates :amount,  numericality: { only_integer: true, greater_than: 0 }
-
-  delegate :performers, :performers_attributes=, :to => :order, :prefix => true, :allow_nil => false
-
-  def performers
-    order.performers
-  end
-
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "Order")
-  end
-
-  def save
-    if valid?
-      #persist!
-      true
-    else
-      false
-    end
-  end
-
-  private
-
-  def persist!
-    #order = Order.create!(email: email)
-    #@performer = order.perfornmers.create!(amount: amount, paid: paid)
-  end
-
-
+#def build_errors; end
 end

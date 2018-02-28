@@ -4,6 +4,8 @@ class Order < ApplicationRecord
   belongs_to :category
   belongs_to :status
   belongs_to :shop
+
+
   #has_many :physicians, through: :appointments
 
   has_many :performers, inverse_of: :order, dependent: :restrict_with_error

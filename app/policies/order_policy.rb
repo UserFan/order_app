@@ -14,12 +14,16 @@ class OrderPolicy < ApplicationPolicy
     true
   end
 
-
   def permitted_attributes
     [:category_id, :date_open, :date_execution, :shop_id, :short_descript,
-     :description,:date_closed, :user_id, :status_id, photos: [],
-     performers_attributes: [:id, :order_id, :user_id, :coexecutor, :date_performance,
-                             :date_close_performance, :message, :comment, :_destroy]] if user.super_admin? || user.moderator?
+     :description,:date_closed, :user_id, :status_id, photos: []] if user.super_admin? || user.moderator?
   end
+
+  # def permitted_attributes
+  #   [:category_id, :date_open, :date_execution, :shop_id, :short_descript,
+  #    :description,:date_closed, :user_id, :status_id, photos: [],
+  #    performers_attributes: [:id, :order_id, :user_id, :coexecutor, :date_performance,
+  #                            :date_close_performance, :message, :comment, :_destroy]] if user.super_admin? || user.moderator?
+  # end
 
 end

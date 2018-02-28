@@ -14,11 +14,11 @@
             = f.file_field :photos, multiple: true
         .col-xs-9.col-md-9
           .col-xs-4.col-md-4
-            //= f.association :category, label_method: :name, value_method: :id, required: true
+            = f.association :category, label_method: :name, value_method: :id, required: true
           .col-xs-3.col-md-3
             = f.input :date_open, :as => :date_picker, :placeholder => "дата заявки", required: true, input_html: { class: 'datepicker'}
           .col-xs-5.col-md-5
-            //= f.association :shop, label_method: :name, value_method: :id, required: true
+            = f.association :shop, label_method: :name, value_method: :id, required: true
           .row
           .col-xs-5.col-md-5
             = f.input :short_descript, required: true
@@ -34,10 +34,10 @@
               .panel-heading Исполнители:
               .panel-body
                 .links
-                  = link_to_add_association f, :performers, class: 'btn btn-success btn-sm',
-                    data: { association_insertion_method: :append }
-                  = f.simple_fields_for :performers do |performer|
-                    = render 'performer_fields', f: performer
+                  / = link_to_add_association f, :performers, class: 'btn btn-success btn-sm',
+                  /   data: { association_insertion_method: :append }
+                  / = f.simple_fields_for :performers do |performer|
+                  /   = render 'performer_fields', f: performer
           .col-xs-4.col-md-4
             = f.association :status, label_method: :name, value_method: :id, required: true, include_blank: true
           .col-xs-3.col-md-3
