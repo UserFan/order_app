@@ -32,16 +32,20 @@ class OrdersController < ApplicationController
   def new
     authorize Order
     @order = OrderForm.new(Order.new)
+    
   end
 
   def edit
     authorize @order
+
   end
 
   def create
     authorize Order
-    @order = OrderForm.new(Order.new)    # Not the final implementation!
+    @order = OrderForm.new(Order.new)
+       # Not the final implementation!
     if @order.validate(params[:order])
+      @order.prepopulate!
       @order.save
       redirect_to orders_path
     else
@@ -55,6 +59,7 @@ class OrdersController < ApplicationController
     # binding.pry
     # binding.pry
     if @order.validate(params[:order])
+      @order.prepopulate!
       @order.save
       redirect_to orders_path
     else
