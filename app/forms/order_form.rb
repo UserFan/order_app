@@ -3,7 +3,7 @@ require "reform/form/coercion"
 class OrderForm < Reform::Form
   feature Coercion
 
-  #include Reform::Form::ActiveModel
+  include Reform::Form::ActiveModel
   include Reform::Form::ActiveModel::ModelReflections
 
 
@@ -23,10 +23,13 @@ class OrderForm < Reform::Form
 
   validate :val_date_execution
 
+
+
   collection :performers,  prepopulator: :build_performer,
                            populator: :performer_populator do
 
     include NestedForm
+
 
     property :user_id
     property :date_performance, type: Types::Form::DateTime
@@ -34,7 +37,8 @@ class OrderForm < Reform::Form
     property :coexecutor
     property :message
     property :comment
-    #property :_destroy, virtual: true
+
+    validates :user_id, :date_performance, presence: true
 
   end
 
@@ -42,35 +46,16 @@ class OrderForm < Reform::Form
     performers << Performer.new if performers.blank?
   end
 
-  def performer_populator(fragment:, collection:, index:, **)
-    item = collection.find_by(id: fragment['id'])
+  def performer_populator(fragment:, collection:, **)
+
+    item = collection.find_by(id: fragment['id']) unless fragment['id'].blank?
 
     if fragment['_destroy'] == '1'
-      #binding.pry
-      # self.model.performers.last.destroy if performer
-      # performer
-      collection.delete(collection.find_by(id: fragment['id']))
+      collection.delete(item) if item
       return skip!
     end
-
-      item ? item : collection.insert(index, Performer.new)
-
-
+      item ? item : collection.append(Performer.new)
   end
-
-  # def order_populator(fragment:, collection:, **)
-  #   performer = collection.find_by(id: fragment[:id]) unless fragment[:id].blank?
-  #
-  #   if fragment[:_destroy] == "1"
-  #     binding.pry
-  #     # self.model.performers.last.destroy if performer
-  #     # performer
-  #     collection.delete(performer) if performer
-  #     return skip!
-  #   else
-  #     performer ? performer : collection.append(Performer.new)
-  #   end
-  # end
 
 
   def val_date_execution
