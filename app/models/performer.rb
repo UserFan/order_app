@@ -4,7 +4,5 @@ class Performer < ApplicationRecord
 
   has_many :executions, dependent: :restrict_with_error
 
-  validates :order_id, :date_performance, presence: true
-
-
+  #validates :order_id, :date_performance, presence: true
 end

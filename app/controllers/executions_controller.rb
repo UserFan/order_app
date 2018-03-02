@@ -15,7 +15,7 @@ class ExecutionsController < ApplicationController
 
   def new
     authorize Execution
-    @execution = Execution.new
+    @execution = Execution.new(performer_id: params[:performer_id])
   end
 
   def edit
@@ -23,11 +23,11 @@ class ExecutionsController < ApplicationController
   end
 
   def create
-
+    @performer = Performer.find(params[:performer_id])
     authorize Execution
     @execution = @performer.executions.build(Execution)    # Not the final implementation!
     if @execution.save
-      redirect_to @executions_path
+      redirect_to order_path(@performer.order)
     else
       render 'new'
     end
@@ -36,7 +36,7 @@ class ExecutionsController < ApplicationController
   def update
     authorize @execution
     if @execution.update_attributes(permitted_attributes(@execution))
-     redirect_to executions_path
+     redirect_to order_path(@performer.order)
     else
       render 'edit'
     end
@@ -56,7 +56,7 @@ class ExecutionsController < ApplicationController
   private
 
   def set_performer
-    @performer = Performer.find(params[:performer_id])
+    #@performer = Performer.find(params[:performer_id])
   end
 
   def set_execution
