@@ -40,6 +40,23 @@ class OrderForm < Reform::Form
 
     validates :user_id, :date_performance, presence: true
 
+
+    validate :validate_performers
+
+    def validate_performers
+      binding.pry
+     errors.add(:coexecutor, "Ответсвенный исполнитель может быть только один") if performers.coexecutor
+    end
+
+
+  end
+
+  def val_coexecutor performers
+    count_executor = 0
+    performers.each do |count|
+      count_executor += 1 if !count.coexecutor
+    end
+    errors.add(:coexecutor, "Ответсвенный исполнитель может быть только один") if   performers.coexecutor
   end
 
   def build_performer(*)
