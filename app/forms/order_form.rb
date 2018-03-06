@@ -6,8 +6,6 @@ class OrderForm < Reform::Form
   include Reform::Form::ActiveModel
   include Reform::Form::ActiveModel::ModelReflections
 
-
-
   property :category_id
   property :date_open, type: Types::Form::DateTime
   property :date_execution, type: Types::Form::DateTime
@@ -23,13 +21,10 @@ class OrderForm < Reform::Form
 
   validate :val_date_execution
 
-
-
   collection :performers,  prepopulator: :build_performer,
                            populator: :performer_populator do
 
     include NestedForm
-
 
     property :user_id
     property :date_performance, type: Types::Form::DateTime
@@ -40,52 +35,73 @@ class OrderForm < Reform::Form
 
     validates :user_id, :date_performance, presence: true
 
-
-    validate :validate_performers
-
-    def validate_performers
-      binding.pry
-     errors.add(:coexecutor, "Ответсвенный исполнитель может быть только один") if performers.coexecutor
-    end
-
-
   end
 
-  def val_coexecutor performers
-    count_executor = 0
-    performers.each do |count|
-      count_executor += 1 if !count.coexecutor
-    end
-    errors.add(:coexecutor, "Ответсвенный исполнитель может быть только один") if   performers.coexecutor
-  end
+  validate :valid_performer
+  validate :valid_date_performance
 
-  def build_performer(*)
-    performers << Performer.new if performers.blank?
-  end
+  private
 
-  def performer_populator(fragment:, collection:, **)
-
-    item = collection.find_by(id: fragment['id']) unless fragment['id'].blank?
-
-    if fragment['_destroy'] == '1'
-      collection.delete(item) if item
-      return skip!
-    end
-      item ? item : collection.append(Performer.new)
-  end
-
-
-  def val_date_execution
-    if date_execution.present?
-      errors.add(:date_execution, "Дата меньше даты заявки") if date_execution < date_open
-      errors.add(:date_execution, "Дата больше даты заявки более 30 дней") if date_execution > (date_open + 30.days)
+    def valid_performer
+      errors.add(:coexecutor, "Ответсвенный исполнитель может быть только один") if count_performer > 1
+      errors.add(:coexecutor, "Ответсвенный исполнитель не определен") if count_performer == 0
     end
 
-    if date_closed.present?
-      errors.add(:date_closed, "Дата меньше даты срока исполнения заявки") if date_closed < date_execution
-      errors.add(:date_closed, "Дата меньше даты заявки") if date_closed < date_open
-      errors.add(:date_closed, "Дата больше даты заявки более 30 дней") if date_closed > (date_open + 30.days)
+    def valid_date_performance
+      if date_executor_performance != 0
+        performers.each do |performer|
+          errors.add(:date_performance, "Срок исполнения у ответсвенного исполнителя некоректен") if !(date_executor_performance.between?(date_open, date_execution)) && (performer.coexecutor == '0')
+          errors.add(:date_performance, "Срок исполнения у соисполнителя некоректен") if !(performer.date_performance.between?(date_executor_performance, date_execution)) && (performer.coexecutor == '1')
+        end
+      end
     end
-  end
+
+    def date_executor_performance
+     count_executor = 0
+     date_start_executor = 0
+     performers.each do |performer|
+       if performer.coexecutor == '0'
+         count_executor += 1
+         count_executor == 1 ?  date_start_executor = performer.date_performance : date_start_executor = 0
+       end
+     end
+     return date_start_executor
+    end
+
+    def count_performer
+      count_executor = 0
+      performers.each do |performer|
+        count_executor += 1 if performer.coexecutor == '0'
+      end
+      return count_executor
+    end
+
+    def build_performer(*)
+      performers << Performer.new if performers.blank?
+    end
+
+    def performer_populator(fragment:, collection:, **)
+
+      item = collection.find_by(id: fragment['id']) unless fragment['id'].blank?
+
+      if fragment['_destroy'] == '1'
+        collection.delete(item) if item
+        return skip!
+      end
+        item ? item : collection.append(Performer.new)
+    end
+
+    def val_date_execution
+      if date_execution.present?
+        errors.add(:date_execution, "Дата меньше даты заявки") if date_execution < date_open
+        errors.add(:date_execution, "Дата больше даты заявки более 30 дней") if date_execution > (date_open + 30.days)
+      end
+
+      if date_closed.present?
+        errors.add(:date_closed, "Дата меньше даты срока исполнения заявки") if date_closed < date_execution
+        errors.add(:date_closed, "Дата меньше даты заявки") if date_closed < date_open
+        errors.add(:date_closed, "Дата больше даты заявки более 30 дней") if date_closed > (date_open + 30.days)
+      end
+    end
 
 end
