@@ -11,7 +11,7 @@
           .row
           br
           .col-sm-12.col-md-12
-            = f.file_field :photos, multiple: true
+            = f.file_field :photos, multiple: true        
         .col-xs-9.col-md-9
           .col-xs-4.col-md-4
             = f.association :category, label_method: :name, value_method: :id, required: true
@@ -36,7 +36,7 @@
                 .links
                   //= f.add_nested_fields_link :performers, 'Add performers', class: 'btn btn-success btn-sm'
                   = link_to_add_association f, :performers, force_non_association_create: true, class: 'btn btn-success btn-sm',
-                    data: { association_insertion_method: :append }
+                    data: { association_insertion_method: :append } if !(@order.date_closed.present?)
                   = f.simple_fields_for :performers do |performer|
                     = render 'performer_fields', f: performer
                     //= link_to_add_association 'add task', f, :performers, force_non_association_create: true

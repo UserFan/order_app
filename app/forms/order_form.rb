@@ -51,7 +51,7 @@ class OrderForm < Reform::Form
       if date_executor_performance != 0
         performers.each do |performer|
           errors.add(:date_performance, "Срок исполнения у ответсвенного исполнителя некоректен") if !(date_executor_performance.between?(date_open, date_execution)) && (performer.coexecutor == '0')
-          errors.add(:date_performance, "Срок исполнения у соисполнителя некоректен") if !(performer.date_performance.between?(date_executor_performance, date_execution)) && (performer.coexecutor == '1')
+          errors.add(:date_performance, "Срок исполнения у соисполнителя некоректен") if !(performer.date_performance.between?(date_open, date_executor_performance)) && (performer.coexecutor == '1')
         end
       end
     end
