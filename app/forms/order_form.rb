@@ -3,8 +3,11 @@ require "reform/form/coercion"
 class OrderForm < Reform::Form
   feature Coercion
 
-  include Reform::Form::ActiveModel
+  #include Reform::Form::ActiveModel
+  include Reform::Form::ActiveRecord
   include Reform::Form::ActiveModel::ModelReflections
+
+  model :order
 
   property :category_id
   property :date_open, type: Types::Form::DateTime
@@ -25,6 +28,9 @@ class OrderForm < Reform::Form
                            populator: :performer_populator do
 
     include NestedForm
+    include Coercion
+
+    model :performer
 
     property :user_id
     property :date_performance, type: Types::Form::DateTime
@@ -37,32 +43,41 @@ class OrderForm < Reform::Form
 
   end
 
-  validate :valid_performer
   validate :valid_date_performance
+  validate :valid_performer
 
   private
 
     def valid_performer
-      errors.add(:coexecutor, "Ответсвенный исполнитель может быть только один") if count_performer > 1
-      errors.add(:coexecutor, "Ответсвенный исполнитель не определен") if count_performer == 0
+      errors.add(:base, :coexecutor_error) if count_performer > 1
+      errors.add(:base, :executor_not_error) if count_performer == 0
+      #binding.pry
     end
 
     def valid_date_performance
-      if date_executor_performance != 0
+      if (date_executor_performance.present?) && (date_open.present?) && (date_execution.present?)
         performers.each do |performer|
-          errors.add(:date_performance, "Срок исполнения у ответсвенного исполнителя некоректен") if !(date_executor_performance.between?(date_open, date_execution)) && (performer.coexecutor == '0')
-          errors.add(:date_performance, "Срок исполнения у соисполнителя некоректен") if !(performer.date_performance.between?(date_open, date_executor_performance)) && (performer.coexecutor == '1')
+          if !(date_executor_performance.between?(date_open, date_execution)) && !(performer.coexecutor).to_bool
+            performer.errors.add(:date_performance, :date_executor_error)
+            errors.add(:base, :date_executor_error)
+          end
+          if (performer.date_performance.present?) && (performer.coexecutor).to_bool
+            unless (performer.date_performance.between?(date_open, date_executor_performance))
+              performer.errors.add(:date_performance, :date_coexecutor_error)
+              errors.add(:base, :date_coexecutor_error)
+            end
+          end
         end
       end
     end
 
     def date_executor_performance
      count_executor = 0
-     date_start_executor = 0
+     date_start_executor = ""
      performers.each do |performer|
-       if performer.coexecutor == '0'
+       if !(performer.coexecutor).to_bool
          count_executor += 1
-         count_executor == 1 ?  date_start_executor = performer.date_performance : date_start_executor = 0
+         count_executor == 1 ?  date_start_executor = performer.date_performance : date_start_executor = ""
        end
      end
      return date_start_executor
@@ -70,8 +85,18 @@ class OrderForm < Reform::Form
 
     def count_performer
       count_executor = 0
+      count_coexecutor = 0
+      valid_user = 0
       performers.each do |performer|
-        count_executor += 1 if performer.coexecutor == '0'
+        !(performer.coexecutor).to_bool ? count_executor += 1 : count_coexecutor += 1
+        if performer.user_id == valid_user
+          performer.errors.add(:user_id, :user_error)
+          errors.add(:base, :user_error)
+        else
+          valid_user = performer.user_id
+        end
+        performer.errors.add(:coexecutor, :coexecutor_error) if count_executor > 1
+        performer.errors.add(:coexecutor, :executor_not_error) if count_coexecutor == performers.count
       end
       return count_executor
     end
@@ -93,15 +118,16 @@ class OrderForm < Reform::Form
 
     def val_date_execution
       if date_execution.present?
-        errors.add(:date_execution, "Дата меньше даты заявки") if date_execution < date_open
-        errors.add(:date_execution, "Дата больше даты заявки более 30 дней") if date_execution > (date_open + 30.days)
+        errors.add(:date_execution, :date_execution_less) if date_execution < date_open
+        errors.add(:date_execution, :date_execution_more_30_days) if date_execution > (date_open + 30.days)
       end
 
       if date_closed.present?
-        errors.add(:date_closed, "Дата меньше даты срока исполнения заявки") if date_closed < date_execution
-        errors.add(:date_closed, "Дата меньше даты заявки") if date_closed < date_open
-        errors.add(:date_closed, "Дата больше даты заявки более 30 дней") if date_closed > (date_open + 30.days)
+        errors.add(:date_closed, :date_closed_error) if (date_closed.between?(date_open, date_execution))
+        #errors.add(:date_closed, "Дата меньше даты заявки") if date_closed < date_open
+        errors.add(:date_closed, :date_closed_more_30_days) if date_closed > (date_execution + 30.days)
       end
+      #binding.pry
     end
 
 end

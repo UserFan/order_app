@@ -11,7 +11,7 @@
           .row
           br
           .col-sm-12.col-md-12
-            = f.file_field :photos, multiple: true        
+            = f.file_field :photos, multiple: true
         .col-xs-9.col-md-9
           .col-xs-4.col-md-4
             = f.association :category, label_method: :name, value_method: :id, required: true

@@ -6,6 +6,7 @@ ru:
         restrict_dependent_destroy:
           has_one: 'Невозможно удалить запись, так как существует зависимость: %{record}'
           has_many: 'Невозможно удалить запись, так как существуют зависимости: %{record}'
+
     attributes:
       shop/cashboxes:
         organization_unit: "Юридическое лицо (каcсовый оборудование):"
@@ -103,12 +104,59 @@ ru:
         status: "Статус заявки:"
 
       order/performers:
-        user: "Исполнитель:"
-        date_performance: "Срок исполнения (Исполнителя):"
-        date_close_performance: "Снят с контроля:"
-        coexecutor: "Соисполнитель"
-        message: "Отправить сообщение"
-        comment: "Комментарий:"
+          user: "Исполнитель:"
+          date_performance: "Срок исполнения (Исполнителя):"
+          date_close_performance: "Снят с контроля:"
+          coexecutor: "Соисполнитель"
+          message: "Отправить сообщение"
+          comment: "Комментарий:"
+
+  # activemodel:
+  #   models:
+  #     order:
+  #       attributes:
+  #         category: "Категория заявки:"
+  #         date_open: "Дата заявки:"
+  #         date_execution: "Срок исполнения:"
+  #         shop: "Торговый объект:"
+  #         short_descript: "Краткое описание:"
+  #         description: "Полное описание:"
+  #         date_closed: "Дата закрытия:"
+  #         photo: "Фото:"
+  #         user_id: "На контроле:"
+  #         status: "Статус заявки:"
+  activemodel:
+    errors:
+      models:
+        order:
+          attributes:
+            base:
+              user_error: "Исполнитель выбран более 1 раза"
+              executor_not_error: "Ответсвенный исполнитель не определен"
+              date_executor_error: "Срок исполнения у ответственного исполнителя некоректен"
+              date_coexecutor_error: "Срок исполнения у исполнителя некоректен"
+              coexecutor_error: "Ответсвенный исполнитель может быть только один"
+              executor_not_error: "Ответсвенный исполнитель не определен"
+            date_execution:
+              date_execution_less: "Дата меньше даты заявки"
+              date_execution_more_30_days: "Дата больше даты заявки более 30 дней"
+            date_closed:
+              date_closed_error: "Дата закрытия заявки некоректен"
+              #date_closed_less: "Дата меньше даты срока исполнения заявки"
+              #date_closed_less_open: "Дата меньше даты заявки"
+              date_closed_more_30_days: "Дата больше даты испольнения заявки более 30 дней"
+
+        performer:
+          attributes:
+            user_id:
+              user_error: "Исполнитель выбран более 1 раза"
+              executor_not_error: "Ответсвенный исполнитель не определен"
+            date_performance:
+              date_executor_error: "Срок исполнения у ответственного исполнителя некоректен"
+              date_coexecutor_error: "Срок исполнения у исполнителя некоректен"
+            coexecutor:
+              coexecutor_error: "Ответсвенный исполнитель может быть только один"
+              executor_not_error: "Ответсвенный исполнитель не определен"
 
   cocoon:
       defaults:
