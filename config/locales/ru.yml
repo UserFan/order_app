@@ -143,7 +143,7 @@ ru:
             date_closed:
               date_closed_error: "Дата закрытия заявки некоректен"
               #date_closed_less: "Дата меньше даты срока исполнения заявки"
-              #date_closed_less_open: "Дата меньше даты заявки"
+              date_closed_less_open: "Дата закрытия заявки меньше даты заявки"
               date_closed_more_30_days: "Дата больше даты испольнения заявки более 30 дней"
 
         performer:

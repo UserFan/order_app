@@ -1,29 +1,29 @@
 .container
   .row
     .col-sm-4.col-md-4
-      - if @order.photos?
+      - if @order.photos.any?
         #carousel.carousel.slide data-ride="carousel"
           /! Slides
           .carousel-inner
             - @order.photos.each_with_index do |photo, index|
               div class=("#{index == 0 ? 'item active' : 'item'}")
                 = image_tag(photo.large.url, :class => "img-rounded img-responsive")
-      .clearfix
-      .row
-        #thumbcarousel.carousel.slide data-interval="false"
-          .carousel-inner
-            - @order.photos.each_with_index do |photo, index|
-              div class=("#{index == 0 ? 'item active' : 'item'}")
+        .clearfix
+        .row
+          #thumbcarousel.carousel.slide data-interval="false"
+            .carousel-inner
+              - @order.photos.each_with_index do |photo, index|
+                div class=("#{index == 0 ? 'item active' : 'item'}")
 
-                .thumb data-slide-to="#{index}" data-target="#carousel"
-                  = image_tag(photo.thumb.url, :class => "img-thumbnail")
-          /! /.Slides
-          /! Controls
-          a.left.carousel-control data-slide="prev" href="#thumbcarousel" role="button"
-            span.glyphicon.glyphicon-chevron-left
-          a.right.carousel-control data-slide="next" href="#thumbcarousel" role="button"
-            span.glyphicon.glyphicon-chevron-right
-          /! /.Carousel Wrapper
+                  .thumb data-slide-to="#{index}" data-target="#carousel"
+                    = image_tag(photo.thumb.url, :class => "img-thumbnail")
+            /! /.Slides
+            /! Controls
+            a.left.carousel-control data-slide="prev" href="#thumbcarousel" role="button"
+              span.glyphicon.glyphicon-chevron-left
+            a.right.carousel-control data-slide="next" href="#thumbcarousel" role="button"
+              span.glyphicon.glyphicon-chevron-right
+            /! /.Carousel Wrapper
     .col-sm-8.col-md-8
       table.table.table-striped.table-responsive
         tbody
@@ -62,7 +62,7 @@
           tr
             td
               b Дата закрытия заявки:
-            td = l(@order.date_execution, format: :date)
+            td = l(@order.date_closed, format: :date) if @order.date_closed.present?
       .row
       .col-sm-12.col-md-12
         .panel.panel-info
@@ -71,23 +71,9 @@
             ul
               li
                 b Ответственный исполнитель:
-                - @order.performers.each do |performer|
-                  ul
-                    - if !performer.coexecutor
-                      li
-                        b = performer.user.full_name
-                        br
-                          = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id) if (current_user == performer.user)
-                        / = link_to "отметка о выполнении",  new_execution_path if (current_user == performer.user) && (@order.date_closed.present?)
+                = render 'executor'
               li
                 em Соисполнители:
-                - @order.performers.each do |performer|
-                  ul
-                    - if performer.coexecutor
-                      li
-                        = performer.user.full_name
-                        br = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id) if current_user == performer.user
-
-
+                = render 'coexecutor'
 
       = link_to "Закрыть", orders_path, class: "btn btn-info pull-right main-group"

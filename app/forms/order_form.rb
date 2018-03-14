@@ -19,6 +19,7 @@ class OrderForm < Reform::Form
   property :user_id
   property :status_id
   property :photos
+  property :order_number
 
   validates :category_id, :date_open, :date_execution, :shop_id, :short_descript, :user_id, :status_id, presence: true
 
@@ -124,10 +125,10 @@ class OrderForm < Reform::Form
 
       if date_closed.present?
         errors.add(:date_closed, :date_closed_error) if (date_closed.between?(date_open, date_execution))
-        #errors.add(:date_closed, "Дата меньше даты заявки") if date_closed < date_open
+        errors.add(:date_closed, :date_closed_less_open) if date_closed < date_open
         errors.add(:date_closed, :date_closed_more_30_days) if date_closed > (date_execution + 30.days)
       end
-      #binding.pry
+      binding.pry
     end
 
 end

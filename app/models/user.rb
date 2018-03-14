@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+
+
   belongs_to :position
   belongs_to :role
   #belongs_to :order

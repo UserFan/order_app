@@ -1,0 +1,18 @@
+- @order.performers.each do |performer|
+  ul
+    - if performer.coexecutor
+      li
+        b #{performer.user.full_name}, Срок исполнения: #{l(performer.date_performance, format: :date)}, Снята с контроля: #{l(performer.date_close_performance, format: :date) if performer.date_close_performance.present?}
+        - count_day = (Date.today - (performer.date_performance).to_date).to_i
+        - unless @order.date_closed.present? || performer.date_close_performance.present?
+          - if count_day <= 0
+            .control-day-before
+              p до срока выполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
+          - else
+            .control-day-after
+              p срок выполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
+        - if performer.execution.present?
+          .execution-end
+            p Отметка о выполнении: #{performer.execution.comment}, Заявка выполнено: #{performer.execution.execution_result}
+        - else
+          = link_to "Добавить отметку о выполнении",  new_execution_path(performer_id: performer.id) if (current_user == performer.user) && (performer.execution.present?)

@@ -29,7 +29,7 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:performer_id, :comment, :order_execution, :images[]] 
+    [:performer_id, :comment, :order_execution, images:[]]
   end
 
 end

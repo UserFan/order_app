@@ -1,6 +1,6 @@
 class ExecutionsController < ApplicationController
 
-  #before_action :set_execution only: [:edit, :update, :destroy ]
+  before_action :set_param_execution, except: [:index, :new, :create]
   before_action :set_performer, except: [:index]
   before_action :authenticate_user!
   after_action :verify_authorized
@@ -15,7 +15,7 @@ class ExecutionsController < ApplicationController
 
   def new
     authorize Execution
-    @execution = Execution.new(performer_id: params[:performer_id])
+    @execution = Execution.new()
   end
 
   def edit
@@ -23,9 +23,9 @@ class ExecutionsController < ApplicationController
   end
 
   def create
-    @performer = Performer.find(params[:performer_id])
     authorize Execution
-    @execution = @performer.executions.build(Execution)    # Not the final implementation!
+    binding.pry
+    @execution = @performer.create_execution(permitted_attributes(Execution))    # Not the final implementation!
     if @execution.save
       redirect_to order_path(@performer.order)
     else
@@ -56,10 +56,10 @@ class ExecutionsController < ApplicationController
   private
 
   def set_performer
-    #@performer = Performer.find(params[:performer_id])
+    @performer = Performer.find(params[:performer_id])
   end
 
-  def set_execution
+  def set_param_execution
     @execution = Execution.find(params[:id])
   end
 end

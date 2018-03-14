@@ -14,35 +14,32 @@
             = f.file_field :photos, multiple: true
         .col-xs-9.col-md-9
           .col-xs-4.col-md-4
-            = f.association :category, label_method: :name, value_method: :id, required: true
+            = f.association :category, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.admin?)))
           .col-xs-3.col-md-3
-            = f.input :date_open, :as => :date_picker, :placeholder => "дата заявки", required: true, input_html: { class: 'datepicker'}
+            = f.input :date_open, :as => :date_picker, :placeholder => "дата заявки", required: true, input_html: { class: 'datepicker'}, disabled: (true if (@order.date_closed.present?))
           .col-xs-5.col-md-5
-            = f.association :shop, label_method: :name, value_method: :id, required: true
+            = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.admin?)))
           .row
           .col-xs-5.col-md-5
-            = f.input :short_descript, required: true
+            = f.input :short_descript, required: true, disabled: (true if (@order.date_closed.present?))
           .col-xs-7.col-md-7
-            = f.input :description, as: :text
+            = f.input :description, as: :text, disabled: (true if (@order.date_closed.present?))
           .row
           .col-xs-7.col-md-7
-            = f.input :user_id, collection: User.all, required: true, label_method: :full_name, value_method: :id
+            = f.input :user_id, collection: User.where(admin: false).order(full_name: :asc), required: true, label_method: :full_name, value_method: :id, disabled: (true if (@order.date_closed.present?))
           .col-xs-3.col-md-3
-            = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }
+            = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }, disabled: (true if (@order.date_closed.present?))
           .col-xs-12.col-md-12
             .panel.panel-info
               .panel-heading Исполнители:
               .panel-body
                 .links
-                  //= f.add_nested_fields_link :performers, 'Add performers', class: 'btn btn-success btn-sm'
                   = link_to_add_association f, :performers, force_non_association_create: true, class: 'btn btn-success btn-sm',
                     data: { association_insertion_method: :append } if !(@order.date_closed.present?)
                   = f.simple_fields_for :performers do |performer|
                     = render 'performer_fields', f: performer
-                    //= link_to_add_association 'add task', f, :performers, force_non_association_create: true
-                    //= link_to_remove_association "<i class='glyphicon glyphicon-remove'></i>".html_safe, f, class: 'btn btn-danger btn-xs'
-          .col-xs-4.col-md-4
-            = f.association :status, label_method: :name, value_method: :id, required: true, include_blank: true
+          .col-xs-4.col-md-4            
+            = f.association :status, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true, disabled: (true if (@order.date_closed.present?))
           .col-xs-3.col-md-3
             = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
 

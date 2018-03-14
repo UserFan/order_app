@@ -1,6 +1,8 @@
 class Order < ApplicationRecord
   mount_uploaders :photos, ImageUploader
 
+  before_save :number_create
+
   belongs_to :category
   belongs_to :status
   belongs_to :shop
@@ -21,10 +23,16 @@ class Order < ApplicationRecord
 
 
   def control_name
-
     User.find(self.user_id).full_name
-
   end
+
+  def number_create
+    unless order_number.present?
+      self.order_number = "#{(category.name[0..1]).upcase}-#{Date.today.year}-#{id}"
+    end
+  end
+
+
 
 
 end

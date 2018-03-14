@@ -1,9 +1,8 @@
-= simple_form_for(@execution) do |f|
-  = f.error_notification
-  = f.input :performer_id
-  = f.input :comment, :placeholder => "Коментарий"
-  = f.input :order_execution, required: true
-  = f.file_field :images, multiple: true
+= simple_form_for @execution,  url: executions_path(performer_id: params[:performer_id]) do |f|
+  = f.input :comment, placeholder: "Коментарий"
+  = f.input :order_execution, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true
+  = f.input :images, as: :file, multiple: true
   .form-group
-    //= link_to "Отмена", fiscals_path, class: "btn btn-info pull-right"
+  br
+    //= link_to "Отмена", order_path, class: "btn btn-info pull-right"
     = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

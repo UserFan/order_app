@@ -1,5 +1,4 @@
 = simple_form_for(@modem) do |f|
-  = f.error_notification
   = f.input :name, autocomplete: "off", required: true, autofocus: true
   .form-group
     = link_to "Отмена", modems_path, class: "btn btn-info pull-right"
