@@ -5,7 +5,7 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def index?
-    new?
+    true
   end
 
   def create?
@@ -25,8 +25,10 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    new?
+    return true if user.super_admin?
+    false
   end
+
 
   def permitted_attributes
     [:performer_id, :comment, :order_execution, images:[]]

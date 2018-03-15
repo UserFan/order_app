@@ -1,8 +1,7 @@
-= simple_form_for (@execution), url: execution_path  do |f|
+= simple_form_for @execution, url: @execution.new_record? ? executions_path(performer_id: params[:performer_id]) : execution_path(@execution) do |f|
   = f.input :comment, placeholder: "Коментарий"
   = f.input :order_execution, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true
   = f.input :images, as: :file, multiple: true
   .form-group
   br
-    //= link_to "Отмена", order_path, class: "btn btn-info pull-right"
-    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"
+  = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

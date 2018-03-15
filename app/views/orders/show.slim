@@ -1,5 +1,8 @@
 .container
   .row
+    h2.text-right
+      b Информация по заявке №#{@order.order_number}
+    br
     .col-sm-4.col-md-4
       - if @order.photos.any?
         #carousel.carousel.slide data-ride="carousel"

@@ -1,0 +1,32 @@
+li
+  b #{performer.user.full_name}
+  - if performer.date_close_performance.present?
+    = content_tag(:span," (Снята с контроля - #{l(performer.date_close_performance, format: :date)})",
+      class: 'control-order-close')
+  - elsif @order.date_closed.present?
+    = content_tag(:span," (Снята с контроля - #{l(@order.date_closed, format: :date)})",
+      class: 'control-order-close')
+  - else
+    = content_tag(:span, ' (На контроле!)', class: 'control-order')
+  ul
+    li Срок исполнения - до #{l(performer.date_performance, format: :date)}
+    - count_day = (Date.today - (performer.date_performance).to_date).to_i
+    - unless @order.date_closed.present? || performer.date_close_performance.present?
+      - if count_day <= 0
+        .control-day-before
+          p до срока выполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
+      - else
+        .control-day-after
+          p срок выполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
+- if performer.execution.present?
+  b Отметка о выполнении:
+  - if policy(performer.execution).destroy?
+    = link_to execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
+        "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить" do
+         span.glyphicon.glyphicon-trash.edit-button
+  ul
+    li Описание выполненных работ - #{performer.execution.comment}
+    li Заявка - #{performer.execution.execution_result}
+- elsif policy(performer).executions? 
+    = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id)
+    //if (current_user == performer.user) && !(performer.execution.present?) && !(performer.date_close_performance.present?)
