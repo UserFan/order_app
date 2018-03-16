@@ -27,6 +27,5 @@ li
   ul
     li Описание выполненных работ - #{performer.execution.comment}
     li Заявка - #{performer.execution.execution_result}
-- elsif policy(performer).executions? 
+- elsif policy(performer).executions?
     = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id)
-    //if (current_user == performer.user) && !(performer.execution.present?) && !(performer.date_close_performance.present?)
