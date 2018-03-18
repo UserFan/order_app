@@ -37,7 +37,7 @@ class SystemUnitsController < ApplicationController
   def update
     authorize @system_unit
     if @system_unit.update_attributes(permitted_attributes(@system_unit))
-     redirect_to system_units_path
+      redirect_to system_units_path
     else
       render 'edit'
     end

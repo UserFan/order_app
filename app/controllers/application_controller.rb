@@ -21,5 +21,4 @@ class ApplicationController < ActionController::Base
     flash[:danger] = 'Доступ запрещен. Вы перенаправлены в главную страницу!!!'
     redirect_to root_path
   end
-
 end

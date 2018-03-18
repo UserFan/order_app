@@ -1,0 +1,35 @@
+ul
+  li
+    b Компьютерное оборудование:
+  ul
+    li
+      b Системный блок:
+      | #{computer.system_unit.motherboard}/
+        #{computer.system_unit.cpu}/
+        #{computer.system_unit.ram}/
+        #{computer.system_unit.hdd}/
+        #{computer.system_unit.os}
+    li
+      b Дисплей:
+      |  #{computer.display.name}
+    li
+      b Калавиатура:
+      |  #{computer.keyboard.name}
+    li
+      b Манипулятор (мышь):
+      |  #{computer.commouse.name}
+    li
+      b Принтер (МФУ):
+      |  #{computer.printer.name}
+    li
+      b Стабилизатор:
+      |  #{computer.stabilizer.name}
+    li
+      b TeamViewer(ID):
+      |  #{computer.teamview_id}
+    li
+      b IP-адрес:
+      |  #{computer.ip_address}
+    li
+      b Коментарий:
+      |  #{computer.comment}

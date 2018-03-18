@@ -1,0 +1,39 @@
+ul
+  li
+    b Юридическое лицо:
+    |  #{cashbox.organization_unit.name}
+  ul
+    li
+      b Системный блок:
+      | #{cashbox.system_unit.motherboard}/
+        #{cashbox.system_unit.cpu}/
+        #{cashbox.system_unit.ram}/
+        #{cashbox.system_unit.hdd}/
+        #{cashbox.system_unit.os}
+    li
+      b Дисплей:
+      |  #{cashbox.display.name}
+    li
+      b Калавиатура:
+      |  #{cashbox.keyboard.name}
+    li
+      b Дисплей покупателя:
+      |  #{cashbox.display_clien_name}
+    li
+      b Сканер:
+      |  #{cashbox.scaner.name}
+    li
+      b Банковский терминал:
+      |  #{cashbox.bank_unit.name}
+    li
+      b Стабилизатор:
+      |  #{cashbox.stabilizer.name}
+    li
+      b ИБП:
+      |  #{cashbox.apc.name}
+    li
+      b Фискальный апарат:
+      |  #{cashbox.fiscal.name}
+    li
+      b Коментарий:
+      |  #{cashbox.comment}

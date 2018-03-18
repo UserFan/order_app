@@ -1,5 +1,4 @@
 class DatePickerInput < SimpleForm::Inputs::StringInput
-
   def input(wrapper_options)
     set_html_options
     set_value_html_option

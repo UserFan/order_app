@@ -1,9 +1,6 @@
 class ExecutionsController < ApplicationController
-
   before_action :set_perform_execution, only: [:new, :edit, :create]
   before_action :set_execution, only: [:update, :destroy]
-
-  before_action :authenticate_user!
   after_action :verify_authorized
 
   def new

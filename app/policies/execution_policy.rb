@@ -25,8 +25,7 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def destroy?
-    return true if user.super_admin?
-    false
+    user.super_admin?
   end
 
 

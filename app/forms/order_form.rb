@@ -78,7 +78,8 @@ class OrderForm < Reform::Form
      performers.each do |performer|
        if !(performer.coexecutor).to_bool
          count_executor += 1
-         count_executor == 1 ?  date_start_executor = performer.date_performance : date_start_executor = ""
+         # count_executor == 1 ? date_start_executor = performer.date_performance : date_start_executor = ""
+         date_start_executor = (count_executor == 1 ? performer.date_performance : "")
        end
      end
      return date_start_executor
@@ -99,7 +100,7 @@ class OrderForm < Reform::Form
         performer.errors.add(:coexecutor, :coexecutor_error) if count_executor > 1
         performer.errors.add(:coexecutor, :executor_not_error) if count_coexecutor == performers.count
       end
-      return count_executor
+      count_executor
     end
 
     def build_performer(*)
@@ -107,14 +108,14 @@ class OrderForm < Reform::Form
     end
 
     def performer_populator(fragment:, collection:, **)
-
       item = collection.find_by(id: fragment['id']) unless fragment['id'].blank?
 
       if fragment['_destroy'] == '1'
         collection.delete(item) if item
         return skip!
       end
-        item ? item : collection.append(Performer.new)
+
+      item ? item : collection.append(Performer.new)
     end
 
     def val_date_execution

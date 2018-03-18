@@ -7,7 +7,7 @@ class Execution < ApplicationRecord
 
 
   def execution_result
-    Status.find(self.order_execution).name
+    Status.find(order_execution).name
   end
 
 end

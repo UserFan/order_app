@@ -23,27 +23,22 @@
 
 
 var ClickRowTable = function() {
-                          $(".table-row td").click(function() {
-                           if (!$(this).hasClass("row-skip")) {
-                             window.document.location = $(this).parent().data("href")
-                          }
-                          });
-                      };
+  $(".table-row td").click(function() {
+   if (!$(this).hasClass("row-skip")) {
+       window.document.location = $(this).parent().data("href")
+    }
+  });
+};
 
 var date_pic = function () {
-
   $('.datepicker').datetimepicker();
-
   $('form').on('cocoon:after-insert', function() { $('.datepicker').datetimepicker() });
-
 };
 
 
 document.addEventListener('turbolinks:load', function () {
-        date_pic();
+  date_pic();
 });
-
-
 
 document.addEventListener('turbolinks:load', function () {
   ClickRowTable();

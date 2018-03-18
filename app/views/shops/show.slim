@@ -70,7 +70,7 @@
          - @shop.cashboxes.each do |cashbox|
            h4
              b "Кассовый блок № #{@cashbox_number}"
-           = cashbox.cash_full.html_safe
+           = render 'cashboxes_list', cashbox: cashbox
            - if cashbox.cash_images.any?
              ul
                li
@@ -86,15 +86,13 @@
          - @shop.shop_weighers.each do |weigher|
            h4
              b "Весовое оборудование № #{@weigher_number}"
-           = weigher.shop_weigher_full.html_safe
+           = render 'weighers_list', weigher_shop: weigher
            - @weigher_number += 1
-
 
       #tabpage4.tab-pane.fade role="tabpanel"
         .col-sm-12.col-md-12
          - @shop.computers.each do |computer|
-           = computer.computer_full.html_safe
-
+           = render 'computers_list', computer: computer
 
       #tabpage5.tab-pane.fade role="tabpanel"
         .col-sm-12.col-md-12
@@ -102,7 +100,5 @@
             li
               b Коммуникационное оборудование:
             - @shop.shop_communications.each do |communication|
-              ul
-                li
-                  b Роутер:
-                  = communication.router.name
+              = render 'communications_list', communication: communication
+  

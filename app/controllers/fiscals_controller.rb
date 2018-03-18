@@ -1,13 +1,12 @@
 class FiscalsController < ApplicationController
   before_action :set_type, except: [ :index, :new, :create ]
-  before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
     authorize Fiscal
     @q =Fiscal.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @fiscals = @q.result(disinct: true)  
+    @fiscals = @q.result(disinct: true)
   end
 
   def show
@@ -38,7 +37,7 @@ class FiscalsController < ApplicationController
     if @fiscal.update_attributes(permitted_attributes(@fiscal))
      redirect_to fiscals_path
     else
-      render 'edit'
+      render :edit
     end
   end
 

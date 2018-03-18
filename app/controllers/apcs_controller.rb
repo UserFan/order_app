@@ -1,7 +1,5 @@
 class ApcsController < ApplicationController
-
   before_action :set_type, except: [ :index, :new, :create ]
-  before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
@@ -37,7 +35,7 @@ class ApcsController < ApplicationController
   def update
     authorize @apc
     if @apc.update_attributes(permitted_attributes(@apc))
-     redirect_to apcs_path
+      redirect_to apcs_path
     else
       render 'edit'
     end

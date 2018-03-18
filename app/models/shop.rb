@@ -8,6 +8,7 @@ class Shop < ApplicationRecord
 
   belongs_to :user
   belongs_to :type
+  
   has_many :orders, dependent: :restrict_with_error
   has_many :cashboxes, inverse_of: :shop, dependent: :restrict_with_error
   has_many :computers, inverse_of: :shop, dependent: :restrict_with_error

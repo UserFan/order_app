@@ -1,7 +1,5 @@
 class PositionsController < ApplicationController
-
   before_action :set_position, except: [ :index, :new, :create ]
-  before_action :authenticate_user!
   after_action :verify_authorized
 
   def index

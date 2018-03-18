@@ -12,7 +12,6 @@ class ShopsController < ApplicationController
     @shops_closed = Shop.ransack(closed_not_null: '1').result.count
     @shops_open = Shop.ransack(closed_not_null: '0').result.count
     @shops_count = Shop.count
-
   end
 
   def show

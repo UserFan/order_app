@@ -1,5 +1,4 @@
 class PagesController < ApplicationController
-
   after_action :verify_authorized
 
   def home

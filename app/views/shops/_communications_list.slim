@@ -1,0 +1,33 @@
+ul
+  li
+    b Роутер:
+    |  #{communication.router.name}
+  ul
+    li
+      b Провайдеры:
+      - communication.item_communications.each do |item|
+        ul
+          li
+            b Наименование:
+            |  #{item.provider.name} #{item.master ? '(основной)' : '(резервный)'}
+          li
+            b Тип связи:
+            |  #{item.communication.name}
+          li
+            b 4G Модем:
+            |  #{item.modem_name}
+          li
+            b №(тел.) сим-карты:
+            |  #{item.simphone_number}
+          li
+            b № сим-карты:
+            |  #{item.sim_number}
+          li
+            b Логин:
+            |  #{item.login_name}
+          li
+            b Пароль:
+            |  #{item.pass_name}
+          li
+            b Коментарий:
+            |  #{item.comment}

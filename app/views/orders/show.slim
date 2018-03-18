@@ -74,10 +74,14 @@
             ul
               li
                 b Ответственный исполнитель:
-                = render 'executor'
+                - @executor.each do |executor|
+                  ul
+                    = render 'executors_list', performer: executor
                 br
               li
                 em Соисполнители:
-                = render 'coexecutor'
+                - @coexecutor.each do |coexecutor|
+                  ul
+                    = render 'executors_list', performer: coexecutor
 
       = link_to "Закрыть", orders_path, class: "btn btn-info pull-right main-group"

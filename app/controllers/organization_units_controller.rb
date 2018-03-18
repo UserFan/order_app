@@ -1,6 +1,5 @@
 class OrganizationUnitsController < ApplicationController
   before_action :set_type, except: [ :index, :new, :create ]
-  before_action :authenticate_user!
   after_action :verify_authorized
 
   def index
