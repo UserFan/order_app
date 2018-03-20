@@ -9,13 +9,16 @@ class OrdersController < ApplicationController
 
     if current_user.super_admin? || current_user.moderator?
       @q = Order.includes(:shop, :category, :status, :users).ransack(params[:q])
-      @orders_closed = Order.ransack(date_closed_not_null: 1).result.size
-      @orders_open = Order.ransack(date_closed_not_null: 0).result.size
+      @orders_closed = Order.includes(:shop, :category, :status, :users).where.not(date_closed: nil).size
+      @orders_open = Order.includes(:shop, :category, :status, :users).where(date_closed: nil).size
+      @orders_overdue = Order.includes(:shop, :category, :status, :users).where("date_closed IS NULL AND date_execution < ?", Date.today).size
+      @orders_for_closing = Order.includes(:shop, :category, :status, :users).where("date_closed is null and executions.comment is not null").joins(:executions).distinct.size
       @orders_count = Order.count
     else
       @q = current_user.orders.includes(:shop, :category, :status, :users).ransack(params[:q])
-      @orders_closed = current_user.orders.ransack(date_closed_not_null: 1).result.count
-      @orders_open = current_user.orders.ransack(date_closed_not_null: 0).result.count
+      @orders_closed = current_user.orders.includes(:shop, :category, :status, :users).where.not(date_closed: nil).size
+      @orders_open = current_user.orders.includes(:shop, :category, :status, :users).where(date_closed: nil).size
+      @orders_overdue = current_user.orders.includes(:shop, :category, :status, :users).where("date_closed IS NULL AND date_execution < ?", Date.today).size
       @orders_count = current_user.orders.count
     end
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?

@@ -15,6 +15,10 @@ class OrderPolicy < ApplicationPolicy
     true
   end
 
+  def for_closing?
+    user.moderator? || user.super_admin?
+  end
+
   def permitted_attributes
     [:category_id, :date_open, :date_execution, :shop_id, :short_descript,
      :description,:date_closed, :user_id, :status_id, :order_number, photos: []] if user.super_admin? || user.moderator?
