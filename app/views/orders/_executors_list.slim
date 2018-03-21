@@ -8,6 +8,7 @@ li
       class: 'control-order-close')
   - else
     = content_tag(:span, ' (На контроле!)', class: 'control-order')
+    = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id)
   ul
     li Срок исполнения - до #{l(performer.date_performance, format: :date)}
     - count_day = (Date.today - (performer.date_performance).to_date).to_i
@@ -26,6 +27,6 @@ li
          span.glyphicon.glyphicon-trash.edit-button
   ul
     li Описание выполненных работ - #{performer.execution.comment}
-    li Заявка - #{performer.execution.execution_result}
+    li Статус выполнения: #{performer.execution.execution_result}
 - elsif policy(performer).executions?
     = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id)

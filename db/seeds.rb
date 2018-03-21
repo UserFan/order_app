@@ -6,21 +6,30 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-if Role.present?
-  Role.create(name: 'Пользователь')
-  Role.create(name: 'Руководитель')
-  Role.create(name: 'Модератор')
-  Role.create(name: 'Администратор системы')
+unless Role.any?
+  Role.create(id: 1, name: 'Пользователь')
+  Role.create(id: 2, name: 'Руководитель')
+  Role.create(id: 3, name: 'Модератор')
+  Role.create(id: 4, name: 'Администратор системы')
 end
 
-Position.create(name: 'Администратор системы') if Position.present?
+unless Status.any?
+  Status.create(id: 1, name: 'Исполнен', role: [2,3,4])
+  Status.create(id: 2, name: 'Исполняется', role: [2,3,4])
+  Status.create(id: 3, name: 'Смена исполнителя', role: [2,3,4])
+  Status.create(id: 4, name: 'Закрыта', role: [2,3,4])
+  Status.create(id: 5, name: 'На согласовании', role: [2,3,4])
+end
 
-if User.present?
-  User.create(full_name: 'Администратор системы',
-               position_id: 1,
-               email: 'habfanis@mail.ru',
-               mobile: '+70000000000',
-               role_id: 4,
-               admin: true,
-               password: 'fan2533hq')
+Position.create(id:1, name: 'Администратор системы') unless Position.present?
+
+unless User.any?
+  User.create(id: 1,
+              full_name: 'Администратор системы',
+              position_id: 1,
+              email: 'habfanis@mail.ru',
+              mobile: '+70000000000',
+              role_id: 4,
+              admin: true,
+              password: 'fan2533hq')
 end

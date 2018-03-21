@@ -1,36 +1,30 @@
 class User < ApplicationRecord
-
-
   belongs_to :position
   belongs_to :role
-  #belongs_to :order
   has_many :shops, dependent: :restrict_with_error
-  #has_many :orders, dependent: :restrict_with_error
-
   has_many :performers, dependent: :restrict_with_error
   has_many :orders, through: :performers, foreign_key: :user_id
   has_many :executions, through: :performers, foreign_key: :user_id
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   validates :full_name, :role_id, :position_id, :mobile, presence: true
 
   def super_admin?
-    self.role_id == 4
+    role_id == Role::SUPER_ADMIN_ID
   end
 
   def moderator?
-    self.role_id == 3
+    role_id == Role::MODERATOR_ID
   end
 
   def guide?
-    self.role_id == 2
+    role_id == Role::GUIDE_ID
   end
 
   def user?
-    self.role_id == 1
+    role_id == Role::USER_ID
   end
 
 end

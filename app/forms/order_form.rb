@@ -25,6 +25,7 @@ class OrderForm < Reform::Form
 
   validate :val_date_execution
 
+
   collection :performers,  prepopulator: :build_performer,
                            populator: :performer_populator do
 
@@ -50,9 +51,13 @@ class OrderForm < Reform::Form
   private
 
     def valid_performer
-      errors.add(:base, :coexecutor_error) if count_performer > 1
-      errors.add(:base, :executor_not_error) if count_performer == 0
-      #binding.pry
+      if performers.any?
+        errors.add(:base, :coexecutor_error) if count_performer > 1
+        errors.add(:base, :executor_not_error) if count_performer == 0
+        self.status_id = '2'
+      else
+        self.status_id = Status::NEW
+      end
     end
 
     def valid_date_performance
@@ -131,5 +136,7 @@ class OrderForm < Reform::Form
       end
       #binding.pry
     end
+
+
 
 end

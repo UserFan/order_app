@@ -24,11 +24,11 @@ class ApplicationPolicy
   end
 
   def update?
-    user.moderator? || user.super_admin?
+    edit?
   end
 
   def edit?
-    update?
+    user.moderator? || user.super_admin?
   end
 
   def destroy?

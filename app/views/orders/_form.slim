@@ -38,8 +38,9 @@
                     data: { association_insertion_method: :append } if !(@order.date_closed.present?)
                   = f.simple_fields_for :performers do |performer|
                     = render 'performer_fields', f: performer
-          .col-xs-4.col-md-4            
-            = f.association :status, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true, disabled: (true if (@order.date_closed.present?))
+          //.col-xs-4.col-md-4
+            //= f.hidden_field :status_id
+            //= f.association :status, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true, disabled: (true if (@order.date_closed.present?))
           .col-xs-3.col-md-3
             = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
 
