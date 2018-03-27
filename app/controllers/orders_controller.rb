@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   before_action :set_order, except: [ :index, :new, :create ]
   before_action :set_edit_form, only: [ :edit, :update ]
-  before_action :set_index, only: [ :index ]
+  before_action :set_index, only: [:index ]
   after_action :verify_authorized
 
   def index

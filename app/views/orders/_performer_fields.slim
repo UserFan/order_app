@@ -2,7 +2,9 @@
   .well.well-sm
     .col-sm-12.col-md-12
     .pull-right
-      = link_to_remove_association "<i class='glyphicon glyphicon-remove'></i>".html_safe, f, class: 'btn btn-danger btn-xs' if !(@order.date_closed.present?)
+      - unless f.object.id.nil?
+        = link_to_remove_association "<i class='glyphicon glyphicon-remove'></i>".html_safe,
+          f, class: 'btn btn-danger btn-xs' if policy(Performer).delete?(f.object.id)
     .row
       .performer-edit
         .col-sm-4.col-md-4

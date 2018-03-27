@@ -54,7 +54,7 @@ class OrderForm < Reform::Form
       if performers.any?
         errors.add(:base, :coexecutor_error) if count_performer > 1
         errors.add(:base, :executor_not_error) if count_performer == 0
-        self.status_id = '2'
+        self.status_id = Status::EXECUTION
       else
         self.status_id = Status::NEW
       end
@@ -93,14 +93,14 @@ class OrderForm < Reform::Form
     def count_performer
       count_executor = 0
       count_coexecutor = 0
-      valid_user = 0
+      set_user = nil
       performers.each do |performer|
         !(performer.coexecutor).to_bool ? count_executor += 1 : count_coexecutor += 1
-        if performer.user_id == valid_user
+        if performer.user_id == set_user
           performer.errors.add(:user_id, :user_error)
           errors.add(:base, :user_error)
         else
-          valid_user = performer.user_id
+          set_user = performer.user_id
         end
         performer.errors.add(:coexecutor, :coexecutor_error) if count_executor > 1
         performer.errors.add(:coexecutor, :executor_not_error) if count_coexecutor == performers.count
@@ -114,7 +114,7 @@ class OrderForm < Reform::Form
 
     def performer_populator(fragment:, collection:, **)
       item = collection.find_by(id: fragment['id']) unless fragment['id'].blank?
-
+      
       if fragment['_destroy'] == '1'
         collection.delete(item) if item
         return skip!

@@ -5,12 +5,12 @@ class StatusPolicy < ApplicationPolicy
   end
 
   def edit?
-    return false if (1..6).include?(record.id)
+    return false if (1..7).include?(record.id)
     super
   end
 
   def destroy?
-    return false if (1..6).include?(record.id)
+    return false if (1..7).include?(record.id)
     super
   end
 

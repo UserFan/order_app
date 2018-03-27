@@ -20,6 +20,7 @@ unless Status.any?
   Status.create(id: 4, name: 'Закрыта', role: [2,3,4])
   Status.create(id: 5, name: 'На согласовании', role: [2,3,4])
   Status.create(id: 6, name: 'Новое', role: [2,3,4])
+  Status.create(id: 7, name: 'На дороботке', role: [2,3,4])
 end
 
 Position.create(id:1, name: 'Администратор системы') unless Position.any?

@@ -37,7 +37,7 @@
                   = link_to_add_association f, :performers, force_non_association_create: true, class: 'btn btn-success btn-sm',
                     data: { association_insertion_method: :append } if !(@order.date_closed.present?)
                   = f.simple_fields_for :performers do |performer|
-                    = render 'performer_fields', f: performer
+                    = render 'performer_fields', f: performer,  render_options: {locals: { p: performer }}
           //.col-xs-4.col-md-4
             //= f.hidden_field :status_id
             //= f.association :status, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true, disabled: (true if (@order.date_closed.present?))
