@@ -1,7 +1,12 @@
 = simple_form_for @execution, url: @execution.new_record? ? executions_path(performer_id: params[:performer_id]) : execution_path(@execution) do |f|
-  = f.input :comment, placeholder: "Коментарий"
-  = f.input :order_execution, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true
-  = f.input :images, as: :file, multiple: true
+  = f.input :comment, placeholder: "Коментарий", disabled: (true if f.object.comment.present?)
+  = f.input :order_execution, collection: Status.where(":name = ANY(role)",
+            name: current_user.role).order(name: :asc),
+            label_method: :name, value_method: :id,
+            required: true, include_blank: true, as: (:hidden unless current_user.admin? || current_user.moderator? || current_user.guide?)
+  = f.label :images
+  = f.file_field :images, multiple: true
+  = f.input :complited, as: :hidden, input_html: { value: params[:execution] ? DateTime.now : nil }
   .form-group
   br
   = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313134356) do
+ActiveRecord::Schema.define(version: 20180328080643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20180313134356) do
     t.jsonb "images"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "complited"
     t.index ["performer_id"], name: "index_executions_on_performer_id"
   end
 
@@ -238,6 +239,12 @@ ActiveRecord::Schema.define(version: 20180313134356) do
   end
 
   create_table "routers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scaleses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

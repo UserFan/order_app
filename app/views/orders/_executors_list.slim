@@ -3,16 +3,17 @@ li
   - if performer.date_close_performance.present?
     = content_tag(:span," (Снята с контроля - #{l(performer.date_close_performance, format: :date)})",
       class: 'control-order-close')
-  - elsif @order.date_closed.present?
-    = content_tag(:span," (Снята с контроля - #{l(@order.date_closed, format: :date)})",
-      class: 'control-order-close')
+  - elsif @order.date_closed.present? || (performer.execution.present? && performer.execution.complited.present?)
+    - date_comlited = @order.date_closed.present? ? @order.date_closed : performer.execution.complited
+    = content_tag(:span," (Снята с контроля - #{l(date_comlited, format: :datetime)})",
+                   class: 'control-order-close')
   - else
-    = content_tag(:span, ' (На контроле!)', class: 'control-order')
-    = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id)
+    = content_tag(:span, ' (На контроле!) ', class: 'control-order')
+    = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id, :execution => true)
   ul
     li Срок исполнения - до #{l(performer.date_performance, format: :date)}
     - count_day = (Date.today - (performer.date_performance).to_date).to_i
-    - unless @order.date_closed.present? || performer.date_close_performance.present?
+    - unless @order.date_closed.present? || (performer.execution.present? && performer.execution.complited.present?)
       - if count_day <= 0
         .control-day-before
           p до срока выполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
@@ -20,7 +21,9 @@ li
         .control-day-after
           p срок выполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
 - if performer.execution.present?
+  br
   b Отметка о выполнении:
+  = link_to 'Cjukjcjdfnm', execution_path(id: performer.execution, confirmed: DateTime.now), method: :put, action: :conf
   - if policy(performer.execution).destroy?
     = link_to execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
         "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить" do
@@ -28,5 +31,7 @@ li
   ul
     li Описание выполненных работ - #{performer.execution.comment}
     li Статус выполнения: #{performer.execution.execution_result}
+    - if performer.execution.images.present?
+      li = link_to "Фотоотчет", execution_path(performer.execution)
 - elsif policy(performer).executions?
     = link_to "отметка о выполнении",  new_execution_path(performer_id: performer.id)

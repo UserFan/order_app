@@ -420,4 +420,5 @@ ru:
       long: "%d %B %Y, %H:%M"
       short: "%d %b, %H:%M"
       date: "%d.%m.%Y"
+      datetime: "%d.%m.%Y, %H:%M:%S"
     pm: вечера

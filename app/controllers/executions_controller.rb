@@ -1,10 +1,14 @@
 class ExecutionsController < ApplicationController
   before_action :set_perform_execution, only: [:new, :edit, :create]
-  before_action :set_execution, only: [:update, :destroy]
+  before_action :set_execution, only: [:update, :destroy, :show]
   after_action :verify_authorized
 
   def new
     authorize Execution
+  end
+
+  def show
+    authorize @execution
   end
 
   def edit
@@ -13,12 +17,13 @@ class ExecutionsController < ApplicationController
 
   def create
     authorize Execution
-    @execution_new = @performer.create_execution(permitted_attributes(Execution))    # Not the final implementation!
+    @execution_new = @performer.create_execution(permitted_attributes(Execution))
+        # Not the final implementation!
     if @execution_new.save
       @order.update!(status_id: 5)
       redirect_to order_path(@performer.order)
     else
-      render 'edit'
+      render 'new'
     end
   end
 
@@ -27,7 +32,7 @@ class ExecutionsController < ApplicationController
     if @execution.update_attributes(permitted_attributes(@execution))
      redirect_to order_path(@execution.performer.order)
     else
-      render 'edit'
+      render 'new'
     end
   end
 
@@ -48,10 +53,11 @@ class ExecutionsController < ApplicationController
   def set_perform_execution
     @performer = Performer.find(params[:performer_id])
     @order = @performer.order
-    @execution = @performer.execution || @performer.build_execution
+    @execution = @performer.execution || @performer.build_execution(order_execution: Status::COORDINATION)
   end
 
   def set_execution
     @execution = Execution.find(params[:id])
   end
+
 end

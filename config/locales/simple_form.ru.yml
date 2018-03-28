@@ -90,12 +90,12 @@ ru:
           role: "Доступно только:"
       execution:
         new:
-          comment: "Коментарии:"
-          order_execution: "Заявка выполнено:"
+          comment: "Описание выполненных работ:"
+          order_execution: "Статус выполнения заявки:"
           images: "Фотоотчет:"
         edit:
-          comment: "Коментарии:"
-          order_execution: "Заявка выполнено:"
+          comment: "Описание выполненных работ:"
+          order_execution: "Статус выполнения заявки:"
           images: "Фотоотчет:"
       organization_unit:
         <<: *name

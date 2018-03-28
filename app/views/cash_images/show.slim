@@ -1,24 +1,10 @@
 .container
   .col-xs-12.col-md-12
     h4.text-center Снимки кассового блока от #{l(@cash_image.date_add, format: :date)}
-  .row
-  br
+    .row
+    br
+      = render 'shared/priview_images', show_image: @cash_image
 
-  .col-xs-12.col-md-8.col-md-offset-2
-    - if @cash_image.images?
-      #carousel-example-generic.carousel.slide data-ride="carousel"
-        /! Slides
-        .carousel-inner
-          - @cash_image.images.each_with_index do |photo, index|
-            div class=("#{index == 0 ? 'item active' : 'item'}")
-              = image_tag(photo.large.url, :class => "img-rounded img-responsive")
-
-        /! Controls
-        a.left.carousel-control data-slide="prev" href="#carousel-example-generic"
-          span.glyphicon.glyphicon-chevron-left
-        a.right.carousel-control data-slide="next" href="#carousel-example-generic"
-          span.glyphicon.glyphicon-chevron-right
-
-.col-xs-12.col-md-4.col-md-offset-3
-  br
-  = link_to "Закрыть", shop_path(@cash_image.shop), class: "btn btn-info pull-right main-group center-block"
+  .col-xs-12.col-md-4.col-md-offset-3
+    br
+    = link_to "Закрыть", shop_path(@cash_image.shop), class: "btn btn-info pull-right main-group center-block"
