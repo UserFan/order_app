@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, except: [ :index, :new, :create ]
   before_action :set_edit_form, only: [ :edit, :update ]
   before_action :set_index, only: [:index ]
+  before_action :set_closing, only: [:closing ]
   after_action :verify_authorized
 
   def index
@@ -46,6 +47,12 @@ class OrdersController < ApplicationController
     end
   end
 
+  def closing
+    authorize @order
+    @order.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
+    redirect_to order_path(@order)
+  end
+
   def destroy
     authorize @order
     if @order.destroy
@@ -66,17 +73,35 @@ class OrdersController < ApplicationController
     @order = OrderForm.new(Order.find(params[:id]))
   end
 
+  def set_closing
+    case (params[:close]).to_i
+      when Status::COMPLETED
+        @set_status = Status::COMPLETED
+      when Status::PART_COMPLETED
+        @set_status = Status::PART_COMPLETED
+      when Status::NOT_COMPLETED
+        @set_status = Status::NOT_COMPLETED
+      when Status::OFF_CONTROL
+        @set_status = Status::OFF_CONTROL
+      else
+        @set_status = 0
+    end  
+  end
+
   def set_index
     if current_user.super_admin? || current_user.moderator?
       @q = Order.includes(:shop, :category, :status, :users).ransack(params[:q])
       @orders_closed = Order.includes(:shop, :category, :status, :users).
                        where.not(date_closed: nil).size
       @orders_open = Order.includes(:shop, :category, :status, :users).
-                     where(date_closed: nil).size
+                     where("date_closed is null and status_id = ?", Status::EXECUTION).size
       @orders_overdue = Order.includes(:shop, :category, :status, :users).
                         where("date_closed IS NULL AND date_execution < ?", Date.today).size
       @orders_for_closing = Order.includes(:shop, :category, :status, :users).
-                            where("date_closed is null and executions.comment is not null").
+                            where("date_closed is null and status_id = ?", Status::COORDINATION).
+                            joins(:executions).distinct.size
+      @orders_agree = Order.includes(:shop, :category, :status, :users).
+                            where("date_closed is null and status_id = ?", Status::AGREE).
                             joins(:executions).distinct.size
       @orders_count = Order.count
     else
@@ -85,9 +110,12 @@ class OrdersController < ApplicationController
       @orders_closed = current_user.orders.includes(:shop, :category, :status, :users).
                        where.not(date_closed: nil).size
       @orders_open = current_user.orders.includes(:shop, :category, :status, :users).
-                     where(date_closed: nil).size
+                     where("date_closed is null and status_id = ?", Status::EXECUTION).size
       @orders_overdue = current_user.orders.includes(:shop, :category, :status, :users).
                         where("date_closed IS NULL AND date_execution < ?", Date.today).size
+      @orders_coordination = current_user.orders.includes(:shop, :category, :status, :users).
+                            where("date_closed is null and status_id = ?", Status::AGREE).
+                            joins(:executions).distinct.size
       @orders_count = current_user.orders.count
     end
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?

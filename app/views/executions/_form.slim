@@ -6,7 +6,7 @@
             required: true, include_blank: true, as: (:hidden unless current_user.admin? || current_user.moderator? || current_user.guide?)
   = f.label :images
   = f.file_field :images, multiple: true
-  = f.input :complited, as: :hidden, input_html: { value: params[:execution] ? DateTime.now : nil }
+  = f.input :completed, as: :hidden, input_html: { value: params[:execution] ? DateTime.now : nil }
   .form-group
   br
   = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

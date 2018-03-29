@@ -1,6 +1,6 @@
 class ExecutionsController < ApplicationController
   before_action :set_perform_execution, only: [:new, :edit, :create]
-  before_action :set_execution, only: [:update, :destroy, :show]
+  before_action :set_execution, only: [:update, :destroy, :show, :completed, :coordination]
   after_action :verify_authorized
 
   def new
@@ -35,6 +35,14 @@ class ExecutionsController < ApplicationController
       render 'new'
     end
   end
+
+  def coordination
+    authorize @execution
+    @order = @execution.performer.order
+    @order.update!(status_id: Status::AGREE)
+    redirect_to order_path(@order) if @execution.update_attributes(completed: DateTime.now, order_execution: Status::AGREE)
+  end
+  
 
   def destroy
     authorize @execution

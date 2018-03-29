@@ -8,21 +8,27 @@ br
         | Всего заявок
         span.badge.pull-right #{@orders_count}
 
-      = active_link_to orders_path(q: {date_closed_not_null: '0'}), active: :exact, wrap_tag: :li do
+      = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}), active: :exact, wrap_tag: :li do
         | Заявки в работе
         - if @orders_open !=0
           span.badge.pull-right #{@orders_open}
 
       = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, wrap_tag: :li do
-        | Выполненые заявки
+        | Отработанные заявки
         - if @orders_closed !=0
           span.badge.pull-right #{@orders_closed}
 
       - if policy(@orders).for_closing?
-        = active_link_to orders_path(q: {date_closed_not_null: '0', executions_comment_not_null: '1'}), active: :exact, wrap_tag: :li do
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, wrap_tag: :li do
           | Заявки на согласовании
           - if @orders_for_closing !=0
             span.badge.pull-right #{@orders_for_closing}
+
+      - if policy(@orders).for_closing?
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, wrap_tag: :li do
+          | Согласованые заявки
+          - if @orders_agree !=0
+            span.badge.pull-right #{@orders_agree}
 
       = active_link_to orders_path(q: {date_closed_not_null: '0', date_execution_lt: Date.today}), active: :exact, wrap_tag: :li do
         | Просрочные заявки

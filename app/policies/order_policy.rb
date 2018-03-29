@@ -16,7 +16,11 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def for_closing?
-    user.moderator? || user.super_admin?
+    user.moderator? || user.super_admin? || user.guide?
+  end
+
+  def closing?
+    user.moderator? || user.super_admin? || user.guide?
   end
 
   def permitted_attributes

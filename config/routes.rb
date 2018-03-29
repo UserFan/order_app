@@ -32,8 +32,12 @@ Rails.application.routes.draw do
     resources :fiscals
   end
 
-  resources :orders
-  resources :executions
+  resources :orders do
+    get 'closing', on: :member
+  end
+  resources :executions do
+    get 'coordination', on: :member
+  end
   resources :cash_images, only: [:show]
 
   root  'pages#home'

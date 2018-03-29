@@ -24,14 +24,19 @@ class ExecutionPolicy < ApplicationPolicy
     new?
   end
 
+  def coordination?
+    #binding.pry
+    (user.super_admin? || user.moderator? || user.guide?) &&
+    (!(order_closed?) && (record.completed.nil?))
+  end
+
   def destroy?
     user.super_admin? && !(order_closed?)
-    #return false if order_closed?
   end
 
 
   def permitted_attributes
-    [:performer_id, :comment, :order_execution, :complited, images: []]
+    [:performer_id, :comment, :order_execution, :completed, images: []]
   end
 
   private

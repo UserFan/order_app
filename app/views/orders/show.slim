@@ -65,7 +65,17 @@
           tr
             td
               b Дата закрытия заявки:
-            td = l(@order.date_closed, format: :date) if @order.date_closed.present?
+            - if @order.date_closed.present?
+              td = l(@order.date_closed, format: :date)
+            - else
+              td
+                = link_to 'Закрыть заявку(Исполнен)', closing_order_path(@order, close: Status::COMPLETED) if policy(@order).closing?
+                = link_to 'Закрыть заявку(Исполнен частично)', closing_order_path(@order, close: Status::PART_COMPLETED) if policy(@order).closing?
+                = link_to 'Закрыть заявку(Не исполнен)', closing_order_path(@order, close: Status::NOT_COMPLETED) if policy(@order).closing?
+                = link_to 'Закрыть заявку(Снято со исполнения)', closing_order_path(@order, close: Status::OFF_CONTROL) if policy(@order).closing?
+
+
+
       .row
       .col-sm-12.col-md-12
         .panel.panel-info
