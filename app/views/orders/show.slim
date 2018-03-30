@@ -3,7 +3,7 @@
     h2.text-right
       b Информация по заявке №#{@order.order_number}
     br
-    .col-sm-4.col-md-4
+    .col-xs-12.col-md-4
       - if @order.photos.any?
         #carousel.carousel.slide data-ride="carousel"
           /! Slides
@@ -27,7 +27,7 @@
             a.right.carousel-control data-slide="next" href="#thumbcarousel" role="button"
               span.glyphicon.glyphicon-chevron-right
             /! /.Carousel Wrapper
-    .col-sm-8.col-md-8
+    .col-xs-12.col-md-8
       table.table.table-striped.table-responsive
         tbody
           tr
@@ -64,20 +64,19 @@
             td = @order.control_name
           tr
             td
-              b Дата закрытия заявки:
+              b Закрыть заявку (результат):
             - if @order.date_closed.present?
-              td = l(@order.date_closed, format: :date)
+              td colspan="4" = l(@order.date_closed, format: :date)
             - else
               td
-                = link_to 'Закрыть заявку(Исполнен)', closing_order_path(@order, close: Status::COMPLETED) if policy(@order).closing?
-                = link_to 'Закрыть заявку(Исполнен частично)', closing_order_path(@order, close: Status::PART_COMPLETED) if policy(@order).closing?
-                = link_to 'Закрыть заявку(Не исполнен)', closing_order_path(@order, close: Status::NOT_COMPLETED) if policy(@order).closing?
-                = link_to 'Закрыть заявку(Снято со исполнения)', closing_order_path(@order, close: Status::OFF_CONTROL) if policy(@order).closing?
-
+                p = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-success btn-xs" if policy(@order).closing?
+                p = link_to 'Исполнен частично', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-info btn-xs" if policy(@order).closing?
+                p = link_to 'Не исполнен', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-danger btn-xs" if policy(@order).closing?
+                p = link_to 'Снято со исполнения', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-warning btn-xs" if policy(@order).closing?
 
 
       .row
-      .col-sm-12.col-md-12
+      .col-xs-12.col-md-12
         .panel.panel-info
           .panel-heading Исполнители:
           .panel-body

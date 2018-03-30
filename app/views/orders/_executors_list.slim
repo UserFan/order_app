@@ -1,8 +1,9 @@
 li
-  b #{performer.user.full_name}
+  b #{performer.user.full_name}&nbsp
   - unless @order.date_closed.present? || (performer.execution.present? && performer.execution.completed.present?)
-    = content_tag(:span, ' (На контроле!) ', class: 'control-order')
-    = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id, :execution => true) if policy(performer).completed?    
+    = content_tag(:span, '(На контроле!)', class: 'control-order')
+    |  &#10148;&nbsp;
+    = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id, :execution => true) if policy(performer).completed?
     ul
       li Срок исполнения - до #{l(performer.date_performance, format: :date)}
       - count_day = (Date.today - (performer.date_performance).to_date).to_i
@@ -20,15 +21,21 @@ li
   - if performer.execution.present?
     br
     b Отметка о выполнении:
-    = link_to 'Согласовать', coordination_execution_path(performer.execution) if policy(performer.execution).coordination?
+    - if policy(performer.execution).coordination?
+      |  &#9745;
+      = link_to 'Согласовать', coordination_execution_path(performer.execution)
+    - if policy(performer.execution).coordination?
+      |  &#10000;
+      = link_to 'На доработку', '#'
     - if policy(performer.execution).destroy?
-      = link_to execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
-          "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить" do
-           span.glyphicon.glyphicon-trash.edit-button
+      |  &#10008;
+      = link_to 'Удалить отметку', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
+          "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
     ul
       li Описание выполненных работ - #{performer.execution.comment}
       li Статус выполнения: #{performer.execution.execution_result}
       - if performer.execution.images.present?
         li = link_to "Фотоотчет", execution_path(performer.execution)
+
   - else
     = link_to "отметка о выполнении", new_execution_path(performer_id: performer.id) if policy(performer).executions?
