@@ -1,41 +1,44 @@
-h1 Заявки от торговых объектов
-br
-  .container
-  .row
-    .col-sm-12.col-md-12
-      ul.nav.nav-pills
-        = active_link_to orders_path, active: :exact, wrap_tag: :li do
-          | Всего заявок
-          span.badge.pull-right #{@orders_count}
-
-        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}), active: :exact, wrap_tag: :li do
-          | Заявки в работе
-          - if @orders_open !=0
-            span.badge.pull-right #{@orders_open}
-
-        = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, wrap_tag: :li do
-          | Отработанные заявки
-          - if @orders_closed !=0
-            span.badge.pull-right #{@orders_closed}
-
-        - if policy(@orders).for_closing?
-          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, wrap_tag: :li do
-            | Заявки на согласовании
-            - if @orders_for_closing !=0
-              span.badge.pull-right #{@orders_for_closing}
-
-        - if policy(@orders).for_closing?
-          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, wrap_tag: :li do
-            | Согласованые заявки
-            - if @orders_agree !=0
-              span.badge.pull-right #{@orders_agree}
-
-        = active_link_to orders_path(q: {date_closed_not_null: '0', date_execution_lt: Date.today}), active: :exact, wrap_tag: :li do
-          | Просрочные заявки
-          - if @orders_overdue !=0
-            span.badge.pull-right #{@orders_overdue}
-  .row
+.container
+  h1.text-right
+    b Заявки от торговых объектов
   br
+  .col-sm-12.col-md-12
+  .row
+    ul.nav.nav-pills
+      = active_link_to orders_path, active: :exact, wrap_tag: :li do
+        | Всего заявок
+        - if @orders_count !=0
+        span.badge.pull-right #{@orders_count}
+
+      = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}), active: :exact, wrap_tag: :li do
+        | Заявки в работе
+        - if @orders_open !=0
+          span.badge.pull-right #{@orders_open}
+
+      = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, wrap_tag: :li do
+        | Отработанные заявки
+        - if @orders_closed !=0
+          span.badge.pull-right #{@orders_closed}
+
+      - if policy(@orders).for_closing?
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, wrap_tag: :li do
+          | Заявки на согласовании
+          - if @orders_for_closing !=0
+            span.badge.pull-right #{@orders_for_closing}
+
+      - if policy(@orders).for_closing?
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, wrap_tag: :li do
+          | Согласованые заявки
+          - if @orders_agree !=0
+            span.badge.pull-right #{@orders_agree}
+
+      = active_link_to orders_path(q: {date_closed_not_null: '0', date_execution_lt: Date.today}), active: :exact, wrap_tag: :li do
+        | Просрочные заявки
+        - if @orders_overdue !=0
+          span.badge.pull-right #{@orders_overdue}
+  br
+  .col-xs-12.col-md-12
+  .row
     .col-sm-4.col-md-3
       = link_to "Новая заявка",  new_order_path, class: "btn btn-success"
     .col-sm-8.col-md-4.col-md-offset-5
@@ -44,8 +47,8 @@ br
         span.input-group-btn
           button.btn.btn-primary type="submit"
             span.glyphicon.glyphicon-search
-    .row
-    br
+  br
+  .row
     .col-sm-12.col-md-12
       table.table-hover.table.table-striped.table-responsive
         thead
@@ -59,18 +62,12 @@ br
         tbody
           - @orders.each do |order|
             tr.table-row data-href="#{order_path(order)}"
-              td
-                = order.status.name
-              td
-                = l(order.date_open, format: :date)
-              td
-                = order.category.name
-              td
-                = order.shop.name
-              td
-                = order.short_descript
-              td
-                = l(order.date_closed, format: :date) if order.date_closed
+              td = order.status.name
+              td = l(order.date_open, format: :date)
+              td = order.category.name
+              td = order.shop.name
+              td = order.short_descript
+              td = l(order.date_closed, format: :date) if order.date_closed
               td.row-skip
                 - if policy(order).edit?
                   = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
