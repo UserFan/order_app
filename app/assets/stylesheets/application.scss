@@ -2,10 +2,21 @@
 @import 'bootstrap';
 @import 'bootstrap-datetimepicker';
 
-.rework-alert .alert {
+.rework-alert:before {
   display: inline-block;
-  margin: 0px;
+  margin: 2px;
   padding: 10px;
+  // bottom: -4px;
+  // right: 10px;
+  // width: 20px;
+  // height: 10px;
+  // -webkit-transform: rotate(30deg) skewX(45deg);
+  // -moz-transform: rotate(30deg) skewX(45deg);
+  // -ms-transform: rotate(30deg) skewX(45deg);
+  // -o-transform: rotate(30deg) skewX(45deg);
+  // background: #efefef;
+  // z-index: 1;
+  // box-shadow: 4px 5px 5px 0px #777;
 }
 
 .rework-alert footer {
@@ -14,7 +25,7 @@
   padding-bottom: 0px;
   margin-bottom: 0px;
   color: black;
-  
+
 }
 
 .rework-alert header {

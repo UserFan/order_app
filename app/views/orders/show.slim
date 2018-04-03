@@ -90,6 +90,7 @@
               li
                 em Соисполнители:
                 - @coexecutor.each do |coexecutor|
-                  = render 'executors_list', performer: coexecutor
+                  ul
+                    = render 'executors_list', performer: coexecutor
 
       = link_to "Закрыть", orders_path, class: "btn btn-info pull-right main-group"

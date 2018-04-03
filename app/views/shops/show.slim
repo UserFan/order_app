@@ -3,15 +3,14 @@
     = link_to "Закрыть", shops_path, class: "btn btn-info pull-right main-group"
   .col-sm-12.col-md-12
     .row
-    .col-sm-2.col-md-4
+    .col-sm-3.col-md-4
       = image_tag(@shop.photo.url, class: "img-responsive img-thumbnail") if @shop.photo?
       .clearfix
       .row
         .col-sm-12.col-md-12
           - if (@shop.address.present?)
             #map.img-responsive data-lat=@shop.latitude data-lon=@shop.longitude
-
-    .col-sm-10.col-md-8
+    .col-sm-9.col-md-8
       .row
       ul.nav.nav-tabs#myTab role="tablist"
         li.active
