@@ -85,7 +85,7 @@ class OrdersController < ApplicationController
         @set_status = Status::OFF_CONTROL
       else
         @set_status = 0
-    end  
+    end
   end
 
   def set_index
@@ -103,6 +103,9 @@ class OrdersController < ApplicationController
       @orders_agree = Order.includes(:shop, :category, :status, :users).
                             where("date_closed is null and status_id = ?", Status::AGREE).
                             joins(:executions).distinct.size
+      @orders_not_coordination = Order.includes(:shop, :category, :status, :users).
+                                  where("date_closed is null and status_id = ?",
+                                  Status::NOT_COORDINATION).joins(:executions).distinct.size
       @orders_count = Order.count
     else
       @q = current_user.orders.includes(:shop, :category, :status, :users).
@@ -116,6 +119,9 @@ class OrdersController < ApplicationController
       @orders_coordination = current_user.orders.includes(:shop, :category, :status, :users).
                             where("date_closed is null and status_id = ?", Status::AGREE).
                             joins(:executions).distinct.size
+      @orders_not_coordination = current_user.orders.includes(:shop, :category, :status, :users).
+                                  where("date_closed is null and status_id = ?",
+                                  Status::NOT_COORDINATION).joins(:executions).distinct.size
       @orders_count = current_user.orders.count
     end
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?

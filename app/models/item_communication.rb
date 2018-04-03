@@ -6,6 +6,6 @@ class ItemCommunication < ApplicationRecord
   # delegate :modem_name, to: :modem
 
   def modem_name
-    Modem.find(modem_id).name
+    Modem.find(modem_id).name if modem_id.present?
   end
 end

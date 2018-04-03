@@ -1,0 +1,7 @@
+= simple_form_for [@execution, @rework] do |f|
+  = f.input :comment, placeholder: "Коментарий"
+  = f.input :user_id, as: :hidden
+
+  .form-group
+  br
+  = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

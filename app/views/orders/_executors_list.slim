@@ -24,9 +24,9 @@ li
     - if policy(performer.execution).coordination?
       |  &#9745;
       = link_to 'Согласовать', coordination_execution_path(performer.execution)
-    - if policy(performer.execution).coordination?
+    - if policy(performer.execution).rework?
       |  &#10000;
-      = link_to 'На доработку', '#'
+      = link_to 'На доработку', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true)
     - if policy(performer.execution).destroy?
       |  &#10008;
       = link_to 'Удалить отметку', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
@@ -36,6 +36,20 @@ li
       li Статус выполнения: #{performer.execution.execution_result}
       - if performer.execution.images.present?
         li = link_to "Фотоотчет", execution_path(performer.execution)
-
+      - if performer.execution.reworks.present?
+        br
+        - first_rework = performer.execution.reworks.first
+        pre
+          .alert.alert-warning
+            b Замечание:
+            cite = " #{l(first_rework.created_at, format: :datetime)}, #{first_rework.user.full_name}"
+            br
+              | &nbsp;&nbsp;&#10149;&nbsp;
+              = "#{first_rework.comment}"
+            br
+            - performer.execution.reworks[1..-1].each do |rework|
+              = render 'rework_list', rework: rework
+            = link_to 'Комментировать', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true),
+                 class: "pull-right" if policy(performer.execution).comment?
   - else
     = link_to "отметка о выполнении", new_execution_path(performer_id: performer.id) if policy(performer).executions?

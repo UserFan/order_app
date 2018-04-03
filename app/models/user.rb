@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :performers, dependent: :restrict_with_error
   has_many :orders, through: :performers, foreign_key: :user_id
   has_many :executions, through: :performers, foreign_key: :user_id
+  has_many :reworks, dependent: :restrict_with_error
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable

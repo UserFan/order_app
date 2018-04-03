@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180329081740) do
+ActiveRecord::Schema.define(version: 20180403065639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,16 @@ ActiveRecord::Schema.define(version: 20180329081740) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reworks", force: :cascade do |t|
+    t.bigint "execution_id", default: 0, null: false
+    t.bigint "user_id", default: 0, null: false
+    t.string "comment", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["execution_id"], name: "index_reworks_on_execution_id"
+    t.index ["user_id"], name: "index_reworks_on_user_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -239,6 +249,12 @@ ActiveRecord::Schema.define(version: 20180329081740) do
   end
 
   create_table "routers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "scaleses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

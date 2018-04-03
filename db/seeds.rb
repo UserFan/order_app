@@ -20,7 +20,7 @@ unless Status.any?
   Status.create(id: 4, name: 'Закрыта', role: [2,3,4])
   Status.create(id: 5, name: 'На согласовании', role: [2,3,4])
   Status.create(id: 6, name: 'Новое', role: [2,3,4])
-  Status.create(id: 7, name: 'На дороботке', role: [2,3,4])
+  Status.create(id: 7, name: 'На доработке', role: [2,3,4])
   Status.create(id: 8, name: 'Согласовано', role: [2,3,4])
   Status.create(id: 9, name: 'Снята с контроля(исполнения)', role: [2,3,4])
   Status.create(id: 10, name: 'Исполнен частично', role: [2,3,4])

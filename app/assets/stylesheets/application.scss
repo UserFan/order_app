@@ -2,6 +2,25 @@
 @import 'bootstrap';
 @import 'bootstrap-datetimepicker';
 
+.rework-alert .alert {
+  display: inline-block;
+  margin: 0px;
+  padding: 10px;
+}
+
+.rework-alert footer {
+  font-size: 8pt;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  color: black;
+  
+}
+
+.rework-alert header {
+  color: blue;
+}
+
 
 .control-day-before p {
    font-style: italic;
