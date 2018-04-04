@@ -1,11 +1,11 @@
-.rework-alert
-  pre.alert.alert-success
-    header
-      b От:
-      cite
-        = rework.user.full_name
-    body
+.rework
+  .rewok-alert
+    p
+      span.glyphicon.glyphicon-user
+      | &nbsp;
+      = rework.user.full_name
+    p
       | &nbsp;&nbsp;&#10001;&nbsp;
       = " #{rework.comment}"
-    footer.text-right
+    p
       = l(rework.created_at, format: :datetime)
