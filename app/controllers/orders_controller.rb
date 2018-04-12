@@ -96,7 +96,7 @@ class OrdersController < ApplicationController
       @orders_open = Order.includes(:shop, :category, :status, :users).
                      where("date_closed is null and status_id = ?", Status::EXECUTION).size
       @orders_overdue = Order.includes(:shop, :category, :status, :users).
-                        where("date_closed IS NULL AND date_execution < ?", Date.today).size
+                        where("(date_closed > date_execution) OR (date_closed IS NULL AND date_execution < ?)", Date.today).size
       @orders_for_closing = Order.includes(:shop, :category, :status, :users).
                             where("date_closed is null and status_id = ?", Status::COORDINATION).
                             joins(:executions).distinct.size
@@ -115,7 +115,7 @@ class OrdersController < ApplicationController
       @orders_open = current_user.orders.includes(:shop, :category, :status, :users).
                      where("date_closed is null and status_id = ?", Status::EXECUTION).size
       @orders_overdue = current_user.orders.includes(:shop, :category, :status, :users).
-                        where("date_closed IS NULL AND date_execution < ?", Date.today).size
+                        where("(date_closed > date_execution) OR (date_closed IS NULL AND date_execution < ?)", Date.today).size
       @orders_coordination = current_user.orders.includes(:shop, :category, :status, :users).
                             where("date_closed is null and status_id = ?", Status::AGREE).
                             joins(:executions).distinct.size

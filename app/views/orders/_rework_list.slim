@@ -1,11 +1,10 @@
-.rework
-  .rewok-alert
-    p
-      span.glyphicon.glyphicon-user
-      | &nbsp;
-      = rework.user.full_name
-    p
-      | &nbsp;&nbsp;&#10001;&nbsp;
-      = " #{rework.comment}"
-    p
+p.text-right.user-comment
+  span.glyphicon.glyphicon-user
+  | &nbsp;
+  = rework.user.full_name
+.row
+  .arrow_box
+    p = rework.comment
+    p.text-right.rework-date
       = l(rework.created_at, format: :datetime)
+br

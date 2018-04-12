@@ -39,17 +39,27 @@ li
       - if performer.execution.reworks.present?
         br
         - first_rework = performer.execution.reworks.first
-        pre
-          .alert.alert-warning
-            b Замечание:
-            cite = " #{l(first_rework.created_at, format: :datetime)}, #{first_rework.user.full_name}"
-            br
-              | &nbsp;&nbsp;&#10149;&nbsp;
-              = "#{first_rework.comment}"
-            br
-            - performer.execution.reworks[1..-1].each do |rework|
-              = render 'rework_list', rework: rework
-            = link_to 'Комментировать', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true),
-                 class: "pull-right" if policy(performer.execution).comment?
+        .alert.alert-warning
+          h4.text-right Замечание
+          hr
+          .panel.panel-primary
+            .panel-heading.panel-heading-xs
+              span.glyphicon.glyphicon-user
+              | &nbsp;
+              = first_rework.user.full_name
+              br
+              small = l(first_rework.created_at, format: :datetime)
+            .panel-body
+              = first_rework.comment
+          hr
+          .panel.panel-info
+            .panel-heading Комментарии
+            .panel-body
+              - performer.execution.reworks[1..-1].each do |rework|
+                = render 'rework_list', rework: rework
+            -if policy(performer.execution).comment?
+              .panel-footer
+                = link_to 'Написать', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true),
+                    class: "btn btn-success btn-xs" 
   - else
     = link_to "отметка о выполнении", new_execution_path(performer_id: performer.id) if policy(performer).executions?

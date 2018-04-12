@@ -69,10 +69,13 @@
               td colspan="4" = l(@order.date_closed, format: :date)
             - else
               td
-                p = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-success btn-xs" if policy(@order).closing?
-                p = link_to 'Исполнен частично', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-info btn-xs" if policy(@order).closing?
-                p = link_to 'Не исполнен', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-danger btn-xs" if policy(@order).closing?
-                p = link_to 'Снято со исполнения', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-warning btn-xs" if policy(@order).closing?
+                = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-success btn-xs" if policy(@order).closing?
+                | &nbsp;
+                = link_to 'Исполнен частично', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-info btn-xs" if policy(@order).closing?
+                | &nbsp;
+                = link_to 'Не исполнен', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-danger btn-xs" if policy(@order).closing?
+                | &nbsp;
+                = link_to 'Снято со исполнения', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-warning btn-xs" if policy(@order).closing?
 
 
       .row

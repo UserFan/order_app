@@ -37,8 +37,8 @@
         - if @orders_not_coordination !=0
           span.badge.pull-right #{@orders_not_coordination}
 
-      = active_link_to orders_path(q: {date_closed_not_null: '0', date_execution_lt: Date.today}), active: :exact, wrap_tag: :li do
-        | Просрочные
+      = active_link_to orders_path(q: {date_closed_not_null_eq: %i['0', #{Date.today}], date_execution_lt: Date.today}), active: :exact, wrap_tag: :li do
+        | Просроченные
         - if @orders_overdue !=0
           span.badge.pull-right #{@orders_overdue}
   br
