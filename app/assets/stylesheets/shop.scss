@@ -1,0 +1,38 @@
+//Стиль для яндекс карты (начало)
+.main-map {
+  margin-top: 30px;
+}
+
+#map {
+  margin-top: 30px;
+  width: 550px;
+  height: 250px;
+}
+//Стиль для яндекс карты (конец)
+
+//Стиль для выравнивания надписи для панелей
+.text-panel {
+  float: left;
+}
+
+//Стиль для вкаладок
+.nav-tabs li {
+  text-align: center;
+}
+
+//Стиль для надписи "Объект закрыт" (начало)
+#blink {
+  -webkit-animation: blink 3s linear infinite;
+  animation: blink 3s linear infinite;
+}
+@-webkit-keyframes blink {
+  10% { text-shadow: 0 0px 1px hsl(0, 100%, 40%); }
+  60% { text-shadow: 0 0px 1px crimson; }
+  90% { text-shadow: 0 30px 40px transparent; }
+}
+@keyframes blink {
+  10% { text-shadow: 0 0px 1px hsl(0, 100%, 40%); }
+  60% { text-shadow: 0 0px 1px crimson; }
+  90% { text-shadow: 0 30px 40px transparent; }
+}
+//Стиль для надписи "Объект закрыт" (конец)
