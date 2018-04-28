@@ -1,29 +1,24 @@
-nav.navbar.navbar-inverse
+nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
   .container
     /! Brand and toggle get grouped for better mobile display
-    .navbar-header
-      button.navbar-toggle.collapsed aria-expanded="false" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      = link_to 'Главная', root_path, class: 'navbar-brand'
-    /! Collect the nav links, forms, and other content for toggling
-    #bs-example-navbar-collapse-1.collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-right
+    = link_to 'Главная', root_path, class: "navbar-brand"
+    button.navbar-toggler aria-controls="navbarNavDropdown" aria-expanded="false" aria-label=("Toggle navigation") data-target="#navbarNavDropdown" data-toggle="collapse" type="button"
+      span.navbar-toggler-icon
+
+    #navbarNavDropdown.collapse.navbar-collapse
+      ul.navbar-nav.ml-auto
         - if current_user
-          li.dropdown
-            a.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#" role="button"
+          li.nav-item.dropdown
+            a#navbarDropdownMenuLink.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
               = current_user.full_name
-              //= %{User.full_name}
-              span.caret
-            ul.dropdown-menu
-              li = link_to 'Заявки', orders_path
-              li = link_to 'Профиль', edit_user_path(current_user.id)
-              li = link_to 'Объекты', shops_path
+            .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
+              = link_to 'Заявки', orders_path, class: "dropdown-item"
+              = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item"
+              = link_to 'Объекты', shops_path, class: "dropdown-item"
               - if current_user.moderator? || current_user.super_admin?
-                li.divider role="separator"
-                li = link_to 'Пользователи системы', users_path
-                li = link_to 'Справочники', catalog_path
-              li.divider role="separator"
-              li = link_to 'Выход', destroy_user_session_path, method: 'delete'
+                .dropdown-divider
+                = link_to 'Пользователи системы', users_path, class: "dropdown-item"
+                = link_to 'Справочники', catalog_path, class: "dropdown-item"
+              .dropdown-divider
+              = link_to 'Выход', destroy_user_session_path, method: 'delete', class: "dropdown-item"
+              /! Dropdown

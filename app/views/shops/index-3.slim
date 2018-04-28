@@ -5,12 +5,17 @@
   .col-sm-12.col-md-12
   .row
     .col-sm-3.col-md-3
-      .nav.flex-column.nav-pills role="list" aria-orientation="vertical"
-        = link_to "Все объекты", shops_path, class: "nav-link active", 'aria-selected': "true"
-        = link_to "Действующие объекты", shops_path(q: {closed_not_null: '0'}), { class: "nav-link", 'data-toggle': "pill", 'aria-selected': "false" }
+      ul.nav.nav-pills.nav-stacked
+        = active_link_to shops_path, active: :exact, wrap_tag: :li do
+          | Все объекты
+          span.badge.pull-right #{@shops_count}
+        = active_link_to shops_path(q: {closed_not_null: '0'}), active: :exact, wrap_tag: :li do
+          | Действующие объекты
+          span.badge.pull-right #{@shops_open}
         - if @shops_closed != 0
-          = link_to "Закрытые объекты", shops_path(q: {closed_not_null: '1'}), { class: "nav-link", 'data-toggle': "pill", 'aria-selected': "false" }
-
+          = active_link_to shops_path(q: {closed_not_null: '1'}), active: :exact, wrap_tag: :li do
+            | Закрытые объекты
+            span.badge.pull-right #{@shops_closed}
     .col-sm-9.col-md-9
       .col-sm-8.col-md-5.col-sm-offset-4.col-md-offset-7
         = search_form_for (@q), class: "input-group add-on" do |f|
