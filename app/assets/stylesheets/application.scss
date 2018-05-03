@@ -5,7 +5,9 @@
 @import 'performer_fields';
 @import 'shop';
 @import 'executors_list';
-@import 'font-awesome';
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "font-awesome-compass";
 
 //Стиль для таблицы: 'Клик для строки'
 th a {
@@ -22,11 +24,17 @@ th a:hover {
 th a span {
   float: right;
 }
+
+.main-icon {
+  float: right;
+}
+
+
 //Конец стиля для таблицы: 'Клик для строки'
 
 //Стиль для кнопок поиска
-.edit-button.glyphicon-pencil { padding-left: 25px; }
-.edit-button.glyphicon-trash { padding-left: 10px; }
+.edit-button.fa-pencil-alt { padding-left: 15px; }
+.edit-button.fa-trash-alt { padding-left: 10px; }
 
 //Стиль для кнопок 'Сохранить Отмена'
 .main-group {

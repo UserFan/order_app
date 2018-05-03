@@ -39,10 +39,10 @@
                   - if policy(shop).edit?
                     = link_to edit_shop_path(shop), "data-toggle" => "tooltip", "data-placement" => "bottom",
                         "title" => "Корректировка данных" do
-                      span.glyphicon.glyphicon-pencil.edit-button
+                      span.fa.fa-pencil-alt.edit-button
                   - if policy(shop).destroy? && shop.can_destroy?
                     = link_to shop, method: :delete, data: { confirm: "Вы действительно хотите удалить торговый объект?" },
                         "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить торговый объект" do
-                         span.glyphicon.glyphicon-trash.edit-button
+                         span.far.fa-trash-alt.edit-button
                   br
                   = shop.address

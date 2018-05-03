@@ -1,6 +1,6 @@
 = simple_form_for(@position) do |f|
   = f.error_notification
   = f.input :name, autocomplete: "off", required: true, autofocus: true
-  .form-group
-    = link_to "Отмена", positions_path, class: "btn btn-info pull-right"
-    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"
+  .form-group.float-right
+    = f.button :submit, "Сохранить", class: "btn btn-primary m-1"
+    = link_to "Отмена", positions_path, class: "btn btn-info m-1"

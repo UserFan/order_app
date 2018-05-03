@@ -19,10 +19,12 @@ class PositionsController < ApplicationController
   def new
     authorize Position
     @position = Position.new
+    render layout: "catalogs"
   end
 
   def edit
     authorize @position
+    render layout: "catalogs"
   end
 
   def create
@@ -60,4 +62,5 @@ class PositionsController < ApplicationController
   def set_position
     @position = Position.find(params[:id])
   end
+
 end

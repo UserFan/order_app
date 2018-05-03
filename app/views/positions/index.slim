@@ -2,7 +2,7 @@
   h1.text-right Справочник 'Должности'
   .col-3
     = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
-  .row
+  .row.justify-content-end
     .col-6
       = search_form_for @q do |f|
         .input-group.m-4
@@ -10,20 +10,22 @@
           span.input-group-append
             button.btn.btn-outline-primary type="submit"
               span.fa.fa-search
-  table.table.table-striped.table-responsive
-    thead
-      tr
-        th =sort_link(@q, :name, 'Наименование', default_order: :asc)
-    tbody
-      - @positions.each do |position|
-        tr
-          td
-            = position.name
-            - if policy(position).edit?
-              = link_to edit_position_path(position), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                  "title" => "Корректировка данных" do
-                span.glyphicon.glyphicon-pencil.edit-button
-            - if policy(position).destroy? && position.can_destroy?
-              = link_to position, method: :delete, data: { confirm: "Вы действительно хотите удалить должность?" },
-                  "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить должность" do
-                   span.glyphicon.glyphicon-trash.edit-button
+  .row
+    .col-12
+      table.table.table-striped
+        thead.text-center
+          tr
+            th = sort_link(@q, :name, 'Наименование', default_order: :asc)
+        tbody
+          - @positions.each do |position|
+            tr
+              td
+                = position.name
+                - if policy(position).edit?
+                  = link_to edit_position_path(position), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                      "title" => "Корректировка данных" do
+                    span.fa.fa-pencil-alt.edit-button
+                - if policy(position).destroy? && position.can_destroy?
+                  = link_to position, method: :delete, data: { confirm: "Вы действительно хотите удалить должность?" },
+                      "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить должность" do
+                       span.far.fa-trash-alt.edit-button

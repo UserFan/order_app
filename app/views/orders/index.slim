@@ -77,8 +77,8 @@
                 - if policy(order).edit?
                   = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
                     "title" => "Корректировка данных" do
-                      span.glyphicon.glyphicon-pencil.edit-button
+                     span.fa.fa-pencil-alt.edit-button
                 - if policy(order).destroy? && order.can_destroy?
                   = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
                     "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
-                       span.glyphicon.glyphicon-trash.edit-button
+                       span.far.fa-trash-alt.edit-button
