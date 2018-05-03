@@ -9,6 +9,7 @@ class TypesController < ApplicationController
     @q =Type.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @types = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

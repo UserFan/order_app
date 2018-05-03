@@ -7,6 +7,7 @@ class PrintersController < ApplicationController
     @q =Printer.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @printers = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

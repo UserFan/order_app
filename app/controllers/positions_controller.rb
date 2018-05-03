@@ -1,4 +1,5 @@
 class PositionsController < ApplicationController
+
   before_action :set_position, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
@@ -7,6 +8,7 @@ class PositionsController < ApplicationController
     @q = Position.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @positions = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

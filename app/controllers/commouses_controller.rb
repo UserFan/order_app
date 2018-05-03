@@ -7,6 +7,7 @@ class CommousesController < ApplicationController
     @q = Commouse.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @commouses = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

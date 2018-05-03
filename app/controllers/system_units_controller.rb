@@ -8,6 +8,7 @@ class SystemUnitsController < ApplicationController
     @q =SystemUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @system_units = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

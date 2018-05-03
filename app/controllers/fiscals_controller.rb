@@ -7,6 +7,7 @@ class FiscalsController < ApplicationController
     @q =Fiscal.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @fiscals = @q.result(disinct: true)
+    render layout: "catalogs"
   end
 
   def show

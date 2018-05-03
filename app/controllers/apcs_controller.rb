@@ -7,6 +7,7 @@ class ApcsController < ApplicationController
     @q = Apc.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @apcs = @q.result(disinct: true)
+    render layout: "catalogs"
   end
 
   def show

@@ -82,3 +82,4 @@ gem 'reform'
 gem 'reform-rails'
 gem 'dry-types'
 gem 'to_bool'
+gem "font-awesome-rails"

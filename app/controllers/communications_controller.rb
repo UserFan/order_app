@@ -7,6 +7,7 @@ class CommunicationsController < ApplicationController
     @q = Communication.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @communications = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

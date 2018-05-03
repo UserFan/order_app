@@ -7,6 +7,7 @@ class KeyboardsController < ApplicationController
     @q = Keyboard.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @keyboards = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

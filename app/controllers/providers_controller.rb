@@ -8,6 +8,7 @@ class ProvidersController < ApplicationController
     @q =Provider.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @providers = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

@@ -3,11 +3,11 @@ h1 Справочник 'Операторы связи'
   = link_to "Добавить",  new_provider_path, class: "btn btn-primary"
   .row
     .col-sm-4.col-md-3.col-sm-offset-8.col-md-offset-9
-      = search_form_for (@q), class: "input-group add-on" do |f|
+      = search_form_for (@q), class: "input-group" do |f|
         = f.input :name_cont, label: false, placeholder: 'Поиск', class: "form-control"
-        span.input-group-btn
-          button.btn.btn-primary type="submit"
-            span.glyphicon.glyphicon-search
+        span.input-group-append
+          button.btn.btn-primary type="submit" ttt
+
   br
   table.table.table-striped.table-responsive
     thead

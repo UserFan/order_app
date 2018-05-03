@@ -9,6 +9,7 @@ class ScanersController < ApplicationController
     @q =Scaner.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @scaners = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

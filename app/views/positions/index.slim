@@ -1,13 +1,15 @@
-h1 Справочник 'Должности'
 .container
-  = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
+  h1.text-right Справочник 'Должности'
+  .col-3
+    = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
   .row
-    .col-sm-4.col-md-3.col-sm-offset-8.col-md-offset-9
-      = search_form_for (@q), class: "input-group add-on" do |f|
-        = f.input :name_cont, label: false, placeholder: 'Поиск', class: "form-control"
-        span.input-group-btn
-          button.btn.btn-primary type="submit"
-            span.glyphicon.glyphicon-search
+    .col-6
+      = search_form_for @q do |f|
+        .input-group.m-4
+          = f.input_field :name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-primary"
+          span.input-group-append
+            button.btn.btn-outline-primary type="submit"
+              span.fa.fa-search
   table.table.table-striped.table-responsive
     thead
       tr

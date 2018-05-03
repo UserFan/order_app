@@ -7,6 +7,7 @@ class OrganizationUnitsController < ApplicationController
     @q =OrganizationUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @organization_units = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

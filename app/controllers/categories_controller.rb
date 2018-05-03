@@ -7,6 +7,7 @@ class CategoriesController < ApplicationController
     @q          = Category.ransack(params[:q])
     @q.sorts    = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @categories = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

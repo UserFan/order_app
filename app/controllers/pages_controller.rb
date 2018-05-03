@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+
   after_action :verify_authorized
 
   def home
@@ -7,5 +8,6 @@ class PagesController < ApplicationController
 
   def catalog
     authorize :pages, :catalog?
+    render layout: "catalogs"
   end
 end

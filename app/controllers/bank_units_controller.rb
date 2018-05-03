@@ -7,6 +7,7 @@ class BankUnitsController < ApplicationController
     @q =BankUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @bank_units = @q.result(disinct: true)
+    render layout: "catalogs"
   end
 
   def show

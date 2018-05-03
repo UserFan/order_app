@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title Система контроля заявок
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', :type => "text/javascript", 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  body
+    = render 'layouts/header'
+    .container
+      = render 'layouts/flash', flash: flash
+      .row
+        .col-3
+          = render 'layouts/catalogs_list'
+        .col-9
+          = yield
+    = render 'layouts/footer'

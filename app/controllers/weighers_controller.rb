@@ -9,6 +9,7 @@ class WeighersController < ApplicationController
     @q = Weigher.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @weighers = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 

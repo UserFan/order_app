@@ -8,6 +8,7 @@ class ModemsController < ApplicationController
     @q = Modem.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @modems = @q.result(disinct: true)
+    render layout: "catalogs"
     #@positions = Position.all
   end
 
