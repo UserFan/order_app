@@ -1,5 +1,5 @@
 class TypesController < ApplicationController
-
+  layout "catalogs", only: [:index, :new, :edit ]
   before_action :set_type, except: [ :index, :new, :create ]
   before_action :authenticate_user!
   after_action :verify_authorized
@@ -9,8 +9,6 @@ class TypesController < ApplicationController
     @q =Type.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @types = @q.result(disinct: true)
-    render layout: "catalogs"
-    #@positions = Position.all
   end
 
   def show

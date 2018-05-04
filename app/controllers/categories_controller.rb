@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  layout "catalogs", only: [:index, :new, :edit ]
   before_action :set_category, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
@@ -7,8 +8,6 @@ class CategoriesController < ApplicationController
     @q          = Category.ransack(params[:q])
     @q.sorts    = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @categories = @q.result(disinct: true)
-    render layout: "catalogs"
-    #@positions = Position.all
   end
 
   def show

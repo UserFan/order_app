@@ -1,4 +1,5 @@
 class BankUnitsController < ApplicationController
+  layout "catalogs", only: [:index, :new, :edit ]
   before_action :set_type, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
@@ -6,8 +7,7 @@ class BankUnitsController < ApplicationController
     authorize BankUnit
     @q =BankUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @bank_units = @q.result(disinct: true)
-    render layout: "catalogs"
+    @bank_units = @q.result(disinct: true)    
   end
 
   def show

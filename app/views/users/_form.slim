@@ -10,7 +10,9 @@
       .row
         .col-8
           = f.input :mobile, required: true
+
     .col-6
+      legend
       = f.association :role, :disabled => current_user == @user,
                       as: :radio_buttons if current_user.moderator? || current_user.super_admin?
     .col-6

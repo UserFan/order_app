@@ -9,6 +9,22 @@
 @import "font-awesome";
 @import "font-awesome-compass";
 
+//Стиль для легенды(флажки)
+legend {
+  display: block;
+  width: auto;
+  padding: 0 5px;
+  margin-bottom: 0;
+  font-size: inherit;
+  line-height: inherit;
+  border-bottom: none;
+}
+fieldset {
+  border: 1px groove threedface;
+  padding: 15px;
+}
+//Конец стиль для легенды(флажки)
+
 //Стиль для таблицы: 'Клик для строки'
 th a {
   display:block;
