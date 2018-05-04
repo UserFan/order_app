@@ -26,7 +26,7 @@ br
             - if policy(user).edit?
               = link_to edit_user_path(user), "data-toggle" => "tooltip", "data-placement" => "bottom",
                   "title" => "Корректировка данных пользователя" do
-                span.fa.fa-pencil-alt..edit-button
+                span.fa.fa-pencil-alt.edit-button
             - if policy(user).destroy?
               = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить пользователя?" },
                "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить пользователя" do

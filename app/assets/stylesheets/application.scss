@@ -21,12 +21,12 @@ th a:hover {
   cursor: default;
 }
 
-th a span {
+th a i {
   float: right;
 }
 
-.main-icon {
-  float: right;
+thead th a:hover, th a:active, th a:visited, th a:link {
+  color: $dark;
 }
 
 

@@ -9,9 +9,9 @@ end
 
 Ransack.configure do |c|
   c.custom_arrows = {
-    up_arrow: '<i class="fa fa-sort-amount-up main-icon"></i>',
-    down_arrow: '<i class="fa fa-sort-amount-down main-icon"></i>',
-    default_arrow: '<i class="default-arrow-icon main-icon"></i>'
+    up_arrow: '<i class="fa fa-sort-amount-up"></i>',
+    down_arrow: '<i class="fa fa-sort-amount-down"></i>',
+    default_arrow: '<i class="default-arrow-icon"></i>'
 
   }
 end

@@ -1,20 +1,20 @@
 .container
-  h1.text-right Справочник 'Должности'
+  h1.text-right.pb-4 Справочник 'Должности'
   .col-3
-    = link_to "Добавить должность",  new_position_path, class: "btn btn-primary"
+    = link_to "Добавить должность",  new_position_path, class: "btn btn-outline-primary"
   .row.justify-content-end
     .col-6
       = search_form_for @q do |f|
-        .input-group.m-4
-          = f.input_field :name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-primary"
+        .input-group.my-4
+          = f.input_field :name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
           span.input-group-append
-            button.btn.btn-outline-primary type="submit"
+            button.btn.btn-outline-secondary type="submit"
               span.fa.fa-search
   .row
     .col-12
-      table.table.table-striped
-        thead.text-center
-          tr
+      table.table.shadow.p-3.mb-5.bg-white.rounded
+        thead.thead-light.text-center.text-dark
+          tr.text-dark
             th = sort_link(@q, :name, 'Наименование', default_order: :asc)
         tbody
           - @positions.each do |position|
