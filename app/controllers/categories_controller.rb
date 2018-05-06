@@ -1,5 +1,4 @@
 class CategoriesController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
   before_action :set_category, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
@@ -8,6 +7,12 @@ class CategoriesController < ApplicationController
     @q          = Category.ransack(params[:q])
     @q.sorts    = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @categories = @q.result(disinct: true)
+    render partial: "catalog/catalog_list",
+           locals: { q: @q,
+                     title: "Справочник ''Категория заявок''",
+                     caption_button: "Добавить категорию",
+                     main_collection: @categories,
+                     new_path: new_category_path }
   end
 
   def show
@@ -17,10 +22,18 @@ class CategoriesController < ApplicationController
   def new
     authorize Category
     @category = Category.new
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: "Новая категория",
+           catalog_name: @category,
+           index_path: categories_path }
   end
 
   def edit
     authorize @category
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: "Корректировка категории",
+           catalog_name: @category,
+           index_path: categories_path }
   end
 
   def create

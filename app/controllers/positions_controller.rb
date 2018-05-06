@@ -1,5 +1,4 @@
 class PositionsController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
   before_action :set_position, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
@@ -8,6 +7,12 @@ class PositionsController < ApplicationController
     @q = Position.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @positions = @q.result(disinct: true)
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: "Справочник ''Должности''",
+                      caption_button: "Добавить должность",
+                      main_collection: @positions,
+                      new_path: new_position_path }
   end
 
   def show
@@ -17,10 +22,18 @@ class PositionsController < ApplicationController
   def new
     authorize Position
     @position = Position.new
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: "Новая должность",
+           catalog_name: @position,
+           index_path: positions_path }
   end
 
   def edit
-    authorize @position  
+    authorize @position
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: "Корректировка должности",
+           catalog_name: @position,
+           index_path: positions_path }
   end
 
   def create

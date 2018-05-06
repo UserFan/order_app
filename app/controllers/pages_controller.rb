@@ -8,6 +8,6 @@ class PagesController < ApplicationController
 
   def catalog
     authorize :pages, :catalog?
-    render layout: "catalogs"
+    
   end
 end

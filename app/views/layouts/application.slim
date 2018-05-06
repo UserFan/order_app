@@ -11,5 +11,6 @@ html
     = render 'layouts/header'
     .container
       = render 'layouts/flash', flash: flash
-      = yield
+      .row
+        = content_for?(:catalog) ? yield(:catalog) : yield
     = render 'layouts/footer'

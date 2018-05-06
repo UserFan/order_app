@@ -1,0 +1,13 @@
+- content_for :catalog do
+  .col-3
+    = render "catalog/catalogs_list"
+  .col-9
+    .container
+      .row.justify-content-center.pt-5
+        .col-8
+          .card.shadow.p-3.mb-5.bg-white.rounded
+            .card-header.bg-transparent.p-1
+              h5.text-info = title
+            .card-body.pb-0
+              = render partial: 'catalog/catalog_form', locals: {object: catalog_name, back_path: index_path }
+= render template: "layouts/application"
