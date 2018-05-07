@@ -1,6 +1,5 @@
 class ApcsController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
+  before_action :set_apc, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -8,6 +7,7 @@ class ApcsController < ApplicationController
     @q = Apc.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @apcs = @q.result(disinct: true)
+    set_index_render
   end
 
   def show
@@ -17,10 +17,12 @@ class ApcsController < ApplicationController
   def new
     authorize Apc
     @apc = Apc.new
+    set_new_edit_render
   end
 
   def edit
     authorize @apc
+    set_new_edit_render
   end
 
   def create
@@ -55,7 +57,23 @@ class ApcsController < ApplicationController
 
   private
 
-  def set_type
+  def set_apc
     @apc = Apc.find(params[:id])
+  end
+
+  def set_index_render
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                      main_collection: @apcs,
+                      new_path: new_apc_path }
+  end
+
+  def set_new_edit_render
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: t('.caption_text'),
+           catalog_name: @apc,
+           index_path: apcs_path }
   end
 end

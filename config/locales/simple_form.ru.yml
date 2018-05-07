@@ -37,7 +37,7 @@ ru:
           name: "Наименование"
 
       position:
-        <<: *name
+        <<: *name        
 
       apc:
         <<: *name

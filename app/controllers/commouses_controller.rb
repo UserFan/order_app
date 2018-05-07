@@ -1,6 +1,5 @@
 class CommousesController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
+  before_action :set_commouse, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -8,6 +7,7 @@ class CommousesController < ApplicationController
     @q = Commouse.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @commouses = @q.result(disinct: true)
+    set_index_render
   end
 
   def show
@@ -17,10 +17,12 @@ class CommousesController < ApplicationController
   def new
     authorize Commouse
     @commouse = Commouse.new
+    set_new_edit_render
   end
 
   def edit
     authorize @commouse
+    set_new_edit_render
   end
 
   def create
@@ -55,7 +57,23 @@ class CommousesController < ApplicationController
 
   private
 
-  def set_type
+  def set_commouse
     @commouse = Commouse.find(params[:id])
+  end
+
+  def set_index_render
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                      main_collection: @commouses,
+                      new_path: new_commouse_path }
+  end
+
+  def set_new_edit_render
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: t('.caption_text'),
+           catalog_name: @commouse,
+           index_path: commouses_path }
   end
 end

@@ -1,13 +1,13 @@
 class KeyboardsController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
+  before_action :set_keyboard, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
     authorize Keyboard
     @q = Keyboard.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @keyboards = @q.result(disinct: true)    
+    @keyboards = @q.result(disinct: true)
+    set_index_render
   end
 
   def show
@@ -17,10 +17,12 @@ class KeyboardsController < ApplicationController
   def new
     authorize Keyboard
     @keyboard = Keyboard.new
+    set_new_edit_render
   end
 
   def edit
     authorize @keyboard
+    set_new_edit_render
   end
 
   def create
@@ -55,7 +57,23 @@ class KeyboardsController < ApplicationController
 
   private
 
-  def set_type
+  def set_keyboard
     @keyboard = Keyboard.find(params[:id])
+  end
+
+  def set_index_render
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                      main_collection:@keyboards,
+                      new_path: new_keyboard_path }
+  end
+
+  def set_new_edit_render
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: t('.caption_text'),
+           catalog_name: @keyboard,
+           index_path: keyboards_path }
   end
 end

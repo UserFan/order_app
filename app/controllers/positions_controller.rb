@@ -7,12 +7,7 @@ class PositionsController < ApplicationController
     @q = Position.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @positions = @q.result(disinct: true)
-    render partial: "catalog/catalog_list",
-            locals: { q: @q,
-                      title: "Справочник ''Должности''",
-                      caption_button: "Добавить должность",
-                      main_collection: @positions,
-                      new_path: new_position_path }
+    set_index_render
   end
 
   def show
@@ -22,18 +17,12 @@ class PositionsController < ApplicationController
   def new
     authorize Position
     @position = Position.new
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: "Новая должность",
-           catalog_name: @position,
-           index_path: positions_path }
+    set_new_edit_render
   end
 
   def edit
     authorize @position
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: "Корректировка должности",
-           catalog_name: @position,
-           index_path: positions_path }
+    set_new_edit_render
   end
 
   def create
@@ -49,7 +38,7 @@ class PositionsController < ApplicationController
   def update
     authorize @position
     if @position.update_attributes(permitted_attributes(@position))
-     redirect_to positions_path
+      redirect_to positions_path
     else
       render 'edit'
     end
@@ -70,6 +59,22 @@ class PositionsController < ApplicationController
 
   def set_position
     @position = Position.find(params[:id])
+  end
+
+  def set_index_render
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                      main_collection: @positions,
+                      new_path: new_position_path } and return
+  end
+
+  def set_new_edit_render
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: t('.caption_text'),
+           catalog_name: @position,
+           index_path: positions_path }
   end
 
 end

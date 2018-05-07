@@ -1,6 +1,5 @@
 class DisplaysController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
+  before_action :set_display, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -8,6 +7,7 @@ class DisplaysController < ApplicationController
     @q = Display.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @displays = @q.result(disinct: true)
+    set_index_render
   end
 
   def show
@@ -17,10 +17,12 @@ class DisplaysController < ApplicationController
   def new
     authorize Display
     @display = Display.new
+    set_new_edit_render
   end
 
   def edit
     authorize @display
+    set_new_edit_render
   end
 
   def create
@@ -55,7 +57,23 @@ class DisplaysController < ApplicationController
 
   private
 
-  def set_type
+  def set_display
     @display = Display.find(params[:id])
+  end
+
+  def set_index_render
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                      main_collection: @displays,
+                      new_path: new_display_path }
+  end
+
+  def set_new_edit_render
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: t('.caption_text'),
+           catalog_name: @display,
+           index_path: displays_path }
   end
 end

@@ -1,4 +1,175 @@
 ru:
+  positions:
+    index:
+      caption_button: "Добавить ''Должность''"
+      caption_title: "Справочник ''Должность''"
+    edit:
+      caption_text: "Корректировка ''Должность''"
+    new:
+      caption_text: "Новая ''Должность''"
+
+  apcs:
+    index:
+      caption_button: "Добавить ''ИБП''"
+      caption_title: "Справочник ''Источник бесперебойного питания(ИБП)''"
+    edit:
+      caption_text: "Корректировка ''ИБП''"
+    new:
+      caption_text: "Новая ''ИБП''"
+
+  bank_units:
+    index:
+      caption_button: "Добавить ''Банк''"
+      caption_title: "Справочник ''Банк''"
+    edit:
+      caption_text: "Корректировка ''Банк''"
+    new:
+      caption_text: "Новая ''Банк''"
+
+  categories:
+    index:
+      caption_button: "Добавить ''Категория заявок''"
+      caption_title: "Справочник ''Категория заявок''"
+    edit:
+      caption_text: "Корректировка ''Категория заявок''"
+    new:
+      caption_text: "Новая ''Категория заявок''"
+
+  commouses:
+    index:
+      caption_button: "Добавить новый"
+      caption_title: "Справочник ''Манипулятор(мышь)''"
+    edit:
+      caption_text: "Корректировка ''Манипулятора(мышь)''"
+    new:
+      caption_text: "Новый ''Манипулятор(мышь)''"
+
+  displays:
+    index:
+      caption_button: "Добавить ''Дисплей''"
+      caption_title: "Справочник ''Дисплей''"
+    edit:
+      caption_text: "Корректировка ''Дисплей''"
+    new:
+      caption_text: "Новый ''Дисплей''"
+
+  fiscals:
+    index:
+      caption_button: "Добавить ''Фискалный аппарат''"
+      caption_title: "Справочник ''Фискалный аппарат''"
+    edit:
+      caption_text: "Корректировка ''Фискалного аппарат''"
+    new:
+      caption_text: "Новый ''Фискалный аппарат''"
+
+  keyboards:
+    index:
+      caption_button: "Добавить ''Клавиатура''"
+      caption_title: "Справочник ''Клавиатура''"
+    edit:
+      caption_text: "Корректировка ''Клавиатура''"
+    new:
+      caption_text: "Новая ''Клавиатура''"
+
+  modems:
+    index:
+      caption_button: "Добавить ''Модем''"
+      caption_title: "Справочник ''Модем''"
+    edit:
+      caption_text: "Корректировка ''Модем''"
+    new:
+      caption_text: "Новый ''Модем''"
+
+  organization_units:
+    index:
+      caption_button: "Добавить ''Организация''"
+      caption_title: "Справочник ''Организация''"
+    edit:
+      caption_text: "Корректировка ''Организация''"
+    new:
+      caption_text: "Новая ''Организация''"
+
+  printers:
+    index:
+      caption_button: "Добавить ''Принтер(МФУ)''"
+      caption_title: "Справочник ''Принтер(МФУ)''"
+    edit:
+      caption_text: "Корректировка ''Принтер(МФУ)''"
+    new:
+      caption_text: "Новый ''Принтер(МФУ)''"
+
+  providers:
+    index:
+      caption_button: "Добавить ''Провайдер''"
+      caption_title: "Справочник ''Провайдер''"
+    edit:
+      caption_text: "Корректировка ''Провайдер''"
+    new:
+      caption_text: "Новый ''Провайдер''"
+
+  routers:
+    index:
+      caption_button: "Добавить ''Роутер''"
+      caption_title: "Справочник ''Роутер''"
+    edit:
+      caption_text: "Корректировка ''Роутер''"
+    new:
+      caption_text: "Новый ''Роутер''"
+
+  scaners:
+    index:
+      caption_button: "Добавить ''Сканер''"
+      caption_title: "Справочник ''Сканер''"
+    edit:
+      caption_text: "Корректировка ''Сканер''"
+    new:
+      caption_text: "Новый ''Сканер''"
+
+  stabilizers:
+    index:
+      caption_button: "Добавить ''Стабилизатор''"
+      caption_title: "Справочник ''Стабилизатор''"
+    edit:
+      caption_text: "Корректировка ''Стабилизатор''"
+    new:
+      caption_text: "Новый ''Стабилизатор''"
+
+  statuses:
+    index:
+      caption_button: "Добавить ''Статус заявок''"
+      caption_title: "Справочник ''Статус заявок''"
+    edit:
+      caption_text: "Корректировка ''Статус заявок''"
+    new:
+      caption_text: "Новый ''Статус заявок''"
+
+  system_units:
+    index:
+      caption_button: "Добавить ''Системный блок''"
+      caption_title: "Справочник ''Системный блок''"
+    edit:
+      caption_text: "Корректировка ''Системный блок''"
+    new:
+      caption_text: "Новый ''Системный блок''"
+
+  communications:
+    index:
+      caption_button: "Добавить ''Тип связи''"
+      caption_title: "Справочник ''Тип связи''"
+    edit:
+      caption_text: "Корректировка ''Тип связи''"
+    new:
+      caption_text: "Новый ''Тип связи''"
+
+  weighers:
+    index:
+      caption_button: "Добавить ''Весы''"
+      caption_title: "Справочник ''Весы''"
+    edit:
+      caption_text: "Корректировка ''Весы''"
+    new:
+      caption_text: "Новые ''Весы''"
+
   activerecord:
     errors:
       messages:

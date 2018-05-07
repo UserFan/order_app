@@ -7,12 +7,7 @@ class CategoriesController < ApplicationController
     @q          = Category.ransack(params[:q])
     @q.sorts    = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @categories = @q.result(disinct: true)
-    render partial: "catalog/catalog_list",
-           locals: { q: @q,
-                     title: "Справочник ''Категория заявок''",
-                     caption_button: "Добавить категорию",
-                     main_collection: @categories,
-                     new_path: new_category_path }
+    set_index_render
   end
 
   def show
@@ -22,18 +17,12 @@ class CategoriesController < ApplicationController
   def new
     authorize Category
     @category = Category.new
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: "Новая категория",
-           catalog_name: @category,
-           index_path: categories_path }
+    set_new_edit_render
   end
 
   def edit
     authorize @category
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: "Корректировка категории",
-           catalog_name: @category,
-           index_path: categories_path }
+    set_new_edit_render
   end
 
   def create
@@ -71,4 +60,22 @@ class CategoriesController < ApplicationController
   def set_category
     @category = Category.find(params[:id])
   end
+
+  def set_index_render
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                     main_collection: @categories,
+                     new_path: new_category_path }
+  end
+
+  def set_new_edit_render
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: t('.caption_text'),
+           catalog_name: @category,
+           index_path: categories_path }
+  end
+
+
 end

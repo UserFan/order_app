@@ -1,6 +1,5 @@
 class FiscalsController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
+  before_action :set_fiscal, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -8,6 +7,7 @@ class FiscalsController < ApplicationController
     @q =Fiscal.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @fiscals = @q.result(disinct: true)
+    set_index_render
   end
 
   def show
@@ -17,10 +17,12 @@ class FiscalsController < ApplicationController
   def new
     authorize Fiscal
     @fiscal = Fiscal.new
+    set_new_edit_render
   end
 
   def edit
     authorize @fiscal
+    set_new_edit_render
   end
 
   def create
@@ -55,7 +57,23 @@ class FiscalsController < ApplicationController
 
   private
 
-  def set_type
+  def set_fiscal
     @fiscal = Fiscal.find(params[:id])
+  end
+
+  def set_index_render
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                      main_collection: @fiscals,
+                      new_path: new_fiscal_path }
+  end
+
+  def set_new_edit_render
+    render partial: 'catalog/catalog_new_edit',
+           locals: { title: t('.caption_text'),
+           catalog_name: @fiscal,
+           index_path: fiscals_path }
   end
 end
