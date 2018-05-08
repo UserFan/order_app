@@ -1,33 +1,33 @@
-ul
-  li
-    b Роутер:
-    |  #{communication.router.name}
-  ul
-    li
-      b Провайдеры:
-      - communication.item_communications.each do |item|
-        ul
-          li
-            b Наименование:
-            |  #{item.provider.name} #{item.master ? '(основной)' : '(резервный)'}
-          li
-            b Тип связи:
-            |  #{item.communication.name}
-          li
-            b 4G Модем:
-            |  #{item.modem_name}
-          li
-            b №(тел.) сим-карты:
-            |  #{item.simphone_number}
-          li
-            b № сим-карты:
-            |  #{item.sim_number}
-          li
-            b Логин:
-            |  #{item.login_name}
-          li
-            b Пароль:
-            |  #{item.pass_name}
-          li
-            b Коментарий:
-            |  #{item.comment}
+ul.pt-2
+  h6
+    b Роутер:&nbsp;
+    u #{communication.router.name}
+  h6
+    b Провайдеры:
+    - communication.item_communications.each do |item|
+      ul.pt-1
+        details
+          summary.h6.text-info
+            b #{item.provider.name} #{item.master ? '(основной)' : '(резервный)'}
+          ul
+            li.p-1
+              b Тип связи:&nbsp;
+              u #{item.communication.name}
+            li.p-1
+              b 4G Модем:&nbsp;
+              u #{item.modem_name}
+            li.p-1
+              b №(тел.) сим-карты:&nbsp;
+              u #{item.simphone_number}
+            li.p-1
+              b № сим-карты:&nbsp;
+              u #{item.sim_number}
+            li.p-1
+              b Логин:&nbsp;
+              u #{item.login_name}
+            li.p-1
+              b Пароль:&nbsp;
+              u #{item.pass_name}
+            li.p-1
+              b Коментарий:&nbsp;
+              u #{item.comment}

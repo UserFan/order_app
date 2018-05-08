@@ -1,39 +1,39 @@
 ul
-  li
-    b Юридическое лицо:
-    |  #{cashbox.organization_unit.name}
-  ul
+  h6.text-info
+    b Юридическое лицо:&nbsp;
+    u #{cashbox.organization_unit.name}
+  ul.pt-2
     li
-      b Системный блок:
-      | #{cashbox.system_unit.motherboard}/
+      b Системный блок:&nbsp;
+      u #{cashbox.system_unit.motherboard}/
         #{cashbox.system_unit.cpu}/
         #{cashbox.system_unit.ram}/
         #{cashbox.system_unit.hdd}/
         #{cashbox.system_unit.os}
     li
-      b Дисплей:
-      |  #{cashbox.display.name}
+      b Дисплей:&nbsp;
+      u #{cashbox.display.name}
     li
-      b Калавиатура:
-      |  #{cashbox.keyboard.name}
+      b Калавиатура:&nbsp;
+      u #{cashbox.keyboard.name}
     li
-      b Дисплей покупателя:
-      |  #{cashbox.display_clien_name}
+      b Дисплей покупателя:&nbsp;
+      u #{cashbox.display_clien_name}
     li
-      b Сканер:
-      |  #{cashbox.scaner.name}
+      b Сканер:&nbsp;
+      u #{cashbox.scaner.name}
     li
-      b Банковский терминал:
-      |  #{cashbox.bank_unit.name}
+      b Банковский терминал:&nbsp;
+      u #{cashbox.bank_unit.name}
     li
-      b Стабилизатор:
-      |  #{cashbox.stabilizer.name}
+      b Стабилизатор:&nbsp;
+      u #{cashbox.stabilizer.name}
     li
-      b ИБП:
-      |  #{cashbox.apc.name}
+      b ИБП:&nbsp;
+      u #{cashbox.apc.name}
     li
-      b Фискальный апарат:
-      |  #{cashbox.fiscal.name}
+      b Фискальный апарат:&nbsp;
+      u #{cashbox.fiscal.name}
     li
-      b Коментарий:
-      |  #{cashbox.comment}
+      b Коментарий:&nbsp;
+      u #{cashbox.comment}

@@ -7,7 +7,7 @@ class CategoriesController < ApplicationController
     @q          = Category.ransack(params[:q])
     @q.sorts    = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @categories = @q.result(disinct: true)
-    set_index_render
+    set_index_render(@q, @categories, new_category_path)
   end
 
   def show
@@ -17,12 +17,12 @@ class CategoriesController < ApplicationController
   def new
     authorize Category
     @category = Category.new
-    set_new_edit_render
+    set_new_edit_render(@category, categories_path)
   end
 
   def edit
     authorize @category
-    set_new_edit_render
+    set_new_edit_render(@category, categories_path)
   end
 
   def create
@@ -60,22 +60,4 @@ class CategoriesController < ApplicationController
   def set_category
     @category = Category.find(params[:id])
   end
-
-  def set_index_render
-    render partial: "catalog/catalog_list",
-            locals: { q: @q,
-                      title: t('.caption_title'),
-                      caption_button: t('.caption_button'),
-                     main_collection: @categories,
-                     new_path: new_category_path }
-  end
-
-  def set_new_edit_render
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: t('.caption_text'),
-           catalog_name: @category,
-           index_path: categories_path }
-  end
-
-
 end

@@ -7,7 +7,7 @@ class CommousesController < ApplicationController
     @q = Commouse.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @commouses = @q.result(disinct: true)
-    set_index_render
+    set_index_render(@q, @commouses, new_commouse_path)
   end
 
   def show
@@ -17,12 +17,12 @@ class CommousesController < ApplicationController
   def new
     authorize Commouse
     @commouse = Commouse.new
-    set_new_edit_render
+    set_new_edit_render(@commouse, commouses_path)
   end
 
   def edit
     authorize @commouse
-    set_new_edit_render
+    set_new_edit_render(@commouse, commouses_path)
   end
 
   def create
@@ -59,21 +59,5 @@ class CommousesController < ApplicationController
 
   def set_commouse
     @commouse = Commouse.find(params[:id])
-  end
-
-  def set_index_render
-    render partial: "catalog/catalog_list",
-            locals: { q: @q,
-                      title: t('.caption_title'),
-                      caption_button: t('.caption_button'),
-                      main_collection: @commouses,
-                      new_path: new_commouse_path }
-  end
-
-  def set_new_edit_render
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: t('.caption_text'),
-           catalog_name: @commouse,
-           index_path: commouses_path }
   end
 end

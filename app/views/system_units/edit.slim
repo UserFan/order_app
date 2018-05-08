@@ -1,6 +1,13 @@
-.col-xs-12.col-md-4.col-md-offset-4
-  .panel.panel-info
-    .panel-heading
-      h2.panel-title Редактирование
-    .panel-body.form-group
-      = render 'system_units/form'
+- content_for :catalog do
+  .col-3
+    = render "catalog/catalogs_list"
+  .col-9
+    .container
+      .row.justify-content-center.pt-5
+        .col-8
+          .card.shadow.p-3.mb-5.bg-white.rounded
+            .card-header.bg-transparent.p-1
+              h5.text-info = t('.caption_text')
+            .card-body.pb-0.form-group
+              = render 'system_units/form'
+= render template: "layouts/application"

@@ -161,6 +161,15 @@ ru:
     new:
       caption_text: "Новый ''Тип связи''"
 
+  types:
+    index:
+      caption_button: "Добавить ''Тип объектов''"
+      caption_title: "Справочник ''Тип объектов''"
+    edit:
+      caption_text: "Корректировка ''Тип объектов''"
+    new:
+      caption_text: "Новый ''Тип объектов''"
+
   weighers:
     index:
       caption_button: "Добавить ''Весы''"

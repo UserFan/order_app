@@ -1,7 +1,5 @@
 class RoutersController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
-  before_action :authenticate_user!
+  before_action :set_router, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -9,6 +7,7 @@ class RoutersController < ApplicationController
     @q =Router.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @routers = @q.result(disinct: true)
+    set_index_render(@q, @routers, new_router_path)
   end
 
   def show
@@ -18,10 +17,12 @@ class RoutersController < ApplicationController
   def new
     authorize Router
     @router = Router.new
+    set_new_edit_render(@router, routers_path)
   end
 
   def edit
     authorize @router
+    set_new_edit_render(@router, routers_path)
   end
 
   def create
@@ -56,7 +57,7 @@ class RoutersController < ApplicationController
 
   private
 
-  def set_type
+  def set_router
     @router = Router.find(params[:id])
   end
 end

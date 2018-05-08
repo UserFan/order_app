@@ -1,6 +1,5 @@
 class OrganizationUnitsController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
+  before_action :set_organization_unit, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -8,6 +7,7 @@ class OrganizationUnitsController < ApplicationController
     @q =OrganizationUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @organization_units = @q.result(disinct: true)
+    set_index_render(@q, @organization_units, new_organization_unit_path)
   end
 
   def show
@@ -17,10 +17,12 @@ class OrganizationUnitsController < ApplicationController
   def new
     authorize OrganizationUnit
     @organization_unit = OrganizationUnit.new
+    set_new_edit_render(@organization_unit, organization_units_path)
   end
 
   def edit
     authorize @organization_unit
+    set_new_edit_render(@organization_unit, organization_units_path)
   end
 
   def create
@@ -55,7 +57,7 @@ class OrganizationUnitsController < ApplicationController
 
   private
 
-  def set_type
+  def set_organization_unit
     @organization_unit = OrganizationUnit.find(params[:id])
   end
 end

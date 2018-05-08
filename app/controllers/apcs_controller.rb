@@ -7,7 +7,7 @@ class ApcsController < ApplicationController
     @q = Apc.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @apcs = @q.result(disinct: true)
-    set_index_render
+    set_index_render(@q, @apcs, new_apc_path)
   end
 
   def show
@@ -17,12 +17,12 @@ class ApcsController < ApplicationController
   def new
     authorize Apc
     @apc = Apc.new
-    set_new_edit_render
+    set_new_edit_render(@apc, apcs_path)
   end
 
   def edit
     authorize @apc
-    set_new_edit_render
+    set_new_edit_render(@apc, apcs_path)
   end
 
   def create
@@ -59,21 +59,5 @@ class ApcsController < ApplicationController
 
   def set_apc
     @apc = Apc.find(params[:id])
-  end
-
-  def set_index_render
-    render partial: "catalog/catalog_list",
-            locals: { q: @q,
-                      title: t('.caption_title'),
-                      caption_button: t('.caption_button'),
-                      main_collection: @apcs,
-                      new_path: new_apc_path }
-  end
-
-  def set_new_edit_render
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: t('.caption_text'),
-           catalog_name: @apc,
-           index_path: apcs_path }
   end
 end

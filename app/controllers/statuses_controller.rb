@@ -1,5 +1,4 @@
 class StatusesController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
   before_action :set_status, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
@@ -8,6 +7,7 @@ class StatusesController < ApplicationController
     @q = Status.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @statuses = @q.result(disinct: true)
+    set_index_render(@q, @statuses, new_status_path)
   end
 
   def show
@@ -17,10 +17,12 @@ class StatusesController < ApplicationController
   def new
     authorize Status
     @status = Status.new
+    set_new_edit_render(@status, statuses_path)
   end
 
   def edit
     authorize @status
+    set_new_edit_render(@status, statuses_path)
   end
 
   def create

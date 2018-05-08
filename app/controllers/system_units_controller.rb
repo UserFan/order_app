@@ -1,7 +1,5 @@
 class SystemUnitsController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
-  before_action :authenticate_user!
+  before_action :set_system_unit, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -9,6 +7,7 @@ class SystemUnitsController < ApplicationController
     @q =SystemUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @system_units = @q.result(disinct: true)
+    set_index_render(@q, @system_units, new_system_unit_path)
   end
 
   def show
@@ -56,7 +55,7 @@ class SystemUnitsController < ApplicationController
 
   private
 
-  def set_type
+  def set_system_unit
     @system_unit = SystemUnit.find(params[:id])
   end
 end

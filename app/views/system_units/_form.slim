@@ -6,6 +6,6 @@
   = f.input :motherboard, autocomplete: "off", required: true
   = f.input :hdd, autocomplete: "off", required: true
   = f.input :os, autocomplete: "off", required: true
-  .form-group
-    = link_to "Отмена", system_units_path, class: "btn btn-info pull-right"
-    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"
+  .form-group.float-right.mb-0.mt-3
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", system_units_path, class: "btn btn-outline-secondary m-1 btn-sm"

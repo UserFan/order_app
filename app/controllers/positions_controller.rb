@@ -7,7 +7,7 @@ class PositionsController < ApplicationController
     @q = Position.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @positions = @q.result(disinct: true)
-    set_index_render
+    set_index_render(@q, @positions, new_position_path)
   end
 
   def show
@@ -17,12 +17,12 @@ class PositionsController < ApplicationController
   def new
     authorize Position
     @position = Position.new
-    set_new_edit_render
+    set_new_edit_render(@position, positions_path)
   end
 
   def edit
     authorize @position
-    set_new_edit_render
+    set_new_edit_render(@position, positions_path)
   end
 
   def create
@@ -60,21 +60,4 @@ class PositionsController < ApplicationController
   def set_position
     @position = Position.find(params[:id])
   end
-
-  def set_index_render
-    render partial: "catalog/catalog_list",
-            locals: { q: @q,
-                      title: t('.caption_title'),
-                      caption_button: t('.caption_button'),
-                      main_collection: @positions,
-                      new_path: new_position_path } and return
-  end
-
-  def set_new_edit_render
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: t('.caption_text'),
-           catalog_name: @position,
-           index_path: positions_path }
-  end
-
 end

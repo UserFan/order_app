@@ -7,7 +7,7 @@ class BankUnitsController < ApplicationController
     @q =BankUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @bank_units = @q.result(disinct: true)
-    set_index_render
+    set_index_render(@q, @bank_units, new_bank_unit_path)
   end
 
   def show
@@ -17,12 +17,12 @@ class BankUnitsController < ApplicationController
   def new
     authorize BankUnit
     @bank_unit = BankUnit.new
-    set_new_edit_render
+    set_new_edit_render(@bank_unit, bank_units_path)
   end
 
   def edit
     authorize @bank_unit
-    set_new_edit_render
+    set_new_edit_render(@bank_unit, bank_units_path)
   end
 
   def create
@@ -60,21 +60,4 @@ class BankUnitsController < ApplicationController
   def set_bank_unit
     @bank_unit = BankUnit.find(params[:id])
   end
-
-  def set_index_render
-    render partial: "catalog/catalog_list",
-            locals: { q: @q,
-                      title: t('.caption_title'),
-                      caption_button: t('.caption_button'),
-                      main_collection: @bank_units,
-                      new_path: new_bank_unit_path }
-  end
-
-  def set_new_edit_render
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: t('.caption_text'),
-           catalog_name: @bank_unit,
-           index_path: bank_units_path }
-  end
-
 end

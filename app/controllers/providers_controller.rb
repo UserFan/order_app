@@ -1,6 +1,5 @@
 class ProvidersController < ApplicationController
-  layout "catalogs", only: [:index, :new, :edit ]
-  before_action :set_type, except: [ :index, :new, :create ]
+  before_action :set_provider, except: [ :index, :new, :create ]
   after_action :verify_authorized
 
   def index
@@ -8,6 +7,7 @@ class ProvidersController < ApplicationController
     @q =Provider.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @providers = @q.result(disinct: true)
+    set_index_render(@q, @providers, new_provider_path)
   end
 
   def show
@@ -17,10 +17,12 @@ class ProvidersController < ApplicationController
   def new
     authorize Provider
     @provider = Provider.new
+    set_new_edit_render(@provider, providers_path)
   end
 
   def edit
     authorize @provider
+    set_new_edit_render(@provider, providers_path)
   end
 
   def create
@@ -55,7 +57,7 @@ class ProvidersController < ApplicationController
 
   private
 
-  def set_type
+  def set_provider
     @provider = Provider.find(params[:id])
   end
 end
