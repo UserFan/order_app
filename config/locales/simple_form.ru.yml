@@ -37,7 +37,7 @@ ru:
           name: "Наименование"
 
       position:
-        <<: *name        
+        <<: *name
 
       apc:
         <<: *name
@@ -202,6 +202,7 @@ ru:
       shop:
         new:
           name: "Наименование объекта"
+          email: "E-mail объекта"
           address: "Адрес объекта"
           type: "Тип объекта"
           gps: "Координаты GPS"
@@ -211,6 +212,7 @@ ru:
 
         edit:
           name: "Наименование объекта"
+          email: "E-mail объекта"
           address: "Адрес объекта"
           type: "Тип объекта"
           gps: "Координаты GPS"

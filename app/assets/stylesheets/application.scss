@@ -9,8 +9,12 @@
 @import "font-awesome";
 @import "font-awesome-compass";
 
+.form-control-label {
+  font-weight: bold
+}
+
 //Стиль для легенды(флажки)
-legend {
+.main-check legend {
   display: block;
   width: auto;
   padding: 0 5px;
@@ -18,8 +22,9 @@ legend {
   font-size: inherit;
   line-height: inherit;
   border-bottom: none;
+  font-weight: bold
 }
-fieldset {
+.main-check fieldset {
   border: 1px groove threedface;
   padding: 15px;
 }

@@ -1,11 +1,10 @@
 .nested-fields
-  .well.well-sm
-    .col-sm-12.col-md-12
-    .pull-right
-      = link_to_remove_association "<i class='glyphicon glyphicon-remove'></i>".html_safe, f, class: 'btn btn-danger btn-xs'
+  .card.mt-3.p-3.border-dark
     .row
-      .col-sm-3.col-md-3
+      .col-12
+        = link_to_remove_association "<i class='fa fa-times'></i>".html_safe, f, class: 'btn btn-outline-danger btn-sm float-right'
+    .row
+      .col-3
         = f.input :date_add, :as => :date_picker, required: true, autofocus: true, :placeholder => "дата фото", input_html: { class: 'datepicker' }
-      .col-sm-3.col-md-3
-        = f.label :images
-        = f.file_field :images, multiple: true
+      .col-6
+        = f.input :images, as: :file, multiple: true

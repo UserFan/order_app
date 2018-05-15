@@ -8,7 +8,7 @@ class ShopPolicy < ApplicationPolicy
 
 
   def permitted_attributes
-    [:name, :address, :type_id, :user_id, :photo, :closed,
+    [:name, :email, :address, :type_id, :user_id, :photo, :closed,
      cashboxes_attributes: [:id, :shop_id, :display_id, :display_sn,
                             :system_unit_id, :system_unit_sn, :keyboard_id,
                             :keyboard_sn, :display_client_id, :display_client_sn,

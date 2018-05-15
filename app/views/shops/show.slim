@@ -1,7 +1,7 @@
 .container
   .col-12
-    .row
-      .col-1.p-4
+    .row.align-items-end
+      .col-12.p-4
         = link_to "Закрыть", shops_path, class: "btn btn-info float-right"
   .row
     .col-3
@@ -38,26 +38,30 @@
                     b Наименование объекта:
                     td = @shop.name
                 tr
-                 td
-                   b Тип объекта:
-                 td = @shop.type.name
+                  td
+                    b Тип объекта:
+                  td = @shop.type.name
                 tr
-                 td
-                   b Адрес объекта:
-                 td = @shop.address
+                  td
+                    b e-mail объекта:
+                  td = @shop.email
                 tr
-                 td
-                   b Ответственное лицо:
-                 td = @shop.user.full_name
+                  td
+                    b Адрес объекта:
+                  td = @shop.address
                 tr
-                 td.span.glyphicon.glyphicon-phone-alt
-                 td = @shop.user.mobile
+                  td
+                    b Ответственное лицо:
+                  td = @shop.user.full_name
+                tr
+                  td.i.fa.fa-phone.fa-flip-horizontal.fa-lg
+                  td = @shop.user.mobile
 
                 - if @shop.closed.present?
-                 tr
-                   td
-                     b Объект закрыт:
-                   td = l(@shop.closed, format: :date)
+                  tr
+                    td
+                      b Объект закрыт:
+                    td = l(@shop.closed, format: :date)
         #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
           .col-12
             br
