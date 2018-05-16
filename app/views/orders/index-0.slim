@@ -1,0 +1,84 @@
+.container
+  h1.text-right
+    b Заявки от торговых объектов
+  br
+  .col-sm-12.col-md-12
+  .row
+    ul.nav.nav-pills
+      = active_link_to orders_path, active: :exact, wrap_tag: :li do
+        | Всего заявок
+        - if @orders_count !=0
+        span.badge.pull-right #{@orders_count}
+
+      = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}), active: :exact, wrap_tag: :li do
+        | В работе
+        - if @orders_open !=0
+          span.badge.pull-right #{@orders_open}
+
+      = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, wrap_tag: :li do
+        | Отработанные
+        - if @orders_closed !=0
+          span.badge.pull-right #{@orders_closed}
+
+      - if policy(@orders).for_closing?
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, wrap_tag: :li do
+          | На согласовании
+          - if @orders_for_closing !=0
+            span.badge.pull-right #{@orders_for_closing}
+
+      - if policy(@orders).for_closing?
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, wrap_tag: :li do
+          | Согласованые
+          - if @orders_agree !=0
+            span.badge.pull-right #{@orders_agree}
+
+      = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, wrap_tag: :li do
+        | Вернули на доработку
+        - if @orders_not_coordination !=0
+          span.badge.pull-right #{@orders_not_coordination}
+
+      = active_link_to orders_path(q: {date_closed_not_null_eq: %i['0', #{Date.today}], date_execution_lt: Date.today}), active: :exact, wrap_tag: :li do
+        | Просроченные
+        - if @orders_overdue !=0
+          span.badge.pull-right #{@orders_overdue}
+  br
+  .col-xs-12.col-md-12
+  .row
+    .col-sm-4.col-md-3
+      = link_to "Новая заявка",  new_order_path, class: "btn btn-success"
+    .col-sm-8.col-md-4.col-md-offset-5
+      = search_form_for (@q), class: "input-group add-on" do |f|
+        = f.input :short_descript_or_shop_name_or_category_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control"
+        span.input-group-btn
+          button.btn.btn-primary type="submit"
+            span.glyphicon.glyphicon-search
+  br
+  .row
+    .col-sm-12.col-md-12
+      table.table-hover.table.table-striped.table-responsive
+        thead
+          tr
+            th =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
+            th =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
+            th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
+            th =sort_link(@q, :shop_name, 'От торгового объекта', default_order: :asc)
+            th =sort_link(@q, :short_descript, 'Краткое описание', default_order: :asc)
+            th =sort_link(@q, :date_closed, 'Заявка выполнена', default_order: :asc)
+        tbody
+          - @orders.each do |order|
+            tr.table-row data-href="#{order_path(order)}"
+              td = order.status.name
+              td = l(order.date_open, format: :date)
+              td = order.category.name
+              td = order.shop.name
+              td = order.short_descript
+              td = l(order.date_closed, format: :date) if order.date_closed
+              td.row-skip
+                - if policy(order).edit?
+                  = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                    "title" => "Корректировка данных" do
+                     span.fa.fa-pencil-alt.edit-button
+                - if policy(order).destroy? && order.can_destroy?
+                  = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
+                    "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                       span.far.fa-trash-alt.edit-button

@@ -4,7 +4,7 @@ ul.pt-2
     u #{communication.router.name}
   h6
     b Провайдеры:
-    - communication.item_communications.each do |item|
+    - communication.item_communications.order(master: :desc).each do |item|
       ul.pt-1
         details
           summary.h6.text-info

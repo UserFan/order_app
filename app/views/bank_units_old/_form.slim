@@ -1,6 +1,0 @@
-= simple_form_for(@bank_unit) do |f|
-  = f.error_notification
-  = f.input :name, autocomplete: "off", required: true, autofocus: true
-  .form-group
-    = link_to "Отмена", bank_units_path, class: "btn btn-info pull-right"
-    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"

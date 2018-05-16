@@ -1,7 +1,0 @@
-= simple_form_for(@status) do |f|
-  = f.error_notification
-  = f.input :name, autocomplete: "off", required: true, autofocus: true
-  = f.input :role, as: :check_boxes, collection: Role.all, label_method: :name, value_method: :id, include_blank: false
-  .form-group
-    = link_to "Отмена", statuses_path, class: "btn btn-info pull-right"
-    = f.button :submit, "Сохранить", class: "btn btn-primary pull-right"
