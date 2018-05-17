@@ -21,21 +21,4 @@ class ApplicationController < ActionController::Base
     flash[:danger] = 'Доступ запрещен. Вы перенаправлены в главную страницу!!!'
     redirect_to root_path
   end
-
-  def set_index_render(search, main_collection, new_path )
-    render partial: "catalog/catalog_list",
-            locals: { q: search,
-                      title: t('.caption_title'),
-                      caption_button: t('.caption_button'),
-                      main_collection: main_collection,
-                      new_path: new_path }
-  end
-
-  def set_new_edit_render(catalog_name, index_path)
-    render partial: 'catalog/catalog_new_edit',
-           locals: { title: t('.caption_text'),
-           catalog_name: catalog_name,
-           index_path: index_path }
-  end
-  
 end

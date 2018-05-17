@@ -7,7 +7,12 @@ class SystemUnitsController < ApplicationController
     @q =SystemUnit.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @system_units = @q.result(disinct: true)
-    set_index_render(@q, @system_units, new_system_unit_path)
+    render partial: "catalog/catalog_list",
+            locals: { q: @q,
+                      title: t('.caption_title'),
+                      caption_button: t('.caption_button'),
+                      main_collection: @system_units,
+                      new_path: url_for(action: 'new') }
   end
 
   def show
