@@ -20,6 +20,11 @@
 //= require bootstrap-datetimepicker
 //= require turbolinks
 //= require cocoon
+//= require jquery.inputmask
+//= require jquery.inputmask.extensions
+//= require jquery.inputmask.numeric.extensions
+//= require jquery.inputmask.date.extensions
+//= require jquery.inputmask.phone.extensions
 //= require_tree .
 
 
