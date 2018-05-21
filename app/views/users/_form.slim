@@ -9,7 +9,7 @@
       = f.input :email, required: true
       .row
         .col-8
-          = f.input :mobile,  required: true, input_html: { data: { mask: '(999) 999-9999' }} 
+          = f.input :mobile,  required: true, input_html: { id: 'phone' }
     .col-6.main-check
       = f.association :role, :disabled => current_user == @user,
                       as: :radio_buttons if current_user.moderator? || current_user.super_admin?

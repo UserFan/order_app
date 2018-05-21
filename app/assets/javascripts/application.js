@@ -42,10 +42,22 @@ var date_pic = function () {
 };
 
 
+var Mask_Input = function() {
+  $('#phone').inputmask({mask: "+9 (999) 999-99-99"});
+  $('#ip').inputmask({'alias': 'ip', 'greedy' : false});
+  $('#macaddress').inputmask({mask: "**:**:**:**:**:**"});
+  $('#team').inputmask({mask: "999-999-999"});
+};
+
+
 document.addEventListener('turbolinks:load', function () {
   date_pic();
 });
 
 document.addEventListener('turbolinks:load', function () {
   ClickRowTable();
+});
+
+document.addEventListener('turbolinks:load', function () {
+  Mask_Input();
 });
