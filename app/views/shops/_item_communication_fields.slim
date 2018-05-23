@@ -18,13 +18,14 @@
         = f.input :modem_sn
     .row
       .col-3
-        = f.input :simphone_number
-      .col-3
-        = f.input :sim_number
+        / = f.association :sim_card, label_method: :simphone_number, value_method: :id, required: false, include_blank: false
+        = f.input :sim_card,
+                  collection: SimCard.includes(:item_communications).where(item_communications: {id: nil}),
+                  label_method: :simphone_number, value_method: :id,
+                  required: true, include_blank: true
       .col-2
         = f.input :login_name
-      .col-3
+      .col-2
         = f.input :pass_name
-    .row
-      .col-8
+      .col-5
         = f.input :comment, as: :text

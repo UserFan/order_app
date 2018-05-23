@@ -8,6 +8,15 @@ ru:
     new:
       caption_text: "Новая ''Должность''"
 
+  sim_cards:
+    index:
+      caption_button: "Добавить ''Сим карту''"
+      caption_title: "Перечень ''Сим карт''"
+    edit:
+      caption_text: "Корректировка ''Сим карты''"
+    new:
+      caption_text: "Новая ''Сим карта''"
+
   apcs:
     index:
       caption_button: "Добавить ''ИБП''"

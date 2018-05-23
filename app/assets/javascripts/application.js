@@ -44,7 +44,7 @@ var date_pic = function () {
 
 var Mask_Input = function() {
   $('#phone').inputmask({mask: "+9 (999) 999-99-99"});
-  $('#ip').inputmask({'alias': 'ip', 'greedy' : false});
+  $('#ip').inputmask({'alias': 'ip', 'greedy' : false });
   $('#macaddress').inputmask({mask: "**:**:**:**:**:**"});
   $('#team').inputmask({mask: "999-999-999"});
 };

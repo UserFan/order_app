@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180515102848) do
+ActiveRecord::Schema.define(version: 20180523094432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,17 +149,17 @@ ActiveRecord::Schema.define(version: 20180515102848) do
     t.bigint "modem_id", default: 0
     t.string "modem_sn"
     t.boolean "master", default: false
-    t.string "simphone_number", default: ""
-    t.string "sim_number", default: ""
     t.string "login_name", default: ""
     t.string "pass_name", default: ""
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "sim_card_id"
     t.index ["communication_id"], name: "index_item_communications_on_communication_id"
     t.index ["modem_id"], name: "index_item_communications_on_modem_id"
     t.index ["provider_id"], name: "index_item_communications_on_provider_id"
     t.index ["shop_communication_id"], name: "index_item_communications_on_shop_communication_id"
+    t.index ["sim_card_id"], name: "index_item_communications_on_sim_card_id"
   end
 
   create_table "keyboards", force: :cascade do |t|
@@ -254,6 +254,12 @@ ActiveRecord::Schema.define(version: 20180515102848) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scaleses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scaners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -296,6 +302,16 @@ ActiveRecord::Schema.define(version: 20180515102848) do
     t.string "email"
     t.index ["type_id"], name: "index_shops_on_type_id"
     t.index ["user_id"], name: "index_shops_on_user_id"
+  end
+
+  create_table "sim_cards", force: :cascade do |t|
+    t.string "simphone_number", default: ""
+    t.string "sim_number", default: ""
+    t.bigint "provider_id", default: 0, null: false
+    t.string "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["provider_id"], name: "index_sim_cards_on_provider_id"
   end
 
   create_table "stabilizers", force: :cascade do |t|
@@ -365,4 +381,5 @@ ActiveRecord::Schema.define(version: 20180515102848) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "item_communications", "sim_cards"
 end

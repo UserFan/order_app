@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :bank_units
     resources :organization_units
     resources :fiscals
+    resources :sim_cards
   end
 
   resources :orders do

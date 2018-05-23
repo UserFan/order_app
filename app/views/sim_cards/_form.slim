@@ -1,0 +1,8 @@
+= simple_form_for(@sim_card) do |f|
+  = f.error_notification
+  = f.input :simphone_number, input_html: { id: 'phone' }, required: true, autofocus: true
+  = f.input :sim_number, autocomplete: "off", required: true
+  = f.association :provider, label_method: :name, value_method: :id, include_blank: false
+  .form-group.float-right.mb-0.mt-3
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", sim_cards_path, class: "btn btn-outline-secondary m-1 btn-sm"
