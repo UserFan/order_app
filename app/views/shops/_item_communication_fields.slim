@@ -19,10 +19,16 @@
     .row
       .col-3
         / = f.association :sim_card, label_method: :simphone_number, value_method: :id, required: false, include_blank: false
-        = f.input :sim_card,
-                  collection: SimCard.includes(:item_communications).where(item_communications: {id: nil}),
+        / = raise
+        - sim_cards = SimCard.includes(:item_communications).where(item_communications: {id: nil})
+        - if f.object.sim_card
+          - sim_cards = sim_cards.to_a << f.object.sim_card
+
+        = f.input :sim_card_id,
+                  collection: sim_cards,
                   label_method: :simphone_number, value_method: :id,
                   required: true, include_blank: true
+
       .col-2
         = f.input :login_name
       .col-2
