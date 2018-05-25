@@ -1,6 +1,6 @@
-h2.text-right
-  b Редактирование заявки №#{@order.order_number}
 .container
-  .col-xs-12.col-md-12
-  br
-    = render 'orders/form'
+  .row.p-1.justify-content-end
+    .col-12
+      h2.font-weight-bold.text-right Редактирование заявки №#{@order.order_number}
+      hr
+  = render 'orders/form'

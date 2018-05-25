@@ -9,6 +9,6 @@
       .col-3
         = f.input :weigher_sn
       .col-2
-        = f.input :ip_address
+        = f.input :ip_address, input_html: { id: 'ip' }
       .col-3
         = f.input :comment, as: :text

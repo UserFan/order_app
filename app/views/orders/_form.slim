@@ -1,49 +1,49 @@
-.row
-  .container
-    .col-xs-12.col-md-12
-      = simple_form_for @order, html: {:multipart => true} do |f|
-        = render 'shared/error_messages', object: f.object
-        .col-xs-3.col-md-3
-          - if @order.photos
-            ul
-              - @order.photos.each do |photo|
-                li = image_tag(photo.thumb.url)
-          .row
-          br
-          .col-sm-12.col-md-12
-            = f.file_field :photos, multiple: true
-        .col-xs-9.col-md-9
-          .col-xs-4.col-md-4
+= simple_form_for @order, html: {:multipart => true} do |f|
+  = render 'shared/error_messages', object: f.object
+  .col-12
+    .row
+      .col-3
+        - if @order.photos
+          ul
+            - @order.photos.each do |photo|
+              li = image_tag(photo.thumb.url)
+        .row.pt-2
+          = f.file_field :photos, multiple: true
+      .col-9
+        .row
+          .col-4
             = f.association :category, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.admin?)))
-          .col-xs-3.col-md-3
+          .col-3
             = f.input :date_open, :as => :date_picker, :placeholder => "дата заявки", required: true, input_html: { class: 'datepicker'}, disabled: (true if (@order.date_closed.present?))
-          .col-xs-5.col-md-5
+          .col-5
             = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.admin?)))
-          .row
-          .col-xs-5.col-md-5
+        .row
+          .col-5
             = f.input :short_descript, required: true, disabled: (true if (@order.date_closed.present?))
-          .col-xs-7.col-md-7
+          .col-7
             = f.input :description, as: :text, disabled: (true if (@order.date_closed.present?))
-          .row
-          .col-xs-7.col-md-7
+        .row
+          .col-6
             = f.input :user_id, collection: User.where(admin: false).order(full_name: :asc), required: true, label_method: :full_name, value_method: :id, disabled: (true if (@order.date_closed.present?))
-          .col-xs-3.col-md-3
+          .col-3
             = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }, disabled: (true if (@order.date_closed.present?))
-          .col-xs-12.col-md-12
-            .panel.panel-info
-              .panel-heading Исполнители:
-              .panel-body
-                .links
-                  = link_to_add_association f, :performers, force_non_association_create: true, class: 'btn btn-success btn-sm',
-                    data: { association_insertion_method: :append } if !(@order.date_closed.present?)
-                  = f.simple_fields_for :performers do |performer|
-                    = render 'performer_fields', f: performer,  render_options: {locals: { p: performer }}
-          //.col-xs-4.col-md-4
-            //= f.hidden_field :status_id
-            //= f.association :status, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true, disabled: (true if (@order.date_closed.present?))
-          .col-xs-3.col-md-3
+          .col-3
             = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
-
-        .form-group
-          = link_to "Отмена", orders_path, class: "btn btn-info pull-right main-group"
-          = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
+    .row
+      .col-12
+        .card.shadow.p-3.mb-5.bg-white.rounded
+          .card-header.bg-transparent.p-1
+            span.card-title.text-info.h5.font-weight-bold Исполнители
+          .card-body.pb-0
+            .links
+              = link_to_add_association f, :performers, force_non_association_create: true, class: 'btn btn-success btn-sm',
+                data: { association_insertion_method: :append } if !(@order.date_closed.present?)
+              = f.simple_fields_for :performers do |performer|
+                = render 'performer_fields', f: performer,  render_options: {locals: { p: performer }}
+      //.col-xs-4.col-md-4
+        //= f.hidden_field :status_id
+        //= f.association :status, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true, disabled: (true if (@order.date_closed.present?))
+    .row.justify-content-end
+      .form-group
+        = f.button :submit, "Сохранить", class: "btn btn-primary pull-right main-group"
+        = link_to "Отмена", orders_path, class: "btn btn-info pull-right main-group"

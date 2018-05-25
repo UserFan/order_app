@@ -13,17 +13,13 @@
         = f.association :communication, label_method: :name, value_method: :id, required: true
       .col-3
         = f.input :modem_id, collection: Modem.all
-        //= f.association :modem, label_method: :name, value_method: :id, required: false
       .col-3
         = f.input :modem_sn
     .row
       .col-3
-        / = f.association :sim_card, label_method: :simphone_number, value_method: :id, required: false, include_blank: false
-        / = raise
         - sim_cards = SimCard.includes(:item_communications).where(item_communications: {id: nil})
         - if f.object.sim_card
           - sim_cards = sim_cards.to_a << f.object.sim_card
-
         = f.input :sim_card_id,
                   collection: sim_cards,
                   label_method: :simphone_number, value_method: :id,

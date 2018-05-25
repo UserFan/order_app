@@ -1,5 +1,6 @@
 .container
   .row.p-1.justify-content-end
-    h2.font-weight-bold Редактирование торгового объекта
-  hr
+    .col-12
+      h2.font-weight-bold.text-right Корректировка объекта: "#{@shop.name}"
+      hr
   = render 'shops/form'
