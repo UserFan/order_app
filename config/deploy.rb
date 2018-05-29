@@ -2,7 +2,7 @@
 lock "~> 3.10.1"
 
 # Change these
-server '192.168.102.150', port: 4545, roles: [:web, :app, :db], keys: [File.join(ENV["HOME"], ".ssh", "id_rsa")]
+server '192.168.102.240', port: 4545, roles: [:web, :app, :db], keys: [File.join(ENV["HOME"], ".ssh", "id_rsa")]
 set :repo_url,        'https://github.com/UserFan/order_app.git'
 set :application,     'order'
 set :user,            'deploy'
