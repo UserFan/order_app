@@ -6,5 +6,6 @@
     .row
       .col-3
         = f.input :date_add, :as => :date_picker, required: true, autofocus: true, :placeholder => "дата фото", input_html: { class: 'datepicker' }
-      .col-6
-        = f.input :images, as: :file, multiple: true
+      .col-6.pt-3.mt-3
+        //= f.input :images, as: :file, multiple: true
+        = f.file_field :images, multiple: true
