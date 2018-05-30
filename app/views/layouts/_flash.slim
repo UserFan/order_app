@@ -1,5 +1,7 @@
-.row
-  .col-xs-12.col-md-6.col-md-offset-3
+.row.justify-content-center
+  .col-8
     - flash.each do |key, value|
-      .alert.alert-warning role="alert"
+      .alert.alert-warning.alert-dismissible.fade.show role="alert"
         = value
+        button.close aria-label="Close" data-dismiss="alert" type="button"
+         span aria-hidden="true"  &times;
