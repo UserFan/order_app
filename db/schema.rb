@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180531092434) do
+ActiveRecord::Schema.define(version: 20180531103554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(version: 20180531092434) do
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "sim_card_id", default: 0
+    t.bigint "sim_card_id"
     t.index ["communication_id"], name: "index_item_communications_on_communication_id"
     t.index ["modem_id"], name: "index_item_communications_on_modem_id"
     t.index ["provider_id"], name: "index_item_communications_on_provider_id"

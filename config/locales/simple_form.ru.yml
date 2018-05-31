@@ -329,8 +329,7 @@ ru:
           communication: "Тип связи:"
           modem_id: "4G Модем:"
           modem_sn: "Серийный (S/N) №:"
-          simphone_number: "№(тел.) сим-карты:"
-          sim_number: "№ сим-карты:"
+          sim_card_id: "№ (тел.) сим-карты:"
           master: "Основная коммуникация:"
           login_name: "Логин:"
           pass_name: "Пароль:"
@@ -340,8 +339,7 @@ ru:
           communication: "Тип связи:"
           modem_id: "4G Модем:"
           modem_sn: "Серийный (S/N) №:"
-          simphone_number: "№(тел.) сим-карты:"
-          sim_number: "№ сим-карты:"
+          sim_card_id: "№ (тел.) сим-карты:"
           master: "Основная коммуникация:"
           login_name: "Логин:"
           pass_name: "Пароль:"
@@ -352,8 +350,7 @@ ru:
           communication: "Тип связи:"
           modem_id: "4G Модем:"
           modem_sn: "Серийный (S/N) №:"
-          simphone_number: "№(тел.) сим-карты:"
-          sim_number: "№ сим-карты:"
+          sim_card_id: "№ (тел.) сим-карты:"
           master: "Основная коммуникация:"
           login_name: "Логин:"
           pass_name: "Пароль:"
@@ -363,12 +360,21 @@ ru:
           communication: "Тип связи:"
           modem_id: "4G Модем:"
           modem_sn: "Серийный (S/N) №:"
-          simphone_number: "№(тел.) сим-карты:"
-          sim_number: "№ сим-карты:"
+          sim_card_id: "№ (тел.) сим-карты:"
           master: "Основная коммуникация:"
           login_name: "Логин:"
           pass_name: "Пароль:"
           comment: "Комментарий:"
+
+      sim_card: &name
+        new:
+          simphone_number: "Номер тел. сим-карты"
+          sim_number: "Номер сим-карты:"
+          provider: "Провайдер:"
+        edit:
+          simphone_number: "Номер тел. сим-карты"
+          sim_number: "Номер сим-карты:"
+          provider: "Провайдер:"
 
       system_unit:
         new:
