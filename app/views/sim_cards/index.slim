@@ -35,7 +35,7 @@
                     - if sim_card.can_destroy?
                       = "#{''}"
                     - else
-                      = sim_card.shop.name
+                      = sim_card.shops.first.name
                   td
                     - if policy(sim_card).edit?
                       = link_to [:edit, sim_card], "data-toggle" => "tooltip", "data-placement" => "bottom",
