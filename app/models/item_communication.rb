@@ -2,7 +2,7 @@ class ItemCommunication < ApplicationRecord
   belongs_to :shop_communication
   belongs_to :provider
   belongs_to :communication
-  belongs_to :sim_card
+  # belongs_to :sim_card
 
   # delegate :modem_name, to: :modem
 
