@@ -6,7 +6,7 @@
         .carousel-inner
           - show_image.images.each_with_index do |photo, index|
             div class=("#{index == 0 ? 'carousel-item active' : 'carousel-item'}")
-              = image_tag(photo.large.url)
+              = image_tag(photo.large.url, class: "d-block w-100")
         /! Controls
         a.carousel-control-prev data-slide="prev" href="#carouselExampleControls" role="button"
           span.carousel-control-prev-icon aria-hidden="true"
