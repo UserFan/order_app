@@ -17,6 +17,17 @@
                 button.btn.btn-outline-secondary type="submit"
                   span.fa.fa-search
       .row
+        .col-6
+          nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row
+            = active_link_to sim_cards_path, active: :exact, class: "nav-item nav-link" do
+              | Все сим-карты
+              span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@sim_count}
+            - @sim_provider_count.each do |name, count|
+              = active_link_to sim_cards_path(q: {provider_name_cont: name}), active: :exact, class: "nav-item nav-link" do
+                | #{name}
+                span.badge.badge-pill.badge-secondary.float-right.ml-2 #{count}
+      hr
+      .row
         .col-12
           table.table.shadow.p-3.mb-5.bg-white.rounded
             thead.thead-light.text-dark

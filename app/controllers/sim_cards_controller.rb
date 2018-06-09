@@ -7,6 +7,8 @@ class SimCardsController < ApplicationController
     @q =SimCard.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @sim_cards = @q.result(disinct: true)
+    @sim_count = SimCard.count
+    @sim_provider_count = SimCard.joins(:provider).group(:name).count
   end
 
   def show
