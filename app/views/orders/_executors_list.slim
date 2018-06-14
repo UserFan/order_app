@@ -39,27 +39,39 @@ li
       - if performer.execution.reworks.present?
         br
         - first_rework = performer.execution.reworks.first
-        .alert.alert-warning
-          h4.text-right Замечание
+        .alert.alert-secondary
+          .card.bg-light
+            h4.card-header.text-right.text-danger Замечание
+            .card-body
+              = render 'rework_list', rework: first_rework
+              / .card-title.text-right.text-info
+              /   span.fa.fa-user-secret
+              /   span.fas.fa-user-tie
+              /   | &nbsp;
+              /   = first_rework.user.full_name
+              /   br
+              /   .text-muted.text-right.small = l(first_rework.created_at, format: :datetime)
+              / p.card-text = first_rework.comment
+
+
+          / .panel.panel-primary
+          /   .panel-heading.panel-heading-xs
+          /     span.glyphicon.glyphicon-user
+          /     | &nbsp;
+          /     = first_rework.user.full_name
+          /     br
+          /     small = l(first_rework.created_at, format: :datetime)
+          /   .panel-body
+          /     = first_rework.comment
           hr
-          .panel.panel-primary
-            .panel-heading.panel-heading-xs
-              span.glyphicon.glyphicon-user
-              | &nbsp;
-              = first_rework.user.full_name
-              br
-              small = l(first_rework.created_at, format: :datetime)
-            .panel-body
-              = first_rework.comment
-          hr
-          .panel.panel-info
-            .panel-heading Комментарии
-            .panel-body
+          .card.border-info
+            h5.card-header.card-header-sm.text-right Комментарии
+            .card-body
               - performer.execution.reworks[1..-1].each do |rework|
                 = render 'rework_list', rework: rework
             -if policy(performer.execution).comment?
-              .panel-footer
+              .card-footer.text-muted
                 = link_to 'Написать', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true),
-                    class: "btn btn-success btn-xs" 
+                    class: "btn btn-success btn-sm float-right"
   - else
     = link_to "отметка о выполнении", new_execution_path(performer_id: performer.id) if policy(performer).executions?

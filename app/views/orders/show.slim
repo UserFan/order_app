@@ -1,99 +1,110 @@
-.container
-  .row
-    h2.text-right
-      b Информация по заявке №#{@order.order_number}
-    br
-    .col-xs-12.col-md-4
-      - if @order.photos.any?
-        #carousel.carousel.slide data-ride="carousel"
-          /! Slides
-          .carousel-inner
-            - @order.photos.each_with_index do |photo, index|
-              div class=("#{index == 0 ? 'item active' : 'item'}")
-                = image_tag(photo.large.url, :class => "img-rounded img-responsive")
-        .clearfix
-        .row
-          #thumbcarousel.carousel.slide data-interval="false"
+.row
+  .container
+    .col-12.col-lg-12.pb-4
+      h2.text-right
+        b Информация по заявке №#{@order.order_number}
+    .row
+      .col-12.col-lg-4
+        - if @order.photos.any?
+          #carousel.carousel.slide data-ride="carousel"
+            /! Slides
             .carousel-inner
               - @order.photos.each_with_index do |photo, index|
-                div class=("#{index == 0 ? 'item active' : 'item'}")
+                div class=("#{index == 0 ? 'carousel-item active' : 'carousel-item'}")
+                  = image_tag(photo.large.url, class: "img-rounded img-responsiv d-block w-100")
+          .clearfix
+          .row
+            #thumbcarousel.carousel.slide data-interval="false"
+              .carousel-inner
+                - @order.photos.each_with_index do |photo, index|
+                  div class=("#{index == 0 ? 'item active' : 'item'}")
 
-                  .thumb data-slide-to="#{index}" data-target="#carousel"
-                    = image_tag(photo.thumb.url, :class => "img-thumbnail")
-            /! /.Slides
-            /! Controls
-            a.left.carousel-control data-slide="prev" href="#thumbcarousel" role="button"
-              span.glyphicon.glyphicon-chevron-left
-            a.right.carousel-control data-slide="next" href="#thumbcarousel" role="button"
-              span.glyphicon.glyphicon-chevron-right
-            /! /.Carousel Wrapper
-    .col-xs-12.col-md-8
-      table.table.table-striped.table-responsive
-        tbody
-          tr
-            td
-              b Категория заявки:
-            td = @order.category.name
-          tr
-            td
-              b Дата заявки:
-            td = l(@order.date_open, format: :date)
-          tr
-            td
-              b Наименование объекта:
-            td = @order.shop.name
-          tr
-            td
-              b Краткое описание:
-            td = @order.short_descript
-          tr
-            td
-              b Полное описание:
-            td = @order.description
-          tr
-            td
-              b Срок исполнения:
-            td = l(@order.date_execution, format: :date)
-          tr
-            td
-              b Статус заявки:
-            td = @order.status.name
-          tr
-            td
-              b На контроле:
-            td = @order.control_name
-          tr
-            td
-              b Закрыть заявку (результат):
-            - if @order.date_closed.present?
-              td colspan="4" = l(@order.date_closed, format: :date)
-            - else
+                    .thumb data-slide-to="#{index}" data-target="#carousel"
+                      = image_tag(photo.thumb.url, :class => "img-thumbnail")
+              /! /.Slides
+              /! Controls
+
+
+              a.left.carousel-control data-slide="prev" href="#thumbcarousel" role="button"
+                span.carousel-control-prev-icon aria-hidden="true"
+                span.sr-only Previous
+              a.right.carousel-control data-slide="next" href="#thumbcarousel" role="button"
+                span.carousel-control-next-icon aria-hidden="true"
+                span.sr-only Next
+              /! /.Carousel Wrapper
+      .col-12.col-lg-8
+        table.table.table-striped
+          tbody
+            tr
               td
-                = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-success btn-xs" if policy(@order).closing?
-                | &nbsp;
-                = link_to 'Исполнен частично', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-info btn-xs" if policy(@order).closing?
-                | &nbsp;
-                = link_to 'Не исполнен', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-danger btn-xs" if policy(@order).closing?
-                | &nbsp;
-                = link_to 'Снято со исполнения', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-warning btn-xs" if policy(@order).closing?
+                b Категория заявки:
+              td = @order.category.name
+            tr
+              td
+                b Дата заявки:
+              td = l(@order.date_open, format: :date)
+            tr
+              td
+                b Наименование объекта:
+              td = @order.shop.name
+            tr
+              td
+                b Краткое описание:
+              td = @order.short_descript
+            tr
+              td
+                b Полное описание:
+              td = @order.description
+            tr
+              td
+                b Срок исполнения:
+              td = l(@order.date_execution, format: :date)
+            tr
+              td
+                b Статус заявки:
+              td = @order.status.name
+            tr
+              td
+                b На контроле:
+              td = @order.control_name
+            tr
+              td
+                b Закрыть заявку (результат):
+              - if @order.date_closed.present?
+                td colspan="4" = l(@order.date_closed, format: :date)
+              - else
+                td
+                  = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-success btn-sm" if policy(@order).closing?
+                  | &nbsp;
+                  = link_to 'Исполнен частично', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-info btn-sm" if policy(@order).closing?
+                  | &nbsp;
+                  = link_to 'Не исполнен', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-danger btn-sm" if policy(@order).closing?
+                  | &nbsp;
+                  = link_to 'Снято со исполнения', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-warning btn-sm" if policy(@order).closing?
 
 
-      .row
-      .col-xs-12.col-md-12
-        .panel.panel-info
-          .panel-heading Исполнители:
-          .panel-body
-            ul
-              li
-                b Ответственный исполнитель:
-                - @executor.each do |executor|
-                  ul
-                    = render 'executors_list', performer: executor
-                br
-              li
-                em Соисполнители:
-                - @coexecutor.each do |coexecutor|
-                  ul
-                    = render 'executors_list', performer: coexecutor
+        .row
+          .col-12.col-lg-12
+            .card.shadow.p-3.mb-5.bg-white.rounded
+              .card-header.bg-transparent.p-1
+                span.card-title.text-info.h5.font-weight-bold Исполнители:
+              .card-body.pb-0
+
+                /
+                / .panel.panel-info
+                /   .panel-heading Исполнители:
+                /   .panel-body
+                ul
+                  li
+                    b Ответственный исполнитель:
+                    - @executor.each do |executor|
+                      ul
+                        = render 'executors_list', performer: executor
+                    br
+                  li
+                    em Соисполнители:
+                    - @coexecutor.each do |coexecutor|
+                      ul
+                        = render 'executors_list', performer: coexecutor
 
       = link_to "Закрыть", orders_path, class: "btn btn-info pull-right main-group"
