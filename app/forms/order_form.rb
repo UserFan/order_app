@@ -10,12 +10,12 @@ class OrderForm < Reform::Form
   model :order
 
   property :category_id
-  property :date_open, type: Types::Form::DateTime
-  property :date_execution, type: Types::Form::DateTime
+  property :date_open, type: Types::Params::DateTime
+  property :date_execution, type: Types::Params::DateTime
   property :shop_id
   property :short_descript
   property :description
-  property :date_closed, type: Types::Form::DateTime
+  property :date_closed, type: Types::DateTime
   property :user_id
   property :status_id
   property :photos
@@ -35,8 +35,8 @@ class OrderForm < Reform::Form
     model :performer
 
     property :user_id
-    property :date_performance, type: Types::Form::DateTime
-    property :date_close_performance, type: Types::Form::DateTime
+    property :date_performance, type: Types::Params::DateTime
+    property :date_close_performance, type: Types::Params::DateTime
     property :coexecutor
     property :message
     property :comment
@@ -114,7 +114,7 @@ class OrderForm < Reform::Form
 
     def performer_populator(fragment:, collection:, **)
       item = collection.find_by(id: fragment['id']) unless fragment['id'].blank?
-      
+
       if fragment['_destroy'] == '1'
         collection.delete(item) if item
         return skip!
@@ -124,6 +124,7 @@ class OrderForm < Reform::Form
     end
 
     def val_date_execution
+    
       if date_execution.present?
         errors.add(:date_execution, :date_execution_less) if date_execution < date_open
         errors.add(:date_execution, :date_execution_more_30_days) if date_execution > (date_open + 30.days)

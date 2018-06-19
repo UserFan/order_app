@@ -38,9 +38,10 @@ class OrdersController < ApplicationController
 
   def update
     authorize @order
-    # binding.pry
+
     if @order.validate(params[:order])
       @order.save
+      
       redirect_to orders_path
     else
       render 'edit'
