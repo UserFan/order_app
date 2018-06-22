@@ -27,7 +27,6 @@ class OrdersController < ApplicationController
   def create
     authorize Order
     @order = OrderForm.new(Order.new)
-
     if @order.validate(params[:order])
       @order.save
       redirect_to orders_path
@@ -38,10 +37,8 @@ class OrdersController < ApplicationController
 
   def update
     authorize @order
-
     if @order.validate(params[:order])
       @order.save
-      
       redirect_to orders_path
     else
       render 'edit'
@@ -51,12 +48,18 @@ class OrdersController < ApplicationController
   def closing
     authorize @order
     @order.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
+    OrderMailer.with(user: User.find(@order.user_id), order: @order).order_close.deliver_now
+    @order.performers.each do |performer|
+      OrderMailer.with(user: performer.user, order: @order).order_close.deliver_now
+    end
     redirect_to order_path(@order)
   end
 
   def destroy
     authorize @order
+
     if @order.destroy
+      OrderMailer.with(user: User.find(@order.user_id), order: @order).delete_order.deliver_now
       flash[:success] = "Заявка удачно удален."
     else
       flash[:error] = "Заявка не может буть удален. Есть связанные данные"

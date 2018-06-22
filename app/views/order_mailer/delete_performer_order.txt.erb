@@ -1,7 +1,6 @@
-Welcome to arishmae.ru, Fanis
-===============================================
+<%= t('order_mailer.content_text.content_header', name: @user.full_name) %>
+=============================================================
 
-You have successfully signed up to example.com,
-your username is: Fanis.
- 
-Thanks for joining and have a great day!
+<%= t('order_mailer.delete_performer_order.content_body', number: @order.order_number)%>
+
+<%= t('order_mailer.footer_text.content_footer')%>

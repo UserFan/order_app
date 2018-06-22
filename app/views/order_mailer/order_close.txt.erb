@@ -1,0 +1,11 @@
+<%= t('order_mailer.content_text.content_header', name: @user.full_name) %>
+=============================================================
+
+<%= t('order_mailer.content_text.content_header', name: @user.full_name)%>
+
+<%= t('order_mailer.order_close.content_body', number: @order.order_number)%>
+
+<%= t('order_mailer.order_close.content_result', order_result: @order.status.name)%>
+<%= t('order_mailer.order_close.content_date', date_order_close: l(@order.date_closed, format: :date))%>
+
+<%= t('order_mailer.content_text.content_footer')%>

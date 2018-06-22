@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
+  body
+    h1
+      = t('order_mailer.content_text.content_header', name: @user.full_name)
+    p
+      = t('order_mailer.order_change.content_body', number: @order.order_number)
+    p
+      small
+        = t('order_mailer.content_text.content_footer')

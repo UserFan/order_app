@@ -20,7 +20,7 @@ class ExecutionsController < ApplicationController
     @execution_new = @performer.create_execution(permitted_attributes(Execution))
         # Not the final implementation!
     if @execution_new.save
-      @order.update!(status_id: 5)
+      @order.update!(status_id: Status::COORDINATION)
       redirect_to order_path(@performer.order)
     else
       render 'new'
@@ -42,13 +42,13 @@ class ExecutionsController < ApplicationController
     @order.update!(status_id: Status::AGREE)
     redirect_to order_path(@order) if @execution.update_attributes(completed: DateTime.now, order_execution: Status::AGREE)
   end
-  
+
 
   def destroy
     authorize @execution
     @order = @execution.performer.order
     if @execution.destroy
-      @order.update!(status_id: 2)
+      @order.update!(status_id: Status::EXECUTION)
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"

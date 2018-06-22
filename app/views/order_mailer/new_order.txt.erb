@@ -1,0 +1,11 @@
+<%= t('order_mailer.content_text.content_header', name: @user.full_name) %>
+=============================================================
+
+<%= t('order_mailer.content_text.content_header', name: @user.full_name)%>
+
+<%= t('order_mailer.new_order.content_body', number: @order.order_number)%>
+
+<%= t('order_mailer.new_order.content_performer', executor: @performer.coexecutor? ? 'Соисполнителем' : 'Ответственным исполнителем')%>
+<%= t('order_mailer.new_order.content_date', date_order: l(@performer.date_performance, format: :date))%>
+
+<%= t('order_mailer.content_text.content_footer')%>

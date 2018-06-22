@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
+  body
+    h1
+      = t('order_mailer.content_text.content_header', name: @user.full_name)
+    p
+      = t('order_mailer.new_order.content_body', number: @order.order_number)
+    p
+      = t('order_mailer.new_order.content_performer', executor: @performer.coexecutor? ? 'Соисполнителем' : 'Ответственным исполнителем')
+      br
+      = t('order_mailer.new_order.content_date', date_order: l(@performer.date_performance, format: :date))
+    p
+      small
+        = t('order_mailer.content_text.content_footer')
