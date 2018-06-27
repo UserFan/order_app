@@ -7,7 +7,9 @@ class PerformerPolicy < ApplicationPolicy
   end
 
   def completed?
-    !(record.order.date_closed.present?) && (user.admin? || user.moderator? || user.guide?)
+
+    !(record.order.date_closed.present?) && (user.admin? || user.moderator? || user.guide?) &&
+    (record.coexecutor && !(record.execution.present?))
   end
 
   def executions?

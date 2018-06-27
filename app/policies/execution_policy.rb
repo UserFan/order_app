@@ -30,6 +30,10 @@ class ExecutionPolicy < ApplicationPolicy
     (!(order_closed?) && (record.completed.nil?))
   end
 
+  def remove_control?
+    (user.super_admin? || user.moderator? || user.guide?) && !(order_closed?)
+  end
+
   def rework?
     (user.super_admin? || user.moderator? || user.guide?) &&
     (!(order_closed?) && (record.completed.nil?) && !(record.order_execution == Status::NOT_COORDINATION))

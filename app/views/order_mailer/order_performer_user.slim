@@ -1,0 +1,11 @@
+doctype html
+html
+  head
+    meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
+  body
+    h1 = t('order_mailer.content_text.content_header', name: @user.full_name)
+    p = @content_text
+    p = @content_date if @send_type = 'new_order'
+    p
+      small
+        = t('order_mailer.content_text.content_footer')

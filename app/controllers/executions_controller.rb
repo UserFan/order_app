@@ -1,6 +1,6 @@
 class ExecutionsController < ApplicationController
   before_action :set_perform_execution, only: [:new, :edit, :create]
-  before_action :set_execution, only: [:update, :destroy, :show, :completed, :coordination]
+  before_action :set_execution, only: [:update, :destroy, :show, :coordination]
   after_action :verify_authorized
 
   def new
@@ -20,7 +20,9 @@ class ExecutionsController < ApplicationController
     @execution_new = @performer.create_execution(permitted_attributes(Execution))
         # Not the final implementation!
     if @execution_new.save
-      @order.update!(status_id: Status::COORDINATION)
+      unless [Status::CHANGE_PERFORMER, Status::OFF_CONTROL].include?(@execution_new.order_execution)
+        @order.update!(status_id: Status::COORDINATION)
+      end
       redirect_to order_path(@performer.order)
     else
       render 'new'
@@ -41,6 +43,14 @@ class ExecutionsController < ApplicationController
     @order = @execution.performer.order
     @order.update!(status_id: Status::AGREE)
     redirect_to order_path(@order) if @execution.update_attributes(completed: DateTime.now, order_execution: Status::AGREE)
+  end
+
+  def remove_control
+    authorize @execution
+    @performer = Performer.find(params[:performer_id])
+    @order = @performer.order
+    #@performer.build_execution(completed: DateTime.now, order_execution: Status::AGREE, comment: 'Снято с контроля(без исполнения)!')
+    #redirect_to order_path(@order)
   end
 
 
@@ -67,5 +77,7 @@ class ExecutionsController < ApplicationController
   def set_execution
     @execution = Execution.find(params[:id])
   end
+
+
 
 end

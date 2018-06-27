@@ -2,17 +2,21 @@ li
   b #{performer.user.full_name}&nbsp
   - unless @order.date_closed.present? || (performer.execution.present? && performer.execution.completed.present?)
     = content_tag(:span, '(На контроле!)', class: 'control-order')
-    |  &#10148;&nbsp;
-    = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id, :execution => true) if policy(performer).completed?
+    - if policy(performer).completed?
+      |  &#10148;&nbsp;
+      = link_to "Снять с контроля", remove_control_execution_path(performer.execution)
+    //  = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id, :remove_control => true)
     ul
       li Срок исполнения - до #{l(performer.date_performance, format: :date)}
       - count_day = (Date.today - (performer.date_performance).to_date).to_i
       - if count_day <= 0
         .control-day-before
-          p до срока выполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
+          p
+            small до срока выполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
       - else
         .control-day-after
-          p срок выполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
+          p
+            small срок выполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
   - else
     - date_comleted = @order.date_closed.present? ? @order.date_closed : performer.execution.completed
     = content_tag(:span," (Снята с контроля - #{l(date_comleted, format: :datetime)})",

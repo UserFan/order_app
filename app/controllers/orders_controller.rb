@@ -59,7 +59,7 @@ class OrdersController < ApplicationController
     authorize @order
 
     if @order.destroy
-      OrderMailer.with(user: User.find(@order.user_id), order: @order).delete_order.deliver_now
+      OrderMailer.with(user: User.find(user_id), order: self, send_type: 'delete_order').order_control_user.deliver_now
       flash[:success] = "Заявка удачно удален."
     else
       flash[:error] = "Заявка не может буть удален. Есть связанные данные"

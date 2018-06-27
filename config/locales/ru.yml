@@ -356,18 +356,40 @@ ru:
     content_text:
       content_header: "Уважаемый(ая) %{name}!"
       content_footer: "Данное сообщение создано автоматический. Отвечать на данное сообщение не нужно!"
+      subject_delete_order_control: "Заявка №%{number} снят с контроля"
+      content_delete_order_control: "Заявка №%{number} с Вас снят с контроля."
+      subject_change_order: "Заявка №%{number} внесены изменения"
+      content_change_order: "Заявка №%{number} были внесены изменения. Вам необходимо ознакомиться внесенными изменениями."
+      subject_delete_order: "Заявка №%{number} удалена"
+      content_delete_order: "Заявка №%{number} удалена из системы контроля заявок."
+      subject_status_order: "Заявке №%{number} %{status}"
+      content_status_order: "Заявка №%{number} %{status}"
+      subject_close_order: "Заявка №%{number} закрыта"
+      content_close_order: "Заявка №%{number} закрыта."
+    order_control_user:
+      subject_new_order: "Новая заявка №%{number} на контроль"
+      content_new_order: "Вам поставлена на контроль новая заявка №%{number}."
+      content_date: "Срок исполнения заявки: %{date_order}."
+      subject_order: "Заявка №%{number} у Вас на контроле"
+      content_order: "У Вас на контроле заявка №%{number}."
+    order_performer_user:
+      subject_new_order: "Новая заявка №%{number} для исполнения"
+      content_new_order: "Вам назначена на исполенение новая заявка №%{number}."
+      content_date: "Срок исполнения заявки: %{date_order}."
+      subject_order: "Заявка №%{number} у Вас на исполнении"
+      content_order: "У Вас на исполнении заявка №%{number}."
     new_order:
       subject: "Новая заявка №%{number}"
       content_body: "Вам назначена на исполенение новая заявка №%{number}."
       content_performer: "Вы назначены: %{executor}."
       content_date: "Срок исполнения заявки: %{date_order}."
-    new_order_control:
-      subject: "Новая заявка №%{number} на контроль"
-      content_body: "Вам поставлена на контроль новая заявка №%{number}."
-      content_date: "Срок исполнения заявки: %{date_order}."
-    delete_order_control:
-      subject: "Заявка №%{number} снят с контроля"
-      content_body: "Заявка №%{number} с Вас снят с контроля."
+    # new_order_control:
+    #   subject: "Новая заявка №%{number} на контроль"
+    #   content_body: "Вам поставлена на контроль новая заявка №%{number}."
+    #   content_date: "Срок исполнения заявки: %{date_order}."
+    # delete_order_control:
+    #   subject: "Заявка №%{number} снят с контроля"
+    #   content_body: "Заявка №%{number} с Вас снят с контроля."
     delete_order:
       subject: "Заявка №%{number} удалена"
       content_body: "Заявка №%{number} удалена из системы контроля заявок."

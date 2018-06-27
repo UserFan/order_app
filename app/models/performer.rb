@@ -21,18 +21,19 @@ class Performer < ApplicationRecord
   end
 
   def order_change_user_send_mail
-    if self.changed?
-      OrderMailer.with(user: User.find(order.user_id), order: self.order).order_change.deliver_now
-      if user_id_changed?
-        OrderMailer.with(user: User.find(user_id_change[0]), order: self.order).delete_performer_order.deliver_now
-        OrderMailer.with(user: User.find(user_id_change[1]), order: order, performer: self).new_order.deliver_now
-      else
-        OrderMailer.with(user: user, order: self.order).order_change.deliver_now
-        OrderMailer.with(user: order.performers.find_by(coexecutor: false).user,
-                         order: self.order).order_change.deliver_now if coexecutor?
-      end
-    end
-    yield
+    # OrderMailer.with(user: User.find(order.user_id), order: self.order).order_change.deliver_now
+    # if self.changed?
+    #   OrderMailer.with(user: User.find(order.user_id), order: self.order).order_change.deliver_now
+    #   if user_id_changed?
+    #     OrderMailer.with(user: User.find(user_id_change[0]), order: self.order).delete_performer_order.deliver_now
+    #     OrderMailer.with(user: User.find(user_id_change[1]), order: order, performer: self).new_order.deliver_now
+    #   else
+    #     OrderMailer.with(user: user, order: self.order).order_change.deliver_now
+    #     OrderMailer.with(user: order.performers.find_by(coexecutor: false).user,
+    #                      order: self.order).order_change.deliver_now if coexecutor?
+    #   end
+    # end
+    # yield
   end
 
 end

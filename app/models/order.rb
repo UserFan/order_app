@@ -29,45 +29,47 @@ class Order < ApplicationRecord
   private
 
   def control_user_send_mail
-    OrderMailer.with(user: User.find(user_id), order: self).new_order_control.deliver_now
+    OrderMailer.with(user: User.find(user_id), order: self, send_type: 'new_order').order_control_user.deliver_now
+    #OrderMailer.with(user: User.find(user_id), order: self).new_order.deliver_now
   end
 
   def order_change_user_send_mail
-    if self.changed?
-      if user_id_changed?
-        user_control = User.find(user_id_change[1])
-        OrderMailer.with(user: User.find(user_id_change[0]), order: self).delete_order_control.deliver_now
-        OrderMailer.with(user: user_control, order: self).new_order_control.deliver_now
-      else
-        user_control = User.find(user_id)
-      end
-      OrderMailer.with(user: user_control, order: self).order_change.deliver_now unless order_performer_change? || order_status_change?
-      OrderMailer.with(user: user_control, order: self).order_change_status.deliver_now if order_status_change?
-
-      # unless (status_id_changed?) && (status_id_change[0] == Status::NEW) && (status_id_change[1] == Status::EXECUTION)
-      #   OrderMailer.with(user: user_control, order: self).order_change_status.deliver_now if order_status_change?
-      # end
-      performers.each do |performer|
-        OrderMailer.with(user: performer.user, order: self).order_change.deliver_now unless order_performer_change? || order_status_change?
-        OrderMailer.with(user: performer.user, order: self).order_change_status.deliver_now if order_status_change?
-      end
-    end
+    OrderMailer.with(user: User.find(user_id), order: self).order_change.deliver_now
+    # if self.changed?
+    #   if user_id_changed?
+    #     user_control = User.find(user_id_change[1])
+    #     OrderMailer.with(user: User.find(user_id_change[0]), order: self).delete_order_control.deliver_now
+    #     OrderMailer.with(user: user_control, order: self).new_order_control.deliver_now
+    #   else
+    #     user_control = User.find(user_id)
+    #   end
+    #   OrderMailer.with(user: user_control, order: self).order_change.deliver_now unless order_performer_change? || order_status_change?
+    #   OrderMailer.with(user: user_control, order: self).order_change_status.deliver_now if order_status_change?
+    #
+    #   # unless (status_id_changed?) && (status_id_change[0] == Status::NEW) && (status_id_change[1] == Status::EXECUTION)
+    #   #   OrderMailer.with(user: user_control, order: self).order_change_status.deliver_now if order_status_change?
+    #   # end
+    #   performers.each do |performer|
+    #     OrderMailer.with(user: performer.user, order: self).order_change.deliver_now unless order_performer_change? || order_status_change?
+    #     OrderMailer.with(user: performer.user, order: self).order_change_status.deliver_now if order_status_change?
+    #   end
+    # end
     yield
   end
 
-  def order_performer_change?
-    change = 0
-    performers.each { |performer| change += 1 if performer.changed? }
-    change > 0 ? true : false
-  end
-
-  def order_status_change?
-    if (status_id == Status::AGREE) || (status_id == Status::COORDINATION) || (status_id == Status::NOT_COORDINATION)
-      return true
-    else
-      return false
-    end
-  end
+  # def order_performer_change?
+  #   change = 0
+  #   performers.each { |performer| change += 1 if performer.changed? }
+  #   change > 0 ? true : false
+  # end
+  #
+  # def order_status_change?
+  #   if (status_id == Status::AGREE) || (status_id == Status::COORDINATION) || (status_id == Status::NOT_COORDINATION)
+  #     return true
+  #   else
+  #     return false
+  #   end
+  # end
 
   # def order_execution_change?
   #   unless (status_id_changed?) && (status_id_change[0] == Status::NEW) && (status_id_change[1] == Status::EXECUTION)
