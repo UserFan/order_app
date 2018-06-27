@@ -46,11 +46,11 @@ class ExecutionsController < ApplicationController
   end
 
   def remove_control
-    authorize @execution
+    authorize Execution
     @performer = Performer.find(params[:performer_id])
     @order = @performer.order
-    #@performer.build_execution(completed: DateTime.now, order_execution: Status::AGREE, comment: 'Снято с контроля(без исполнения)!')
-    #redirect_to order_path(@order)
+    @execution = @performer.build_execution(completed: DateTime.now, order_execution: Status::OFF_CONTROL, comment: 'Снято с контроля(без исполнения)!')
+    redirect_to order_path(@order) if @execution.save
   end
 
 

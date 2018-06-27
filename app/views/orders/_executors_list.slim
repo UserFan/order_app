@@ -1,10 +1,10 @@
 li
   b #{performer.user.full_name}&nbsp
   - unless @order.date_closed.present? || (performer.execution.present? && performer.execution.completed.present?)
-    = content_tag(:span, '(На контроле!)', class: 'control-order')
+    = content_tag(:small, '(На контроле!)', class: 'control-order')
     - if policy(performer).completed?
       |  &#10148;&nbsp;
-      = link_to "Снять с контроля", remove_control_execution_path(performer.execution)
+      = link_to "Снять с контроля", remove_control_execution_path(performer_id: performer.id)
     //  = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id, :remove_control => true)
     ul
       li Срок исполнения - до #{l(performer.date_performance, format: :date)}

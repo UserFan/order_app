@@ -31,7 +31,7 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def remove_control?
-    (user.super_admin? || user.moderator? || user.guide?) && !(order_closed?)
+    (user.super_admin? || user.moderator? || user.guide?)
   end
 
   def rework?
