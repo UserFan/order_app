@@ -2,7 +2,7 @@ class Order < ApplicationRecord
   mount_uploaders :photos, ImageUploader
 
   before_create :number_create
-  after_create :control_user_send_mail
+  #after_create :control_user_send_mail
   around_update :order_change_user_send_mail
 
   belongs_to :category
@@ -16,8 +16,21 @@ class Order < ApplicationRecord
 
   validates :user_id, :date_open, :date_execution, :short_descript, presence: true
 
-  def control_name
-    User.find(self.user_id).full_name
+
+  def control_user
+    User.find(user_id)
+  end
+
+  def control_user_changed?
+     user_id_changed? ? true : (return false)
+  end
+
+  def control_user_old
+     user_id_changed? ? User.find(user_id_was) : User.find(user_id)
+  end
+
+  def performer_executor
+    self.performers.find_by(coexecutor: false)
   end
 
   def number_create
@@ -26,15 +39,19 @@ class Order < ApplicationRecord
     end
   end
 
+  def performers_change?
+    self.performers.any? { |e| e.changed? } ? true : (return false)
+  end
+
   private
 
   def control_user_send_mail
-    OrderMailer.with(user: User.find(user_id), order: self, send_type: 'new_order').order_control_user.deliver_now
+    OrderMailer.with(user: control_user, order: self, send_type: 'new_order').order_control_user.deliver_now
     #OrderMailer.with(user: User.find(user_id), order: self).new_order.deliver_now
   end
 
   def order_change_user_send_mail
-    OrderMailer.with(user: User.find(user_id), order: self).order_change.deliver_now
+    OrderMailer.with(user: control_user, order: self).order_change.deliver_now
     # if self.changed?
     #   if user_id_changed?
     #     user_control = User.find(user_id_change[1])

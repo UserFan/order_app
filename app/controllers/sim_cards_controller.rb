@@ -4,11 +4,11 @@ class SimCardsController < ApplicationController
 
   def index
     authorize SimCard
-    @q =SimCard.ransack(params[:q])
-    @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
+    @q =SimCard.includes(:provider, :shops, :item_communications).ransack(params[:q])
+    @q.sorts = ['provider_id asc', 'created_at desc'] if @q.sorts.empty?
     @sim_cards = @q.result(disinct: true)
     @sim_count = SimCard.count
-    @sim_provider_count = SimCard.joins(:provider).group(:name).count
+    @sim_provider_count = SimCard.includes(:provider).joins(:provider).group(:name).count
   end
 
   def show

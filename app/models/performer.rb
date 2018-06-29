@@ -7,17 +7,26 @@ class Performer < ApplicationRecord
 
   around_destroy :destroy_send_mail
   after_create :performer_send_mail
-  around_update :order_change_user_send_mail
+  #around_update :order_change_user_send_mail
+
+  def execution_off_control?
+    if self.execution.present?
+      self.execution.completed.present? ? true : (return false)
+    else
+      return false
+    end
+  end
 
   private
 
   def destroy_send_mail
-    OrderMailer.with(user: user, order: order).delete_performer_order.deliver_now
+    OrderMailer.with(user: user, send_type: 'delete_order_control',
+      order: order).order_performer_user.deliver_later
     yield
   end
 
   def performer_send_mail
-    OrderMailer.with(user: user, order: order, performer: self).new_order.deliver_now
+    OrderMailer.with(user: user, order: order, performer: self).new_order.deliver_later
   end
 
   def order_change_user_send_mail

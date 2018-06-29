@@ -12,28 +12,15 @@ class ReworksController < ApplicationController
     authorize Rework
     @order = @execution.performer.order
     @rework = @execution.reworks.create(permitted_attributes(Rework))
-        # Not the final implementation!
     if @rework.save
       if @@work_new
-        @execution.update!(order_execution: Status::NOT_COORDINATION)
+        @execution.update!(order_execution: Status::NOT_COORDINATION, completed: nil)
         @order.update!(status_id: Status::NOT_COORDINATION)
       end
       redirect_to order_path(@order)
     else
       render 'new'
     end
-  end
-
-  def destroy
-    # authorize @reworks
-    # @order = @execution.performer.order
-    # if @execution.destroy
-    #   @order.update!(status_id: 2)
-    #   flash[:success] = "Запись удачно удален."
-    # else
-    #   flash[:error] = "Запись не может буть удален. Есть связанные данные"
-    # end
-    # redirect_to order_path(@execution.performer.order)
   end
 
   private

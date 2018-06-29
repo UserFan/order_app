@@ -1,10 +1,9 @@
-.row
-  .container
-    .col-12.col-lg-12.pb-4
-      h2.text-right
-        b Информация по заявке №#{@order.order_number}
+.container
+  .col-12
+    h2.text-right.pb-3
+      b Информация по заявке №#{@order.order_number}
     .row
-      .col-12.col-lg-4
+      .col-4
         - if @order.photos.any?
           #carousel.carousel.slide data-ride="carousel"
             /! Slides
@@ -32,7 +31,7 @@
                 span.carousel-control-next-icon aria-hidden="true"
                 span.sr-only Next
               /! /.Carousel Wrapper
-      .col-12.col-lg-8
+      .col-8
         table.table.table-striped
           tbody
             tr
@@ -66,7 +65,7 @@
             tr
               td
                 b На контроле:
-              td = @order.control_name
+              td = @order.control_user.full_name
             tr
               td
                 b Закрыть заявку (результат):
@@ -81,30 +80,23 @@
                   = link_to 'Не исполнен', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-danger btn-sm" if policy(@order).closing?
                   | &nbsp;
                   = link_to 'Снято со исполнения', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-warning btn-sm" if policy(@order).closing?
-
-
-        .row
-          .col-12.col-lg-12
-            .card.shadow.p-3.mb-5.bg-white.rounded
-              .card-header.bg-transparent.p-1
-                span.card-title.text-info.h5.font-weight-bold Исполнители:
-              .card-body.pb-0
-
-                /
-                / .panel.panel-info
-                /   .panel-heading Исполнители:
-                /   .panel-body
+  .row
+    .col-12
+      .card.shadow.p-3.mb-5.bg-white.rounded
+        .card-header.bg-transparent.p-1
+          span.card-title.text-info.h5.font-weight-bold Информация об исполнении:
+        .card-body.pb-0
+          ul
+            li
+              b Ответственный исполнитель:
+              - @executor.each do |executor|
                 ul
-                  li
-                    b Ответственный исполнитель:
-                    - @executor.each do |executor|
-                      ul
-                        = render 'executors_list', performer: executor
-                    br
-                  li
-                    em Соисполнители:
-                    - @coexecutor.each do |coexecutor|
-                      ul
-                        = render 'executors_list', performer: coexecutor
-
-      = link_to "Закрыть", orders_path, class: "btn btn-info pull-right main-group"
+                  = render 'executors_list', performer: executor
+              br
+            li
+              em Соисполнители:
+              - @coexecutor.each do |coexecutor|
+                ul
+                  = render 'executors_list', performer: coexecutor
+  .row.justify-content-end
+    = link_to "Закрыть", orders_path, class: "btn btn-info"

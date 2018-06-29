@@ -12,11 +12,11 @@
       .col-9
         .row
           .col-4
-            = f.association :category, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.admin?)))
+            = f.association :category, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
           .col-3
             = f.input :date_open, :as => :date_picker, :placeholder => "дата заявки", required: true, input_html: { class: 'datepicker'}, disabled: (true if (@order.date_closed.present?))
           .col-5
-            = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.admin?)))
+            = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
         .row
           .col-5
             = f.input :short_descript, required: true, disabled: (true if (@order.date_closed.present?))
@@ -28,7 +28,7 @@
           .col-3
             = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }, disabled: (true if (@order.date_closed.present?))
           .col-3
-            = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' }
+            = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' } if current_user.super_admin?
     .row
       .col-12
         .card.shadow.p-3.mb-5.bg-white.rounded

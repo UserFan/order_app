@@ -93,32 +93,19 @@ class OrderMailer < ApplicationMailer
 
   def order_change
     @performers = @order.performers
-    if @order.changed?
-      if @order.user_id_changed?
-        OrderMailer.with(user: User.find(@order.user_id_was), order: @order,
-                         send_type: 'delete_order_control').order_control_user.deliver_now
-
-        OrderMailer.with(user: @user, order: @order,
-                         send_type: 'new_order').order_control_user.deliver_now
+    if @order.changed? || @order.performers_change?
+      if @order.control_user_changed?
+        send_control_user(@order.control_user_old, 'delete_order_control', @order)
+        send_control_user(@user, 'new_order', @order)
       end
-
-      unless order_performer_change?(@order.performers) ||
-             order_status_change?(@order.status_id)
-
-        OrderMailer.with(user: @user, order: @order,
-                         send_type: 'change_order').order_control_user.deliver_now
-
-        send_mail_performer(@performers, 'change_order', @order)
-
-      else
+      #unless @order.performers_change? || order_status_change?(@order.status_id)
+        send_control_user(@user, 'change_order', @order)
+        send_mail_performers(@performers, 'change_order', @order)
+      #else
         if order_status_change?(@order.status_id)
-
-          send_mail_performer(@performers, 'change_status', @order)
-
-          OrderMailer.with(user: @user, order: @order,
-                           send_type: 'change_status').order_control_user.deliver_now
+          send_mail_performers(@performers, 'change_status', @order)
+          send_control_user(@user, 'change_status', @order)
         end
-      end
       #binding.pry
     end
   end
@@ -187,20 +174,22 @@ class OrderMailer < ApplicationMailer
     @order = params[:order]
   end
 
-  def order_performer_change?(performers)
-    performers.any? { |e| e.changed? } ? true : (return false)
-  end
-
   def order_status_change?(status)
-    [Status::AGREE, Status::COORDINATION, Status::NOT_COORDINATION].include?(status) ? true : (return false)
+    [Status::AGREE, Status::COORDINATION, Status::NOT_COORDINATION].
+    include?(status) ? true : (return false)
   end
 
-  def send_mail_performer(performers, send_type, order)
+  def send_mail_performers(performers, send_type, order)
     performers.find_each do |performer|
       OrderMailer.with(user: performer.user, order: order,
-                       send_type: send_type).order_performer_user.deliver_now
+       send_type: send_type).order_performer_user.deliver_later unless performer.
+       execution_off_control?
     end
   end
 
+  def send_control_user(control_user, send_type, order)
+    OrderMailer.with(user: control_user, order: order,
+      send_type: send_type).order_control_user.deliver_later
+  end
 
 end

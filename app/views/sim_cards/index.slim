@@ -34,7 +34,8 @@
               tr.text-dark
                 th = sort_link(@q, :simphone_number, 'Номер телефона', default_order: :asc)
                 th = sort_link(@q, :provider_name, 'Провайдер', default_order: :asc)
-                th = sort_link(@q, :shop_name, 'Установлен на объекте', default_order: :asc)
+                th Установлен на объекте
+                //th = sort_link(@q, :shop_name, 'Установлен на объекте', default_order: :asc)
                 th.text-center
                   i.fa.fa-list
             tbody
@@ -42,11 +43,7 @@
                 tr
                   td = sim_card.simphone_number
                   td = sim_card.provider.name
-                  td
-                    - if sim_card.can_destroy?
-                      = "#{''}"
-                    - else
-                      = sim_card.shops.first.name
+                  td = sim_card.shops.first.name if sim_card.shops.any?
                   td
                     - if policy(sim_card).edit?
                       = link_to [:edit, sim_card], "data-toggle" => "tooltip", "data-placement" => "bottom",

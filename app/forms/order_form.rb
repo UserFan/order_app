@@ -93,14 +93,14 @@ class OrderForm < Reform::Form
     def count_performer
       count_executor = 0
       count_coexecutor = 0
-      set_user = nil
+      current_performer = 0
       performers.each do |performer|
         !(performer.coexecutor).to_bool ? count_executor += 1 : count_coexecutor += 1
-        if performer.user_id == set_user
+        if performer.user_id == (current_performer) 
           performer.errors.add(:user_id, :user_error)
           errors.add(:base, :user_error)
         else
-          set_user = performer.user_id
+          current_performer = performer.user_id
         end
         performer.errors.add(:coexecutor, :coexecutor_error) if count_executor > 1
         performer.errors.add(:coexecutor, :executor_not_error) if count_coexecutor == performers.count
@@ -124,7 +124,7 @@ class OrderForm < Reform::Form
     end
 
     def val_date_execution
-    
+
       if date_execution.present?
         errors.add(:date_execution, :date_execution_less) if date_execution < date_open
         errors.add(:date_execution, :date_execution_more_30_days) if date_execution > (date_open + 30.days)

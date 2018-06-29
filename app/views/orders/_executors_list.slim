@@ -5,26 +5,23 @@ li
     - if policy(performer).completed?
       |  &#10148;&nbsp;
       = link_to "Снять с контроля", remove_control_execution_path(performer_id: performer.id)
-    //  = link_to "Снять с контроля",  new_execution_path(performer_id: performer.id, :remove_control => true)
     ul
       li Срок исполнения - до #{l(performer.date_performance, format: :date)}
       - count_day = (Date.today - (performer.date_performance).to_date).to_i
       - if count_day <= 0
         .control-day-before
           p
-            small до срока выполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
+            small до срока исполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
       - else
         .control-day-after
           p
-            small срок выполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
+            small срок исполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
   - else
-    - date_comleted = @order.date_closed.present? ? @order.date_closed : performer.execution.completed
-    = content_tag(:span," (Снята с контроля - #{l(date_comleted, format: :datetime)})",
+    //- date_comleted = @order.date_closed.present? ? @order.date_closed : performer.execution.completed
+    = content_tag(:span," (Снята с контроля - #{l(performer.execution.completed, format: :datetime)})",
                    class: 'control-order-close')
-
+  b Сведения об исполнении:&nbsp;
   - if performer.execution.present?
-    br
-    b Отметка о выполнении:
     - if policy(performer.execution).coordination?
       |  &#9745;
       = link_to 'Согласовать', coordination_execution_path(performer.execution)
@@ -33,13 +30,12 @@ li
       = link_to 'На доработку', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true)
     - if policy(performer.execution).destroy?
       |  &#10008;
-      = link_to 'Удалить отметку', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
+      = link_to 'Удалить', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
           "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
     ul
-      li Описание выполненных работ - #{performer.execution.comment}
-      li Статус выполнения: #{performer.execution.execution_result}
-      - if performer.execution.images.present?
-        li = link_to "Фотоотчет", execution_path(performer.execution)
+      li Произведенные работы - #{performer.execution.comment}
+      li Статус исполнения: #{performer.execution.execution_result}
+      li = link_to "Фотоотчет", execution_path(performer.execution) if performer.execution.images.present?
       - if performer.execution.reworks.present?
         br
         - first_rework = performer.execution.reworks.first
@@ -48,25 +44,6 @@ li
             h4.card-header.text-right.text-danger Замечание
             .card-body
               = render 'rework_list', rework: first_rework
-              / .card-title.text-right.text-info
-              /   span.fa.fa-user-secret
-              /   span.fas.fa-user-tie
-              /   | &nbsp;
-              /   = first_rework.user.full_name
-              /   br
-              /   .text-muted.text-right.small = l(first_rework.created_at, format: :datetime)
-              / p.card-text = first_rework.comment
-
-
-          / .panel.panel-primary
-          /   .panel-heading.panel-heading-xs
-          /     span.glyphicon.glyphicon-user
-          /     | &nbsp;
-          /     = first_rework.user.full_name
-          /     br
-          /     small = l(first_rework.created_at, format: :datetime)
-          /   .panel-body
-          /     = first_rework.comment
           hr
           .card.border-info
             h5.card-header.card-header-sm.text-right Комментарии
@@ -78,4 +55,4 @@ li
                 = link_to 'Написать', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true),
                     class: "btn btn-success btn-sm float-right"
   - else
-    = link_to "отметка о выполнении", new_execution_path(performer_id: performer.id) if policy(performer).executions?
+    = link_to "Добавить", new_execution_path(performer_id: performer.id) if policy(performer).executions?
