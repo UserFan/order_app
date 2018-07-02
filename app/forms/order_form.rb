@@ -6,6 +6,7 @@ class OrderForm < Reform::Form
   #include Reform::Form::ActiveModel
   include Reform::Form::ActiveRecord
   include Reform::Form::ActiveModel::ModelReflections
+  #extend ::ActiveModel::Callbacks
 
   model :order
 
@@ -96,7 +97,7 @@ class OrderForm < Reform::Form
       current_performer = 0
       performers.each do |performer|
         !(performer.coexecutor).to_bool ? count_executor += 1 : count_coexecutor += 1
-        if performer.user_id == (current_performer) 
+        if performer.user_id == (current_performer)
           performer.errors.add(:user_id, :user_error)
           errors.add(:base, :user_error)
         else
