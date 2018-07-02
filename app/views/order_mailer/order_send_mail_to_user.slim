@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
+  body
+
+    h1 = t('order_mailer.content_text.content_header', name: @user.full_name)
+    p = @content_text
+    p = @content_date if (@send_type == 'new_order_performer') || (@send_type == 'new_order_control')
+    p = t('order_mailer.content_text.content_executor',
+        executor: @performer.coexecutor? ? 'Соисполнителем' : 'Ответственным исполнителем') if @send_type == 'new_order_performer' 
+    p
+      small
+        = t('order_mailer.content_text.content_footer')

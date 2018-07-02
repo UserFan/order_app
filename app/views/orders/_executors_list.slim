@@ -35,7 +35,7 @@ li
     ul
       li Произведенные работы - #{performer.execution.comment}
       li Статус исполнения: #{performer.execution.execution_result}
-      li = link_to "Фотоотчет", execution_path(performer.execution) if performer.execution.images.present?
+      p = link_to "Фотоотчет", execution_path(performer.execution) if performer.execution.images.present?
       - if performer.execution.reworks.present?
         br
         - first_rework = performer.execution.reworks.first

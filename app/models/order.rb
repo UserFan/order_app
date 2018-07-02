@@ -2,8 +2,8 @@ class Order < ApplicationRecord
   mount_uploaders :photos, ImageUploader
 
   before_create :number_create
-  #after_create :control_user_send_mail
-  around_update :order_change_user_send_mail
+  after_create :control_user_send_mail
+  after_save :order_change_user_send_mail
 
   belongs_to :category
   belongs_to :status
@@ -40,18 +40,21 @@ class Order < ApplicationRecord
   end
 
   def performers_change?
-    self.performers.any? { |e| e.changed? } ? true : (return false)
+    #self.performers.exists? {|e| e.changed? } ? true : (return false)
+    self.performers.any? {|e| e.changed? } ? true : (return false)
   end
 
   private
 
   def control_user_send_mail
-    OrderMailer.with(user: control_user, order: self, send_type: 'new_order').order_control_user.deliver_now
+    OrderMailer.with(user: control_user, order: self,
+      send_type: 'new_order_control').order_send_mail_to_user.deliver_now
     #OrderMailer.with(user: User.find(user_id), order: self).new_order.deliver_now
   end
 
   def order_change_user_send_mail
-    OrderMailer.with(user: control_user, order: self).order_change.deliver_now
+
+    OrderMailer.with(user: control_user, order: self).send_mail_order_change.deliver_now
     # if self.changed?
     #   if user_id_changed?
     #     user_control = User.find(user_id_change[1])
@@ -71,7 +74,7 @@ class Order < ApplicationRecord
     #     OrderMailer.with(user: performer.user, order: self).order_change_status.deliver_now if order_status_change?
     #   end
     # end
-    yield
+    #yield
   end
 
   # def order_performer_change?

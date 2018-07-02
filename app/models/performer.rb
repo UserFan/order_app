@@ -21,12 +21,13 @@ class Performer < ApplicationRecord
 
   def destroy_send_mail
     OrderMailer.with(user: user, send_type: 'delete_order_control',
-      order: order).order_performer_user.deliver_later
+      order: order).order_send_mail_to_user.deliver_now
     yield
   end
 
   def performer_send_mail
-    OrderMailer.with(user: user, order: order, performer: self).new_order.deliver_later
+    OrderMailer.with(user: user, order: order, performer: self,
+      send_type: 'new_order_performer').order_send_mail_to_user.deliver_now
   end
 
   def order_change_user_send_mail
