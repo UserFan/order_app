@@ -2,7 +2,7 @@ class Order < ApplicationRecord
   mount_uploaders :photos, ImageUploader
 
   before_create :number_create
-  after_create :control_user_send_mail
+  #after_create :control_user_send_mail
   after_save :order_change_user_send_mail
 
   belongs_to :category
