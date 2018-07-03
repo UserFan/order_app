@@ -38,7 +38,6 @@ class OrdersController < ApplicationController
   def update
     authorize @order
     if @order.validate(params[:order])
-      binding.pry
       @order.save
       redirect_to orders_path
     else

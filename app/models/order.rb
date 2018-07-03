@@ -2,8 +2,8 @@ class Order < ApplicationRecord
   mount_uploaders :photos, ImageUploader
 
   before_create :number_create
-  #after_create :control_user_send_mail
-  around_save :order_change_user_send_mail
+  after_create :create_order_control_user_send_mail
+  after_update :change_order_change_user_send_mail
 
 
   belongs_to :category
@@ -47,21 +47,20 @@ class Order < ApplicationRecord
 
   private
 
-  def control_user_send_mail
+  def create_order_control_user_send_mail
+    #binding.pry
     OrderMailer.with(user: control_user, order: self,
       send_type: 'new_order_control').order_send_mail_to_user.deliver_now
-    #OrderMailer.with(user: User.find(user_id), order: self).new_order.deliver_now
   end
 
-  def order_change_user_send_mail
-
-    #OrderMailer.with(user: control_user, order: self).send_mail_order_change.deliver_now
-
-
-    changed? ? @@change_order_flag = true : @@change_order_flag = false
-    yield
-
-    binding.pry
+  def change_order_change_user_send_mail
+    if changed?
+       @@change_order_flag = true
+       OrderMailer.with(user: control_user, order: self, 
+         send_type: 'change_order').order_send_mail_to_user.deliver_now
+    else
+       @@change_order_flag = false
+    end
   end
 
 

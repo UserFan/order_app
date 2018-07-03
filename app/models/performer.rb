@@ -5,9 +5,9 @@ class Performer < ApplicationRecord
   has_one :execution, dependent: :restrict_with_error
   has_many :reworks, through: :executions, foreign_key: :execution_id
 
-  around_destroy :destroy_send_mail
-  around_create :performer_send_mail
-  around_save :performer_change_user_send
+  before_destroy :destroy_performer_send_to_mail_user
+  after_create :create_performer_send_to_mail_user
+  after_update :change_performer_send_to_mail_user
 
   def execution_off_control?
     if self.execution.present?
@@ -19,25 +19,29 @@ class Performer < ApplicationRecord
 
   private
 
-  def destroy_send_mail
-    binding.pry
-  #  OrderMailer.with(user: user, send_type: 'delete_order_control',
-  #    order: order).order_send_mail_to_user.deliver_now unless execution_off_control?
-    #send_mail_all_control_user
-    yield
+  def destroy_performer_send_to_mail_user
+   #binding.pry
+   OrderMailer.with(user: user, send_type: 'delete_order_control',
+     order: order).order_send_mail_to_user.deliver_now unless execution_off_control?
+
+  send_mail_all_control_user
   end
 
-  def performer_send_mail
+  def create_performer_send_to_mail_user
+    #binding.pry
+    OrderMailer.with(user: user, order: order, performer: self,
+       send_type: 'new_order_performer').order_send_mail_to_user.deliver_now
+
+    send_mail_all_control_user
+    #yield
     binding.pry
-    #OrderMailer.with(user: user, order: order, performer: self,
-    #  send_type: 'new_order_performer').order_send_mail_to_user.deliver_later
-    #send_mail_all_control_user
-    yield
   end
 
-  def performer_change_user_send
-
-
+  def change_performer_send_to_mail_user
+    # if ((@@change_order_flag) && !(execution_off_control?))
+    #   OrderMailer.with(user: user, order: order, performer: self,
+    #     send_type: 'change_order').order_send_mail_to_user.deliver_now
+    # end
     #yield
     #OrderMailer.with(user: user, order: order, performer: self,
     #  send_type: 'change_order').order_send_mail_to_user.deliver_now
@@ -50,17 +54,23 @@ class Performer < ApplicationRecord
     #   OrderMailer.with(user: order.performer_executor.user, order: order, performer: self,
     #     send_type: 'change_order').order_send_mail_to_user.deliver_now
     # end
-    yield
+    #binding.pry
+    #yield
     binding.pry
   end
 
   def send_mail_all_control_user
-    unless (user == order.performer_executor.user) && (order.performer_executor.execution_off_control?)
-      OrderMailer.with(user: order.performer_executor.user, order: order, performer: self,
-        send_type: 'change_order').order_send_mail_to_user.deliver_now
+    binding.pry
+    if (order.performer_executor.present?)
+      unless ((user == order.performer_executor.user) &&
+             (order.performer_executor.execution_off_control?))
+
+        OrderMailer.with(user: order.performer_executor.user, order: order, performer: self,
+          send_type: 'change_order').order_send_mail_to_user.deliver_now
+      end
     end
-    OrderMailer.with(user: order.control_user, order: order,
-              send_type: 'change_order').order_send_mail_to_user.deliver_now
+    OrderMailer.with(user: order.control_user, order: order, performer: self,
+              send_type: 'change_order').order_send_mail_to_user.deliver_now  unless @@change_order_flag
   end
 
 end

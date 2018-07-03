@@ -13,10 +13,11 @@ class OrderMailer < ApplicationMailer
     locales_path = 'order_mailer.content_text'
     @performer = params[:performer]
     @send_type = params[:send_type]
+    @send_type == 'new_order_performer' ? date_execution = @performer.date_performance : date_execution = @order.date_execution  
     subject_text = t("#{locales_path}.subject_#{@send_type}", number: @order.order_number)
     @content_text = t("#{locales_path}.content_#{@send_type}", number: @order.order_number)
     @content_date = t("#{locales_path}.content_date_#{@send_type}",
-                      date_order: l(@order.date_execution, format: :date))
+                      date_order: l(date_execution, format: :date))
     mail(to: @user.email, subject: subject_text)
     #binding.pry
   end
