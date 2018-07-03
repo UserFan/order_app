@@ -13,7 +13,7 @@ class OrderMailer < ApplicationMailer
     locales_path = 'order_mailer.content_text'
     @performer = params[:performer]
     @send_type = params[:send_type]
-    @send_type == 'new_order_performer' ? date_execution = @performer.date_performance : date_execution = @order.date_execution  
+    @send_type == 'new_order_performer' ? date_execution = @performer.date_performance : date_execution = @order.date_execution
     subject_text = t("#{locales_path}.subject_#{@send_type}", number: @order.order_number)
     @content_text = t("#{locales_path}.content_#{@send_type}", number: @order.order_number)
     @content_date = t("#{locales_path}.content_date_#{@send_type}",
@@ -40,14 +40,19 @@ class OrderMailer < ApplicationMailer
       subject: t('order_mailer.order_close.subject', number: @order.order_number))
   end
 
-  def send_mail_order_change
-    @performers = @order.performers
+  def send_mail_to_user_order_change
+    @performer = params[:performer]
+    control = params[:control]
     #binding.pry
-    if @order.changed?
-      if @order.control_user_changed?
-        send_control_user(@order.control_user_old, 'delete_order_control', @order)
-        send_control_user(@user, 'new_order_control', @order)
+    if control == 'control_user'
+      send_control_user(@order.control_user_old, 'delete_order_control', @order) if @order.control_user_changed?
+      send_control_user(@user, 'new_order_control', @order) if @order.control_user_changed?
+
+
+    elsif control == 'performer_user'
+
       end
+
       # unless @order.performers_change?
       #   send_control_user(@user, 'change_order', @order)
       #   send_mail_performers(@performers, 'change_order', @order)
@@ -117,6 +122,7 @@ class OrderMailer < ApplicationMailer
   end
 
   def send_control_user(control_user, send_type, order)
+
     OrderMailer.with(user: control_user, order: order,
       send_type: send_type).order_send_mail_to_user.deliver_now
   end

@@ -40,10 +40,7 @@ class Order < ApplicationRecord
     end
   end
 
-  def performers_change?
-    #self.performers.exists? {|e| e.changed? } ? true : (return false)
-    self.performers.any? {|e| e.changed? } ? true : (return false)
-  end
+
 
   private
 
@@ -56,14 +53,10 @@ class Order < ApplicationRecord
   def change_order_change_user_send_mail
     if changed?
        @@change_order_flag = true
-       OrderMailer.with(user: control_user, order: self, 
+       OrderMailer.with(user: control_user, order: self,
          send_type: 'change_order').order_send_mail_to_user.deliver_now
     else
        @@change_order_flag = false
     end
   end
-
-
-
-
 end
