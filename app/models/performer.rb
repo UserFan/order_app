@@ -24,7 +24,7 @@ class Performer < ApplicationRecord
   def destroy_performer_send_to_mail_user
   #  binding.pry
     OrderMailer.with(user: user, send_type: 'delete_order_control',
-      order: order).order_send_mail_to_user.deliver_now unless execution_off_control?
+      order: order).order_send_mail_to_user.deliver_later(wait: 10.seconds) unless execution_off_control?
 
     send_mail_all_control_user(true)
   end
@@ -39,7 +39,7 @@ class Performer < ApplicationRecord
   end
 
   def change_performer_send_to_mail_user
-    binding.pry
+    #binding.pry
     if ((@@change_order_flag) && (changed?)) || (@@change_order_flag)
       #binding.pry
       OrderMailer.with(user: user, order: order, name_model: self,
@@ -57,16 +57,15 @@ class Performer < ApplicationRecord
   #  binding.pry
     if ((order.performer_executor.present?) && ($send_change < 2))
       #binding.pry
-      unless ((user == order.performer_executor.user) &&
+      unless ((user == order.performer_executor.user) ||
              (order.performer_executor.execution_off_control?))
 
         OrderMailer.with(user: order.performer_executor.user, order: order, performer: self,
-          send_type: 'change_order').order_send_mail_to_user.deliver_now
+          send_type: 'change_order').order_send_mail_to_user.deliver_later(wait: 10.seconds)
       end
     end
     OrderMailer.with(user: order.control_user, order: order, performer: self,
-              send_type: 'change_order').order_send_mail_to_user.deliver_now  unless (@@change_order_flag && $send_change < 2)
-
+      send_type: 'change_order').order_send_mail_to_user.deliver_later(wait: 10.seconds)  unless (@@change_order_flag || $send_change > 1)
   end
 
 end

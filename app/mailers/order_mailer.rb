@@ -2,13 +2,6 @@ class OrderMailer < ApplicationMailer
   default from: 'Система контроля заявок АрышМае <service_order@arishmae.ru>'
   before_action :set_order_mailer
 
-  def new_order
-    @performer = params[:performer]
-    mail(
-      to: @user.email,
-      subject: t('order_mailer.new_order.subject', number: @order.order_number))
-  end
-
   def order_send_mail_to_user
     locales_path = 'order_mailer.content_text'
     @performer = params[:performer]
@@ -19,25 +12,6 @@ class OrderMailer < ApplicationMailer
     @content_date = t("#{locales_path}.content_date_#{@send_type}",
                       date_order: l(date_execution, format: :date))
     mail(to: @user.email, subject: subject_text)
-    #binding.pry
-  end
-
-  def delete_order
-    mail(
-      to: @user.email,
-      subject: t('order_mailer.delete_order.subject', number: @order.order_number))
-  end
-
-  # def delete_order_control
-  #   mail(
-  #     to: @user.email,
-  #     subject: t('order_mailer.delete_order_control.subject', number: @order.order_number))
-  # end
-
-  def order_close
-    mail(
-      to: @user.email,
-      subject: t('order_mailer.order_close.subject', number: @order.order_number))
   end
 
   def send_mail_to_user_order_change
@@ -51,7 +25,7 @@ class OrderMailer < ApplicationMailer
       else
         OrderMailer.with(user: @user, order: @order,
           send_type: "new_order_#{user_type}", performer: obejct_model).
-         order_send_mail_to_user.deliver_now unless @order.date_closed.present?
+         order_send_mail_to_user.deliver_later(wait: 20.seconds) unless @order.date_closed.present?
       end
     elsif (order_status_change?(@order.status_id) || (user_type == 'execution_delete'))
       (user_type == 'execution_delete') ? text_type = "change_order" : text_type = "status_order"
@@ -62,13 +36,6 @@ class OrderMailer < ApplicationMailer
       send_user(@user, "change_order", @order)
     end
   end
-
-
-  # def delete_performer_order
-  #   mail(
-  #     to: @user.email,
-  #     subject: t('order_mailer.delete_performer_order.subject', number: @order.order_number))
-  # end
 
   private
 
@@ -82,18 +49,10 @@ class OrderMailer < ApplicationMailer
     include?(status) ? true : (return false)
   end
 
-  # def send_mail_performers(performers, send_type, order)
-  #   performers.each do |performer|
-  #     OrderMailer.with(user: performer.user, order: order,
-  #      send_type: send_type, performer: performer).order_send_mail_to_user.deliver_later unless performer.
-  #      execution_off_control?
-  #   end
-  # end
-
   def send_user(user, send_type, order)
     #binding.pry
     OrderMailer.with(user: user, order: order,
-      send_type: send_type).order_send_mail_to_user.deliver_now unless order.date_closed.present?
+      send_type: send_type).order_send_mail_to_user.deliver_later(wait: 10.seconds) unless order.date_closed.present?
   end
 
 

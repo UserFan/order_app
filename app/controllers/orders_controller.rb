@@ -53,10 +53,12 @@ class OrdersController < ApplicationController
       performer.create_execution!(completed: DateTime.now, order_execution:
                  Status::OFF_CONTROL,
                  comment: 'Сведения об исполнении не были представлены') unless performer.execution.present?
-      #OrderMailer.with(user: performer.user, order: @order).order_close.deliver_now
+      OrderMailer.with(user: performer.user, order: @order,
+        send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 15.seconds)
     end
     @order.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
-    #OrderMailer.with(user: User.find(@order.user_id), order: @order).order_close.deliver_now
+    OrderMailer.with(user: @order.control_user, order: @order,
+      send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 10.seconds)
     redirect_to order_path(@order)
   end
 
@@ -64,7 +66,6 @@ class OrdersController < ApplicationController
     authorize @order
 
     if @order.destroy
-      #OrderMailer.with(user: User.find(user_id), order: self, send_type: 'delete_order').order_control_user.deliver_now
       flash[:success] = "Заявка удачно удален."
     else
       flash[:error] = "Заявка не может буть удален. Есть связанные данные"

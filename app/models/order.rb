@@ -4,6 +4,7 @@ class Order < ApplicationRecord
   before_create :number_create
   after_create :create_order_control_user_send_mail
   after_update :change_order_change_user_send_mail
+  after_destroy :destroy_order_user_send_mail
 
 
   belongs_to :category
@@ -44,16 +45,20 @@ class Order < ApplicationRecord
 
   private
 
-  def create_order_control_user_send_mail
-    #binding.pry
+  def destroy_order_user_send_mail
     OrderMailer.with(user: control_user, order: self,
-      send_type: 'new_order_control').order_send_mail_to_user.deliver_now
+      send_type: 'delete_order').order_send_mail_to_user.deliver_now
+  end
+
+  def create_order_control_user_send_mail
+    OrderMailer.with(user: control_user, order: self,
+      send_type: 'new_order_control').order_send_mail_to_user.deliver_later(wait: 10.seconds)
   end
 
   def change_order_change_user_send_mail
+    #binding.pry
     if changed?
        @@change_order_flag = true
-      # binding.pry
        OrderMailer.with(user: control_user, order: self, name_model: self,
          user_type: 'control').send_mail_to_user_order_change.deliver_now
     else
