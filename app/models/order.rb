@@ -53,8 +53,9 @@ class Order < ApplicationRecord
   def change_order_change_user_send_mail
     if changed?
        @@change_order_flag = true
-       OrderMailer.with(user: control_user, order: self,
-         send_type: 'change_order').order_send_mail_to_user.deliver_now
+      # binding.pry
+       OrderMailer.with(user: control_user, order: self, name_model: self,
+         user_type: 'control').send_mail_to_user_order_change.deliver_now
     else
        @@change_order_flag = false
     end

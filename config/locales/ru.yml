@@ -374,9 +374,12 @@ ru:
       subject_new_order_performer: "Новая заявка №%{number} для исполнения"
       content_new_order_performer: "Вам назначена на исполенение новая заявка №%{number}."
       content_date_new_order_performer: "Срок исполнения заявки: %{date_order}."
+      subject_delete_order_performer: "Заявка №%{number} с Вас снята"
+      content_delete_order_performer: "С Вас заявка №%{number} снята с исполнения."
       subject_order_performer_default: "Заявка №%{number} у Вас на исполнении"
       content_order_performer_default: "У Вас на исполнении заявка №%{number}."
       content_executor: "Вы назначены: %{executor}."
+
     # order_control_user:
     #   subject_new_order: "Новая заявка №%{number} на контроль"
     #   content_new_order: "Вам поставлена на контроль новая заявка №%{number}."

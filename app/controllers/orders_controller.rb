@@ -36,6 +36,7 @@ class OrdersController < ApplicationController
   end
 
   def update
+
     authorize @order
     if @order.validate(params[:order])
       @order.save
@@ -75,10 +76,12 @@ class OrdersController < ApplicationController
 
   def set_order
     @order ||= Order.find(params[:id])
+    $send_change = 0
   end
 
   def set_edit_form
     @order = OrderForm.new(Order.find(params[:id]))
+    $send_change = 0
   end
 
   def set_closing

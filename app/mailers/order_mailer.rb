@@ -14,8 +14,8 @@ class OrderMailer < ApplicationMailer
     @performer = params[:performer]
     @send_type = params[:send_type]
     @send_type == 'new_order_performer' ? date_execution = @performer.date_performance : date_execution = @order.date_execution
-    subject_text = t("#{locales_path}.subject_#{@send_type}", number: @order.order_number)
-    @content_text = t("#{locales_path}.content_#{@send_type}", number: @order.order_number)
+    subject_text = t("#{locales_path}.subject_#{@send_type}", number: @order.order_number, status: @order.status.name)
+    @content_text = t("#{locales_path}.content_#{@send_type}", number: @order.order_number, status: @order.status.name)
     @content_date = t("#{locales_path}.content_date_#{@send_type}",
                       date_order: l(date_execution, format: :date))
     mail(to: @user.email, subject: subject_text)
@@ -41,65 +41,34 @@ class OrderMailer < ApplicationMailer
   end
 
   def send_mail_to_user_order_change
-    @performer = params[:performer]
-    control = params[:control]
-    #binding.pry
-    if control == 'control_user'
-      send_control_user(@order.control_user_old, 'delete_order_control', @order) if @order.control_user_changed?
-      send_control_user(@user, 'new_order_control', @order) if @order.control_user_changed?
-
-
-    elsif control == 'performer_user'
-
+    obejct_model = params[:name_model]
+    user_type = params[:user_type]
+    if obejct_model.user_id_changed?
+      user_old = User.find(obejct_model.user_id_was)
+      send_user(user_old, "delete_order_#{user_type}", @order)
+      unless user_type == 'performer'
+        send_user(@user, "new_order_#{user_type}", @order)
+      else
+        OrderMailer.with(user: @user, order: @order,
+          send_type: "new_order_#{user_type}", performer: obejct_model).
+         order_send_mail_to_user.deliver_now unless @order.date_closed.present?
       end
-
-      # unless @order.performers_change?
-      #   send_control_user(@user, 'change_order', @order)
-      #   send_mail_performers(@performers, 'change_order', @order)
-      # end
-      # if order_status_change?(@order.status_id)
-      #   send_mail_performers(@performers, 'change_status', @order)
-      #   send_control_user(@user, 'change_status', @order)
-      # end
-      #binding.pry
+    elsif (order_status_change?(@order.status_id) || (user_type == 'execution_delete'))
+      (user_type == 'execution_delete') ? text_type = "change_order" : text_type = "status_order"
+      send_user(@user, text_type, @order) unless (user_type == 'execution_delete')
+      @order.performers.find_each {|performer| send_user(performer.user,
+        text_type, @order) unless performer.execution_off_control?}
+    else
+      send_user(@user, "change_order", @order)
     end
   end
 
 
-  # def order_execution
-  #   @flag = params[:flag]
-  #   @execution = params[:execution]
-  #   @executor = @order.performers.find_by(coexecutor: false).user
-  #   @performer = @execution.performer
-  #   @order_control_user = User.find(@order.user_id)
-  #   binding.pry
-  #   # OrderMailer.with(user: @order_control_user, order: @order,
-  #   #                  send_type: 'change_order').order_control_user.deliver_now
-  #   # if @execution.completed.present?
-  #   #
-  #   #   unless @performer.coexecutor
-  #   #     # OrderMailer.with(user: @performer.user, order: @order,
-  #   #     #                  send_type: 'change_order').order_performer_user.deliver_now
-  #   #     OrderMailer.with(user: @executor, order: @order,
-  #   #                      send_type: 'delete_order_control').order_performer_user.deliver_now
-  #   #   else
-  #   #     OrderMailer.with(user: @performer.user, order: @order,
-  #   #                      send_type: 'delete_order_control').order_performer_user.deliver_now
-  #   #     OrderMailer.with(user: @executor, order: @order,
-  #   #                      send_type: 'change_order').order_performer_user.deliver_now
-  #   #   end
-  #   # elsif @flag
-  #   #   OrderMailer.with(user: @order_control_user, order: @order,
-  #   #                    send_type: 'change_order').order_control_user.deliver_now
-  #   #   send_mail_performer(@order.performers, 'change_order', @order)
-  #   # end
+  # def delete_performer_order
+  #   mail(
+  #     to: @user.email,
+  #     subject: t('order_mailer.delete_performer_order.subject', number: @order.order_number))
   # end
-
-  def delete_performer_order
-    mail(
-      to: @user.email,
-      subject: t('order_mailer.delete_performer_order.subject', number: @order.order_number))
-  end
 
   private
 
@@ -113,18 +82,19 @@ class OrderMailer < ApplicationMailer
     include?(status) ? true : (return false)
   end
 
-  def send_mail_performers(performers, send_type, order)
-    performers.each do |performer|
-      OrderMailer.with(user: performer.user, order: order,
-       send_type: send_type, performer: performer).order_send_mail_to_user.deliver_later unless performer.
-       execution_off_control?
-    end
+  # def send_mail_performers(performers, send_type, order)
+  #   performers.each do |performer|
+  #     OrderMailer.with(user: performer.user, order: order,
+  #      send_type: send_type, performer: performer).order_send_mail_to_user.deliver_later unless performer.
+  #      execution_off_control?
+  #   end
+  # end
+
+  def send_user(user, send_type, order)
+    #binding.pry
+    OrderMailer.with(user: user, order: order,
+      send_type: send_type).order_send_mail_to_user.deliver_now unless order.date_closed.present?
   end
 
-  def send_control_user(control_user, send_type, order)
-
-    OrderMailer.with(user: control_user, order: order,
-      send_type: send_type).order_send_mail_to_user.deliver_now
-  end
 
 end
