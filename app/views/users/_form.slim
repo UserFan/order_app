@@ -1,22 +1,18 @@
 = simple_form_for(@user) do |f|
   = f.error_notification
   .row
-    .col-6
-      = f.input :full_name, autocomplete: "off", required: true, autofocus: true
-    .col-6
-      = f.association :position, include_blank: false if current_user.admin? || current_user.super_admin?
-    .col-6
-      = f.input :email, required: true
+    .col-4.pt-1
+      = image_tag(@user.avatar.large.url, :class => "mg-responsive img-thumbnail") if @user.avatar?
       .row
-        .col-8
-          = f.input :mobile,  required: true, input_html: { id: 'phone' }
-    .col-6.main-check
-      = f.association :role, :disabled => current_user == @user,
-                      as: :radio_buttons if current_user.moderator? || current_user.super_admin?
-    .col-6
-      = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: false
-    .col-6
-      = f.input :password_confirmation, required: false
+        .col-12.pt-2.align-self-end
+          = f.file_field :avatar
+    .col-8
+      - if current_user.moderator? || current_user.super_admin?
+        - back_path = users_path
+        = render 'users/user_admin', f: f
+      - else
+        = render 'users/user_usual', f: f
+        - back_path = root_path
   .form-group.float-right.mb-0.mt-3
     = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1"
-    = link_to "Отмена", :back, class: "btn btn-outline-secondary m-1"
+    = link_to "Отмена", back_path, class: "btn btn-outline-secondary m-1"

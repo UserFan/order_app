@@ -33,7 +33,7 @@
               span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_agree}
 
         = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, class: "nav-item nav-link" do
-          | Вернули на доработку
+          | В доработке
           - if @orders_not_coordination !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_not_coordination}
 

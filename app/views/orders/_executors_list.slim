@@ -1,27 +1,26 @@
 li
-  b #{performer.user.full_name}&nbsp
+  b.font-weight-bold.font-weight-light #{performer.user.full_name}&nbsp
   - unless @order.date_closed.present? || (performer.execution.present? && performer.execution.completed.present?)
     = content_tag(:small, '(На контроле!)', class: 'control-order')
     - if policy(performer).completed?
       |  &#10148;&nbsp;
       = link_to "Снять с контроля", remove_control_execution_path(performer_id: performer.id)
-    ul
-      li Срок исполнения - до #{l(performer.date_performance, format: :date)}
-      - count_day = (Date.today - (performer.date_performance).to_date).to_i
-      - if count_day <= 0
-        .control-day-before
-          p
-            small до срока исполнения заявки осталось: #{count_day.abs} ден(ь/я/ей)
-      - else
-        .control-day-after
-          p
-            small срок исполнения заявки просрочен на: #{count_day} ден(ь/я/ей)
+    .blockquote-footer
+      / ul
+      /   li
+      | Срок исполнения - до #{l(performer.date_performance, format: :date)}&nbsp
+      = content_tag(:small, "#{'('}" + t("order_day.order_left_day") + t(distance_of_time_in_words(Date.today, performer.date_performance)) + "#{')'}",
+       class: 'text-success') if (Date.today < performer.date_performance)
+      = content_tag(:small, "#{'('}" + t("order_day.order_overdue_day") + t(distance_of_time_in_words(Date.today, performer.date_performance))+ "#{')'}",
+        class: 'text-danger') if (Date.today > performer.date_performance)
   - else
-    //- date_comleted = @order.date_closed.present? ? @order.date_closed : performer.execution.completed
-    = content_tag(:span," (Снята с контроля - #{l(performer.execution.completed, format: :datetime)})",
-                   class: 'control-order-close')
-  b Сведения об исполнении:&nbsp;
+    = content_tag(:small, " (Снята с контроля - #{l(performer.execution.completed, format: :datetime)})",
+                   class: 'text-success')
+
+.pt-3
+  b.text-muted Сведения об исполнении:&nbsp;
   - if performer.execution.present?
+    small
     - if policy(performer.execution).coordination?
       |  &#9745;
       = link_to 'Согласовать', coordination_execution_path(performer.execution)
@@ -32,27 +31,65 @@ li
       |  &#10008;
       = link_to 'Удалить', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
           "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
-    ul
-      li Произведенные работы - #{performer.execution.comment}
-      li Статус исполнения: #{performer.execution.execution_result}
+    hr.m-0
+    .text-secondary
+      ul.small
+        li
+          b Произведенные работы:&#10148;&nbsp
+          span #{performer.execution.comment}
+        li
+          b Статус исполнения:&#10148;&nbsp
+          span #{performer.execution.execution_result}
       p = link_to "Фотоотчет", execution_path(performer.execution) if performer.execution.images.present?
       - if performer.execution.reworks.present?
-        br
-        - first_rework = performer.execution.reworks.first
-        .alert.alert-secondary
-          .card.bg-light
-            h4.card-header.text-right.text-danger Замечание
-            .card-body
-              = render 'rework_list', rework: first_rework
-          hr
-          .card.border-info
-            h5.card-header.card-header-sm.text-right Комментарии
-            .card-body
+        .col-12.pl-5
+          - first_rework = performer.execution.reworks.first
+          //.alert.alert-secondary
+          p.h5.text-danger.font-weight-bold
+            | Замечание
+          hr.m-0.pb-2
+          .col-12
+            = render 'rework_list', rework: first_rework
+            .col-12.pl-5
               - performer.execution.reworks[1..-1].each do |rework|
                 = render 'rework_list', rework: rework
-            -if policy(performer.execution).comment?
-              .card-footer.text-muted
-                = link_to 'Написать', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true),
-                    class: "btn btn-success btn-sm float-right"
-  - else
+
+            - if policy(performer.execution).comment?
+              .pt-3
+              = simple_form_for [performer.execution, Rework.new], url: execution_reworks_path(execution_id: performer.execution.id, execution_work: true)do |f|
+                = f.input :comment, as: :text, placeholder: "Коментарий"
+                = f.input :user_id, as: :hidden
+                .form-group.float-right.mb-0.mt-3
+                  = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
+
+                / = link_to 'Написать', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true),
+                /    class: "btn btn-success btn-sm float-right"
+
+
+
+
+
+
+          /
+          / = render 'rework_list', rework: first_rework
+          /
+          / - performer.execution.reworks[1..-1].each do |rework|
+          /   = render 'rework_list', rework: rework
+
+
+  /       br
+  /       - first_rework = performer.execution.reworks.first
+  /       .alert.alert-secondary
+  /         .card.bg-light
+  /           h5.card-header.text-right.text-danger Замечание
+  /           .card-body
+  /             = render 'rework_list', rework: first_rework
+  /         hr
+  /         .card.border-info
+  /           h6.card-header.card-header-sm.text-right Комментарии
+  /           .card-body
+  /             - performer.execution.reworks[1..-1].each do |rework|
+  /               = render 'rework_list', rework: rework
+  /
+  / - else
     = link_to "Добавить", new_execution_path(performer_id: performer.id) if policy(performer).executions?

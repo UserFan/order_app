@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  mount_uploader :avatar, ImageUploader
+
   belongs_to :position
   belongs_to :role
   has_many :shops, dependent: :restrict_with_error

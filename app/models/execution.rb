@@ -15,10 +15,9 @@ class Execution < ApplicationRecord
   end
 
   def destroy_order_execution
-    #binding.pry
     OrderMailer.with(user: performer.order.control_user, order: performer.order,
       name_model: performer.order, user_type: 'execution_delete').
-      send_mail_to_user_order_change.deliver_now
+      send_mail_to_user_order_change.deliver_later(wait: 10.seconds)
   end
 
 end

@@ -30,8 +30,8 @@ class OrderMailer < ApplicationMailer
     elsif (order_status_change?(@order.status_id) || (user_type == 'execution_delete'))
       (user_type == 'execution_delete') ? text_type = "change_order" : text_type = "status_order"
       send_user(@user, text_type, @order) unless (user_type == 'execution_delete')
-      @order.performers.find_each {|performer| send_user(performer.user,
-        text_type, @order) unless performer.execution_off_control?}
+      @order.performers.find_each { |performer| send_user(performer.user,
+        text_type, @order) unless performer.execution_off_control? }
     else
       send_user(@user, "change_order", @order)
     end

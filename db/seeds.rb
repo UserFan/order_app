@@ -16,7 +16,7 @@ end
 unless Status.any?
   Status.create(id: 1, name: 'Исполнен', role: [2,3,4])
   Status.create(id: 2, name: 'Исполняется', role: [2,3,4])
-  Status.create(id: 3, name: 'Смена исполнителя', role: [2,3,4])
+  Status.create(id: 3, name: 'Возобновлена', role: [2,3,4])
   Status.create(id: 4, name: 'Закрыта', role: [2,3,4])
   Status.create(id: 5, name: 'На согласовании', role: [2,3,4])
   Status.create(id: 6, name: 'Новое', role: [2,3,4])

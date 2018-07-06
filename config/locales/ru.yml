@@ -329,6 +329,7 @@ ru:
             date_execution:
               date_execution_less: "Дата меньше даты заявки"
               date_execution_more_30_days: "Дата больше даты заявки более 30 дней"
+              date_open_less_today: "Дата заявки меньше текущий даты"
             date_closed:
               date_closed_error: "Дата закрытия заявки некоректен"
               #date_closed_less: "Дата меньше даты срока исполнения заявки"
@@ -351,6 +352,9 @@ ru:
       defaults:
         add: "Добавить запись"
         remove: "Удалить запись"
+  order_day:
+    order_left_day: "до срока исполнения осталось: "
+    order_overdue_day: "срок исполнения просрочен на: "
 
   order_mailer:
     content_text:
@@ -433,6 +437,7 @@ ru:
     delete_performer_order:
       subject: "Заявка №%{number} с Вас снята"
       content_body: "С Вас заявка №%{number} снята с исполнения."
+
   date:
     abbr_day_names:
     - Вс

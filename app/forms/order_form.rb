@@ -52,11 +52,12 @@ class OrderForm < Reform::Form
   private
 
     def valid_performer
-      if performers.any?
+      if (performers.any? && !(date_closed.present?))
         errors.add(:base, :coexecutor_error) if count_performer > 1
         errors.add(:base, :executor_not_error) if count_performer == 0
-        self.status_id = Status::EXECUTION
-      else
+        self.status_id = Status::EXECUTION unless model.executions.any?
+        self.status_id = Status::REVIVAL if model.executions.any?
+      elsif (!(model.executions.any?) && !(date_closed.present?))
         self.status_id = Status::NEW
       end
     end
@@ -129,12 +130,13 @@ class OrderForm < Reform::Form
       if date_execution.present?
         errors.add(:date_execution, :date_execution_less) if date_execution < date_open
         errors.add(:date_execution, :date_execution_more_30_days) if date_execution > (date_open + 30.days)
+        #errors.add(:date_execution, :date_execution_less) if date_execution < date_open
       end
 
       if date_closed.present?
         errors.add(:date_closed, :date_closed_error) if (date_closed.between?(date_open, date_execution))
         errors.add(:date_closed, :date_closed_less_open) if date_closed < date_open
-        errors.add(:date_closed, :date_closed_more_30_days) if date_closed > (date_execution + 30.days)
+        #errors.add(:date_closed, :date_closed_more_30_days) if date_closed > (date_execution + 30.days)
       end
       #binding.pry
     end

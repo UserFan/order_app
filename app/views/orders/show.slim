@@ -73,13 +73,13 @@
                 td colspan="4" = l(@order.date_closed, format: :date)
               - else
                 td
-                  = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-success btn-sm" if policy(@order).closing?
+                  = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing?
                   | &nbsp;
-                  = link_to 'Исполнен частично', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-info btn-sm" if policy(@order).closing?
+                  = link_to 'Испол. част.', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing?
                   | &nbsp;
-                  = link_to 'Не исполнен', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-danger btn-sm" if policy(@order).closing?
+                  = link_to 'Не испол.', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-outline-danger btn-sm" if policy(@order).closing?
                   | &nbsp;
-                  = link_to 'Снято со исполнения', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-warning btn-sm" if policy(@order).closing?
+                  = link_to 'Снять со испол-я', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-outline-warning btn-sm" if policy(@order).closing?
   .row
     .col-12
       .card.shadow.p-3.mb-5.bg-white.rounded
@@ -88,14 +88,16 @@
         .card-body.pb-0
           ul
             li
-              b Ответственный исполнитель:
+              b.text-primary Ответственный исполнитель:
               - @executor.each do |executor|
+                hr.m-1
                 ul
                   = render 'executors_list', performer: executor
               br
             li
-              em Соисполнители:
+              .font-italic.text-primary Соисполнители:
               - @coexecutor.each do |coexecutor|
+                hr.m-1
                 ul
                   = render 'executors_list', performer: coexecutor
   .row.justify-content-end

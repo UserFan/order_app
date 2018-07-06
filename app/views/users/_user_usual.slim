@@ -1,0 +1,11 @@
+= f.input :full_name, autocomplete: "off", required: true, autofocus: true
+.row
+  .col-6
+    = f.input :email, required: true
+  .col-6
+    = f.input :mobile,  required: true, input_html: { id: 'phone' }
+.row
+  .col-6
+    = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: false
+  .col-6
+    = f.input :password_confirmation, required: false

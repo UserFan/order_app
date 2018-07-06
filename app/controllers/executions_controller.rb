@@ -20,7 +20,7 @@ class ExecutionsController < ApplicationController
     @execution_new = @performer.create_execution(permitted_attributes(Execution))
         # Not the final implementation!
     if @execution_new.save
-      unless [Status::CHANGE_PERFORMER, Status::OFF_CONTROL].include?(@execution_new.order_execution)
+      unless [Status::OFF_CONTROL].include?(@execution_new.order_execution)
         @order.update!(status_id: Status::COORDINATION)
       end
       redirect_to order_path(@performer.order)

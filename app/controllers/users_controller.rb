@@ -36,7 +36,11 @@ class UsersController < ApplicationController
   def update
     authorize @user
     if @user.update_without_password(permitted_attributes(@user))
-     redirect_to users_path
+      if current_user.moderator? || current_user.super_admin?
+        redirect_to users_path
+      else
+        redirect_to root_path
+      end
     else
       render 'edit'
     end

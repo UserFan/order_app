@@ -26,9 +26,9 @@
           .col-6
             = f.input :user_id, collection: User.where(admin: false).order(full_name: :asc), required: true, label_method: :full_name, value_method: :id, disabled: (true if (@order.date_closed.present?))
           .col-3
-            = f.input :date_execution, :as => :date_picker, :placeholder => "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }, disabled: (true if (@order.date_closed.present?))
+            = f.input :date_execution, as: :date_picker, placeholder: "срок исполнения заявки", required: true, input_html: { class: 'datepicker' }, disabled: (true if (@order.date_closed.present?))
           .col-3
-            = f.input :date_closed, :as => :date_picker, :placeholder => "дата закрытия заявки", input_html: { class: 'datepicker' } if current_user.super_admin?
+            = f.input :date_closed, as: :date_picker, placeholder: "дата закрытия заявки", input_html: { class: 'datepicker' } if current_user.super_admin?
     .row
       .col-12
         .card.shadow.p-3.mb-5.bg-white.rounded

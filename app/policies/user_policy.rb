@@ -38,12 +38,12 @@ class UserPolicy < ApplicationPolicy
   def permitted_attributes
     if user == record && (user.super_admin? || user.moderator?)
       [:full_name, :position_id, :mobile, :email, :password,
-        :password_confirmation, :remember_me]
+        :password_confirmation, :avatar, :remember_me]
     elsif user == record && !user.super_admin? && !user.moderator?
-      [:full_name, :mobile, :password, :password_confirmation, :remember_me]
+      [:full_name, :mobile, :avatar, :password, :password_confirmation, :remember_me]
     elsif user.super_admin? || user.moderator?
       [:full_name, :position_id, :role_id, :mobile, :email, :password,
-        :password_confirmation, :remember_me]
+        :password_confirmation, :avatar, :remember_me]
     end
   end
 end
