@@ -56,7 +56,7 @@ li
 
             - if policy(performer.execution).comment?
               .pt-3
-              = simple_form_for [performer.execution, Rework.new], url: execution_reworks_path(execution_id: performer.execution.id, execution_work: true)do |f|
+              = simple_form_for [performer.execution, Rework.new], url: new_execution_reworks_path(execution_id: performer.execution.id, execution_work: true)do |f|
                 = f.input :comment, as: :text, placeholder: "Коментарий"
                 = f.input :user_id, as: :hidden
                 .form-group.float-right.mb-0.mt-3
