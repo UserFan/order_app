@@ -299,6 +299,9 @@ ru:
           coexecutor: "Соисполнитель"
           message: "Отправить сообщение"
           comment: "Комментарий:"
+      rework:
+          user_id: "Пользователь"
+          comment: "Написать комментарии"
 
   # activemodel:
   #   models:

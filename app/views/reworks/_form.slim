@@ -1,5 +1,5 @@
 = simple_form_for [@execution, @rework] do |f|
-  = f.input :comment, as: :text, placeholder: "Коментарий"
+  = f.input :comment, as: :text, placeholder: "Текст замечания"
   = f.input :user_id, as: :hidden
   .form-group.float-right.mb-0.mt-3
     = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"

@@ -1,15 +1,4 @@
-/ p.text-right.user-comment
-/   span.fa.fa-user
-/   | &nbsp;
-/   = rework.user.full_name
-/ .row.justify-content-end
-/   .arrow_box
-/     p = rework.comment
-/     p.text-right.rework-date
-/       = l(rework.created_at, format: :datetime)
-/ br
-/.media.pl-3.shadow-sm.p-3.mb-5.bg-light.rounded
-.media.pl-3.shadow-sm.p-3.mb-1.bg-white.rounded
+.media.pl-3.shadow-sm.p-3.mb-3.bg-white.rounded
   = image_tag(rework.user.avatar.icon.url, class: "img-fluid img-thumbnail", alt: "Generic placeholder image") if rework.user.avatar?
   .col-11.media-body.pl-2
     h6.text-info.font-weight-bold
