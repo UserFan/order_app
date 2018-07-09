@@ -16,7 +16,7 @@ class ApplicationPolicy
   end
 
   def create?
-    user.moderator? || user.super_admin?
+    user.moderator? || user.super_admin? || user.guide?
   end
 
   def new?
