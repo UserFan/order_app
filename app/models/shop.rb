@@ -6,7 +6,7 @@ class Shop < ApplicationRecord
   after_validation :geocode, :if => lambda{ |obj| obj.address_changed? }
   after_validation :reverse_geocode
 
-  belongs_to :user
+  belongs_to :user, counter_cache: true
   belongs_to :type
 
   has_many :orders, dependent: :restrict_with_error

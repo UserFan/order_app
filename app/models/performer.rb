@@ -1,6 +1,6 @@
 class Performer < ApplicationRecord
   belongs_to :order
-  belongs_to :user
+  belongs_to :user, counter_cache: :orders_count
 
   has_one :execution, dependent: :restrict_with_error
   has_many :reworks, through: :executions, foreign_key: :execution_id

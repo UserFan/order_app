@@ -122,10 +122,15 @@ class OrdersController < ApplicationController
       @orders_count = Order.includes(:shop, :category, :status, :users, :performers,
                           :executions, :reworks).size
     else
-      @q = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).ransack(params[:q])
+      # @q = current_user.orders.references(user_id: current_user).ransack(params[:q])
+      @q = Order.merge(current_user).where(user_id: current_user).ransack(params[:q])
+      #@q = current_user.orders.or(current_user.orders.where(user_id: current_user.id)).ransack(params[:q])
+
+
+      # @q = current_user.orders.includes(:shop, :category, :status, :users, :performers,
+      #                     :executions, :reworks).where(user_id: current_user.id).ransack(params[:q])
       @orders_closed = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).size
+                          :executions, :reworks).where.not(date_closed: nil).size
       @orders_open = current_user.orders.includes(:shop, :category, :status, :users, :performers,
                           :executions, :reworks).where("date_closed is null and status_id = ?", Status::EXECUTION).size
       @orders_overdue = current_user.orders.includes(:shop, :category, :status, :users, :performers,
@@ -139,7 +144,7 @@ class OrdersController < ApplicationController
                                   Status::NOT_COORDINATION).joins(:executions).distinct.size
       @orders_count = current_user.orders.size
     end
-    @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @orders = @q.result(disinct: true)
+      @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
+      @orders = @q.result(disinct: true)
   end
 end

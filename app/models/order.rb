@@ -9,10 +9,10 @@ class Order < ApplicationRecord
 
   belongs_to :category
   belongs_to :status
-  belongs_to :shop
-
+  belongs_to :shop, counter_cache: true
+  
   has_many :performers, dependent: :destroy #, autosave: true
-  has_many :users, through: :performers, foreign_key: :user_id
+  has_many :users, through: :performers, foreign_key: :user_id, counter_cache: true
   has_many :executions, through: :performers, foreign_key: :order_id
   has_many :reworks, through: :executions
 
@@ -36,12 +36,9 @@ class Order < ApplicationRecord
   end
 
   def number_create
-    unless order_number.present?
-      self.order_number = "#{(category.name[0..1]).upcase}-#{Date.today.year}-#{Order.last.id+1}"
-    end
+    Order.last.present? ? order_last_number = self.last.id + 1 : order_last_number = 0
+    self.order_number = "#{(category.name[0..1]).upcase}-#{Date.today.year}-#{order_last_number}" unless order_number.present?
   end
-
-
 
   private
 
