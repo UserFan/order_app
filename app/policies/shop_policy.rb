@@ -36,7 +36,7 @@ class ShopPolicy < ApplicationPolicy
                             :stabilizer_id, :stabilizer_sn,:apc_id, :apc_sn,
                             :scaner_id, :scaner_sn, :bank_unit_id, :terminal_sn,
                             :fiscal_id, :fiscal_sn, :organization_unit_id,
-                            :cashbox_photos_id, :comment, :_destroy,
+                            :cashbox_photos_id, :ip_cash, :comment, :_destroy,
      cash_images_attributes: [:id, :cashbox_id, :date_add, :_destroy, images: []]],
      computers_attributes: [:id, :shop_id, :display_id, :display_sn, :system_unit_id,
                             :system_unit_sn, :keyboard_id, :keyboard_sn,

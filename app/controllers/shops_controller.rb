@@ -53,15 +53,27 @@ class ShopsController < ApplicationController
 
   def import_version
     authorize @shop
-    @shop = Shop.find(params[:shop_id])
-    $host_shop = params[:host_shop]
-    cash_remote = CashCash.fwversion
-    binding.pry
-    # if @shop.cashboxes.update!(fiscal_fwversion: CashCash.fwversion,
-    #                         cash_set_version: CashCash.version,
-    #                         ip_cash: CashCash.cash_ip)
-    #   redirect_to shop_path(@shop)
-    # end
+    cashbox = Cashbox.find(params[:cashbox_id])
+    #$host_shop = params[:host_shop]
+    CashCash.connection_pool.clear_reloadable_connections!
+    CashCash.establish_connection(connect_timeout: 5,
+                                  adapter:  "postgresql",
+                                  host:     params[:host_shop],
+                                  username: "postgres",
+                                  password: "postgres",
+                                  database: "set")
+    begin
+      cash_remote = CashCash.find_by(cash_ip: cashbox.ip_cash) if CashCash.exists?
+      if (cash_remote.present? && cashbox.update!(fiscal_fwversion: cash_remote.fwversion,
+                         cash_set_version: cash_remote.version))
+        flash[:error] = "Обновление данных прошло успешно!"
+      else
+        flash[:error] = "Не удалось обновить данные. По данной кассе данные отсуствуют"
+      end
+    rescue
+      flash[:error] = "Подключение к ПО кассы отсуствует!"
+    end
+    redirect_to shop_path(cashbox.shop)
   end
 
   private

@@ -122,6 +122,9 @@ ru:
           bank_unit: "Банковский терминал:"
           terminal_sn: "Серийный (S/N) №:"
           cashbox_photos_id: "Фото кассового блока:"
+          ip_cash: "IP адрес кассы:"
+          fiscal_fwversion: "Версия прошивки фиск. апп.:"
+          cash_set_version: "Версия ПО кассы:"
           comment: "Комментарий:"
         edit:
           organization_unit: "Юридическое лицо:"
@@ -144,6 +147,9 @@ ru:
           bank_unit: "Банковский терминал:"
           terminal_sn: "Серийный (S/N) №:"
           cashbox_photos_id: "Фото кассового блока:"
+          ip_cash: "IP адрес кассы:"
+          fiscal_fwversion: "Версия прошивки фиск. апп.:"
+          cash_set_version: "Версия ПО кассы:"
           comment: "Комментарий:"
 
       cashboxes:
@@ -168,6 +174,9 @@ ru:
           bank_unit: "Банковский терминал:"
           terminal_sn: "Серийный (S/N) №:"
           cashbox_photos_id: "Фото кассового блока:"
+          ip_cash: "IP адрес кассы:"
+          fiscal_fwversion: "Версия прошивки фиск. апп.:"
+          cash_set_version: "Версия ПО кассы:"
           comment: "Комментарий:"
         edit:
           organization_unit: "Юридическое лицо:"
@@ -190,6 +199,9 @@ ru:
           bank_unit: "Банковский терминал:"
           terminal_sn: "Серийный (S/N) №:"
           cashbox_photos_id: "Фото кассового блока:"
+          ip_cash: "IP адрес кассы:"
+          fiscal_fwversion: "Версия прошивки фиск. апп.:"
+          cash_set_version: "Версия ПО кассы:"
           comment: "Комментарий:"
 
       cash_images:

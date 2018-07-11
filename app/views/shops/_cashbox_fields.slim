@@ -50,8 +50,10 @@
               = f.association :bank_unit, label_method: :name, value_method: :id, required: true
             .col-3
               = f.input :terminal_sn
-            .col-6
-              = f.input :comment, as: :text
+            .col-2
+              = f.input :ip_cash
+            .col-4
+              = f.input :comment
           .row
             .col-12
               .links

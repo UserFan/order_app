@@ -32,19 +32,19 @@ ul
       b ИБП:&nbsp;
       u #{cashbox.apc.name}
     li
-      b Фискальный апарат:&nbsp;
-      u #{cashbox.fiscal.name}
-    li
-      b Версия прошивки фмскального аппарата:&nbsp;
-      u #{cashbox.fiscal_fwversion}
-    li
-      b Версия ПО кассы:&nbsp;
-      u #{cashbox.cash_set_version}
-    li
       b IP адрес кассы:&nbsp;
       u #{cashbox.ip_cash}
     li
-      = link_to "Обновить данные о версиях", import_version_shop_path(shop_id: @shop, host_shop: @shop.computers[0].ip_address)
+      b Версия ПО кассы:&nbsp;
+      u #{cashbox.cash_set_version}
+      | &nbsp;
+      = link_to "Обновить данные о версиях", import_version_shop_path(cashbox_id: cashbox.id, host_shop: @shop.computers[0].ip_address), class: "small"
+    li
+      b Фискальный апарат:&nbsp;
+      u #{cashbox.fiscal.name}
+    li
+      b Версия прошивки фискального аппарата:&nbsp;
+      u #{cashbox.fiscal_fwversion}
     li
       b Коментарий:&nbsp;
       u #{cashbox.comment}
