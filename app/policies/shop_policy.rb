@@ -10,6 +10,10 @@ class ShopPolicy < ApplicationPolicy
     true
   end
 
+  def import_version?
+    user.super_admin?
+  end
+
   def list?
     user.moderator? || user.super_admin? ||
     user.guide? || record.user == user

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709091816) do
+ActiveRecord::Schema.define(version: 20180711080902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,9 @@ ActiveRecord::Schema.define(version: 20180709091816) do
     t.integer "cashbox_photos_id", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "fiscal_fwversion", default: ""
+    t.string "cash_set_version", default: ""
+    t.string "ip_cash", default: ""
     t.index ["apc_id"], name: "index_cashboxes_on_apc_id"
     t.index ["bank_unit_id"], name: "index_cashboxes_on_bank_unit_id"
     t.index ["cashbox_photos_id"], name: "index_cashboxes_on_cashbox_photos_id"

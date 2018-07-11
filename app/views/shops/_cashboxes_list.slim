@@ -35,5 +35,16 @@ ul
       b Фискальный апарат:&nbsp;
       u #{cashbox.fiscal.name}
     li
+      b Версия прошивки фмскального аппарата:&nbsp;
+      u #{cashbox.fiscal_fwversion}
+    li
+      b Версия ПО кассы:&nbsp;
+      u #{cashbox.cash_set_version}
+    li
+      b IP адрес кассы:&nbsp;
+      u #{cashbox.ip_cash}
+    li
+      = link_to "Обновить данные о версиях", import_version_shop_path(shop_id: @shop, host_shop: @shop.computers[0].ip_address)
+    li
       b Коментарий:&nbsp;
       u #{cashbox.comment}

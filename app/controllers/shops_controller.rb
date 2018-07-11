@@ -51,6 +51,18 @@ class ShopsController < ApplicationController
     redirect_to shops_path
   end
 
+  def import_version
+    authorize @shop
+    @shop = Shop.find(params[:shop_id])
+    $host_shop = params[:host_shop]
+    cash_remote = CashCash.fwversion
+    binding.pry
+    # if @shop.cashboxes.update!(fiscal_fwversion: CashCash.fwversion,
+    #                         cash_set_version: CashCash.version,
+    #                         ip_cash: CashCash.cash_ip)
+    #   redirect_to shop_path(@shop)
+    # end
+  end
 
   private
 

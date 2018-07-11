@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   #resources :positions
   scope 'catalog' do
     resources :positions
-    resources :shops
+    resources :shops do
+      get 'import_version', on: :member
+    end
     resources :types
     resources :categories
     resources :statuses
