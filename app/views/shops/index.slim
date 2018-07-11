@@ -1,20 +1,20 @@
 .container
   .row.justify-content-end
-    h1.font-weight-bold Торговые объекты
+    h1.font-weight-bold Перечень объектов/подразделений
   hr
   .col-12
     .row
       //nav.nav-pills
       nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row
         = active_link_to shops_path, active: :exact, class: "nav-item nav-link" do
-          | Все объекты
+          | Все
           span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@shops_count}
         = active_link_to shops_path(q: {closed_not_null: '0'}), active: :exact, class: "nav-item nav-link" do
-          | Действующие объекты
+          | Действующие
           span.badge.badge-pill.badge-secondary.float-right.ml-2 #{@shops_open}
         - if @shops_closed != 0
           = active_link_to shops_path(q: {closed_not_null: '1'}), active: :exact, class: "nav-item nav-link" do
-            | Закрытые объекты
+            | Закрытые
             span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@shops_closed}
     .row
       .col-12
@@ -28,7 +28,7 @@
                     span.fa.fa-search
     .row.pb-4
       .col-3
-        = link_to "Новый объект",  new_shop_path, class: "btn btn-outline-success"
+        = link_to "Новый",  new_shop_path, class: "btn btn-outline-success" if policy(@shops).new?
     .row
       .col-12.mb-4.justify-content-end
         b Сортировка по:&nbsp;&nbsp;
@@ -38,24 +38,27 @@
         .col-10.col-lg-12
           .card-deck
             - @shops.each do |shop|
-              .card.shadow.p-0.mb-2.bg-white.rounded style="max-width: 15rem; min-width: 15rem;"
-                .card-img-top.text-center.p-1
-                  = image_tag(shop.photo.thumb.url) if shop.photo?
-                .card-body
-                  h6.card-title
-                    = link_to "#{shop.name}", shop_path(shop)
-                    br
-                    = content_tag(:span,'(Объект закрыт!)', :id=>'blink', class: "small") if shop.closed.present?
-                  p.card-text
+              - if policy(shop).list?
+                .card.shadow.p-0.mb-2.bg-white.rounded style="max-width: 15rem; min-width: 15rem;"
+                  .card-img-top.text-center.p-1
+                    = image_tag(shop.photo.thumb.url) if shop.photo?
+                  .card-body
+                    h6.card-title
+                      = link_to "#{shop.name}", shop_path(shop)
+                      br
+                      = content_tag(:span,'(Объект закрыт!)', :id=>'blink', class: "small") if shop.closed.present?
+                    p.card-text
+                      small.text-muted
+                        = shop.address
+                  .card-footer
                     small.text-muted
-                      = shop.address
-                .card-footer
-                  small.text-muted.float-right
-                    - if policy(shop).edit?
-                      = link_to edit_shop_path(shop), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                          "title" => "Корректировка данных" do
-                        span.fa.fa-pencil-alt.edit-button
-                    - if policy(shop).destroy? && shop.can_destroy?
-                      = link_to shop, method: :delete, data: { confirm: "Вы действительно хотите удалить торговый объект?" },
-                          "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить торговый объект" do
-                           span.far.fa-trash-alt.edit-button
+                      = link_to "Заявки(#{shop.orders_count})", orders_path(q: {shop_id_eq: shop.id}) if shop.orders_count > 0
+                      .float-right
+                        - if policy(shop).edit?
+                          = link_to edit_shop_path(shop), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                              "title" => "Корректировка данных" do
+                            span.fa.fa-pencil-alt.edit-button
+                        - if policy(shop).destroy? && shop.can_destroy?
+                          = link_to shop, method: :delete, data: { confirm: "Вы действительно хотите удалить объект/подразделений?" },
+                              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить объект/подразделений" do
+                               span.far.fa-trash-alt.edit-button

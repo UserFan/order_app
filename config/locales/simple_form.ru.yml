@@ -201,24 +201,24 @@ ru:
           images: "Фото кассового блока:"
       shop:
         new:
-          name: "Наименование объекта"
-          email: "E-mail объекта"
-          address: "Адрес объекта"
-          type: "Тип объекта"
+          name: "Наименование:"
+          email: "E-mail:"
+          address: "Адрес:"
+          type: "Тип"
           gps: "Координаты GPS"
-          photo: "Фото объекта"
-          user: "Ответственный за объект"
-          closed: "Объект закрыть"
+          photo: "Фото:"
+          user: "Руководитель:"
+          closed: "Дата закрытия:"
 
         edit:
-          name: "Наименование объекта"
-          email: "E-mail объекта"
-          address: "Адрес объекта"
-          type: "Тип объекта"
+          name: "Наименование:"
+          email: "E-mail:"
+          address: "Адрес:"
+          type: "Тип"
           gps: "Координаты GPS"
-          photo: "Фото объекта"
-          user: "Ответственный за объект"
-          closed: "Объект закрыть"
+          photo: "Фото:"
+          user: "Руководитель:"
+          closed: "Дата закрытия:"
       computer:
         new:
           display: "Дисплей:"
@@ -393,27 +393,27 @@ ru:
           os: 'Операционная система (установленная)'
       order:
         new:
-          category: "Категория заявки:"
-          date_open: "Дата заявки:"
+          category: "Категория:"
+          date_open: "Дата:"
           date_execution: "Срок исполнения:"
-          shop: "Торговый объект:"
+          shop: "Инициатор:"
           short_descript: "Краткое описание:"
           description: "Полное описание:"
           date_closed: "Дата закрытия:"
           photo: "Фото:"
           user_id: "На контроле:"
-          status: "Статус заявки:"
+          status: "Статус:"
         edit:
-          category: "Категория заявки:"
-          date_open: "Дата заявки:"
+          category: "Категория:"
+          date_open: "Дата:"
           date_execution: "Срок исполнения:"
-          shop: "Торговый объект:"
+          shop: "Инициатор:"
           short_descript: "Краткое описание:"
           description: "Полное описание:"
           date_closed: "Дата закрытия:"
           photo: "Фото:"
           user_id: "На контроле:"
-          status: "Статус заявки:"
+          status: "Статус:"
 
       performer:
         new:

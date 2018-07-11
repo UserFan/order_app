@@ -1,14 +1,14 @@
 = f.input :full_name, autocomplete: "off", required: true, autofocus: true
 .row
   .col-7
-    = f.association :position, include_blank: false if current_user.admin? || current_user.super_admin?
+    = f.association :position, collection: Position.where.not(id: 1).order(name: :asc), include_blank: false if current_user.admin? || current_user.super_admin?
     .row
       .col-12
         = f.input :email, required: true
       .col-12
         = f.input :mobile,  required: true, input_html: { id: 'phone' }
   .col-5.main-check
-    = f.association :role, disabled: current_user == @user,
+    = f.association :role, collection: Role.where.not(id: 4).order(name: :asc), disabled: current_user == @user,
                     as: :radio_buttons if current_user.moderator? || current_user.super_admin?
 .row
   .col-6

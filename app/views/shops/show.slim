@@ -15,18 +15,19 @@
           a#nav-one-tab.nav-item.nav-link.active aria-controls="nav-one" aria-selected="true" data-toggle="tab" href="#nav-one" role="tab"
             span Первичные
             br данные
-          a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
-            span Кассовое
-            br оборудование
-          a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
-            span Весовое
-            br оборудование
-          a#nav-comp-tab.nav-item.nav-link aria-controls="nav-comp" aria-selected="false" data-toggle="tab" href="#nav-comp" role="tab"
-            span Компьютер и
-            br оргтехника
-          a#nav-comunication-tab.nav-item.nav-link aria-controls="nav-comunication" aria-selected="false" data-toggle="tab" href="#nav-comunication" role="tab"
-            span Коммуникационное
-            br оборудование
+          - if policy(@shop).show_specialty?
+            a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
+              span Кассовое
+              br оборудование
+            a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
+              span Весовое
+              br оборудование
+            a#nav-comp-tab.nav-item.nav-link aria-controls="nav-comp" aria-selected="false" data-toggle="tab" href="#nav-comp" role="tab"
+              span Компьютер и
+              br оргтехника
+            a#nav-comunication-tab.nav-item.nav-link aria-controls="nav-comunication" aria-selected="false" data-toggle="tab" href="#nav-comunication" role="tab"
+              span Коммуникационное
+              br оборудование
       #nav-tabContent.tab-content
         #nav-one.tab-pane.fade.show.active aria-labelledby="nav-one-tab" role="tabpanel"
           br
@@ -35,23 +36,25 @@
               tbody
                 tr
                   td
-                    b Наименование объекта:
+                    b Наименование:
                     td = @shop.name
                 tr
                   td
-                    b Тип объекта:
+                    b Тип:
                   td = @shop.type.name
                 tr
                   td
-                    b e-mail объекта:
+                    b e-mail:
                   td = @shop.email
                 tr
                   td
-                    b Адрес объекта:
+                    b Адрес:
                   td = @shop.address
                 tr
-                  td
-                    b Ответственное лицо:
+                  td.font-weight-bold
+                    | Руководитель
+                    br
+                    | (объекта/подраз-я):
                   td = @shop.user.full_name
                 tr
                   td.i.fa.fa-phone.fa-flip-horizontal.fa-lg
@@ -62,44 +65,45 @@
                     td
                       b Объект закрыт:
                     td = l(@shop.closed, format: :date)
-        #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
-          .col-12
-            br
-            - @cashbox_number = 1
-            - @shop.cashboxes.each do |cashbox|
-              details
-                summary.h5.text-success
-                  b Кассовый блок №#{@cashbox_number}
-                = render 'cashboxes_list', cashbox: cashbox
-              - if cashbox.cash_images.any?
-                ul
-                  details
-                    summary.h6.text-dark
-                      b Фото кассового блоко от:
-                    - cashbox.cash_images.each do |cashbox_image|
-                      ul
-                        li = link_to "#{l(cashbox_image.date_add, format: :date)}", cash_image_path(cashbox_image)
-              - @cashbox_number += 1
-        #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
-          .col-12
-            br
-            - @weigher_number = 1
-            - @shop.shop_weighers.each do |weigher|
-              details
-                summary.h5.text-success
-                  b "Весовое оборудование №#{@weigher_number}"
-                = render 'weighers_list', weigher_shop: weigher
-              - @weigher_number += 1
-        #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
-          .col-12
-            br
-            - @shop.computers.each do |computer|
-              = render 'computers_list', computer: computer
-        #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
-          .col-12
-            br
-            ul
-              h5
-                b Коммуникационное оборудование:
-                - @shop.shop_communications.each do |communication|
-                  = render 'communications_list', communication: communication
+        - if policy(@shop).show_specialty?
+          #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
+            .col-12
+              br
+              - @cashbox_number = 1
+              - @shop.cashboxes.each do |cashbox|
+                details
+                  summary.h5.text-success
+                    b Кассовый блок №#{@cashbox_number}
+                  = render 'cashboxes_list', cashbox: cashbox
+                - if cashbox.cash_images.any?
+                  ul
+                    details
+                      summary.h6.text-dark
+                        b Фото кассового блоко от:
+                      - cashbox.cash_images.each do |cashbox_image|
+                        ul
+                          li = link_to "#{l(cashbox_image.date_add, format: :date)}", cash_image_path(cashbox_image)
+                - @cashbox_number += 1
+          #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
+            .col-12
+              br
+              - @weigher_number = 1
+              - @shop.shop_weighers.each do |weigher|
+                details
+                  summary.h5.text-success
+                    b "Весовое оборудование №#{@weigher_number}"
+                  = render 'weighers_list', weigher_shop: weigher
+                - @weigher_number += 1
+          #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
+            .col-12
+              br
+              - @shop.computers.each do |computer|
+                = render 'computers_list', computer: computer
+          #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
+            .col-12
+              br
+              ul
+                h5
+                  b Коммуникационное оборудование:
+                  - @shop.shop_communications.each do |communication|
+                    = render 'communications_list', communication: communication

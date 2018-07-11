@@ -6,6 +6,23 @@ class ShopPolicy < ApplicationPolicy
     user.moderator? || user.super_admin?
   end
 
+  def index?
+    true
+  end
+
+  def list?
+    user.moderator? || user.super_admin? ||
+    user.guide? || record.user == user
+  end
+
+  def show?
+    user.moderator? || user.super_admin? ||
+    user.guide? || record.user == user
+  end
+
+  def show_specialty?
+    user.super_admin?
+  end
 
   def permitted_attributes
     [:name, :email, :address, :type_id, :user_id, :photo, :closed,

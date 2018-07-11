@@ -59,14 +59,26 @@ class ShopsController < ApplicationController
   end
 
   def set_index
-    @q = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                       :shop_weighers, :shop_communications).ransack(params[:q])
-    @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @shops = @q.result(disinct: true)
-    @shops_closed = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                       :shop_weighers, :shop_communications).ransack(closed_not_null: '1').result.count
-    @shops_open = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                       :shop_weighers, :shop_communications).ransack(closed_not_null: '0').result.count
-    @shops_count = Shop.count
+    if current_user.super_admin? || current_user.moderator? #|| current_user.guide?
+      @q = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
+                         :shop_weighers, :shop_communications).ransack(params[:q])
+      @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
+      @shops = @q.result(disinct: true)
+      @shops_closed = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
+                         :shop_weighers, :shop_communications).ransack(closed_not_null: '1').result.count
+      @shops_open = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
+                         :shop_weighers, :shop_communications).ransack(closed_not_null: '0').result.count
+      @shops_count = Shop.count
+    else
+      @q = current_user.shops.includes(:user, :orders, :type, :cashboxes, :computers,
+                         :shop_weighers, :shop_communications).ransack(params[:q])
+      @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
+      @shops = @q.result(disinct: true)
+      @shops_closed = current_user.shops.includes(:user, :orders, :type, :cashboxes, :computers,
+                         :shop_weighers, :shop_communications).ransack(closed_not_null: '1').result.count
+      @shops_open = current_user.shops.includes(:user, :orders, :type, :cashboxes, :computers,
+                         :shop_weighers, :shop_communications).ransack(closed_not_null: '0').result.count
+      @shops_count = current_user.shops.count
+    end
   end
-end
+  end

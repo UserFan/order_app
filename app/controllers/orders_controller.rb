@@ -101,48 +101,45 @@ class OrdersController < ApplicationController
   end
 
   def set_index
-    if current_user.super_admin? || current_user.moderator?
-      @q = Order.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).ransack(params[:q])
-      @orders_closed = Order.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where.not(date_closed: nil).size
-      @orders_open = Order.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where("date_closed is null and status_id = ?", Status::EXECUTION).size
-      @orders_overdue = Order.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where("(date_closed > date_execution) OR (date_closed IS NULL AND date_execution < ?)", Date.today).size
-      @orders_for_closing = Order.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where("date_closed is null and status_id = ?", Status::COORDINATION).
-                            joins(:executions).distinct.size
-      @orders_agree = Order.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where("date_closed is null and status_id = ?", Status::AGREE).
-                            joins(:executions).distinct.size
-      @orders_not_coordination = Order.includes(:shop, :category, :status, :users, :performers,
-                                 :executions, :reworks).where("date_closed is null and status_id = ?",
-                                  Status::NOT_COORDINATION).joins(:executions).distinct.size
-      @orders_count = Order.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).size
+    if current_user.super_admin? || current_user.moderator? #|| current_user.guide?
+      @set_orders = Order.includes(:shop, :category, :status, :users, :performers,
+                          :executions, :reworks)
+      @q = @set_orders.ransack(params[:q])
+      @orders_closed = @set_orders.where.not(date_closed: nil).size
+      @orders_open = @set_orders.where("date_closed is null and status_id = ?",
+                            Status::EXECUTION).size
+      @orders_overdue = @set_orders.where("(date_closed > date_execution) OR
+                            (date_closed IS NULL AND date_execution < ?)",
+                             Date.today).size
+      @orders_for_closing = @set_orders.where("date_closed is null and status_id = ?",
+                            Status::COORDINATION).joins(:executions).distinct.size
+      @orders_agree = @set_orders.where("date_closed is null and status_id = ?",
+                            Status::AGREE).joins(:executions).distinct.size
+      @orders_not_coordination = @set_orders.where("date_closed is null and status_id = ?",
+                            Status::NOT_COORDINATION).joins(:executions).distinct.size
+      @orders_count = @set_orders.size
     else
-      # @q = current_user.orders.references(user_id: current_user).ransack(params[:q])
-      @q = Order.merge(current_user).where(user_id: current_user).ransack(params[:q])
-      #@q = current_user.orders.or(current_user.orders.where(user_id: current_user.id)).ransack(params[:q])
-
-
-      # @q = current_user.orders.includes(:shop, :category, :status, :users, :performers,
+      @set_orders =  Order.includes(:shop, :category, :status, :users, :executions,
+            :reworks).joins(:performers).where('performers.user_id = ? OR orders.user_id = ?',
+            current_user, current_user)
+      @q = Order.includes(:shop, :category, :status, :users, :executions,
+            :reworks).joins(:performers).where('performers.user_id = ? OR orders.user_id = ?',
+            current_user, current_user).ransack(params[:q])
+            # @q = current_user.orders.includes(:shop, :category, :status, :users, :performers,
       #                     :executions, :reworks).where(user_id: current_user.id).ransack(params[:q])
-      @orders_closed = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where.not(date_closed: nil).size
-      @orders_open = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where("date_closed is null and status_id = ?", Status::EXECUTION).size
-      @orders_overdue = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where("(date_closed > date_execution) OR
-                          (date_closed IS NULL AND date_execution < ?)", Date.today).size
-      @orders_coordination = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-                          :executions, :reworks).where("date_closed is null and status_id = ?", Status::AGREE).
-                            joins(:executions).distinct.size
-      @orders_not_coordination = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-                                  :executions, :reworks).where("date_closed is null and status_id = ?",
+      @orders_closed = @set_orders.where.not(date_closed: nil).size
+      @orders_open = @set_orders.where("date_closed is null and status_id = ?", Status::EXECUTION).size
+      @orders_overdue = @set_orders.where("(date_closed > date_execution) OR
+                          (date_closed IS NULL AND date_execution < ?)", Date.today).joins(:executions).distinct.size
+      @orders_coordination = @set_orders.where("date_closed is null and status_id = ?", Status::AGREE).
+                              joins(:executions).distinct.size
+      @orders_not_coordination =@set_orders.where("date_closed is null and status_id = ?",
                                   Status::NOT_COORDINATION).joins(:executions).distinct.size
-      @orders_count = current_user.orders.size
+      @orders_for_closing = @set_orders.where("date_closed is null and status_id = ?", Status::COORDINATION).
+                            joins(:executions).distinct.size if @set_orders.where(user_id: current_user)
+      @orders_agree = @set_orders.where("date_closed is null and status_id = ?", Status::AGREE).
+                            joins(:executions).distinct.size if @set_orders.where(user_id: current_user)
+      @orders_count = @set_orders.size
     end
       @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
       @orders = @q.result(disinct: true)

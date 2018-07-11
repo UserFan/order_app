@@ -12,18 +12,19 @@
           a#nav-one-tab.nav-item.nav-link.active aria-controls="nav-one" aria-selected="true" data-toggle="tab" href="#nav-one" role="tab"
             span Первичные
             br данные
-          a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
-            span Кассовое
-            br оборудование
-          a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
-            span Весовое
-            br оборудование
-          a#nav-comp-tab.nav-item.nav-link aria-controls="nav-comp" aria-selected="false" data-toggle="tab" href="#nav-comp" role="tab"
-            span Компьютер и
-            br оргтехника
-          a#nav-comunication-tab.nav-item.nav-link aria-controls="nav-comunication" aria-selected="false" data-toggle="tab" href="#nav-comunication" role="tab"
-            span Коммуникационное
-            br оборудование оборудование
+          - if policy(@shop).show_specialty?
+            a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
+              span Кассовое
+              br оборудование
+            a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
+              span Весовое
+              br оборудование
+            a#nav-comp-tab.nav-item.nav-link aria-controls="nav-comp" aria-selected="false" data-toggle="tab" href="#nav-comp" role="tab"
+              span Компьютер и
+              br оргтехника
+            a#nav-comunication-tab.nav-item.nav-link aria-controls="nav-comunication" aria-selected="false" data-toggle="tab" href="#nav-comunication" role="tab"
+              span Коммуникационное
+              br оборудование оборудование
 
       #nav-tabContent.tab-content
         #nav-one.tab-pane.fade.show.active aria-labelledby="nav-one-tab" role="tabpanel"
@@ -45,63 +46,64 @@
                 .col-12
                   = f.input :address, as: :text, required: true
                 .col-8
-                  = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+                  = f.association :user, collection: User.where(admin: false).order(full_name: :asc), label_method: :full_name, value_method: :id, include_blank: false
                 .col-4
                   = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
-        #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
-          .row
-            .col-12.pt-4
-              #cashboxes
-                h4.font-weight-bold Кассовое оборудование:
-                .links
-                  = link_to_add_association f, :cashboxes, class: 'btn btn-outline-success btn-sm',
-                    data: { association_insertion_method: :prepend,
-                            association_insertion_node: '#cashboxes-list'}
-                br
-                #cashboxes-list
-                  - @item_index = 1
-                  = f.simple_fields_for :cashboxes, @shop.cashboxes do |cashbox|
-                    = render 'cashbox_fields', f: cashbox
-                    - @item_index += 1
+        - if policy(@shop).show_specialty?
+          #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
+            .row
+              .col-12.pt-4
+                #cashboxes
+                  h4.font-weight-bold Кассовое оборудование:
+                  .links
+                    = link_to_add_association f, :cashboxes, class: 'btn btn-outline-success btn-sm',
+                      data: { association_insertion_method: :prepend,
+                              association_insertion_node: '#cashboxes-list'}
+                  br
+                  #cashboxes-list
+                    - @item_index = 1
+                    = f.simple_fields_for :cashboxes, @shop.cashboxes do |cashbox|
+                      = render 'cashbox_fields', f: cashbox
+                      - @item_index += 1
 
-        #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
-         .row
-           .col-12.pt-4
-             #weigher
-               h4.font-weight-bold Весы и весовое оборудование:
-               .links
-                 = link_to_add_association f, :shop_weighers, class: 'btn btn-outline-success btn-sm',
-                   data: { association_insertion_method: :prepend,
-                           association_insertion_node: '#weigher-list'}
-               br
-               #weigher-list
-                 = f.simple_fields_for :shop_weighers do |weigher|
-                   = render 'shop_weigher_fields', f: weigher
+          #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
+           .row
+             .col-12.pt-4
+               #weigher
+                 h4.font-weight-bold Весы и весовое оборудование:
+                 .links
+                   = link_to_add_association f, :shop_weighers, class: 'btn btn-outline-success btn-sm',
+                     data: { association_insertion_method: :prepend,
+                             association_insertion_node: '#weigher-list'}
+                 br
+                 #weigher-list
+                   = f.simple_fields_for :shop_weighers do |weigher|
+                     = render 'shop_weigher_fields', f: weigher
 
-        #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
-          .row
-            .col-12.pt-4
-              #computers
-                h4.font-weight-bold Компьютер и оргтехника:
-                .links
-                  = link_to_add_association f, :computers, class: 'btn btn-outline-success btn-sm',
-                    data: { association_insertion_method: :prepend,
-                             association_insertion_node: '#computers-list'}
-                br
-                #computers-list
-                  = f.simple_fields_for :computers do |computer|
-                    = render 'computer_fields', f: computer
+          #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
+            .row
+              .col-12.pt-4
+                #computers
+                  h4.font-weight-bold Компьютер и оргтехника:
+                  .links
+                    = link_to_add_association f, :computers, class: 'btn btn-outline-success btn-sm',
+                      data: { association_insertion_method: :prepend,
+                               association_insertion_node: '#computers-list'}
+                  br
+                  #computers-list
+                    = f.simple_fields_for :computers do |computer|
+                      = render 'computer_fields', f: computer
 
-        #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
-          .row
-            .col-12.pt-4
-              #communications
-                h4.font-weight-bold Коммуникация и комуникационное оборудования:
-                .links
-                  = link_to_add_association f, :shop_communications, class: 'btn btn-outline-success btn-sm',
-                    data: { association_insertion_method: :prepend,
-                            association_insertion_node: '#communications-list'}
-                br
-                #communications-list
-                  = f.simple_fields_for :shop_communications do |communication|
-                    = render 'shop_communication_fields', f: communication
+          #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
+            .row
+              .col-12.pt-4
+                #communications
+                  h4.font-weight-bold Коммуникация и комуникационное оборудования:
+                  .links
+                    = link_to_add_association f, :shop_communications, class: 'btn btn-outline-success btn-sm',
+                      data: { association_insertion_method: :prepend,
+                              association_insertion_node: '#communications-list'}
+                  br
+                  #communications-list
+                    = f.simple_fields_for :shop_communications do |communication|
+                      = render 'shop_communication_fields', f: communication

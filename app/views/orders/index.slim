@@ -1,12 +1,12 @@
 .container
   .row.justify-content-end
-    h1.font-weight-bold Заявки от торговых объектов
+    h1.font-weight-bold Перечень заявок/контрольных карточек.
   hr
   .row
     .col-12.p-0
       nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row
         = active_link_to orders_path, active: :exact, class: "nav-item nav-link" do
-          | Всего заявок
+          | Всего
           - if @orders_count !=0
           span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_count}
 
@@ -52,7 +52,7 @@
                 span.fa.fa-search
     .row.pb-4
       .col-3
-        = link_to "Новая заявка",  new_order_path, class: "btn btn-success" if policy(@orders).new?
+        = link_to "Новая",  new_order_path, class: "btn btn-outline-success" if policy(@orders).new?
     .row
       .col-12
         table.table.table-hover

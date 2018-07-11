@@ -20,10 +20,6 @@
 
                     .thumb data-slide-to="#{index}" data-target="#carousel"
                       = image_tag(photo.thumb.url, :class => "img-thumbnail")
-              /! /.Slides
-              /! Controls
-
-
               a.left.carousel-control data-slide="prev" href="#thumbcarousel" role="button"
                 span.carousel-control-prev-icon aria-hidden="true"
                 span.sr-only Previous
@@ -67,8 +63,11 @@
                 b На контроле:
               td = @order.control_user.full_name
             tr
-              td
-                b Закрыть заявку (результат):
+              td.font-weight-bold
+                - if @order.date_closed.present?
+                  = "#{'Закрыта'}:"
+                -else
+                  = "#{'Закрыть (результат):'}"
               - if @order.date_closed.present?
                 td colspan="4" = l(@order.date_closed, format: :date)
               - else
