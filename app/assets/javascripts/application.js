@@ -28,6 +28,7 @@
 //= require_tree .
 
 
+
 var ClickRowTable = function() {
   $(".table-row td").click(function() {
    if (!$(this).hasClass("row-skip")) {

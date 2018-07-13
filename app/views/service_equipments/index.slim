@@ -1,0 +1,41 @@
+.container
+  .row.justify-content-end
+    h1.font-weight-bold Перечень сервисных работ
+  hr
+  .col-12.p-0.pt-4
+    .row.justify-content-end
+      .col-5
+        = search_form_for [@shop, @q] do |f|
+          .input-group.pb-4
+            = f.input_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+            span.input-group-append
+              button.btn.btn-outline-secondary type="submit"
+                span.fa.fa-search
+    .row.pb-4
+      .col-3
+        = link_to "Добавить сервис",  new_shop_service_equipment_path, class: "btn btn-outline-success" if policy(ServiceEquipment).new?
+    .row
+      .col-12
+        table.table.table-hover
+          thead.thead-light.text-dark
+            tr.text-dark
+              th =sort_link(@q, :date_service, 'Дата', default_order: :desc)
+              th =sort_link(@q, :equipment_type_name, 'Тип сервиса', default_order: :asc)
+              th =sort_link(@q, :description, 'Описание', default_order: :asc)
+              th.text-center
+                i.fa.fa-list
+          tbody
+            - @equipments.each do |equipment|
+              tr
+                td = l(equipment.date_service, format: :date)
+                td = equipment.equipment_type.name
+                td = equipment.description
+                td.row-skip
+                  - if policy(equipment).edit?
+                    = link_to edit_shop_service_equipment_path(id: equipment), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                      "title" => "Корректировка данных" do
+                       span.fa.fa-pencil-alt.edit-button
+                  - if policy(equipment).destroy? && equipment.can_destroy?
+                    = link_to shop_service_equipment_path(id: equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
+                      "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                         span.far.fa-trash-alt.edit-button

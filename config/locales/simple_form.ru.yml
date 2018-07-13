@@ -81,6 +81,15 @@ ru:
       fiscal:
         <<: *name
 
+      carrier_type:
+        <<: *name
+
+      equipment_type:
+        <<: *name
+
+      cost_type:
+        <<: *name
+
       status:
         new:
           name: "Наименование"
@@ -457,7 +466,84 @@ ru:
           coexecutor: "Соисполнитель"
           message: "Отправить сообщение"
           comment: "Комментарий:"
+      performer:
+        new:
+          user: "Исполнитель:"
+          date_performance: "Срок исполнения:"
+          date_close_performance: "Снят с контроля:"
+          coexecutor: "Соисполнитель"
+          message: "Отправить сообщение"
+          comment: "Комментарий:"
+        edit:
+          user: "Исполнитель:"
+          date_performance: "Срок исполнения:"
+          date_close_performance: "Снят с контроля:"
+          coexecutor: "Соисполнитель"
+          message: "Отправить сообщение"
+          comment: "Комментарий:"
 
+      esp:
+        new:
+          carrier_type: "Носитель:"
+          kpp: "КПП:"
+        edit:
+          carrier_type: "Носитель:"
+          kpp: "КПП:"
+      esps:
+        new:
+          carrier_type: "Носитель:"
+          kpp: "КПП:"
+        edit:
+          carrier_type: "Носитель:"
+          kpp: "КПП:"
+      esp_cert:
+        new:
+          serial_num_esp: "Серийный № ЭЦП:"
+          date_start_esp: "Дата начало ЭЦП:"
+          date_end_esp: "Дата конечная ЭЦП:"
+          rsa_serial: "ФСРАР РСА ИД:"
+          date_start_rsa: "Дата начало РСА:"
+          date_end_rsa: "Дата конечная РСА:"
+        edit:
+          serial_num_esp: "Серийный № ЭЦП:"
+          date_start_esp: "Дата начало ЭЦП:"
+          date_end_esp: "Дата конечная ЭЦП:"
+          rsa_serial: "ФСРАР РСА ИД:"
+          date_start_rsa: "Дата начало РСА:"
+          date_end_rsa: "Дата конечная РСА:"
+      esp_certs:
+        new:
+          serial_num_esp: "Серийный № ЭЦП:"
+          date_start_esp: "Дата начало ЭЦП:"
+          date_end_esp: "Дата конечная ЭЦП:"
+          rsa_serial: "ФСРАР РСА ИД:"
+          date_start_rsa: "Дата начало РСА:"
+          date_end_rsa: "Дата конечная РСА:"
+        edit:
+          serial_num_esp: "Серийный № ЭЦП:"
+          date_start_esp: "Дата начало ЭЦП:"
+          date_end_esp: "Дата конечная ЭЦП:"
+          rsa_serial: "ФСРАР РСА ИД:"
+          date_start_rsa: "Дата начало РСА:"
+          date_end_rsa: "Дата конечная РСА:"
+      service_equipment:
+        new:
+          date_service: "Дата:"
+          equipment_type: "Тип сервиса:"
+          description: "Описание:"
+        edit:
+          date_service: "Дата:"
+          equipment_type: "Тип сервиса:"
+          description: "Описание:"
+      service_equipments:
+        new:
+          date_service: "Дата:"
+          equipment_type: "Тип сервиса:"
+          description: "Описание:"
+        edit:
+          date_service: "Дата:"
+          equipment_type: "Тип сервиса:"
+          description: "Описание:" 
     required:
       text: "Обязательное поле"
       mark: "*"

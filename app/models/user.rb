@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :reworks, dependent: :restrict_with_error
 
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :lockable
 
   validates :full_name, :role_id, :position_id, :mobile, presence: true
 

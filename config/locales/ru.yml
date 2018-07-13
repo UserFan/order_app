@@ -1,4 +1,28 @@
 ru:
+  carrier_types:
+    index:
+      caption_button: "Добавить ''Тип носителя''"
+      caption_title: "Справочник ''Тип носителя''"
+    edit:
+      caption_text: "Корректировка ''Тип носителя''"
+    new:
+      caption_text: "Новый ''Тип носителя''"
+  equipment_types:
+    index:
+      caption_button: "Добавить ''Тип оборудования''"
+      caption_title: "Справочник ''Тип оборудования''"
+    edit:
+      caption_text: "Корректировка ''Тип оборудования''"
+    new:
+      caption_text: "Новый ''Тип оборудования''"
+  cost_types:
+    index:
+      caption_button: "Добавить ''Тип расхода''"
+      caption_title: "Справочник ''Тип расхода''"
+    edit:
+      caption_text: "Корректировка ''Тип расхода''"
+    new:
+      caption_text: "Новый ''Тип расхода''"
   positions:
     index:
       caption_button: "Добавить ''Должность''"

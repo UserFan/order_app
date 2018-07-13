@@ -1,0 +1,67 @@
+.container
+  h2.text-right
+    b Перечень ЭЦП (#{@shop.name})
+  hr
+  .row.pb-4
+    .col-2
+      = link_to "Добавить носитель ЭЦП", new_shop_esp_path, class: "btn btn-outline-success  btn-sm" if policy(Esp).new?
+  ol
+    - @esps.each do |esp|
+      li
+         b Носитель:&nbsp;
+         = esp.carrier_type.name
+         | &nbsp;
+         em = "(КПП: #{esp.kpp})"
+         - if policy(esp).edit?
+           = link_to edit_shop_esp_path(id: esp), "data-toggle" => "tooltip", "data-placement" => "bottom",
+              "title" => "Корректировка" do
+              span.fa.fa-pencil-alt.edit-button
+         - if policy(esp).destroy? && esp.can_destroy?
+           = link_to shop_esp_path(id: esp), method: :delete, data: { confirm: "Вы действительно хотите удалить объект/подразделений?" },
+              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить объект/подразделений" do
+              span.far.fa-trash-alt.edit-button
+      ul
+        li
+          = link_to "Добавить сертификат", new_shop_esp_esp_cert_path(esp_id: esp) if policy(EspCert).new?
+      - if esp.esp_certs.present?
+        .container
+          .row.justify-content-center.mt-2
+            .col-10.col-lg-12
+              .card-deck
+                - esp.esp_certs.each do |esp_cert|
+                  .card.shadow.p-0.mb-2.bg-white.rounded style="max-width: 21rem; min-width: 21rem;"
+                    .card-header.text-center.text-info
+                      = esp.shop.cashboxes.first.organization_unit.name
+                    .card-body.pt-2
+                      h6.card-title.text-center.mb-3 Серийный номер ЭЦП:
+                      p.small.text-muted.card-text.text-center.mb-1
+                        = esp_cert.serial_num_esp
+                      p.small.text-muted.card-text.text-center
+                        b Срок действия:&nbsp;
+                        - if (esp_cert.date_start_esp.present? && esp_cert.date_end_esp.present?)
+                          | с&nbsp;
+                          | #{l(esp_cert.date_start_esp, format: :date)}
+                          | &nbsp;по&nbsp;
+                          | #{l(esp_cert.date_end_esp, format: :date)}
+                      hr
+                      h6.card-title.text-center.mb-3 ФСРАР ЕГАИС(RSA ключ):
+                      p.small.text-muted.card-text.mb-1
+                        b Идентификатор в ЕГАИС:&nbsp;
+                        = esp_cert.rsa_serial
+                      p.small.text-muted.card-text
+                        b Срок действия:&nbsp;
+                        - if (esp_cert.date_start_rsa.present? && esp_cert.date_end_rsa.present?)
+                          | с&nbsp;
+                          | #{l(esp_cert.date_start_rsa, format: :date)}
+                          | &nbsp;по&nbsp;
+                          | #{l(esp_cert.date_end_rsa, format: :date)}
+                    .card-footer
+                      .float-right
+                        - if policy(esp_cert).edit?
+                          = link_to edit_shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                             "title" => "Корректировка" do
+                             span.fa.fa-pencil-alt.edit-button
+                        - if policy(esp_cert).destroy? && esp_cert.can_destroy?
+                          = link_to shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), method: :delete, data: { confirm: "Вы действительно хотите удалить объект/подразделений?" },
+                             "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить объект/подразделений" do
+                             span.far.fa-trash-alt.edit-button

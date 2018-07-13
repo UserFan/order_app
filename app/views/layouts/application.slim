@@ -8,9 +8,10 @@ html
     = csrf_meta_tags
 
   body
-    = render 'layouts/header'
-    .container
-      = render 'layouts/flash', flash: flash
-      .row
-        = content_for?(:catalog) ? yield(:catalog) : yield
-    = render 'layouts/footer'
+    .col-1-xs.col-lg-12
+      = render 'layouts/header'
+      .container
+        = render 'layouts/flash', flash: flash
+        .row
+          = content_for?(:catalog) ? yield(:catalog) : yield
+      = render 'layouts/footer'

@@ -6,4 +6,8 @@ class CashCash < ApplicationRecord
   #                               password: "postgres",
   #                               database: "set")
   self.table_name = "cash_cash"
+
+  def readonly?
+    true
+  end
 end

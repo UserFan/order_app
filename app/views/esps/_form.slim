@@ -1,0 +1,7 @@
+= simple_form_for [@shop, @esp] do |f|
+  = f.error_notification
+  = f.association :carrier_type, label_method: :name, value_method: :id, include_blank: false
+  = f.input :kpp
+  .form-group.float-right.mb-0.mt-3
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", shop_esps_path(@shop), class: "btn btn-outline-secondary m-1 btn-sm"

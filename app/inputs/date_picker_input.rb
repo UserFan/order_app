@@ -4,20 +4,21 @@ class DatePickerInput < SimpleForm::Inputs::StringInput
     set_value_html_option
 
     template.content_tag :div, class: 'input-group date datepicker' do
-      input = super(wrapper_options) # leave StringInput do the real rendering
+      input = super(wrapper_options)# leave StringInput do the real rendering
       input + input_button
     end
   end
 
   def input_html_classes
-    super.push ''   # 'form-control'
+    super.push ''#'form-control form-control-sm'
   end
 
   private
 
   def input_button
     template.content_tag :span, class: 'input-group-append' do
-      template.content_tag :button, class: 'btn btn-outline-secondary', type: 'button' do
+      #template.content_tag :button, class: 'btn btn-outline-secondary', type: 'button' do
+      template.content_tag :div, class: 'input-group-text' do
         template.content_tag :i, '', class: 'far fa-calendar-alt'
       end
     end

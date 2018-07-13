@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180711080902) do
+ActiveRecord::Schema.define(version: 20180713133249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,12 @@ ActiveRecord::Schema.define(version: 20180711080902) do
   end
 
   create_table "bank_units", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "carrier_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -124,8 +130,54 @@ ActiveRecord::Schema.define(version: 20180711080902) do
     t.index ["system_unit_id"], name: "index_computers_on_system_unit_id"
   end
 
+  create_table "cost_equipments", force: :cascade do |t|
+    t.bigint "shop_id", default: 0, null: false
+    t.bigint "cost_type_id", default: 0, null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "date_cost", null: false
+    t.index ["cost_type_id"], name: "index_cost_equipments_on_cost_type_id"
+    t.index ["shop_id"], name: "index_cost_equipments_on_shop_id"
+  end
+
+  create_table "cost_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "displays", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "equipment_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "esp_certs", force: :cascade do |t|
+    t.bigint "esp_id", default: 0, null: false
+    t.datetime "date_start_esp", null: false
+    t.datetime "date_end_esp", null: false
+    t.string "serial_num_esp"
+    t.datetime "date_start_rsa", null: false
+    t.datetime "date_end_rsa", null: false
+    t.string "rsa_serial"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["esp_id"], name: "index_esp_certs_on_esp_id"
+  end
+
+  create_table "esps", force: :cascade do |t|
+    t.bigint "shop_id", default: 0, null: false
+    t.bigint "carrier_type_id", default: 0, null: false
+    t.string "kpp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["carrier_type_id"], name: "index_esps_on_carrier_type_id"
+    t.index ["shop_id"], name: "index_esps_on_shop_id"
   end
 
   create_table "executions", force: :cascade do |t|
@@ -267,6 +319,17 @@ ActiveRecord::Schema.define(version: 20180711080902) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "service_equipments", force: :cascade do |t|
+    t.bigint "shop_id", default: 0, null: false
+    t.bigint "equipment_type_id", default: 0, null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "date_service", null: false
+    t.index ["equipment_type_id"], name: "index_service_equipments_on_equipment_type_id"
+    t.index ["shop_id"], name: "index_service_equipments_on_shop_id"
   end
 
   create_table "shop_communications", force: :cascade do |t|
