@@ -5,10 +5,14 @@ class ServiceEquipmentsController < ApplicationController
 
   def index
     authorize ServiceEquipment
-    @q =  @shop.service_equipments.ransack(params[:q])
+    date_start = DateTime.now.beginning_of_month
+    date_end = DateTime.now.end_of_month
+    @q =  @shop.service_equipments.includes(:equipment_type).ransack(params[:q])
     @q.sorts = ['date_service desc', 'created_at desc'] if @q.sorts.empty?
     @equipments = @q.result(disinct: true)
-    #@equipments = @shop.service_equipments
+    @service_equipments_count = @shop.service_equipments.includes(:equipment_type).size
+    @count_set_month = @shop.service_equipments.includes(:equipment_type).where('date_service >= ?' 'and date_service <= ?', date_start, date_end).size
+    @count_prev_month = @shop.service_equipments.includes(:equipment_type).where('date_service >= ?' 'and date_service <= ?', date_start-1.month, date_end-1.month).size
   end
 
   def new

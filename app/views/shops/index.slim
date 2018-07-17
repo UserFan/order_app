@@ -55,15 +55,16 @@
                     = link_to "Заявки(#{shop.orders_count})", orders_path(q: {shop_id_eq: shop.id}) if shop.orders_count > 0
                   .card-footer
                     .float-left
-                      = link_to shop_esps_path(shop_id: shop), class: "pr-2", "data-toggle" => "tooltip", "data-placement" => "bottom",
-                          "title" => "Информация по ЭЦП" do
-                         span.fas.fa-key.edit-button
-                      = link_to edit_shop_path(shop), class: "pr-2", "data-toggle" => "tooltip", "data-placement" => "bottom",
-                          "title" => "Расходы на оргтехнику" do
-                         span.fas.fa-coins.edit-button
-                      = link_to shop_service_equipments_path(shop_id: shop), class: "pr-2", "data-toggle" => "tooltip", "data-placement" => "bottom",
-                          "title" => "Сервис оборудования" do
-                         span.fas.fa-cogs.edit-button
+                      - if policy(shop).service_show?
+                        = link_to shop_esps_path(shop_id: shop), class: "pr-2", "data-toggle" => "tooltip", "data-placement" => "bottom",
+                            "title" => "Информация по ЭЦП" do
+                           span.fas.fa-key.edit-button
+                        = link_to shop_cost_equipments_path(shop_id: shop), class: "pr-2", "data-toggle" => "tooltip", "data-placement" => "bottom",
+                            "title" => "Расходы на оргтехнику" do
+                           span.fas.fa-coins.edit-button
+                        = link_to shop_service_equipments_path(shop_id: shop), class: "pr-2", "data-toggle" => "tooltip", "data-placement" => "bottom",
+                            "title" => "Сервис оборудования" do
+                           span.fas.fa-cogs.edit-button
                     .float-right
                       - if policy(shop).edit?
                         = link_to edit_shop_path(shop), "data-toggle" => "tooltip", "data-placement" => "bottom",

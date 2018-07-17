@@ -28,6 +28,10 @@ class ShopPolicy < ApplicationPolicy
     user.super_admin?
   end
 
+  def service_show?
+     user.super_admin?
+  end
+
   def permitted_attributes
     [:name, :email, :address, :type_id, :user_id, :photo, :closed,
      cashboxes_attributes: [:id, :shop_id, :display_id, :display_sn,

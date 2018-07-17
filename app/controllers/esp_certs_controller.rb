@@ -3,6 +3,20 @@ class EspCertsController < ApplicationController
   before_action :set_esp_edit, only: [:update, :destroy, :edit]
   after_action :verify_authorized
 
+  def index
+    authorize EspCert
+    date_start = DateTime.now.beginning_of_month
+    date_end = DateTime.now.end_of_month
+    @q = EspCert.includes(:shop, :esp).ransack(params[:q])
+    @q.sorts = ['date_end_esp desc', 'created_at desc'] if @q.sorts.empty?
+    @esp_certs = @q.result(disinct: true)
+    @esp_certs_count = EspCert.includes(:shop, :esp).size
+    @count_esp_set_month = EspCert.includes(:shop, :esp).where('date_end_esp >= ?' 'and date_end_esp <= ?', date_start, date_end).size
+    @count_rsa_set_month = EspCert.includes(:shop, :esp).where('date_end_rsa >= ?' 'and date_end_rsa <= ?', date_start, date_end).size
+    @count_esp_next_month = EspCert.includes(:shop, :esp).where('date_end_esp >= ?' 'and date_end_esp <= ?', date_start+1.month, date_end+1.month).size
+    @count_rsa_next_month = EspCert.includes(:shop, :esp).where('date_end_rsa >= ?' 'and date_end_rsa <= ?', date_start+1.month, date_end+1.month).size
+  end
+
   def new
     authorize EspCert
     @esp_cert = @esp.esp_certs.build

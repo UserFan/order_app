@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :shops do
       get 'import_version', on: :member
       resources :service_equipments
+      resources :cost_equipments
       resources :esps do
         resources :esp_certs, only: [:new, :create, :edit, :update, :destroy]
       end
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
     resources :carrier_types
     resources :equipment_types
     resources :cost_types
+    resources :esp_certs, only: [:index, :show]
   end
 
   resources :orders do

@@ -1,0 +1,60 @@
+.container
+  .row.justify-content-end
+    h2.font-weight-bold Перечень ЭЦП
+  hr
+  .col-12
+    .row
+      //nav.nav-pills
+      nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row
+        = active_link_to esp_certs_path, active: :exact, class: "nav-item nav-link" do
+          | Все
+          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@esp_certs_count}
+        = active_link_to esp_certs_path(q: {date_end_esp_gteq: (DateTime.now).beginning_of_month, date_end_esp_lteq: (DateTime.now).end_of_month}), active: :exact, class: "nav-item nav-link" do
+          | Истекает ЭЦП в тек. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-2 #{@count_esp_set_month}
+        = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (DateTime.now).beginning_of_month, date_end_rsa_lteq: (DateTime.now).end_of_month}), active: :exact, class: "nav-item nav-link" do
+          | Истекает RSA в тек. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@count_rsa_set_month}
+        = active_link_to esp_certs_path(q: {date_end_esp_gteq: (DateTime.now).beginning_of_month.next_month, date_end_esp_lteq: (DateTime.now).end_of_month.next_month}), active: :exact, class: "nav-item nav-link" do
+          | Истекает ЭЦП в след. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@count_esp_next_month}
+        = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (DateTime.now).beginning_of_month.next_month, date_end_rsa_lteq: (DateTime.now).end_of_month.next_month}), active: :exact, class: "nav-item nav-link" do
+          | Истекает RSA в след. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@count_rsa_next_month}
+  .col-12.p-0.pt-4
+    .row.justify-content-end
+      .col-5
+        = search_form_for [@q] do |f|
+          .input-group.pb-4
+            = f.input_field :serial_num_esp_or_rsa_serial_or_shop_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+            span.input-group-append
+              button.btn.btn-outline-secondary type="submit"
+    .row
+      .col-12
+        table.table.table-hover
+          thead.thead-light.text-dark
+            tr.text-dark
+              th =sort_link(@q, :serial_num_esp, 'Серийный номер ЭЦП')
+              th =sort_link(@q, :date_end_esp, 'Истекает', default_order: :desc)
+              th =sort_link(@q, :rsa_serial, 'Идентификатор RSA')
+              th =sort_link(@q, :date_end_rsa, 'Истекает(RSA)', default_order: :desc)
+              th =sort_link(@q, :shop_nmae, 'Объект', default_order: :asc)
+              / th.text-center style="max-width: 30px; min-width: 30px;"
+              /   i.fa.fa-list
+          tbody
+            - @esp_certs.each do |esp_cert|
+              tr
+                td = link_to "#{esp_cert.serial_num_esp}", shop_esps_path(shop_id: esp_cert.shop)
+                td = l(esp_cert.date_end_esp, format: :date)
+                td = esp_cert.rsa_serial
+                td = l(esp_cert.date_end_rsa, format: :date)
+                td = esp_cert.shop.name
+                / td.row-skip style="max-width: 45px; min-width: 45px;"
+                /   - if policy(cost_equipment).edit?
+                /     = link_to edit_shop_cost_equipment_path(id: cost_equipment), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                /       "title" => "Корректировка данных" do
+                /        span.fa.fa-pencil-alt.edit-button
+                /   - if policy(cost_equipment).destroy? && cost_equipment.can_destroy?
+                /     = link_to shop_cost_equipment_path(id: cost_equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
+                /       "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                /          span.far.fa-trash-alt.edit-button
