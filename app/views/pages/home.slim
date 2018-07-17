@@ -1,1 +1,16 @@
-
+- if current_user.super_admin? && ((@esp_count > 0) || (@rsa_count > 0))
+  .container
+    .row.justify-content-end
+      .col-4.pt-5
+        .card.shadow.p-3.mb-5.bg-white.rounded
+          .card-header.bg-transparent.p-1
+            h5.text-info Текущим месяце истекат срок:
+          .card-body.pb-0.form-group
+            ul
+              li
+                b.text-danger ЭЦП:
+                = link_to " #{@esp_count} шт.", esp_certs_path(q: {date_end_esp_gteq: (DateTime.now).beginning_of_month, date_end_esp_lteq: (DateTime.now).end_of_month})
+              hr
+              li
+                b.text-danger RSA ключ:
+                = link_to " #{@rsa_count} шт.", esp_certs_path(q: {date_end_rsa_gteq: (DateTime.now).beginning_of_month, date_end_rsa_lteq: (DateTime.now).end_of_month})

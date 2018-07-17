@@ -125,8 +125,6 @@ class OrdersController < ApplicationController
       @q = Order.includes(:shop, :category, :status, :users, :executions,
             :reworks).joins(:performers).where('performers.user_id = ? OR orders.user_id = ?',
             current_user, current_user).ransack(params[:q])
-            # @q = current_user.orders.includes(:shop, :category, :status, :users, :performers,
-      #                     :executions, :reworks).where(user_id: current_user.id).ransack(params[:q])
       @orders_closed = @set_orders.where.not(date_closed: nil).size
       @orders_open = @set_orders.where("date_closed is null and status_id = ?", Status::EXECUTION).size
       @orders_overdue = @set_orders.where("(date_closed > date_execution) OR
