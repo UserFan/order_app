@@ -13,7 +13,7 @@
                 span.fa.fa-search
     .row.pb-4
       .col-3
-        = link_to "Добавить сервис",  new_shop_service_equipment_path, class: "btn btn-outline-success" if policy(ServiceEquipment).new?
+        = link_to "Добавить сервис",  new_shop_service_equipment_path, class: "btn btn-outline-success btn-xs" if policy(ServiceEquipment).new?
     .row
       .col-12
         table.table.table-hover
