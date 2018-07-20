@@ -30,9 +30,15 @@
       .col-2
         = link_to "Новый",  new_shop_path, class: "btn btn-outline-success" if policy(@shops).new?
       /.row
-      .col-8.mt-2.mb-2.float-right
+      .col-6.mt-2.mb-2.float-right
         b Сортировка по:&nbsp;&nbsp;
         = sort_link(@q, :name, "", default_order: :asc)
+      .col-2.float-right
+        = link_to "Экспорт XLS", export_shops_path, data: { confirm: "Предупреждение: Обновление может занят определенное время! Вы действительно хотите произвести обновление информации на всех объектах? " },
+            "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Обновление информации о версиях ПО на объектах" if policy(@shops).version_update?
+      .col-2.float-right
+        = link_to "Обновить(на всех) инф. о версиях ПО", version_update_log_path, data: { confirm: "Предупреждение: Обновление может занят определенное время! Вы действительно хотите произвести обновление информации на всех объектах? " },
+            "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Обновление информации о версиях ПО на объектах" if policy(@shops).version_update?
     .container
       .row.justify-content-center
         .col-10.col-lg-12

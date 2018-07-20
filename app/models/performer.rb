@@ -13,7 +13,8 @@ class Performer < ApplicationRecord
 
   def execution_off_control?
     if self.execution.present?
-      self.execution.completed.present? ? true : (return false)
+      self.execution.completed.present? ||
+      self.date_close_performance.present? ? true : (return false)
     else
       return false
     end

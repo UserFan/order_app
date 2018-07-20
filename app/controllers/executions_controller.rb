@@ -18,7 +18,6 @@ class ExecutionsController < ApplicationController
   def create
     authorize Execution
     @execution_new = @performer.create_execution(permitted_attributes(Execution))
-        # Not the final implementation!
     if @execution_new.save
       unless [Status::OFF_CONTROL].include?(@execution_new.order_execution)
         @order.update!(status_id: Status::COORDINATION)
@@ -42,15 +41,24 @@ class ExecutionsController < ApplicationController
     authorize @execution
     @order = @execution.performer.order
     @order.update!(status_id: Status::AGREE)
-    redirect_to order_path(@order) if @execution.update_attributes(completed: DateTime.now, order_execution: Status::AGREE)
+    if @execution.update_attributes(completed: DateTime.now, order_execution: Status::AGREE)
+       @execution.performer.update!(date_close_performance: DateTime.now) unless @execution.performer.date_close_performance.present?
+       redirect_to order_path(@order)
+    end
   end
 
   def remove_control
     authorize Execution
     @performer = Performer.find(params[:performer_id])
     @order = @performer.order
-    @execution = @performer.build_execution(completed: DateTime.now, order_execution: Status::OFF_CONTROL, comment: 'Снято с контроля(без исполнения)!')
-    redirect_to order_path(@order) if @execution.save
+    @execution = @performer.build_execution(completed: DateTime.now,
+                 order_execution: Status::OFF_CONTROL,
+                 comment: 'Снято с контроля(без исполнения)!')
+    if @execution.save
+      binding.pry
+      @performer.update!(date_close_performance: DateTime.now) unless @performer.date_close_performance.present?
+      redirect_to order_path(@order)
+    end
   end
 
 
@@ -59,6 +67,7 @@ class ExecutionsController < ApplicationController
     @order = @execution.performer.order
     if @execution.destroy
       @order.update!(status_id: Status::EXECUTION)
+      @execution.performer.update!(date_close_performance: nil)
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"

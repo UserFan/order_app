@@ -1,6 +1,6 @@
 li
   b.font-weight-bold.font-weight-light #{performer.user.full_name}&nbsp
-  - unless @order.date_closed.present? || (performer.execution.present? && performer.execution.completed.present?)
+  - unless @order.date_closed.present? || (performer.execution.present? && performer.date_close_performance.present?)
     = content_tag(:small, '(На контроле!)', class: 'control-order')
     - if policy(performer).completed?
       |  &#10148;&nbsp;
@@ -12,7 +12,7 @@ li
       = content_tag(:small, "#{'('}" + t("order_day.order_overdue_day") + t(distance_of_time_in_words(Date.today, performer.date_performance))+ "#{')'}",
         class: 'text-danger') if (Date.today > performer.date_performance)
   - else
-    = content_tag(:small, " (Снята с контроля - #{l(performer.execution.completed, format: :datetime)})",
+    = content_tag(:small, " (Снята с контроля - #{l(performer.date_close_performance, format: :datetime)})",
         class: 'text-success')
 
 .pt-3

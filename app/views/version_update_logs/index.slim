@@ -1,0 +1,18 @@
+.container
+  .row.justify-content-end
+    h2.font-weight-bold Журнал обновления информации о версиях
+  hr
+  .row
+    .col-12
+      table.table.table-hover
+        thead.thead-light.text-dark
+          tr.text-dark
+            th =sort_link(@q, :date_log, 'Дата')
+            th =sort_link(@q, :shop_name, 'Объект', default_order: :desc)
+            th =sort_link(@q, :text_log, 'Сообщение')
+        tbody
+          - @version_update_logs.each do |version_update_log|
+             = content_tag :tr, class: [version_update_log.result_update ? 'table-success' : 'table-danger'] do
+                td = l(version_update_log.date_log, format: :datetime)
+                td = version_update_log.shop.name
+                td = version_update_log.text_log

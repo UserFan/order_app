@@ -28,6 +28,10 @@ class ShopPolicy < ApplicationPolicy
     user.super_admin?
   end
 
+  def version_update?
+    user.super_admin?
+  end
+
   def service_show?
      user.super_admin?
   end

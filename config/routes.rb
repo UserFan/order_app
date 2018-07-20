@@ -41,7 +41,6 @@ Rails.application.routes.draw do
     resources :carrier_types
     resources :equipment_types
     resources :cost_types
-    resources :esp_certs, only: [:index, :show]
   end
 
   resources :orders do
@@ -53,6 +52,11 @@ Rails.application.routes.draw do
     resources :reworks, only: [:new, :create]
   end
   resources :cash_images, only: [:show]
+  resources :esp_certs, only: [:index, :show]
+  get :version_update_log, action: :version_update, controller: 'shops'
+  get :export_shops, action: :export_shops, controller: 'shops'
+  resources :version_update_logs, only: [:index]
+
 
   root  'pages#home'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

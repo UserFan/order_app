@@ -37,7 +37,8 @@
           - if @orders_not_coordination !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_not_coordination}
 
-        = active_link_to orders_path(q: {date_closed_not_null_eq: %i['0', #{Date.today}], date_execution_lt: Date.today}), active: :exact, class: "nav-item nav-link" do
+        /  = active_link_to orders_path(q: {date_closed_not_null_or_date_closed_lt: :date_execution, date_execution_lt: Date.today}), active: :exact, class: "nav-item nav-link" do
+        = active_link_to orders_path(overdue: true), active: :exact, class: "nav-item nav-link" do
           | Просроченные
           - if @orders_overdue !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_overdue}

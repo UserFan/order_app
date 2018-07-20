@@ -327,20 +327,6 @@ ru:
           user_id: "Пользователь"
           comment: "Написать комментарии"
 
-  # activemodel:
-  #   models:
-  #     order:
-  #       attributes:
-  #         category: "Категория заявки:"
-  #         date_open: "Дата заявки:"
-  #         date_execution: "Срок исполнения:"
-  #         shop: "Торговый объект:"
-  #         short_descript: "Краткое описание:"
-  #         description: "Полное описание:"
-  #         date_closed: "Дата закрытия:"
-  #         photo: "Фото:"
-  #         user_id: "На контроле:"
-  #         status: "Статус заявки:"
   activemodel:
     errors:
       models:
@@ -376,13 +362,17 @@ ru:
               executor_not_error: "Ответсвенный исполнитель не определен"
 
   cocoon:
-      defaults:
-        add: "Добавить запись"
-        remove: "Удалить запись"
+    defaults:
+      add: "Добавить запись"
+      remove: "Удалить запись"
   order_day:
     order_left_day: "до срока исполнения осталось: "
-    order_overdue_day: "срок исполнения просрочен на: "
-
+    order_overdue_day: "срок исполнения просрочен: "
+  version_update_text:
+    not_connection: "Подключение к ПО кассы отсуствует!"
+    not_update:  "Не удалось обновить данные. По данной кассе данные отсуствуют"
+    cash_not_and_ip:  "Кассовое оборудование отсуствует или не указан IP-адрес кассы."
+    update_success:  "Обновление данных прошло успешно!"
   order_mailer:
     content_text:
       content_header: "Уважаемый(ая) %{name}!"
@@ -411,41 +401,26 @@ ru:
       content_order_performer_default: "У Вас на исполнении заявка №%{number}."
       content_executor: "Вы назначены: %{executor}."
 
-    # order_control_user:
-    #   subject_new_order: "Новая заявка №%{number} на контроль"
-    #   content_new_order: "Вам поставлена на контроль новая заявка №%{number}."
-    #   content_date: "Срок исполнения заявки: %{date_order}."
-    #   subject_order: "Заявка №%{number} у Вас на контроле"
-    #   content_order: "У Вас на контроле заявка №%{number}."
-    # order_performer_user:
-    #   subject_new_order: "Новая заявка №%{number} для исполнения"
-    #   content_new_order: "Вам назначена на исполенение новая заявка №%{number}."
-    #   content_date: "Срок исполнения заявки: %{date_order}."
-    #   subject_order: "Заявка №%{number} у Вас на исполнении"
-    #   content_order: "У Вас на исполнении заявка №%{number}."
     new_order:
       subject: "Новая заявка №%{number}"
       content_body: "Вам назначена на исполенение новая заявка №%{number}."
       content_performer: "Вы назначены: %{executor}."
       content_date: "Срок исполнения заявки: %{date_order}."
-    # new_order_control:
-    #   subject: "Новая заявка №%{number} на контроль"
-    #   content_body: "Вам поставлена на контроль новая заявка №%{number}."
-    #   content_date: "Срок исполнения заявки: %{date_order}."
-    # delete_order_control:
-    #   subject: "Заявка №%{number} снят с контроля"
-    #   content_body: "Заявка №%{number} с Вас снят с контроля."
+
     delete_order:
       subject: "Заявка №%{number} удалена"
       content_body: "Заявка №%{number} удалена из системы контроля заявок."
+
     order_close:
       subject: "Заявка №%{number} закрыта"
       content_body: "Заявка №%{number} закрыта."
       content_result: "Результат исполнения заявки: %{order_result}"
       content_date: "Дата закрытия заявки: %{date_order_close}."
+
     order_change:
       subject: "Заявка №%{number} изменена"
       content_body: "Заявка №%{number} внесены изменения. Вам необходимо ознакомиться внесенными изменениями."
+
     order_change_status:
       subject_coordination: "Заявка №%{number} отправлен на согласование"
       subject_agree: "Заявка №%{number} cогласован"
@@ -453,12 +428,7 @@ ru:
       content_coordination: "Заявка №%{number} отправлен на согласование"
       content_agree: "Заявка №%{number} cогласован"
       content_not_coordination: "По заявке №%{number} есть замечания"
-    # order_agree:
-    #   subject: "Заявка №%{number} согласован"
-    # order_not_coordination:
-    #   subject: "Заявка №%{number} не согласован"
-    # order_coordination:
-    #   subject: "Заявка №%{number} на согласовании"
+
     order_delete_execution:
       subject: "Отметка об исполнении заявки №%{number} удален"
     delete_performer_order:

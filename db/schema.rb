@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180712082818) do
+ActiveRecord::Schema.define(version: 20180718094622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,11 +132,11 @@ ActiveRecord::Schema.define(version: 20180712082818) do
 
   create_table "cost_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_cost", null: false
     t.bigint "cost_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_cost", null: false
     t.index ["cost_type_id"], name: "index_cost_equipments_on_cost_type_id"
     t.index ["shop_id"], name: "index_cost_equipments_on_shop_id"
   end
@@ -309,6 +309,12 @@ ActiveRecord::Schema.define(version: 20180712082818) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scaleses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scaners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -317,11 +323,11 @@ ActiveRecord::Schema.define(version: 20180712082818) do
 
   create_table "service_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_service", null: false
     t.bigint "equipment_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_service", null: false
     t.index ["equipment_type_id"], name: "index_service_equipments_on_equipment_type_id"
     t.index ["shop_id"], name: "index_service_equipments_on_shop_id"
   end
@@ -437,6 +443,16 @@ ActiveRecord::Schema.define(version: 20180712082818) do
     t.index ["position_id"], name: "index_users_on_position_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
+  end
+
+  create_table "version_update_logs", force: :cascade do |t|
+    t.bigint "shop_id", default: 0, null: false
+    t.datetime "date_log", null: false
+    t.boolean "result_update", default: false
+    t.string "text_log"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_version_update_logs_on_shop_id"
   end
 
   create_table "weighers", force: :cascade do |t|

@@ -50,7 +50,7 @@ class OrderMailer < ApplicationMailer
   end
 
   def send_user(user, send_type, order)
-    #binding.pry
+    # #binding.pry
     OrderMailer.with(user: user, order: order,
       send_type: send_type).order_send_mail_to_user.deliver_later(wait: 10.seconds) unless order.date_closed.present?
   end
