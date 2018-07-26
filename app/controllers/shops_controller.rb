@@ -102,11 +102,12 @@ class ShopsController < ApplicationController
   end
 
   def export_shops
-    @shops = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                       :shop_weighers, :shop_communications).all
+    authorize Shop
+    @shops_xls = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
+                       :shop_weighers, :shop_communications)
     respond_to do |format|
       format.xlsx {
-        response.headers['Content-Disposition'] = 'attachment; filename="shop_all.xlsx"'
+        render xlsx: "export_shops", filename: "shop_all.xlsx"
         }
     end
   end

@@ -211,6 +211,16 @@ ru:
       caption_text: "Корректировка ''Весы''"
     new:
       caption_text: "Новые ''Весы''"
+  shop:
+    name: "Наименование объекта"
+    address: "Адрес объекта"
+    type: "Тип объекта"
+    gps: "Координаты GPS"
+    photo: "Фото объекта"
+    user: "Ответственный за объект"
+    closed: "Объект закрыть"
+    mobile: "Мобильный телефон"
+    email: "e-mail"
 
   activerecord:
     errors:
@@ -256,6 +266,8 @@ ru:
         photo: "Фото объекта"
         user: "Ответственный за объект"
         closed: "Объект закрыть"
+        mobile: "Мобильный телефон"
+        email: "e-mail"
 
       shop/shop_communications:
         router: "Роутер (Коммуникационное оборудование):"

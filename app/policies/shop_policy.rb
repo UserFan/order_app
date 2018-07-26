@@ -25,15 +25,19 @@ class ShopPolicy < ApplicationPolicy
   end
 
   def show_specialty?
-    user.super_admin?
+    import_version?
   end
 
   def version_update?
-    user.super_admin?
+    import_version?
+  end
+
+  def export_shops?
+    import_version?
   end
 
   def service_show?
-     user.super_admin?
+    import_version?
   end
 
   def permitted_attributes

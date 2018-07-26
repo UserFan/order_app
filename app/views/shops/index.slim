@@ -34,7 +34,7 @@
         b Сортировка по:&nbsp;&nbsp;
         = sort_link(@q, :name, "", default_order: :asc)
       .col-2.float-right
-        = link_to "Экспорт XLS", export_shops_path, data: { confirm: "Предупреждение: Обновление может занят определенное время! Вы действительно хотите произвести обновление информации на всех объектах? " },
+        = link_to "Экспорт XLS", export_shops_path(format: "xlsx"), data: { turbolinks: false, confirm: "Предупреждение: Обновление может занят определенное время! Вы действительно хотите произвести обновление информации на всех объектах? " },
             "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Обновление информации о версиях ПО на объектах" if policy(@shops).version_update?
       .col-2.float-right
         = link_to "Обновить(на всех) инф. о версиях ПО", version_update_log_path, data: { confirm: "Предупреждение: Обновление может занят определенное время! Вы действительно хотите произвести обновление информации на всех объектах? " },

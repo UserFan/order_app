@@ -1,16 +1,17 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Shop") do |sheet|
-  @shops.each do |shop|
+  sheet.add_row [I18n.t("shop.name"),
+                 I18n.t("shop.address"),
+                 I18n.t("shop.type"),
+                 I18n.t("shop.user"),
+                 I18n.t("shop.mobile"),
+                 I18n.t("shop.email")]
+  @shops_xls.each do |shop|
     sheet.add_row [shop.name,
-                   button.address,
+                   shop.address,
                    shop.type.name,
                    shop.user.full_name,
-                   shop.user.phone,
-                   # shop.email,
-                   # shop.type.name,
-                   # shop.type.name,
-                   # shop.type.name,
-                   # shop.type.name,
+                   shop.user.mobile,
                    shop.email]
   end
 end
