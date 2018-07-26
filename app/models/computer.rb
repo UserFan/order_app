@@ -6,7 +6,7 @@ class Computer < ApplicationRecord
   belongs_to :stabilizer
   belongs_to :system_unit
   belongs_to :printer
-  belongs_to :shop
+  belongs_to :shop, counter_cache: true
 
   validates :shop_id, presence: true
 
