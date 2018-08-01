@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.10.1"
+#lock "~> 3.10.1"
 
 # Change these
 server '192.168.102.240', port: 4545, roles: [:web, :app, :db], keys: [File.join(ENV["HOME"], ".ssh", "id_rsa")]

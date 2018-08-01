@@ -33,7 +33,7 @@
               thead.thead-light.text-dark
                 tr.text-dark
                   th =sort_link(@q, :date_cost, 'Дата', default_order: :desc)
-                  th =sort_link(@q, :cost_type_name, 'Тип сервиса', default_order: :asc)
+                  th =sort_link(@q, :cost_type_name, 'Тип расхода', default_order: :asc)
                   th =sort_link(@q, :description, 'Описание', default_order: :asc)
                   th.text-center style="max-width: 30px; min-width: 30px;"
                     i.fa.fa-list
