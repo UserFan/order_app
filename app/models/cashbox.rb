@@ -9,7 +9,7 @@ class Cashbox < ApplicationRecord
   belongs_to :scaner
   belongs_to :stabilizer
   belongs_to :system_unit
-  belongs_to :shop, counter_cache: true
+  belongs_to :shop #, counter_cache: true
 
   has_many :cash_images, dependent: :restrict_with_error
 
