@@ -9,6 +9,8 @@ class Performer < ApplicationRecord
   after_create :create_performer_send_to_mail_user
   after_update :change_performer_send_to_mail_user
 
+  default_scope { order(coexecutor: :asc) }
+
 
 
   def execution_off_control?

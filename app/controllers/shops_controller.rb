@@ -105,6 +105,12 @@ class ShopsController < ApplicationController
     authorize Shop
     @shops_xls = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
                        :shop_weighers, :shop_communications)
+    @cashboxes_count = @shops_xls.maximum('cashboxes_count')
+    @computers_count = @shops_xls.maximum('computers_count')
+    @communication_count = @shops_xls.maximum('shop_communications_count')
+    @weighers_count = @shops_xls.maximum('shop_weighers_count')  
+    @communication_item_count = ShopCommunication.maximum('item_communications_count')
+
     respond_to do |format|
       format.xlsx {
         render xlsx: "export_shops", filename: "shop_all.xlsx"

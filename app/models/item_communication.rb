@@ -7,6 +7,8 @@ class ItemCommunication < ApplicationRecord
 
   has_one :shop, through: :shop_communication
 
+  default_scope { order(master: :desc) }
+
   def modem_name
     Modem.find(modem_id).name if modem_id.present?
   end
