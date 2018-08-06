@@ -10,8 +10,8 @@ class PerformerForm < Reform::Form
   #                         populator: :performer_populator do
 
   property :user_id
-  property :date_performance, type: Types::Form::DateTime
-  property :date_close_performance, type: Types::Form::DateTime
+  property :date_performance, type: Types::DateTime
+  property :date_close_performance, type: Types::DateTime
   property :coexecutor
   property :message
   property :comment
