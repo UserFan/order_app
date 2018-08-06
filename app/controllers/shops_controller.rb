@@ -108,7 +108,7 @@ class ShopsController < ApplicationController
     @cashboxes_count = @shops_xls.maximum('cashboxes_count')
     @computers_count = @shops_xls.maximum('computers_count')
     @communication_count = @shops_xls.maximum('shop_communications_count')
-    @weighers_count = @shops_xls.maximum('shop_weighers_count')  
+    @weighers_count = @shops_xls.maximum('shop_weighers_count')
     @communication_item_count = ShopCommunication.maximum('item_communications_count')
 
     respond_to do |format|

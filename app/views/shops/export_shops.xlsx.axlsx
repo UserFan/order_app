@@ -67,7 +67,7 @@ caption = caption_shop  + caption_communication + caption_computer +
 wb.add_worksheet(name: "Shop") do |sheet|
   sheet.add_row(caption)
   shop_count = 1 if shop_count.nil?
-  @shops_xls.find_each do |shop|
+  @shops_xls.each do |shop|
     data_xls = []
     data_shop = []
     data_cashboxes = []
