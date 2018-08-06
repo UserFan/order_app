@@ -132,7 +132,7 @@ wb.add_worksheet(name: "Shop") do |sheet|
                                     item_commun.communication.name,
                                     item_commun.modem_name,
                                     item_commun.sim_card.nil? ? '' : (item_commun.sim_card.simphone_number).to_s,
-                                    item_commun.sim_card.nil? ? '' : (item_commun.sim_card.sim_number).to_s)
+                                    item_commun.sim_card.nil? ? '' : %[#{item_commun.sim_card.sim_number} ])
           end
         end
       end
