@@ -25,6 +25,8 @@ class Shop < ApplicationRecord
   accepts_nested_attributes_for :shop_weighers, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :shop_communications, reject_if: :all_blank, allow_destroy: true
 
+  default_scope { order(name: :asc) }
+
   validates :name, :address, :type_id, :user_id, presence: true
 
 end
