@@ -74,6 +74,7 @@ wb.add_worksheet(name: "Shop") do |sheet|
     data_computer = []
     data_communication = []
     data_weigher = []
+    type_cell = []
     data_shop.push(shop_count, shop.type.name, shop.name, shop.address,
                    shop.email, shop.user.full_name, shop.user.mobile)
     if shop.cashboxes.any?
@@ -131,8 +132,8 @@ wb.add_worksheet(name: "Shop") do |sheet|
             data_communication.push(item_commun.provider.name,
                                     item_commun.communication.name,
                                     item_commun.modem_name,
-                                    item_commun.sim_card.nil? ? '' : (item_commun.sim_card.simphone_number).to_s,
-                                    item_commun.sim_card.nil? ? '' : %[#{item_commun.sim_card.sim_number} ])
+                                    item_commun.sim_card.nil? ? '' : item_commun.sim_card.simphone_number,
+                                    item_commun.sim_card.nil? ? '' : item_commun.sim_card.sim_number)
           end
         end
       end
@@ -144,7 +145,9 @@ wb.add_worksheet(name: "Shop") do |sheet|
 
     data_xls =  data_shop + data_communication + data_computer +
                 data_cashboxes + data_weigher
-    sheet.add_row(data_xls)
+    (data_xls.count).times { type_cell.push(%s(string)) }
+    type_cell[0] = nil
+    sheet.add_row data_xls, types: type_cell
     shop_count += 1
   end
 end
