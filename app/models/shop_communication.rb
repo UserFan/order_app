@@ -1,6 +1,6 @@
 class ShopCommunication < ApplicationRecord
   belongs_to :router
-  belongs_to :shop, counter_cache: true
+  belongs_to :shop #, counter_cache: true
 
   has_many :item_communications, dependent: :restrict_with_error
 
