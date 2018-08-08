@@ -18,13 +18,13 @@
 //= require moment
 //= require moment/ru
 //= require bootstrap-datetimepicker
-//= require turbolinks
-//= require cocoon
 //= require jquery.inputmask
 //= require jquery.inputmask.extensions
 //= require jquery.inputmask.numeric.extensions
 //= require jquery.inputmask.date.extensions
 //= require jquery.inputmask.phone.extensions
+//= require turbolinks
+//= require cocoon
 //= require_tree .
 
 
@@ -44,10 +44,18 @@ var date_pic = function () {
 
 
 var Mask_Input = function() {
-  $('#phone').inputmask({mask: "+9 (999) 999-99-99"});
-  $('#ip').inputmask({'alias': 'ip', 'greedy' : false });
-  $('#macaddress').inputmask({mask: "**:**:**:**:**:**"});
-  $('#team').inputmask({mask: "999-999-999"});
+  $('.phone').inputmask({mask: "+9 (999) 999-99-99"});
+  $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false });
+  $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false });
+  $('.macaddress').inputmask({mask: "**:**:**:**:**:**"});
+  $('.team').inputmask({mask: "999-999-999"});
+  $('.date_start_esp').inputmask({mask: "99.99.9999"});
+  $('.date_end_esp').inputmask({mask: "99.99.9999"});
+  $('.date_start_rsa').inputmask({mask: "99.99.9999"});
+  $('.date_end_rsa').inputmask({mask: "99.99.9999"});
+  $('#computers').on('cocoon:after-insert', function() { $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false }) });
+  $('#computers').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
+  $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
 };
 
 

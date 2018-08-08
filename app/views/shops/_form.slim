@@ -75,6 +75,7 @@
                    = link_to_add_association f, :shop_weighers, class: 'btn btn-outline-success btn-sm',
                      data: { association_insertion_method: :prepend,
                              association_insertion_node: '#weigher-list'}
+
                  br
                  #weigher-list
                    = f.simple_fields_for :shop_weighers do |weigher|

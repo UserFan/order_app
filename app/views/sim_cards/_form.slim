@@ -1,6 +1,6 @@
 = simple_form_for(@sim_card) do |f|
   = f.error_notification
-  = f.input :simphone_number, input_html: { id: 'phone' }, required: true, autofocus: true
+  = f.input :simphone_number, input_html: { class: 'phone' }, required: true, autofocus: true
   = f.input :sim_number, autocomplete: "off", required: true
   = f.association :provider, label_method: :name, value_method: :id, include_blank: false
   .form-group.float-right.mb-0.mt-3

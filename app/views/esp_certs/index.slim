@@ -31,8 +31,8 @@
               button.btn.btn-outline-secondary type="submit"
                 span.fa.fa-search
     .row
-      .col-3
-          = link_to "Экспорт в (xlsx)", export_cert_xls_path(format: "xlsx"), class: "btn btn-outline-success", data: { turbolinks: false, confirm: "Предупреждение: Экспорт в(XLSX) может занят определенное время! Вы действительно хотите произвести экспорт в(XLSX) всех ЭЦП?" },
+      .col-2.ml-auto
+          = link_to "Экспорт в (xlsx)", export_cert_xls_path(format: "xlsx"), class: "btn btn-outline-success btn-sm", data: { turbolinks: false, confirm: "Предупреждение: Экспорт в(XLSX) может занят определенное время! Вы действительно хотите произвести экспорт в(XLSX) всех ЭЦП?" },
               "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Экспорт в(XLSX) всех объектов" if policy(@esp_certs).export_xls?
     hr.pt-2
     .row
