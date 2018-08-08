@@ -16,6 +16,7 @@ nav.navbar.sticky-top.navbar-expand-sm.bg-dark.navbar-dark
               = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item"
               = link_to 'Объекты/(подразделения)', shops_path, class: "dropdown-item"
               - if current_user.moderator? || current_user.super_admin?
+                = link_to 'ЭЦП', esp_certs_path, class: "dropdown-item"
                 .dropdown-divider
                 = link_to 'Пользователи системы', users_path, class: "dropdown-item"
                 = link_to 'Справочники', catalog_path, class: "dropdown-item"

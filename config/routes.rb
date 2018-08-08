@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   resources :esp_certs, only: [:index, :show]
   get :version_update_log, action: :version_update, controller: 'shops'
   get :export_shops, action: :export_shops, controller: 'shops'
+  get :export_cert_xls, action: :export_xls, controller: 'esp_certs'
   resources :version_update_logs, only: [:index]
 
 

@@ -1,5 +1,5 @@
 class EspCertsController < ApplicationController
-  before_action :set_esp, except: [:index, :show]
+  before_action :set_esp, except: [:index, :show, :export_xls]
   before_action :set_esp_edit, only: [:update, :destroy, :edit]
   after_action :verify_authorized
 
@@ -53,6 +53,22 @@ class EspCertsController < ApplicationController
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
     redirect_to shop_esps_path(@esp.shop)
+  end
+
+  def export_xls
+    authorize EspCert
+    @esp_xls = EspCert.includes(:shop, :esp)
+    # @cashboxes_count = @shops_xls.maximum('cashboxes_count')
+    # @computers_count = @shops_xls.maximum('computers_count')
+    # @communication_count = @shops_xls.maximum('shop_communications_count')
+    # @weighers_count = @shops_xls.maximum('shop_weighers_count')
+    # @communication_item_count = ShopCommunication.maximum('item_communications_count')
+
+    respond_to do |format|
+      format.xlsx {
+        render xlsx: "export_xls", filename: "esp_all.xlsx"
+        }
+    end
   end
 
   private

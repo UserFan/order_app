@@ -36,7 +36,15 @@ ru:
     comunication_num_phone: '№ телефона сим-карты'
     comunication_num_sim: '№ симкарты'
     comunication_type_connect: 'Канал связи'
-
+  report_esp:
+    name: 'Объект'
+    type_carrier: 'Тип носителя'
+    organization: 'Организация'
+    kpp: 'КПП'
+    serial_esp: 'Серийный номер ЭЦП'
+    date_end_esp: 'Дата окончания (ЭЦП)'
+    fsrar_id: 'ФСРАР ИД'
+    date_end_rsa: 'Дата окончания (RSA-ключ)'
   carrier_types:
     index:
       caption_button: "Добавить ''Тип носителя''"

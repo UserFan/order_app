@@ -1,0 +1,26 @@
+wb = xlsx_package.workbook
+caption_esp = []
+caption_esp.push('№ п/п', I18n.t('report_esp.name'),
+                  I18n.t('report_esp.type_carrier'),
+                  I18n.t('report_esp.organization'),
+                  I18n.t('report_esp.kpp'),
+                  I18n.t('report_esp.serial_esp'),
+                  I18n.t('report_esp.date_end_esp'),
+                  I18n.t('report_esp.fsrar_id'),
+                  I18n.t('report_esp.date_end_rsa'))
+
+wb.add_worksheet(name: "Shop") do |sheet|
+  sheet.add_row(caption_esp)
+  esp_count = 1 if esp_count.nil?
+  @esp_xls.each do |esp_cert|
+    data_xls = []
+    data_xls.push(esp_count, esp_cert.shop.name, esp_cert.esp.carrier_type.name,
+                  esp_cert.shop.cashboxes.first.organization_unit.name,
+                  esp_cert.esp.kpp, esp_cert.serial_num_esp,
+                  esp_cert.date_end_esp, esp_cert.rsa_serial,
+                  esp_cert.date_end_rsa)
+    sheet.add_row data_xls, types: [nil, :string, :string, :string, :string,
+                                    :string, nil, :string, nil]
+    esp_count += 1
+  end
+end
