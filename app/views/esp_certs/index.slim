@@ -8,19 +8,19 @@
       nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row
         = active_link_to esp_certs_path, active: :exact, class: "nav-item nav-link" do
           | Все
-          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@esp_certs_count}
+          span.badge.badge-pill.badge-secondary.float-right.ml-1  #{@esp_certs_count}
         = active_link_to esp_certs_path(q: {date_end_esp_gteq: (DateTime.now).beginning_of_month, date_end_esp_lteq: (DateTime.now).end_of_month}), active: :exact, class: "nav-item nav-link" do
-          | Истекает ЭЦП в тек. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-2 #{@count_esp_set_month}
+          | Заменить ЭЦП в тек. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_esp_set_month}
         = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (DateTime.now).beginning_of_month, date_end_rsa_lteq: (DateTime.now).end_of_month}), active: :exact, class: "nav-item nav-link" do
-          | Истекает RSA в тек. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@count_rsa_set_month}
+          | Заменить RSA в тек. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-1  #{@count_rsa_set_month}
         = active_link_to esp_certs_path(q: {date_end_esp_gteq: (DateTime.now).beginning_of_month.next_month, date_end_esp_lteq: (DateTime.now).end_of_month.next_month}), active: :exact, class: "nav-item nav-link" do
-          | Истекает ЭЦП в след. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@count_esp_next_month}
+          | Заменить ЭЦП в след. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-1  #{@count_esp_next_month}
         = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (DateTime.now).beginning_of_month.next_month, date_end_rsa_lteq: (DateTime.now).end_of_month.next_month}), active: :exact, class: "nav-item nav-link" do
-          | Истекает RSA в след. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@count_rsa_next_month}
+          | Заменить RSA в след. мес.
+          span.badge.badge-pill.badge-secondary.float-right.ml-1  #{@count_rsa_next_month}
   .col-12.p-0.pt-4
     .row.justify-content-end
       .col-5
@@ -34,6 +34,7 @@
       .col-3
           = link_to "Экспорт в (xlsx)", export_cert_xls_path(format: "xlsx"), class: "btn btn-outline-success", data: { turbolinks: false, confirm: "Предупреждение: Экспорт в(XLSX) может занят определенное время! Вы действительно хотите произвести экспорт в(XLSX) всех ЭЦП?" },
               "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Экспорт в(XLSX) всех объектов" if policy(@esp_certs).export_xls?
+    hr.pt-2
     .row
       .col-12
         table.table.table-hover
