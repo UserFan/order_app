@@ -3,7 +3,7 @@ class DatePickerInput < SimpleForm::Inputs::StringInput
     set_html_options
     set_value_html_option
 
-    template.content_tag :div, class: 'input-group date datepicker' do
+    template.content_tag :div, class: 'input-group date', id: options[:id] do
       input = super(wrapper_options)# leave StringInput do the real rendering
       input + input_button
     end
@@ -17,8 +17,8 @@ class DatePickerInput < SimpleForm::Inputs::StringInput
 
   def input_button
     template.content_tag :span, class: 'input-group-append' do
-      #template.content_tag :button, class: 'btn btn-outline-secondary', type: 'button' do
-      template.content_tag :div, class: 'input-group-text' do
+      template.content_tag :button, class: 'btn btn-outline-secondary btn-sm', type: 'button' do
+        template.content_tag :div, class: 'input-group-text', id: options[:id]
         template.content_tag :i, '', class: 'far fa-calendar-alt'
       end
     end
@@ -55,10 +55,7 @@ class DatePickerInput < SimpleForm::Inputs::StringInput
     {
         locale: I18n.locale.to_s,
         format: picker_pattern,
-        #allowInputToggle: true,
         dayViewHeaderFormat: date_view_header_format
-
-
     }
   end
 

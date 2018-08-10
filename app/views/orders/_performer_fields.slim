@@ -13,7 +13,7 @@
         .col-4
           = f.association :user, collection: User.where(admin: false).order(full_name: :asc), label_method: :full_name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?))
         .col-3
-          = f.input :date_performance, :as => :date_picker, required: true, :placeholder => "Срок исполнения", input_html: { class: 'datepicker' }, disabled: (true if (@order.date_closed.present?))
+          = f.input :date_performance, as: :date_picker, required: true, placeholder: 'ДД.ММ.ГГГГ', id: 'date_performance', input_html: { class: 'date_mask' }, disabled: (true if (@order.date_closed.present?))
         / .col-3
         /   = f.input :date_close_performance, :as => :date_picker, :placeholder => "Дата снятия с контроля", input_html: { class: 'datepicker' }, disabled: (true if (@order.date_closed.present?))
         / .col-4.pt-4.mt-3

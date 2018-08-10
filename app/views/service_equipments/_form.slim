@@ -2,7 +2,7 @@
   = f.error_notification
   .row
     .col-4.form-control-sm
-      = f.input :date_service, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", input_html: { class: 'datepicker form-control-sm' }
+      = f.input :date_service, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'date_service', input_html: { class: 'date_mask form-control-sm' }
     .col-8.form-control-sm
       = f.association :equipment_type, label_method: :name, value_method: :id, include_blank: false
   .row

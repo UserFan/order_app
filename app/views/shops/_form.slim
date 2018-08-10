@@ -48,7 +48,7 @@
                 .col-8
                   = f.association :user, collection: User.where(admin: false).order(full_name: :asc), label_method: :full_name, value_method: :id, include_blank: false
                 .col-4
-                  = f.input :closed, :as => :date_picker, :placeholder => "дата закрытия объекта", input_html: { class: 'datepicker' }
+                  = f.input :closed, as: :date_picker, placeholder: "дата закрытия объекта", id: 'date_close_shop', autocomplete: "off", input_html: { class: 'date_mask'}
         - if policy(@shop).show_specialty?
           #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
             .row

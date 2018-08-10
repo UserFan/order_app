@@ -23,8 +23,8 @@
 //= require jquery.inputmask.numeric.extensions
 //= require jquery.inputmask.date.extensions
 //= require jquery.inputmask.phone.extensions
-//= require turbolinks
 //= require cocoon
+//= require turbolinks
 //= require_tree .
 
 
@@ -38,10 +38,13 @@ var ClickRowTable = function() {
 };
 
 var date_pic = function () {
-  $('.datepicker').datetimepicker();
-  $('form').on('cocoon:after-insert', function() { $('.datepicker').datetimepicker() });
+  name_selector = '#date_start_esp, #date_end_esp, #date_start_rsa,' +
+                  '#date_end_rsa, #date_open_order, #date_execution,' +
+                  '#date_close_order, #date_close_shop, #date_image_cash,' +
+                  '#date_service, #date_performance, #date_cost'
+  $(name_selector).datetimepicker();
+  $('form').on('cocoon:after-insert', function() { $(name_selector).datetimepicker() });
 };
-
 
 var Mask_Input = function() {
   $('.phone').inputmask({mask: "+9 (999) 999-99-99"});
@@ -49,13 +52,10 @@ var Mask_Input = function() {
   $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false });
   $('.macaddress').inputmask({mask: "**:**:**:**:**:**"});
   $('.team').inputmask({mask: "999-999-999"});
-  $('.date_start_esp').inputmask({mask: "99.99.9999"});
-  $('.date_end_esp').inputmask({mask: "99.99.9999"});
-  $('.date_start_rsa').inputmask({mask: "99.99.9999"});
-  $('.date_end_rsa').inputmask({mask: "99.99.9999"});
-  $('#computers').on('cocoon:after-insert', function() { $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false }) });
-  $('#computers').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
-  $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
+  $('.date_mask').inputmask({mask: "99.99.9999"});
+  // $('#computers').on('cocoon:after-insert', function() { $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false }) });
+  // $('#cashboxes').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
+  // $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
 };
 
 
