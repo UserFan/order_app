@@ -10,35 +10,35 @@
           - if @orders_count !=0
           span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_count}
 
-        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}), active: :exact, class: "nav-item nav-link" do
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | В работе
           - if @orders_open !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_open}
 
-        = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, class: "nav-item nav-link" do
+        = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | Отработанные
           - if @orders_closed !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_closed}
 
         - if policy(@orders).for_closing?
-          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, class: "nav-item nav-link" do
+          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
             | На согласовании
             - if @orders_for_closing !=0
               span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_for_closing}
 
         - if policy(@orders).for_closing?
-          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, class: "nav-item nav-link" do
+          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, class: "nav-item nav-link main-nav-link" do
             | Согласованые
             - if @orders_agree !=0
               span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_agree}
 
-        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, class: "nav-item nav-link" do
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | В доработке
           - if @orders_not_coordination !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_not_coordination}
 
         /  = active_link_to orders_path(q: {date_closed_not_null_or_date_closed_lt: :date_execution, date_execution_lt: Date.today}), active: :exact, class: "nav-item nav-link" do
-        = active_link_to orders_path(overdue: true), active: :exact, class: "nav-item nav-link" do
+        = active_link_to orders_path(overdue: true), active: :exact, class: "nav-item nav-link main-nav-link" do
           | Просроченные
           - if @orders_overdue !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_overdue}

@@ -6,14 +6,14 @@
     .row
       //nav.nav-pills
       nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row
-        = active_link_to shops_path, active: :exact, class: "nav-item nav-link" do
+        = active_link_to shops_path, active: :exact, class: "nav-item nav-link main-nav-link" do
           | Все
           span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@shops_count}
-        = active_link_to shops_path(q: {closed_not_null: '0'}), active: :exact, class: "nav-item nav-link" do
+        = active_link_to shops_path(q: {closed_not_null: '0'}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | Действующие
           span.badge.badge-pill.badge-secondary.float-right.ml-2 #{@shops_open}
         - if @shops_closed != 0
-          = active_link_to shops_path(q: {closed_not_null: '1'}), active: :exact, class: "nav-item nav-link" do
+          = active_link_to shops_path(q: {closed_not_null: '1'}), active: :exact, class: "nav-item nav-link main-nav-link" do
             | Закрытые
             span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@shops_closed}
     .row
