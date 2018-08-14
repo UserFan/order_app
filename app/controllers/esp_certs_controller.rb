@@ -57,12 +57,8 @@ class EspCertsController < ApplicationController
 
   def export_xls
     authorize EspCert
-    @esp_xls = EspCert.includes(:shop, :esp)
-    # @cashboxes_count = @shops_xls.maximum('cashboxes_count')
-    # @computers_count = @shops_xls.maximum('computers_count')
-    # @communication_count = @shops_xls.maximum('shop_communications_count')
-    # @weighers_count = @shops_xls.maximum('shop_weighers_count')
-    # @communication_item_count = ShopCommunication.maximum('item_communications_count')
+    @esp_xls = EspCert.includes(:shop, :esp).order('shops.name asc')
+
 
     respond_to do |format|
       format.xlsx {
