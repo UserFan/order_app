@@ -18,11 +18,12 @@
 //= require moment
 //= require moment/ru
 //= require bootstrap-datetimepicker
+//= require inputmask
 //= require jquery.inputmask
-//= require jquery.inputmask.extensions
-//= require jquery.inputmask.numeric.extensions
-//= require jquery.inputmask.date.extensions
-//= require jquery.inputmask.phone.extensions
+//= require inputmask.extensions
+//= require inputmask.numeric.extensions
+//= require inputmask.date.extensions
+//= require inputmask.phone.extensions
 //= require cocoon
 //= require turbolinks
 //= require_tree .
@@ -50,14 +51,15 @@ var Mask_Input = function() {
   $('.phone').inputmask({mask: "+9 (999) 999-99-99"});
   $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false });
   $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false });
+  $('.ip_weigher').inputmask({'alias': 'ip', 'greedy' : false });
   $('.macaddress').inputmask({mask: "**:**:**:**:**:**"});
   $('.team').inputmask({mask: "999-999-999"});
   $('.date_mask').inputmask({mask: "99.99.9999"});
-  // $('#computers').on('cocoon:after-insert', function() { $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false }) });
-  // $('#cashboxes').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
-  // $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
+  $('#computers').on('cocoon:after-insert', function() { $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false }) });
+  $('#cashboxes').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
+  $('#weigher').on('cocoon:after-insert', function() { $('.ip_weigher').inputmask({'alias': 'ip', 'greedy' : false }) });
+  $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
 };
-
 
 document.addEventListener('turbolinks:load', function () {
   date_pic();

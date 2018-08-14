@@ -31,7 +31,7 @@
                 - esp.esp_certs.each do |esp_cert|
                   .card.shadow.p-0.mb-2.bg-white.rounded style="max-width: 22rem; min-width: 22rem;"
                     .card-header.text-center.text-info
-                      = esp.shop.cashboxes.first.organization_unit.name
+                      = esp.shop.cashboxes.first.organization_unit.name if esp.shop.cashboxes.any?
                     .card-body.pt-2
                       h6.card-title.text-center.mb-3 Серийный номер ЭЦП:
                       p.small.text-muted.card-text.text-center.mb-1
