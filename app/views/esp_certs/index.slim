@@ -4,7 +4,6 @@
   hr
   .col-12
     .row
-      //nav.nav-pills
       nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row.p-0
         = active_link_to esp_certs_path, active: :exact, class: "nav-item nav-link" do
           | Все
@@ -33,7 +32,7 @@
     .row
       .col-2.ml-auto
           = link_to "Экспорт в (xlsx)", export_cert_xls_path(format: "xlsx"), class: "btn btn-outline-success btn-sm", data: { turbolinks: false, confirm: "Предупреждение: Экспорт в(XLSX) может занят определенное время! Вы действительно хотите произвести экспорт в(XLSX) всех ЭЦП?" },
-              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Экспорт в(XLSX) всех объектов" if policy(@esp_certs).export_xls?
+              "data-toggle": "tooltip", "data-placement": "bottom", "title": "Экспорт в(XLSX) всех объектов" if policy(@esp_certs).export_xls?
     hr.pt-2
     .row
       .col-12
@@ -45,8 +44,6 @@
               th =sort_link(@q, :rsa_serial, 'Идентификатор RSA')
               th =sort_link(@q, :date_end_rsa, 'Истекает(RSA)', default_order: :desc)
               th =sort_link(@q, :shop_name, 'Объект', default_order: :asc)
-              / th.text-center style="max-width: 30px; min-width: 30px;"
-              /   i.fa.fa-list
           tbody
             - @esp_certs.each do |esp_cert|
               tr
@@ -55,12 +52,3 @@
                 td = esp_cert.rsa_serial
                 td = l(esp_cert.date_end_rsa, format: :date)
                 td = esp_cert.shop.name
-                / td.row-skip style="max-width: 45px; min-width: 45px;"
-                /   - if policy(cost_equipment).edit?
-                /     = link_to edit_shop_cost_equipment_path(id: cost_equipment), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                /       "title" => "Корректировка данных" do
-                /        span.fa.fa-pencil-alt.edit-button
-                /   - if policy(cost_equipment).destroy? && cost_equipment.can_destroy?
-                /     = link_to shop_cost_equipment_path(id: cost_equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
-                /       "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
-                /          span.far.fa-trash-alt.edit-button

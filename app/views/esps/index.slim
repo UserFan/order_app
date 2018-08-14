@@ -13,12 +13,12 @@
          | &nbsp;
          em = "(КПП: #{esp.kpp})"
          - if policy(esp).edit?
-           = link_to edit_shop_esp_path(id: esp), "data-toggle" => "tooltip", "data-placement" => "bottom",
+           = link_to edit_shop_esp_path(id: esp), "data-toggle": "tooltip", "data-placement": "bottom",
               "title" => "Корректировка" do
               span.fa.fa-pencil-alt.edit-button
          - if policy(esp).destroy? && esp.can_destroy?
-           = link_to shop_esp_path(id: esp), method: :delete, data: { confirm: "Вы действительно хотите удалить объект/подразделений?" },
-              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить объект/подразделений" do
+           = link_to shop_esp_path(id: esp), method: :delete, data: { confirm: "Вы действительно хотите удалить ЭЦП?" },
+              "data-toggle": "tooltip", "data-placement": "bottom", "title": "Удалить ЭЦП" do
               span.far.fa-trash-alt.edit-button
       ul
         li
@@ -58,10 +58,10 @@
                     .card-footer
                       .float-right
                         - if policy(esp_cert).edit?
-                          = link_to edit_shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                             "title" => "Корректировка" do
+                          = link_to edit_shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), "data-toggle": "tooltip", "data-placement": "bottom",
+                             "title": "Корректировка" do
                              span.fa.fa-pencil-alt.edit-button
                         - if policy(esp_cert).destroy? && esp_cert.can_destroy?
-                          = link_to shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), method: :delete, data: { confirm: "Вы действительно хотите удалить объект/подразделений?" },
-                             "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить объект/подразделений" do
+                          = link_to shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), method: :delete, data: { confirm: "Вы действительно хотите удалить  сертификат ЭЦП?" },
+                             "data-toggle": "tooltip", "data-placement": "bottom", "title": "Удалить сертификат ЭЦП" do
                              span.far.fa-trash-alt.edit-button

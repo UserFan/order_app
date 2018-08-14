@@ -7,5 +7,4 @@
       .col-3
         = f.input :date_add, :as => :date_picker, required: true, autofocus: true, placeholder: "дата фото",  id: 'date_image_cash', input_html: { class: 'date_mask' }
       .col-6.pt-3.mt-3
-        //= f.input :images, as: :file, multiple: true
         = f.file_field :images, multiple: true
