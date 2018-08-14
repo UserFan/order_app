@@ -1,6 +1,22 @@
 wb = xlsx_package.workbook
-caption_esp = []
-caption_esp.push('№ п/п', I18n.t('report_esp.name'),
+wb.use_autowidth = true
+
+wb.styles do |s|
+ caption_style = s.add_style bg_color: "F87CEFA", fg_color: "00",
+                             alignment: { horizontal: :center,
+                                          vertical: :center,
+                                          wrap_text: true},
+                             border: { style: :thin, color: "00" }
+
+ content_style_h = { bg_color: "FFFFFE0", fg_color: "00",
+                     alignment: { vertical: :center},
+                     border: { style: :thin, color: "00" } }
+
+ content_style = s.add_style(content_style_h)
+ content_date_style = s.add_style content_style_h.merge(format_code: "dd.mm.yyyy")
+
+ caption_esp = []
+ caption_esp.push('№ п/п', I18n.t('report_esp.name'),
                   I18n.t('report_esp.type_carrier'),
                   I18n.t('report_esp.organization'),
                   I18n.t('report_esp.kpp'),
@@ -9,18 +25,26 @@ caption_esp.push('№ п/п', I18n.t('report_esp.name'),
                   I18n.t('report_esp.fsrar_id'),
                   I18n.t('report_esp.date_end_rsa'))
 
-wb.add_worksheet(name: "Shop") do |sheet|
-  sheet.add_row(caption_esp)
-  esp_count = 1 if esp_count.nil?
-  @esp_xls.each do |esp_cert|
-    data_xls = []
-    data_xls.push(esp_count, esp_cert.shop.name, esp_cert.esp.carrier_type.name,
-                  esp_cert.shop.cashboxes.first.organization_unit.name,
-                  esp_cert.esp.kpp, esp_cert.serial_num_esp,
-                  esp_cert.date_end_esp, esp_cert.rsa_serial,
-                  esp_cert.date_end_rsa)
-    sheet.add_row data_xls, types: [nil, :string, :string, :string, :string,
-                                    :string, nil, :string, nil]
-    esp_count += 1
+  wb.add_worksheet(name: "Shop") do |sheet|
+    sheet.add_row (caption_esp), style: caption_style
+    esp_count = 1 if esp_count.nil?
+    @esp_xls.each do |esp_cert|
+      data_xls = []
+      data_xls.push(esp_count, esp_cert.shop.name, esp_cert.esp.carrier_type.name,
+                    esp_cert.shop.cashboxes.first.organization_unit.name,
+                    esp_cert.esp.kpp, esp_cert.serial_num_esp,
+                    esp_cert.date_end_esp, esp_cert.rsa_serial,
+                    esp_cert.date_end_rsa)
+
+      sheet.add_row data_xls, types: [nil, :string, :string, :string, :string,
+                                      :string, nil, :string, nil],
+                              style: [content_style, content_style, content_style,
+                                      content_style, content_style, content_style,
+                                      content_date_style, content_style, content_date_style]
+      sheet.column_widths 4.5, nil, nil, nil, 12, 46.5, 11.5, 14, 11.5
+      sheet.rows[0].height = 35
+      esp_count += 1
+
+    end
   end
 end
