@@ -2,25 +2,26 @@
   h2.text-right
     b Пользователи системы
   hr
-  .col-3
-    = link_to "Добавить пользователя",  new_user_path, class: "btn btn-outline-success btn-sm"
+  .row
+    .col-sm-6.col-md-3
+      = link_to "Добавить пользователя",  new_user_path, class: "btn btn-outline-success btn-sm"
   .row.justify-content-end
-    .col-5
+    .col-sm-12.col-md-5
       = search_form_for @q do |f|
         .input-group.my-4
-          = f.input_field :full_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+          = f.input_field :profile_full_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
           span.input-group-append
             button.btn.btn-outline-secondary type="submit"
               span.fa.fa-search
   .row
-    .col-12
+    .col-sm-12.col-md-12
       table.table.shadow.p-3.mb-5.bg-white.rounded
         thead.thead-light.text-dark
           tr.text-dark
             th =sort_link(@q, :full_name, 'Пользователь', default_order: :asc)
-            th =sort_link(@q, :position_name, 'Должность', default_order: :asc)
-            th =sort_link(@q, :email, 'Адрес E-mail', default_order: :asc)
-            th =sort_link(@q, :mobile, 'Мобильный телефон', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :position_name, 'Должность', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :email, 'Адрес E-mail', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :mobile, 'Мобильный телефон', default_order: :asc)
         tbody
           - @users.each do |user|
             tr
@@ -34,6 +35,6 @@
                   = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить пользователя?" },
                    "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить пользователя" do
                     span.far.fa-trash-alt.edit-button
-              td = user.position.name
-              td = user.email
-              td = user.mobile
+              td.d-none.d-sm-table-cell = user.position.name
+              td.d-none.d-sm-table-cell = user.email
+              td.d-none.d-sm-table-cell = user.mobile

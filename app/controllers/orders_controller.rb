@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
   def new
     authorize Order
     @order = OrderForm.new(Order.new)
+    @users_order =  User.includes(:profile).where(admin: false).order('profiles.surname ASC')    
   end
 
   def edit
@@ -84,6 +85,7 @@ class OrdersController < ApplicationController
   def set_edit_form
     @order = OrderForm.new(Order.find(params[:id]))
     $send_change = 0
+    @users_order =  User.includes(:profile).where(admin: false).order('profiles.surname ASC')
   end
 
   def set_closing

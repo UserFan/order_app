@@ -1,17 +1,17 @@
 .nested-fields
   .row
-    .col-12
+    .col-sm-12.col-md-12
       .card.shadow.p-3.mb-5.bg-white.rounded
         .card-header.bg-transparent.p-1
           span.card-title.text-info.h5.font-weight-bold Коммуникационное оборудование
           = link_to_remove_association "<i class='fa fa-times'></i>".html_safe, f, class: 'btn btn-outline-danger btn-sm float-right'
         .card-body.pb-0
           .row
-            .col-3
+            .col-sm-12.col-md-3
               = f.association :router, label_method: :name, value_method: :id, required: true
-            .col-3
+            .col-sm-12.col-md-3
               = f.input :router_sn
-            .col-12
+            .col-sm-12.col-md-12
               .links
                 = link_to_add_association "Новый провайдер", f, :item_communications, class: 'btn btn-outline-primary btn-sm',
                   data: { association_insertion_method: :append }

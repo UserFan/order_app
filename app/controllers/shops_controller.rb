@@ -15,6 +15,7 @@ class ShopsController < ApplicationController
   def new
     authorize Shop
     @shop = Shop.new
+    @users_shop = User.includes(:profile).where(admin: false).order('profiles.surname ASC')
   end
 
   def edit
@@ -122,6 +123,7 @@ class ShopsController < ApplicationController
 
   def set_shop
     @shop = Shop.find(params[:id])
+    @users_shop = User.includes(:profile).where(admin: false).order('profiles.surname ASC')
   end
 
   def set_index

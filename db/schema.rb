@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180806195621) do
+ActiveRecord::Schema.define(version: 20180829075321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -281,6 +281,20 @@ ActiveRecord::Schema.define(version: 20180806195621) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "user_id", default: 0, null: false
+    t.string "surname", default: "", null: false
+    t.string "first_name", default: "", null: false
+    t.string "middle_name", default: ""
+    t.string "avatar"
+    t.string "mobile", default: "", null: false
+    t.bigint "position_id", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["position_id"], name: "index_profiles_on_position_id"
+    t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
   create_table "providers", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -419,9 +433,6 @@ ActiveRecord::Schema.define(version: 20180806195621) do
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "full_name", default: "", null: false
-    t.string "mobile", default: "", null: false
-    t.integer "position_id", default: 0, null: false
     t.integer "role_id", default: 1, null: false
     t.boolean "admin", default: false, null: false
     t.string "reset_password_token"
@@ -441,11 +452,9 @@ ActiveRecord::Schema.define(version: 20180806195621) do
     t.datetime "locked_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "avatar"
     t.integer "orders_count", default: 0
     t.integer "shops_count", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["position_id"], name: "index_users_on_position_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
   end

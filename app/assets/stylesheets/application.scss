@@ -4,6 +4,7 @@
 @import 'rework';
 @import 'performer_fields';
 @import 'shop';
+@import 'order';
 @import 'esp_cert';
 @import 'executors_list';
 @import "font-awesome-sprockets";
@@ -12,6 +13,10 @@
 
 .form-control-label {
   font-weight: bold
+}
+
+.img-profile {
+  max-height: 360px;
 }
 
 //Стиль для легенды(флажки)
@@ -49,6 +54,13 @@ th a i {
 
 thead th a:hover, th a:active, th a:visited, th a:link {
   color: $dark;
+}
+
+th.edit-control, td.edit-control {
+  max-width: 55px;
+  min-width: 55px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 
@@ -110,3 +122,27 @@ thead th a:hover, th a:active, th a:visited, th a:link {
   font-size: 40px;
 }
 //Конец стиля карусели.
+
+//Стиль для сим-карт
+
+.main-card {
+  max-width: 22rem;
+  min-width: 22rem;
+}
+
+@media(max-width: 480px) {
+  h1, h2, h3, h4, .h1, .h2, .h3, .h4{
+    font-size: 1.6rem;
+  }
+
+  .main-card {
+    max-width: 16rem;
+    min-width: 16rem;
+    padding: 0px;
+    margin: 0px;
+    font-size: 0.7rem;
+    h6, .h6 {
+      font-size: 0.9rem;
+    }
+  }
+}

@@ -1,8 +1,8 @@
 .container
-  .col-12
+  .col-sm-12.col-md-12
     h3.text-center Снимки кассового блока от #{l(@cash_image.date_add, format: :date)}
     .row.pt-5
       = render 'shared/priview_images', show_image: @cash_image
-  .col-12
+  .col-sm-12.col-md-12
     .row.pt-4.justify-content-center
       = link_to "Закрыть", shop_path(@cash_image.shop), class: "btn btn-info"

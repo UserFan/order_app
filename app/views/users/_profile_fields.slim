@@ -1,0 +1,36 @@
+.nested-fields
+  .col-sm-12.col-md-12
+    .row
+      .col-md-4.pt-1
+        -  if @user.profile.avatar?
+          = image_tag(@user.profile.avatar.large.url, class: "mg-responsive img-thumbnail img-profile")
+        - else
+          = image_tag('no_photo.jpg', class: "mg-responsive img-thumbnail img-profile")
+        .row
+          .col-sm-12.col-md-12.pt-2.align-self-end.pt-3
+            = m.file_field :avatar, title: 'Выбрать фото...', class: "btn btn-outline-primary", data: { "filename-placement": "outside" }
+      .col-sm-12.col-md-8
+        .row
+          .col-sm-12.col-md-6
+            = m.input :surname, autocomplete: "off", required: true, autofocus: true
+            .row
+              .col-sm-12.col-md-10
+                = m.input :first_name, autocomplete: "off", required: true
+          .col-sm-12.col-md-6.main-check
+            = f.association :role, collection: Role.where.not(id: 4).order(name: :asc), disabled: current_user == @user,
+                        as: :radio_buttons if current_user.moderator? || current_user.super_admin?
+        .row
+          .col-sm-12.col-md-6
+            = m.input :middle_name, autocomplete: "off"
+          .col-sm-12.col-md-6
+            = f.input :email, required: true
+        .row
+          .col-sm-12.col-md-6
+            = m.association :position, collection: Position.where.not(id: 1).order(name: :asc), include_blank: false if current_user.admin? || current_user.super_admin?
+          .col-sm-12.col-md-6
+            = m.input :mobile,  required: true, input_html: { class: 'phone' }
+        .row
+          .col-sm-12.col-md-6
+            = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: false
+          .col-sm-12.col-md-6
+            = f.input :password_confirmation, required: false

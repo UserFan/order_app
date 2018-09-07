@@ -1,10 +1,12 @@
 .container
   .row.justify-content-end
+    .text-right.pb-4.pt-3.d-md-none.d-block
+      = link_to '<< Объектам/подразделениям', shops_path
     h2.font-weight-bold Перечень сервисных работ(#{@shop.name})
   hr
-  .col-12.p-0.pt-4
+  .col-sm-12.col-md-12.p-0.pt-4
     .row.justify-content-end
-      .col-5
+      .col-sm-12.col-md-5
         = search_form_for [@shop, @q] do |f|
           .input-group.pb-4
             = f.input_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
@@ -12,8 +14,8 @@
               button.btn.btn-outline-secondary type="submit"
                 span.fa.fa-search
     .row
-      .col-3
-        nav.nav-pills.flex-column
+      .col-sm-12.col-md-3.d-flex
+        nav.nav-pills.flex-md-column.flex-sm-row
           = active_link_to shop_service_equipments_path, active: :exact, class: "nav-item nav-link" do
             | Все
             span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@service_equipments_count}
@@ -30,27 +32,28 @@
       /       li = link_to "Все(#{@service_equipments_count})", shop_service_equipments_path
       /       li = link_to "Текущий месяц(#{ @count_set_month})", shop_service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month, date_service_lteq: (DateTime.now).end_of_month})
       /       li = link_to "Предыдущий месяц(#{@count_prev_month})", shop_service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month.prev_month, date_service_lteq: (DateTime.now).end_of_month.prev_month})
-      .col-9
+      .col-sm-12.col-md-9
+        hr.d-md-none.d-block
         .row.pb-4
           .col-3
             = link_to "Добавить сервис",  new_shop_service_equipment_path, class: "btn btn-outline-success btn-sm" if policy(ServiceEquipment).new?
         .row
-          .col-12
+          .col-sm-12.col-md-12
             table.table.table-hover
               thead.thead-light.text-dark
                 tr.text-dark
                   th =sort_link(@q, :date_service, 'Дата', default_order: :desc)
                   th =sort_link(@q, :equipment_type_name, 'Тип сервиса', default_order: :asc)
-                  th =sort_link(@q, :description, 'Описание', default_order: :asc)
-                  th.text-center
+                  th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Описание', default_order: :asc)
+                  th.text-center.edit-control
                     i.fa.fa-list
               tbody
                 - @equipments.each do |equipment|
                   tr
                     td = l(equipment.date_service, format: :date)
                     td = equipment.equipment_type.name
-                    td = equipment.description
-                    td.row-skip
+                    td.d-none.d-sm-table-cell = equipment.description
+                    td.row-skip.edit-control
                       - if policy(equipment).edit?
                         = link_to edit_shop_service_equipment_path(id: equipment), "data-toggle" => "tooltip", "data-placement" => "bottom",
                           "title" => "Корректировка данных" do

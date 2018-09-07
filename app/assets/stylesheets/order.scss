@@ -1,0 +1,56 @@
+@media(max-width: 480px) {
+  #order-table thead {
+    font-size: 0.77rem;
+  }
+
+  #order-table tbody {
+    font-size: 0.66rem;
+  }
+
+  th.number-order, td.number-order {
+    max-width: 95px;
+    min-width: 95px;
+    }
+
+  #order-table th.edit-control, #order-table td.edit-control {
+    max-width: 50px;
+    min-width: 50px;
+    padding-left: 0px;
+    padding-right: 3px;
+  }
+
+  #order-show .btn-sm {
+    font-size: 0.528rem;
+
+  }
+
+  #order-show a {
+    font-size: 0.68rem;
+  }
+
+  #order-show .card-body ul {
+    padding: 0;
+    margin: 0px;
+    font-size:  0.75rem;
+    li {
+      list-style-type: none;
+    }
+  }
+
+  #order-show {
+     h5, .h5 { font-size: 1rem;}
+   }
+
+  #order-rework {
+    padding-left:  0rem;
+    h5, .h5 { font-size: 0.75rem; }
+    h6, .h6 { font-size: 0.58rem; }
+    p { font-size: 0.40rem; }
+  }
+
+  .control-order,
+  .order-control-success,
+  .order-control-danger,
+  .order-control-closed { display: inline-block;  }
+
+}

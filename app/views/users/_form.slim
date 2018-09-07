@@ -1,18 +1,11 @@
 = simple_form_for(@user) do |f|
   = f.error_notification
-  .row
-    .col-4.pt-1
-      = image_tag(@user.avatar.large.url, :class => "mg-responsive img-thumbnail") if @user.avatar?
-      .row
-        .col-12.pt-2.align-self-end
-          = f.file_field :avatar
-    .col-8
-      - if current_user.moderator? || current_user.super_admin?
-        - back_path = users_path
-        = render 'users/user_admin', f: f
-      - else
-        = render 'users/user_usual', f: f
-        - back_path = root_path
+  = f.simple_fields_for :profile do |profile|
+    = render 'profile_fields', m: profile, f: f
+  - if current_user.moderator? || current_user.super_admin?
+    - back_path = users_path
+  - else
+    - back_path = root_path
   .form-group.float-right.mb-0.mt-3
     = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1"
     = link_to "Отмена", back_path, class: "btn btn-outline-secondary m-1"

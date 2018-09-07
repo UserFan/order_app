@@ -1,15 +1,15 @@
 .container
-  .col-12
+  .col-sm-12.col-md-12
     .row
-      .col-12.p-4
+      .col-sm-12.col-md-12.p-4
         = link_to "Закрыть", shops_path, class: "btn btn-info float-right"
   .row
-    .col-3
+    .col-sm-12.col-md-3
       = image_tag(@shop.photo.url, class: "img-responsive img-thumbnail") if @shop.photo?
-      .col-12.p-0
+      .col-sm-12.col-md-12.p-0.pb-4
         - if (@shop.address.present?)
           #map.img-responsive data-lat=@shop.latitude data-lon=@shop.longitude
-    .col-9
+    .col-sm-12.col-md-9
       nav
         #nav-tab.nav.nav-tabs role="tablist"
           a#nav-one-tab.nav-item.nav-link.active aria-controls="nav-one" aria-selected="true" data-toggle="tab" href="#nav-one" role="tab"
@@ -31,7 +31,7 @@
       #nav-tabContent.tab-content
         #nav-one.tab-pane.fade.show.active aria-labelledby="nav-one-tab" role="tabpanel"
           br
-          .col-12
+          .col-sm-12.col-md-12
             table.table.table-striped.table-responsive
               tbody
                 tr
@@ -67,7 +67,7 @@
                     td = l(@shop.closed, format: :date)
         - if policy(@shop).show_specialty?
           #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
-            .col-12
+            .col-sm-12.col-md-12
               br
               - @cashbox_number = 1
               - @shop.cashboxes.each do |cashbox|
@@ -85,7 +85,7 @@
                           li = link_to "#{l(cashbox_image.date_add, format: :date)}", cash_image_path(cashbox_image)
                 - @cashbox_number += 1
           #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
-            .col-12
+            .col-sm-12.col-md-12
               br
               - @weigher_number = 1
               - @shop.shop_weighers.each do |weigher|
@@ -95,12 +95,12 @@
                   = render 'weighers_list', weigher_shop: weigher
                 - @weigher_number += 1
           #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
-            .col-12
+            .col-sm-12.col-md-12
               br
               - @shop.computers.each do |computer|
                 = render 'computers_list', computer: computer
           #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
-            .col-12
+            .col-sm-12.col-md-12
               br
               ul
                 h5

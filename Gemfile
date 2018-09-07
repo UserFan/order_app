@@ -64,6 +64,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'bootstrap', '4.1.1'
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap-datetimepicker-rails'
+gem 'bootstrap_file_input_rails'
 gem 'jquery-ui-rails'
 gem 'jquery-rails'
 gem 'simple_form'

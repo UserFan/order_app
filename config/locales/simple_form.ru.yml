@@ -4,32 +4,32 @@ ru:
     labels:
       user:
         new:
-          username: 'Полное имя'
-          full_name: 'Фамилия Имя Отчество'
           role: 'Роль в системе'
-          position: 'Должность'
-          supervisor: 'Руководитель'
-          manager: 'Администратор'
-          employee: 'Сотрудник'
-          mobile: 'Мобильный телефон'
           email: "Ваш email"
           password: "Пароль"
           remember_me: "Запомнить меня"
           password_confirmation: "Подтверждение пароля"
         edit:
-          username: 'Полное имя'
-          full_name: 'Фамилия Имя Отчество'
-          position: 'Должность'
           role: 'Роль в системе'
-          supervisor: 'Руководитель'
-          manager: 'Администратор'
-          employee: 'Сотрудник'
-          mobile: 'Мобильный телефон'
           email: "Ваш email"
           password: "Новый пароль"
           password_confirmation: "Подтверждение нового пароля"
           current_password: "Ваш текущий пароль"
-
+      profile:
+        new:
+          surname: 'Фамилия'
+          first_name: 'Имя'
+          middle_name: 'Отчество'
+          position: 'Должность'
+          full_name: 'Фамилия Имя Отчество'
+          mobile: 'Мобильный телефон'
+        edit:
+          surname: 'Фамилия'
+          first_name: 'Имя'
+          middle_name: 'Отчество'
+          position: 'Должность'
+          full_name: 'Фамилия Имя Отчество'
+          mobile: 'Мобильный телефон'
       type: &name
         new:
           name: "Наименование"
@@ -543,7 +543,7 @@ ru:
         edit:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
-          description: "Описание:" 
+          description: "Описание:"
     required:
       text: "Обязательное поле"
       mark: "*"

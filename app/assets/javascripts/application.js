@@ -18,6 +18,7 @@
 //= require moment
 //= require moment/ru
 //= require bootstrap-datetimepicker
+//= require bootstrap.file-input
 //= require inputmask
 //= require jquery.inputmask
 //= require inputmask.extensions
@@ -59,6 +60,8 @@ var Mask_Input = function() {
   $('#cashboxes').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
   $('#weigher').on('cocoon:after-insert', function() { $('.ip_weigher').inputmask({'alias': 'ip', 'greedy' : false }) });
   $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
+  $('input[type=file]').bootstrapFileInput();
+//  $('.file-inputs').bootstrapFileInput();
 };
 
 document.addEventListener('turbolinks:load', function () {

@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   mount_uploader :avatar, ImageUploader
 
-  belongs_to :position
   belongs_to :role
   has_many :shops, dependent: :restrict_with_error
   has_many :performers, dependent: :restrict_with_error
@@ -9,10 +8,18 @@ class User < ApplicationRecord
   has_many :executions, through: :performers, foreign_key: :user_id
   has_many :reworks, dependent: :restrict_with_error
 
+  has_one :profile, dependent: :destroy
+
+  accepts_nested_attributes_for :profile, reject_if: :all_blank, allow_destroy: true
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
-  validates :full_name, :role_id, :position_id, :mobile, presence: true
+  after_create :create_profile
+
+  delegate_missing_to :profile
+
+  validates :role_id, presence: true
 
   def super_admin?
     role_id == Role::SUPER_ADMIN_ID
@@ -29,5 +36,7 @@ class User < ApplicationRecord
   def user?
     role_id == Role::USER_ID
   end
+
+
 
 end

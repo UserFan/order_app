@@ -76,6 +76,8 @@ GEM
       popper_js (>= 1.12.9, < 2)
       sass (>= 3.5.2)
     bootstrap-datetimepicker-rails (0.0.11)
+    bootstrap_file_input_rails (1.0.0)
+      railties (>= 3.1, < 6)
     builder (3.2.3)
     byebug (10.0.2)
     capistrano (3.11.0)
@@ -344,6 +346,7 @@ DEPENDENCIES
   axlsx_rails
   bootstrap (= 4.1.1)
   bootstrap-datetimepicker-rails
+  bootstrap_file_input_rails
   byebug
   capistrano
   capistrano-bundler
@@ -389,4 +392,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.16.0
+   1.16.3

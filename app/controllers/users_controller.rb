@@ -5,14 +5,15 @@ class UsersController < ApplicationController
 
   def index
     authorize User
-    @q = User.where(admin: false).ransack(params[:q])
-    @q.sorts = ['full_name asc', 'created_at desc'] if @q.sorts.empty?
+    @q = User.includes(:profile).where(admin: false).search(params[:q])
+    @q.sorts = ['surname asc', 'created_at desc'] if @q.sorts.empty?
     @users = @q.result(disinct: true)
   end
 
   def new
     authorize User
     @user = User.new
+    @user.build_profile
   end
 
   def show
@@ -60,6 +61,6 @@ class UsersController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = User.includes(:profile).find(params[:id])
   end
 end

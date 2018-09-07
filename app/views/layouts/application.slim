@@ -6,9 +6,10 @@ html
     = javascript_include_tag 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', :type => "text/javascript", 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
+    meta content="width=device-width, initial-scale=1.0" name="viewport"
 
   body
-    .col-1-xs.col-lg-12
+    .col-sm-12.col-md-12
       = render 'layouts/header'
       .container
         = render 'layouts/flash', flash: flash

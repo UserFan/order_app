@@ -1,8 +1,8 @@
 .container
-  .col-12
+  .col-sm-12.col-md-12
     h4.text-center Фотоотчет заявки №#{@execution.performer.order.order_number}
     .row.pt-5
       = render 'shared/priview_images', show_image: @execution
-  .col-12
+  .col-sm-12.col-md-12
     .row.pt-4.justify-content-center
       = link_to "Закрыть", order_path(@execution.performer.order), class: "btn btn-info"

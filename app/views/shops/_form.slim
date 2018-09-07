@@ -1,12 +1,12 @@
 = simple_form_for (@shop), html: {:multipart => true} do |f|
   = render 'shared/error_messages', object: f.object
   .row
-    .col-12
+    .col-sm-12.col-md-12
       .form-group.float-right.mb-4.mt-3
         = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1"
         = link_to "Отмена", shops_path, class: "btn btn-outline-secondary m-1"
   .row
-    .col-12
+    .col-sm-12.col-md-12
       nav
         #nav-tab.nav.nav-tabs role="tablist"
           a#nav-one-tab.nav-item.nav-link.active aria-controls="nav-one" aria-selected="true" data-toggle="tab" href="#nav-one" role="tab"
@@ -29,30 +29,31 @@
       #nav-tabContent.tab-content
         #nav-one.tab-pane.fade.show.active aria-labelledby="nav-one-tab" role="tabpanel"
           .row
-            .col-4.pt-4
+            .col-sm-12.col-md-4.pt-4
               = image_tag(@shop.photo.thumb.url, :class => "mg-responsive img-thumbnail") if @shop.photo?
               .row
-                .col-12.pt-5
-                  = f.input :photo, as: :file
-            .col-8.pt-4
+                .col-sm-12.col-md-12.pt-4
+                  = f.file_field :photo, title: 'Выбрать фото...', class: "btn btn-outline-primary", data: { "filename-placement": "outside" }
+                  /= f.input :photo, as: :file
+            .col-sm-12.col-md-8.pt-4
               .row
-                .col-8
+                .col-sm-12.col-md-8
                   = f.input :name, autocomplete: "off", required: true, autofocus: true
                   .row
-                    .col-12
+                    .col-sm-12.col-md-12
                       = f.input :email, autocomplete: "off"
-                .col-4.main-check
+                .col-sm-12.col-md-4.main-check
                   = f.association :type, as: :radio_buttons, required: true
-                .col-12
+                .col-sm-12.col-md-12
                   = f.input :address, as: :text, required: true
-                .col-8
-                  = f.association :user, collection: User.where(admin: false).order(full_name: :asc), label_method: :full_name, value_method: :id, include_blank: false
-                .col-4
+                .col-sm-12.col-md-8
+                  = f.association :user, collection: @users_shop, label_method: :full_name, value_method: :id, include_blank: false
+                .col-sm-12.col-md-4
                   = f.input :closed, as: :date_picker, placeholder: "дата закрытия объекта", id: 'date_close_shop', autocomplete: "off", input_html: { class: 'date_mask'}
         - if policy(@shop).show_specialty?
           #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
             .row
-              .col-12.pt-4
+              .col-sm-12.col-md-12.pt-4
                 #cashboxes
                   h4.font-weight-bold Кассовое оборудование:
                   .links
@@ -68,7 +69,7 @@
 
           #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
            .row
-             .col-12.pt-4
+             .col-sm-12.col-md-12.pt-4
                #weigher
                  h4.font-weight-bold Весы и весовое оборудование:
                  .links
@@ -83,7 +84,7 @@
 
           #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
             .row
-              .col-12.pt-4
+              .col-sm-12.col-md-12.pt-4
                 #computers
                   h4.font-weight-bold Компьютер и оргтехника:
                   .links
@@ -97,7 +98,7 @@
 
           #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
             .row
-              .col-12.pt-4
+              .col-sm-12.col-md-12.pt-4
                 #communications
                   h4.font-weight-bold Коммуникация и комуникационное оборудования:
                   .links
