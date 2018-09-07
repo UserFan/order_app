@@ -12,7 +12,7 @@ class AddAllUserProfile < ActiveRecord::Migration[5.1]
                         surname: 'User',
                         first_name: 'User_name',
                         mobile: '+70000000000',
-                        position_id: 0)
+                        position_id: 1)
       end
     end
   end
