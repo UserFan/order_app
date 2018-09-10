@@ -38,6 +38,22 @@
 }
 //Стиль для надписи "Объект закрыт" (конец)
 
+@media(max-width: 480px) {
+
+  #shop-table tbody {
+    font-size: 0.79rem;
+  }
+
+  .nav-tabs a span {
+    font-size: 0.79rem;
+    white-space: pre;
+  }
+}
+
+
+
+
+
 // .carousel-item img {
 //   width: 1000px;
 //   max-width: 1000px;
