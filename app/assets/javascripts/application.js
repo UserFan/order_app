@@ -61,17 +61,19 @@ var Mask_Input = function() {
   $('#weigher').on('cocoon:after-insert', function() { $('.ip_weigher').inputmask({'alias': 'ip', 'greedy' : false }) });
   $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
   $('input[type=file]').bootstrapFileInput();
-//  $('.file-inputs').bootstrapFileInput();
+  $('form').on('cocoon:after-insert', function(e, add_image) { add_image.find('input[type=file]').bootstrapFileInput() });
 };
 
 document.addEventListener('turbolinks:load', function () {
   date_pic();
-});
-
-document.addEventListener('turbolinks:load', function () {
   ClickRowTable();
-});
-
-document.addEventListener('turbolinks:load', function () {
   Mask_Input();
 });
+
+// document.addEventListener('turbolinks:load', function () {
+//   ClickRowTable();
+// });
+//
+// document.addEventListener('turbolinks:load', function () {
+//   Mask_Input();
+// });
