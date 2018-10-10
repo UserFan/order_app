@@ -21,6 +21,11 @@
   text-align: center;
 }
 
+ul.shops_filter_char li {
+  display: inline; /* Отображать как строчный элемент */
+  margin-right: 5px; /* Отступ слева */  
+}
+
 //Стиль для надписи "Объект закрыт" (начало)
 #blink {
   -webkit-animation: blink 3s linear infinite;

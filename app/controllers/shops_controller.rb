@@ -127,6 +127,7 @@ class ShopsController < ApplicationController
   end
 
   def set_index
+    shop_char = []
     if current_user.super_admin? || current_user.moderator? #|| current_user.guide?
       set_shops = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
                          :shop_weighers, :shop_communications)
@@ -140,6 +141,8 @@ class ShopsController < ApplicationController
     @shops_closed = set_shops.ransack(closed_not_null: '1').result.count
     @shops_open = set_shops.ransack(closed_not_null: '0').result.count
     @shops_count = set_shops.size
+    @shops.each { |shop| shop_char << shop.name[0].upcase }
+    @shops_filter_char = shop_char.uniq.sort
   end
 
   def remote_set_connection(ip_address)
