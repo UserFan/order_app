@@ -9,8 +9,8 @@
             ul
               li
                 b.text-danger ЭЦП:
-                = link_to " #{@esp_count} шт.", esp_certs_path(q: {date_end_esp_gteq: (DateTime.now).beginning_of_month, date_end_esp_lteq: (DateTime.now).end_of_month})
+                = link_to " #{@esp_count} шт.", esp_certs_path(q: {date_end_esp_gteq: (Date.today).beginning_of_month, date_end_esp_lteq: (Date.today).end_of_month})
               hr
               li
                 b.text-danger RSA ключ:
-                = link_to " #{@rsa_count} шт.", esp_certs_path(q: {date_end_rsa_gteq: (DateTime.now).beginning_of_month, date_end_rsa_lteq: (DateTime.now).end_of_month})
+                = link_to " #{@rsa_count} шт.", esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month, date_end_rsa_lteq: (Date.today).end_of_month})
