@@ -25,7 +25,13 @@ unless Status.any?
   Status.create(id: 9, name: 'Снята с контроля(исполнения)', role: [2,3,4])
   Status.create(id: 10, name: 'Исполнен частично', role: [2,3,4])
   Status.create(id: 11, name: 'Не исполнен', role: [2,3,4])
+end
 
+unless Type.any?
+  Status.create(id: 1, name: 'Магазин')
+  Status.create(id: 2, name: 'Павильон')
+  Status.create(id: 3, name: 'Магазин (самооблуживание)')
+  Status.create(id: 4, name: 'Структурное подразделение')
 end
 
 Position.create(id:1, name: 'Администратор системы') unless Position.any?

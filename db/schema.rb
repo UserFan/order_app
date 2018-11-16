@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181109101012) do
+ActiveRecord::Schema.define(version: 20181116071407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -386,6 +386,7 @@ ActiveRecord::Schema.define(version: 20181109101012) do
     t.integer "computers_count", default: 0
     t.integer "shop_weighers_count", default: 0
     t.integer "shop_communications_count", default: 0
+    t.boolean "structural_unit", default: false
     t.index ["type_id"], name: "index_shops_on_type_id"
     t.index ["user_id"], name: "index_shops_on_user_id"
   end

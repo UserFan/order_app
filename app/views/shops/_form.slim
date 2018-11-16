@@ -4,7 +4,7 @@
     .col-sm-12.col-md-12
       .form-group.float-right.mb-4.mt-3
         = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1"
-        = link_to "Отмена", shops_path, class: "btn btn-outline-secondary m-1"
+        = link_to "Отмена", shops_path(set_unit: @set_unit), class: "btn btn-outline-secondary m-1"
   .row
     .col-sm-12.col-md-12
       nav
@@ -13,18 +13,21 @@
             span Первичные
             br данные
           - if policy(@shop).show_specialty?
-            a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
-              span Кассовое
-              br оборудование
-            a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
-              span Весовое
-              br оборудование
+            - if policy(@shop).show_unit?
+              a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
+                span Кассовое
+                br оборудование
+            - if policy(@shop).show_unit?
+              a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
+                span Весовое
+                br оборудование
             a#nav-comp-tab.nav-item.nav-link aria-controls="nav-comp" aria-selected="false" data-toggle="tab" href="#nav-comp" role="tab"
               span Компьютер и
               br оргтехника
-            a#nav-comunication-tab.nav-item.nav-link aria-controls="nav-comunication" aria-selected="false" data-toggle="tab" href="#nav-comunication" role="tab"
-              span Коммуникационное
-              br оборудование оборудование
+            - if policy(@shop).show_unit?
+              a#nav-comunication-tab.nav-item.nav-link aria-controls="nav-comunication" aria-selected="false" data-toggle="tab" href="#nav-comunication" role="tab"
+                span Коммуникационное
+                br оборудование оборудование
 
       #nav-tabContent.tab-content
         #nav-one.tab-pane.fade.show.active aria-labelledby="nav-one-tab" role="tabpanel"
@@ -43,7 +46,7 @@
                     .col-sm-12.col-md-12
                       = f.input :email, autocomplete: "off"
                 .col-sm-12.col-md-4.main-check
-                  = f.association :type, as: :radio_buttons, required: true
+                  = f.association :type, collection: @type_select, as: :radio_buttons, required: true
                 .col-sm-12.col-md-12
                   = f.input :address, as: :text, required: true
                 .col-sm-12.col-md-8
