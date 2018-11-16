@@ -10,100 +10,104 @@
         - if (@shop.address.present?)
           #map.img-responsive data-lat=@shop.latitude data-lon=@shop.longitude
     .col-sm-12.col-md-9
+      hr.d-md-none.d-block
       nav
         #nav-tab.nav.nav-tabs role="tablist"
           a#nav-one-tab.nav-item.nav-link.active aria-controls="nav-one" aria-selected="true" data-toggle="tab" href="#nav-one" role="tab"
             span Первичные
-            br данные
+            span данные
           - if policy(@shop).show_specialty?
             a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
-              span Кассовое
-              br оборудование
+              span Кассовое 
+              span оборудование
             a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
-              span Весовое
-              br оборудование
+              span
+                | Весовое
+                |  оборудование
             a#nav-comp-tab.nav-item.nav-link aria-controls="nav-comp" aria-selected="false" data-toggle="tab" href="#nav-comp" role="tab"
-              span Компьютер и
-              br оргтехника
+              span
+                | Компьютер и
+                |  оргтехника
             a#nav-comunication-tab.nav-item.nav-link aria-controls="nav-comunication" aria-selected="false" data-toggle="tab" href="#nav-comunication" role="tab"
-              span Коммуникационное
-              br оборудование
-      #nav-tabContent.tab-content
-        #nav-one.tab-pane.fade.show.active aria-labelledby="nav-one-tab" role="tabpanel"
-          br
-          .col-sm-12.col-md-12
-            table.table.table-striped.table-responsive
-              tbody
-                tr
-                  td
-                    b Наименование:
-                    td = @shop.name
-                tr
-                  td
-                    b Тип:
-                  td = @shop.type.name
-                tr
-                  td
-                    b e-mail:
-                  td = @shop.email
-                tr
-                  td
-                    b Адрес:
-                  td = @shop.address
-                tr
-                  td.font-weight-bold
-                    | Руководитель
-                    br
-                    | (объекта/подраз-я):
-                  td = @shop.user.full_name
-                tr
-                  td.i.fa.fa-phone.fa-flip-horizontal.fa-lg
-                  td = @shop.user.mobile
-
-                - if @shop.closed.present?
+              span
+                | Коммуникационное
+                |  оборудование
+      .row
+        #shop-table.col-sm-12.col-md-12
+          #nav-tabContent.tab-content
+            #nav-one.tab-pane.fade.show.active aria-labelledby="nav-one-tab" role="tabpanel"
+              table.table.table-responsive-sm.table-striped.m-2.mt-4
+                tbody
                   tr
                     td
-                      b Объект закрыт:
-                    td = l(@shop.closed, format: :date)
-        - if policy(@shop).show_specialty?
-          #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
-            .col-sm-12.col-md-12
-              br
-              - @cashbox_number = 1
-              - @shop.cashboxes.each do |cashbox|
-                details
-                  summary.h5.text-success
-                    b Кассовый блок №#{@cashbox_number}
-                  = render 'cashboxes_list', cashbox: cashbox
-                - if cashbox.cash_images.any?
-                  ul
+                      b Наименование:
+                      td = @shop.name
+                  tr
+                    td
+                      b Тип:
+                    td = @shop.type.name
+                  tr
+                    td
+                      b e-mail:
+                    td = @shop.email
+                  tr
+                    td
+                      b Адрес:
+                    td = @shop.address
+                  tr
+                    td.font-weight-bold
+                      | Руководитель
+                      br
+                      | (объекта/подраз-я):
+                    td = @shop.user.full_name
+                  tr
+                    td.i.fa.fa-phone.fa-flip-horizontal.fa-lg
+                    td = @shop.user.mobile
+
+                  - if @shop.closed.present?
+                    tr
+                      td
+                        b Объект закрыт:
+                      td = l(@shop.closed, format: :date)
+            - if policy(@shop).show_specialty?
+              #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
+                .col-sm-12.col-md-12.m-2.mt-4
+                  br
+                  - @cashbox_number = 1
+                  - @shop.cashboxes.each do |cashbox|
                     details
-                      summary.h6.text-dark
-                        b Фото кассового блоко от:
-                      - cashbox.cash_images.each do |cashbox_image|
-                        ul
-                          li = link_to "#{l(cashbox_image.date_add, format: :date)}", cash_image_path(cashbox_image)
-                - @cashbox_number += 1
-          #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
-            .col-sm-12.col-md-12
-              br
-              - @weigher_number = 1
-              - @shop.shop_weighers.each do |weigher|
-                details
-                  summary.h5.text-success
-                    b "Весовое оборудование №#{@weigher_number}"
-                  = render 'weighers_list', weigher_shop: weigher
-                - @weigher_number += 1
-          #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
-            .col-sm-12.col-md-12
-              br
-              - @shop.computers.each do |computer|
-                = render 'computers_list', computer: computer
-          #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
-            .col-sm-12.col-md-12
-              br
-              ul
-                h5
-                  b Коммуникационное оборудование:
-                  - @shop.shop_communications.each do |communication|
-                    = render 'communications_list', communication: communication
+                      summary.h5.text-success
+                        b Кассовый блок №#{@cashbox_number}
+                      = render 'cashboxes_list', cashbox: cashbox
+                    - if cashbox.cash_images.any?
+                      ul
+                        details
+                          summary.h6.text-dark
+                            b Фото кассового блоко от:
+                          - cashbox.cash_images.each do |cashbox_image|
+                            ul
+                              li = link_to "#{l(cashbox_image.date_add, format: :date)}", cash_image_path(cashbox_image)
+                    - @cashbox_number += 1
+              #nav-weighers.tab-pane.fade aria-labelledby="nav-weighers-tab" role="tabpanel"
+                .col-sm-12.col-md-12
+                  br
+                  - @weigher_number = 1
+                  - @shop.shop_weighers.each do |weigher|
+                    details
+                      summary.h5.text-success
+                        b "Весовое оборудование №#{@weigher_number}"
+                      = render 'weighers_list', weigher_shop: weigher
+                    - @weigher_number += 1
+              #nav-comp.tab-pane.fade aria-labelledby="nav-comp-tab" role="tabpanel"
+                .col-sm-12.col-md-12
+                  br
+                  - @shop.computers.each do |computer|
+                    = render 'computers_list', computer: computer
+              #nav-comunication.tab-pane.fade aria-labelledby="nav-comunication-tab" role="tabpanel"
+                .col-sm-12.col-md-12
+                  br
+                  ul
+                    h5
+                      b Коммуникационное оборудование:
+                      - @shop.shop_communications.each do |communication|
+                        = render 'communications_list', communication: communication

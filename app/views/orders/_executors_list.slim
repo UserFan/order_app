@@ -18,17 +18,19 @@ li
 .pt-3
   b.text-muted Сведения об исполнении:&nbsp;
   - if performer.execution.present?
+    = content_tag(:small, "(#{l(performer.execution.created_at, format: :datetime)})",
+      class: 'text-muted')
     small
-    - if policy(performer.execution).coordination?
-      |  &#9745;
-      = link_to 'Согласовать', coordination_execution_path(performer.execution)
-    - if policy(performer.execution).rework?
-      |  &#10000;
-      = link_to 'На доработку', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true)
-    - if policy(performer.execution).destroy?
-      |  &#10008;
-      = link_to 'Удалить', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
-          "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
+      - if policy(performer.execution).coordination?
+        |  &#9745;
+        = link_to 'Согласовать', coordination_execution_path(performer.execution)
+      - if policy(performer.execution).rework?
+        |  &#10000;
+        = link_to 'На доработку', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true)
+      - if policy(performer.execution).destroy?
+        |  &#10008;
+        = link_to 'Удалить', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
+            "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
     hr.m-0
     .text-secondary
       ul.small

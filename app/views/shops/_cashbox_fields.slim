@@ -56,8 +56,10 @@
               = f.input :comment
           .row
             .col-sm-12.col-md-12
-              .links
-                = link_to_add_association "Добавить фото", f, :cash_images, class: 'btn btn-outline-info btn-sm',
-                  data: { association_insertion_method: :append }
-              = f.simple_fields_for :cash_images, html: {:multipart => true} do |image|
-                = render 'cash_image_fields', f: image
+              #cash_image
+                .links
+                  = link_to_add_association "Добавить фото", f, :cash_images, class: 'btn btn-outline-info btn-sm',
+                    data: { association_insertion_method: :append }
+                #cash_image_list
+                  = f.simple_fields_for :cash_images, html: {:multipart => true} do |image|
+                    = render 'cash_image_fields', f: image

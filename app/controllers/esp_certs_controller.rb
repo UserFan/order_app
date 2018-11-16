@@ -5,16 +5,23 @@ class EspCertsController < ApplicationController
 
   def index
     authorize EspCert
-    date_start = DateTime.now.beginning_of_month
-    date_end = DateTime.now.end_of_month
+    date_start = Date.today.beginning_of_month
+    date_end = Date.today.end_of_month
+    # date_set_start = Date.today.beginning_of_month
+    # date_next_start = date_set_start.next_month
     @q = EspCert.includes(:shop, :esp).ransack(params[:q])
     @q.sorts = ['date_end_esp desc', 'created_at desc'] if @q.sorts.empty?
     @esp_certs = @q.result(disinct: true)
     @esp_certs_count = EspCert.includes(:shop, :esp).size
-    @count_esp_set_month = EspCert.includes(:shop, :esp).where('date_end_esp >= ?' 'and date_end_esp <= ?', date_start, date_end).size
-    @count_rsa_set_month = EspCert.includes(:shop, :esp).where('date_end_rsa >= ?' 'and date_end_rsa <= ?', date_start, date_end).size
-    @count_esp_next_month = EspCert.includes(:shop, :esp).where('date_end_esp >= ?' 'and date_end_esp <= ?', date_start+1.month, date_end+1.month).size
-    @count_rsa_next_month = EspCert.includes(:shop, :esp).where('date_end_rsa >= ?' 'and date_end_rsa <= ?', date_start+1.month, date_end+1.month).size
+    @count_esp_set_month = EspCert.includes(:shop, :esp).where(date_end_esp: date_start..date_end).size
+    @count_esp_next_month = EspCert.includes(:shop, :esp).where(date_end_esp:  date_start.next_month..date_end.next_month).size
+    @count_rsa_set_month = EspCert.includes(:shop, :esp).where(date_end_rsa: date_start..date_end).size
+    @count_rsa_next_month = EspCert.includes(:shop, :esp).where(date_end_rsa: date_start.next_month..date_end.next_month).size
+    #binding.pry
+    # @count_esp_set_month = EspCert.includes(:shop, :esp).where('date_end_esp >= ?' 'and date_end_esp <= ?', date_start, date_end).size
+    # @count_rsa_set_month = EspCert.includes(:shop, :esp).where('date_end_rsa >= ?' 'and date_end_rsa <= ?', date_start, date_end).size
+    # @count_esp_next_month = EspCert.includes(:shop, :esp).where('date_end_esp >= ?' 'and date_end_esp <= ?', date_start+1.month, date_end+1.month).size
+    # @count_rsa_next_month = EspCert.includes(:shop, :esp).where('date_end_rsa >= ?' 'and date_end_rsa <= ?', date_start+1.month, date_end+1.month).size
   end
 
   def new

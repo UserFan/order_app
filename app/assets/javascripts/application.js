@@ -54,24 +54,33 @@ var Mask_Input = function() {
   $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false });
   $('.ip_weigher').inputmask({'alias': 'ip', 'greedy' : false });
   $('.macaddress').inputmask({mask: "**:**:**:**:**:**"});
-  $('.team').inputmask({mask: "999-999-999"});
+  $('.team').inputmask({'alias': 'integer', 'integerDigits' : 12,
+                                            'autoGroup' : true,
+                                            'groupSeparator' : " ",
+                                            'groupSize' : 3 });
+
   $('.date_mask').inputmask({mask: "99.99.9999"});
   $('#computers').on('cocoon:after-insert', function() { $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false }) });
   $('#cashboxes').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
   $('#weigher').on('cocoon:after-insert', function() { $('.ip_weigher').inputmask({'alias': 'ip', 'greedy' : false }) });
-  $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask("999-999-999") });
-  $('input[type=file]').bootstrapFileInput();
-//  $('.file-inputs').bootstrapFileInput();
+  $('#computers').on('cocoon:after-insert', function() { $('.team').inputmask({'alias': 'integer', 'integerDigits' : 12,
+                                                                                                   'autoGroup' : true,
+                                                                                                   'groupSeparator' : " ",
+                                                                                                   'groupSize' : 3}) });
+                                                          $('input[type=file]').bootstrapFileInput();
+  $('form').on('cocoon:after-insert', function(e, add_image) { add_image.find('input[type=file]').bootstrapFileInput() });
 };
 
 document.addEventListener('turbolinks:load', function () {
   date_pic();
-});
-
-document.addEventListener('turbolinks:load', function () {
   ClickRowTable();
-});
-
-document.addEventListener('turbolinks:load', function () {
   Mask_Input();
 });
+
+// document.addEventListener('turbolinks:load', function () {
+//   ClickRowTable();
+// });
+//
+// document.addEventListener('turbolinks:load', function () {
+//   Mask_Input();
+// });

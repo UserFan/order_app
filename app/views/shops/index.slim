@@ -16,16 +16,22 @@
           = active_link_to shops_path(q: {closed_not_null: '1'}), active: :exact, class: "nav-item nav-link main-nav-link" do
             | Закрытые
             span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@shops_closed}
-
   .row.justify-content-end
     .col-sm-12.col-md-4.pt-3
       = search_form_for (@q) do |f|
-        .input-group.pb-4
+        .input-group
           = f.input_field :name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
           span.input-group-append
             button.btn.btn-outline-secondary type="submit"
               span.fa.fa-search
 
+  .row.pt-3
+    .col-sm-12.col-md-12.d-flex.justify-content-center
+      .btn-group.btn-group-sm.flex-wrap role="group"
+        = active_link_to 'Все', shops_path, class: "btn btn-outline-info mt-1", active: :exact
+        - @shops_filter_char.each do |char|
+          = active_link_to "#{char}", shops_path(q: {name_start: char}), class: "btn btn-outline-info mt-1", active: :exact
+  hr
   .row.pb-4
     .col-sm-12.col-md-12.d-flex
       = link_to "Новый",  new_shop_path, class: "btn btn-outline-success" if policy(@shops).new?

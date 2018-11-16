@@ -10,6 +10,10 @@ class ShopPolicy < ApplicationPolicy
     true
   end
 
+  def show_unit?
+    !record.structural_unit
+  end
+
   def import_version?
     user.super_admin?
   end

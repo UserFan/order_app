@@ -21,6 +21,11 @@
   text-align: center;
 }
 
+ul.shops_filter_char li {
+  display: inline; /* Отображать как строчный элемент */
+  margin-right: 5px; /* Отступ слева */  
+}
+
 //Стиль для надписи "Объект закрыт" (начало)
 #blink {
   -webkit-animation: blink 3s linear infinite;
@@ -37,6 +42,22 @@
   90% { text-shadow: 0 30px 40px transparent; }
 }
 //Стиль для надписи "Объект закрыт" (конец)
+
+@media(max-width: 480px) {
+
+  #shop-table tbody {
+    font-size: 0.79rem;
+  }
+
+  .nav-tabs a span {
+    font-size: 0.79rem;
+    white-space: pre;
+  }
+}
+
+
+
+
 
 // .carousel-item img {
 //   width: 1000px;

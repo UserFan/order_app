@@ -7,7 +7,7 @@ class Shop < ApplicationRecord
   after_validation :reverse_geocode
 
   belongs_to :user, counter_cache: true
-  belongs_to :type
+  belongs_to :type, optional: true
 
   has_many :esps, inverse_of: :shop, dependent: :restrict_with_error
   has_many :service_equipments, inverse_of: :shop, dependent: :restrict_with_error
@@ -27,6 +27,6 @@ class Shop < ApplicationRecord
 
   default_scope { order(name: :asc) }
 
-  validates :name, :address, :type_id, :user_id, presence: true
-
+  validates :name, :address, :user_id, presence: true
+  validates :type_id, present: true unless :structural_unit
 end
