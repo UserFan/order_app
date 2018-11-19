@@ -1,6 +1,10 @@
 .container
   .row.p-1.justify-content-end
     .col-sm-12.col-md-12
-      h2.font-weight-bold.text-right Новый объект/подразделение
+      h2.font-weight-bold.text-right
+        - if @set_unit
+         | Новое структурное подразделение
+        - else
+         | Новый торговый объект
       hr
   = render 'shops/form'

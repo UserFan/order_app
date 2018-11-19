@@ -1,6 +1,10 @@
 .container
   .row.p-1.justify-content-end
     .col-sm-12.col-md-12
-      h2.font-weight-bold.text-right Корректировка объекта/подразделения: "#{@shop.name}"
+      h2.font-weight-bold.text-right
+        - if @set_unit
+         | Корректировка подразделения: "#{@shop.name}"
+        - else
+         | Корректировка торгового объекта: "#{@shop.name}"
       hr
   = render 'shops/form'

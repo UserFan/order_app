@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :orders, through: :performers, foreign_key: :user_id
   has_many :executions, through: :performers, foreign_key: :user_id
   has_many :reworks, dependent: :restrict_with_error
+  has_many :employees, dependent: :restrict_with_error
 
   has_one :profile, dependent: :destroy
 
@@ -15,7 +16,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
-  after_create :create_profile
+  #after_create :create_profi
 
   delegate_missing_to :profile
 

@@ -1,7 +1,8 @@
 class ShopsController < ApplicationController
-  before_action :authenticate_user!, :set_structural_unit
+  before_action :authenticate_user!
   before_action :set_shop, except: [:index, :new, :create, :version_update, :export_shops]
   before_action :set_index, only: [:index]
+  before_action :set_structural_unit, except: [:destroy]
   after_action :verify_authorized
 
   def index
@@ -17,6 +18,7 @@ class ShopsController < ApplicationController
     @shop = Shop.new(structural_unit: @set_unit, type_id: @set_unit ? 4 : 1)
     @users_shop = User.includes(:profile).where(admin: false).order('profiles.surname ASC')
     @set_unit ? @type_select = Type.where(id: 4) : @type_select = Type.where.not(id: 4)
+
   end
 
   def edit
@@ -74,7 +76,7 @@ class ShopsController < ApplicationController
 
   def version_update
     shops = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                  :shop_weighers, :shop_communications).where('closed is null')
+                  :shop_weighers, :shop_communications).where('closed is null and structural_unit = false')
     shops.find_each do |shop|
       authorize (shop)
       shop.computers.present? ? ip_address = shop.computers.first.ip_address : ip_address = '0.0.0.0'
@@ -107,7 +109,7 @@ class ShopsController < ApplicationController
   def export_shops
     authorize Shop
     @shops_xls = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                       :shop_weighers, :shop_communications)
+                       :shop_weighers, :shop_communications).where.not(:structural_unit)
     @cashboxes_count = @shops_xls.maximum('cashboxes_count')
     @computers_count = @shops_xls.maximum('computers_count')
     @communication_count = @shops_xls.maximum('shop_communications_count')
@@ -124,8 +126,7 @@ class ShopsController < ApplicationController
   private
 
   def set_structural_unit
-    @set_unit = params[:set_unit].to_bool
-    binding.pry
+    @set_unit = @@set_unit
   end
 
   def set_shop
@@ -135,19 +136,17 @@ class ShopsController < ApplicationController
 
   def set_index
     shop_char = []
+    @@set_unit = params[:set_unit].to_bool
     if current_user.super_admin? || current_user.moderator? || current_user.guide?
       set_shops = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                         :shop_weighers, :shop_communications)
+                         :shop_weighers, :shop_communications).
+                         where(structural_unit: @@set_unit)
     else
       set_shops = current_user.shops.includes(:user, :orders, :type, :cashboxes, :computers,
-                                       :shop_weighers, :shop_communications)
+                                       :shop_weighers, :shop_communications).
+                                       where(structural_unit: @@set_unit)
     end
 
-    if @set_unit
-      set_shops = set_shops.where(structural_unit: true)
-    else
-      set_shops = set_shops.where(structural_unit: false)
-    end
     @q = set_shops.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
     @shops = @q.result(disinct: true)

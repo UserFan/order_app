@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
   def new
     authorize Order
     @order = OrderForm.new(Order.new(date_open: Date.today, user_id: current_user.id))
-    binding.pry
+    #binding.pry
     @users_order =  User.includes(:profile).where(admin: false).order('profiles.surname ASC')
   end
 

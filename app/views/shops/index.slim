@@ -1,7 +1,11 @@
 .container
   .row
     .col-sm-12.col-md-12.d-flex
-      h1.font-weight-bold.ml-auto Перечень объектов/подразделений
+      h1.font-weight-bold.ml-auto
+        - if @set_unit
+         | Перечень структурных подразделений
+        - else
+         | Перечень торговых объектов
   hr
   .col-sm-12.col-md-12.d-flex
     .row

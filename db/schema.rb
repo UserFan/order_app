@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20180907120102) do
-=======
-ActiveRecord::Schema.define(version: 20181116071407) do
->>>>>>> 3e91d7d1fd3ff014590d89b04589aaf740dd5534
+ActiveRecord::Schema.define(version: 20181119185324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +149,21 @@ ActiveRecord::Schema.define(version: 20181116071407) do
 
   create_table "displays", force: :cascade do |t|
     t.string "name"
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.bigint "shop_id", default: 0, null: false
+    t.bigint "user_id", default: 0, null: false
+    t.datetime "work_start_date", null: false
+    t.datetime "work_end_date"
+    t.boolean "manager", default: false, null: false
+    t.boolean "temporary", default: false, null: false
+    t.bigint "position_id", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["position_id"], name: "index_employees_on_position_id"
+    t.index ["shop_id"], name: "index_employees_on_shop_id"
+    t.index ["user_id"], name: "index_employees_on_user_id"
   end
 
   create_table "equipment_types", force: :cascade do |t|
