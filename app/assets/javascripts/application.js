@@ -43,7 +43,8 @@ var date_pic = function () {
   name_selector = '#date_start_esp, #date_end_esp, #date_start_rsa,' +
                   '#date_end_rsa, #date_open_order, #date_execution,' +
                   '#date_close_order, #date_close_shop, #date_image_cash,' +
-                  '#date_service, #date_performance, #date_cost'
+                  '#date_service, #date_performance, #date_cost,' +
+                  '#date_recruitment, #date_quit, #work_start_date, #work_end_date'
   $(name_selector).datetimepicker();
   $('form').on('cocoon:after-insert', function() { $(name_selector).datetimepicker() });
 };

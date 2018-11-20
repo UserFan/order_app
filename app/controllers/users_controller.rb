@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def new
     authorize User
+    #@user = User.new(password: 'UserBlock', password_confirmation: 'UserBlock', locked_at: DateTime.now)
     @user = User.new
     @user.build_profile
   end
@@ -25,8 +26,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(permitted_attributes(User))    # Not the final implementation!
-    authorize @user
+    generated_password = Devise.friendly_token.first(15)
+    @user = User.new(permitted_attributes(User).merge(password: generated_password, locked_at: DateTime.now))    # Not the final implementation!
+      authorize @user
     if @user.save
       redirect_to users_path
     else
@@ -55,6 +57,17 @@ class UsersController < ApplicationController
     else
       flash[:error] = "Пользователь не может буть удален. Есть связанные данные"
     end
+  end
+
+  def user_system
+    # authorize User
+    # @q = User.includes(:profile).where(admin: false, 'locked_at is null').search(params[:q])
+    # @q.sorts = ['surname asc', 'created_at desc'] if @q.sorts.empty?
+    # @users = @q.result(disinct: true)
+  end
+
+  def user_system_edit
+
   end
 
 

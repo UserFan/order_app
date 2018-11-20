@@ -2,7 +2,7 @@
   .col-sm-12.col-md-12
     .row
       .col-sm-12.col-md-12.p-4
-        = link_to "Закрыть", shops_path, class: "btn btn-info float-right"
+        = link_to "Закрыть", shops_path(set_unit: @set_unit), class: "btn btn-info float-right"
   .row
     .col-sm-12.col-md-3
       = image_tag(@shop.photo.url, class: "img-responsive img-thumbnail") if @shop.photo?
@@ -18,7 +18,7 @@
             span данные
           - if policy(@shop).show_specialty?
             a#nav-cash-tab.nav-item.nav-link aria-controls="nav-cash" aria-selected="false" data-toggle="tab" href="#nav-cash" role="tab"
-              span Кассовое 
+              span Кассовое
               span оборудование
             a#nav-weighers-tab.nav-item.nav-link aria-controls="nav-weighers" aria-selected="false" data-toggle="tab" href="#nav-weighers" role="tab"
               span

@@ -38,6 +38,4 @@ class User < ApplicationRecord
     role_id == Role::USER_ID
   end
 
-
-
 end

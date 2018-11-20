@@ -23,7 +23,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def edit?
-    # binding.pry
     user.super_admin? ||
     user.moderator? && !record.super_admin? || user == record
   end
@@ -36,18 +35,27 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user == record && (user.super_admin? || user.moderator?)
-      [:email, :password, :password_confirmation, :remember_me,
-       profile_attributes: [:id, :user_id, :position_id, :surname, :first_name,
-                            :middle_name, :avatar, :mobile]]
-    elsif user == record && !user.super_admin? && !user.moderator?
-      [:password, :password_confirmation, :remember_me,
-       profile_attributes: [:id, :user_id, :position_id, :surname, :first_name,
-                            :middle_name, :avatar, :mobile]]
-    elsif user.super_admin? || user.moderator?
-      [:role_id, :email, :password, :password_confirmation, :remember_me,
-       profile_attributes: [:id, :user_id, :position_id, :surname, :first_name,
-                            :middle_name, :avatar, :mobile]]
-    end
+    #binding.pry
+    #if (user.super_admin? || user.moderator?)
+      [:email, 
+        profile_attributes: [:id, :user_id, :surname, :first_name,
+                             :middle_name, :avatar, :mobile, :date_recruitment,
+                             :date_quit]]
+    # elsif user == record && !user.super_admin? && !user.moderator? && record.locked_at.nil?
+    #   [:password, :password_confirmation, profile_attributes: []]
+
+    # if user == record && (user.super_admin? || user.moderator?)
+    #   [:email, :password, :password_confirmation, :remember_me,
+    #    profile_attributes: [:id, :user_id, :position_id, :surname, :first_name,
+    #                         :middle_name, :avatar, :mobile]]
+    # elsif user == record && !user.super_admin? && !user.moderator?
+    #   [:password, :password_confirmation, :remember_me,
+    #    profile_attributes: [:id, :user_id, :position_id, :surname, :first_name,
+    #                         :middle_name, :avatar, :mobile]]
+    # elsif user.super_admin? || user.moderator?
+    #   [:role_id, :email, :password, :password_confirmation, :remember_me,
+    #    profile_attributes: [:id, :user_id, :position_id, :surname, :first_name,
+    #                         :middle_name, :avatar, :mobile]]
+    #end
   end
 end

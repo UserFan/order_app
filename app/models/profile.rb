@@ -2,9 +2,8 @@ class Profile < ApplicationRecord
   mount_uploader :avatar, ImageUploader
 
   belongs_to :user
-  belongs_to :position
 
-  validates :surname, :first_name, :position, :mobile, presence: true
+  validates :surname, :first_name, :mobile, :date_recruitment, presence: true
 
   before_save :name_capitalize
 

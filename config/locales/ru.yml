@@ -384,6 +384,15 @@ ru:
       rework:
           user_id: "Пользователь"
           comment: "Написать комментарии"
+      profile:
+          surname: 'Фамилия'
+          first_name: 'Имя'
+          middle_name: 'Отчество'
+          full_name: 'Фамилия Имя Отчество'
+          mobile: 'Мобильный телефон'
+          date_recruitment: 'Дата приема'
+          date_quit: 'Дата увольнения'
+
 
   activemodel:
     errors:

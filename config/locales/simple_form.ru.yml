@@ -20,16 +20,18 @@ ru:
           surname: 'Фамилия'
           first_name: 'Имя'
           middle_name: 'Отчество'
-          position: 'Должность'
           full_name: 'Фамилия Имя Отчество'
           mobile: 'Мобильный телефон'
+          date_recruitment: 'Дата приема'
+          date_quit: 'Дата увольнения'
         edit:
           surname: 'Фамилия'
           first_name: 'Имя'
           middle_name: 'Отчество'
-          position: 'Должность'
           full_name: 'Фамилия Имя Отчество'
           mobile: 'Мобильный телефон'
+          date_recruitment: 'Дата приема'
+          date_quit: 'Дата увольнения'
       type: &name
         new:
           name: "Наименование"

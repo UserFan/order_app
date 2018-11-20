@@ -19,8 +19,10 @@ nav.navbar.sticky-top.navbar-expand-sm.bg-dark.navbar-dark
               - if current_user.moderator? || current_user.super_admin?
                 = link_to 'ЭЦП', esp_certs_path, class: "dropdown-item"
                 .dropdown-divider
-                = link_to 'Пользователи системы', users_path, class: "dropdown-item"
+
+                //= link_to 'Пользователи системы', users_path, class: "dropdown-item"
                 = link_to 'Справочники', catalog_path, class: "dropdown-item"
+                = link_to 'Сотрудники', users_path, class: "dropdown-item"
               .dropdown-divider
               = link_to 'Выход', destroy_user_session_path, method: 'delete', class: "dropdown-item"
               /! Dropdown
