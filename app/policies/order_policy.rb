@@ -5,6 +5,7 @@ class OrderPolicy < ApplicationPolicy
     return false if record.date_closed.present?
     return false if !record.performers.empty?
     user.moderator? || user.super_admin?
+    record.can_destroy?
   end
 
   def index?

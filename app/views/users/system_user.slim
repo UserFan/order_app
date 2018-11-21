@@ -4,7 +4,7 @@
   hr
   .row
     .col-sm-6.col-md-3
-      = link_to "Новый пользователь системы",  new_user_password_path, class: "btn btn-outline-success btn-sm"
+      = link_to "Новый пользователь системы",  access_list_path, class: "btn btn-outline-success btn-sm"
   .row.justify-content-end
     .col-sm-12.col-md-5
       = search_form_for @q do |f|
@@ -32,14 +32,13 @@
             tr
               td
                 = user.full_name
-                - if policy(user).edit?
-                  = link_to edit_user_path(user), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                      "title" => "Корректировка данных сотрудника" do
-                    span.fa.fa-pencil-alt.edit-button
-                - if policy(user).destroy?
-                  = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить сотрудника?" },
-                   "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить сотрудника" do
-                    span.far.fa-trash-alt.edit-button
+                / - if policy(user).edit?
+                = link_to "Закрыть доступ пользователю", close_access_user_path(user)
+                /     span.fa.fa-pencil-alt.edit-button
+                / - if policy(user).destroy?
+                /   = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить сотрудника?" },
+                /    "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить сотрудника" do
+                /     span.far.fa-trash-alt.edit-button
               /td.d-none.d-sm-table-cell = user.position.name
               td.d-none.d-sm-table-cell = user.email
               td.d-none.d-sm-table-cell = user.role.name
@@ -47,4 +46,3 @@
               td.d-none.d-sm-table-cell = user.current_sign_in_ip
               td.d-none.d-sm-table-cell = user.last_sign_in_at
               td.d-none.d-sm-table-cell = user.sign_in_count
-      

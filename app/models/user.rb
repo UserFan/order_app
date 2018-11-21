@@ -46,6 +46,6 @@ class User < ApplicationRecord
     self.locked_at = DateTime.now
   end
 
-  
+
 
 end

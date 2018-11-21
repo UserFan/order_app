@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   #devise_for :users, controllers: { registrations: 'registrations' }
   devise_for :users, controllers: { registrations: 'users' }
-  resources :users
+  resources :users do
+    get 'close_access', on: :member
+  end
 
   match '/catalog', to: 'pages#catalog', via: 'get'
 
@@ -57,6 +59,9 @@ Rails.application.routes.draw do
   get :export_shops, action: :export_shops, controller: 'shops'
   get :export_cert_xls, action: :export_xls, controller: 'esp_certs'
   get :system_user, action: :system_user, controller: 'users'
+  get :access_list, action: :access_list, controller: 'users'
+  get 'user_open_access/:id', to: 'users#edit_open_user_access', as: :edit_open_access
+  patch 'user_open_access/:id', to: 'users#open_user_access', as: :open_access
   resources :version_update_logs, only: [:index]
 
 

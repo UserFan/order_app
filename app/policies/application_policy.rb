@@ -33,6 +33,7 @@ class ApplicationPolicy
 
   def destroy?
     user.moderator? || user.super_admin?
+    record.can_destroy?
   end
 
   def scope

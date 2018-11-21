@@ -1,5 +1,5 @@
 = simple_form_for(@user) do |f|
-  = f.error_notification
+  = render 'shared/error_messages', object: f.object
   = f.simple_fields_for :profile do |profile|
     = render 'profile_fields', m: profile, f: f
   - if current_user.moderator? || current_user.super_admin?

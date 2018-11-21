@@ -88,7 +88,7 @@
                     = link_to edit_order_path(order), "data-toggle" => "tooltip", "data-placement" => "bottom",
                       "title" => "Корректировка данных" do
                        span.fa.fa-pencil-alt.edit-button
-                  - if policy(order).destroy? && order.can_destroy?
+                  - if policy(order).destroy? 
                     = link_to order, method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
                       "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
                          span.far.fa-trash-alt.edit-button

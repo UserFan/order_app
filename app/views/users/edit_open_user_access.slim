@@ -1,0 +1,29 @@
+.container
+  .row.justify-content-center.pt-5
+    .col-sm-12.col-md-8
+      .card.shadow.p-3.mb-5.bg-white.rounded
+        .card-header.bg-transparent.p-1
+          h5.text-info Открыть доступ для сотрудника
+        .card-body.pb-0
+          = simple_form_for(@user_open_access, url: open_access_path) do |f|
+            = render 'shared/error_messages', object: f.object
+            .row
+              .col-sm-12.col-md-7
+                = f.input :email, required: true, disabled: current_user == @user
+                .row
+                  .col-sm-12.col-md-8
+                      = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: true
+                .row
+                  .col-sm-12.col-md-8
+                    = f.input :password_confirmation, required: true
+              .col-sm-12.col-md-5.main-check
+                = f.association :role, collection: Role.where.not(id: 4).order(name: :asc), as: :radio_buttons
+            / .row
+            /   .col-sm-12.col-md-6
+            /     = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: true
+            / .row
+            /   .col-sm-12.col-md-6
+            /     = f.input :password_confirmation, required: true
+            .form-group.float-right.mb-0.mt-3
+              = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1"
+              = link_to "Отмена", system_user_path, class: "btn btn-outline-secondary m-1"
