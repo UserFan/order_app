@@ -30,8 +30,9 @@
         .row
           .col-sm-12.col-md-6
             = m.input :date_recruitment, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", required: true, id: 'date_recruitment', input_html: { class: 'date_mask'}
-          .col-sm-12.col-md-6
-            = m.input :date_quit, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_quit', input_html: { class: 'date_mask'}
+          - unless @user.new_record?
+            .col-sm-12.col-md-6
+              = m.input :date_quit, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_quit', input_html: { class: 'date_mask'}
 
         / - if @user.locked_at.nil? && (current_user == @user || current_user.moderator? || current_user.super_admin?)
         /   .row

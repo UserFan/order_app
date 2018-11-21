@@ -1,0 +1,50 @@
+.container
+  h2.text-right
+    b Перечень пользователей системы
+  hr
+  .row
+    .col-sm-6.col-md-3
+      = link_to "Новый пользователь системы",  new_user_password_path, class: "btn btn-outline-success btn-sm"
+  .row.justify-content-end
+    .col-sm-12.col-md-5
+      = search_form_for @q do |f|
+        .input-group.my-4
+          = f.input_field :profile_full_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+          span.input-group-append
+            button.btn.btn-outline-secondary type="submit"
+              span.fa.fa-search
+  .row
+    .col-sm-12.col-md-12
+      table.table.shadow.p-3.mb-5.bg-white.rounded
+        thead.thead-light.text-dark
+          tr.text-dark
+            th =sort_link(@q, :full_name, 'Сотрудник', default_order: :asc)
+            / th.d-none.d-sm-table-cell =sort_link(@q, :position_name, 'Должность', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :email, 'Логин', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :role_id, 'Роль в системе', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :current_sign_in_at, 'Вошел в систему', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :current_sign_in_ip, 'с IP адреса', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :last_sign_in_at, 'Послед. раз был в системе', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :sign_in_count, 'Вошел в систему (кол-во)', default_order: :asc)
+
+        tbody
+          - @system_user.each do |user|
+            tr
+              td
+                = user.full_name
+                - if policy(user).edit?
+                  = link_to edit_user_path(user), "data-toggle" => "tooltip", "data-placement" => "bottom",
+                      "title" => "Корректировка данных сотрудника" do
+                    span.fa.fa-pencil-alt.edit-button
+                - if policy(user).destroy?
+                  = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить сотрудника?" },
+                   "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить сотрудника" do
+                    span.far.fa-trash-alt.edit-button
+              /td.d-none.d-sm-table-cell = user.position.name
+              td.d-none.d-sm-table-cell = user.email
+              td.d-none.d-sm-table-cell = user.role.name
+              td.d-none.d-sm-table-cell = user.current_sign_in_at
+              td.d-none.d-sm-table-cell = user.current_sign_in_ip
+              td.d-none.d-sm-table-cell = user.last_sign_in_at
+              td.d-none.d-sm-table-cell = user.sign_in_count
+      

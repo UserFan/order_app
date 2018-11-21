@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, except: [ :index, :new, :create ]
+  before_action :set_user, except: [ :index, :new, :create, :system_user ]
   before_action :authenticate_user!
   after_action :verify_authorized
 
@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
   def create
     generated_password = Devise.friendly_token.first(15)
-    @user = User.new(permitted_attributes(User).merge(password: generated_password, locked_at: DateTime.now))    # Not the final implementation!
+    @user = User.new(permitted_attributes(User).merge(password: generated_password))    # Not the final implementation!
       authorize @user
     if @user.save
       redirect_to users_path
@@ -59,11 +59,11 @@ class UsersController < ApplicationController
     end
   end
 
-  def user_system
-    # authorize User
-    # @q = User.includes(:profile).where(admin: false, 'locked_at is null').search(params[:q])
-    # @q.sorts = ['surname asc', 'created_at desc'] if @q.sorts.empty?
-    # @users = @q.result(disinct: true)
+  def system_user
+    authorize User
+    @q = User.includes(:profile).where('locked_at is null and admin = false').search(params[:q])
+    @q.sorts = ['surname asc', 'created_at desc'] if @q.sorts.empty?
+    @system_user = @q.result(disinct: true)
   end
 
   def user_system_edit

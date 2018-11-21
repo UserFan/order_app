@@ -27,6 +27,10 @@ class UserPolicy < ApplicationPolicy
     user.moderator? && !record.super_admin? || user == record
   end
 
+  def system_user?
+    user.super_admin? || user.moderator?
+  end
+
   def destroy?
     return false if user == record
     return false if user.moderator? && record.super_admin?
@@ -37,7 +41,7 @@ class UserPolicy < ApplicationPolicy
   def permitted_attributes
     #binding.pry
     #if (user.super_admin? || user.moderator?)
-      [:email, 
+      [:email,
         profile_attributes: [:id, :user_id, :surname, :first_name,
                              :middle_name, :avatar, :mobile, :date_recruitment,
                              :date_quit]]

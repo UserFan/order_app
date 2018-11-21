@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :profile, reject_if: :all_blank, allow_destroy: true
 
+  before_create :locked_user
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 
@@ -37,5 +39,13 @@ class User < ApplicationRecord
   def user?
     role_id == Role::USER_ID
   end
+
+  private
+
+  def locked_user
+    self.locked_at = DateTime.now
+  end
+
+  
 
 end
