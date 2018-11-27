@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-
+  
   #devise_for :users, controllers: { registrations: 'registrations' }
   devise_for :users, controllers: { registrations: 'users' }
   resources :users do
@@ -10,8 +10,7 @@ Rails.application.routes.draw do
   match '/catalog', to: 'pages#catalog', via: 'get'
 
   #resources :positions
-  scope 'catalog' do
-    resources :positions
+  scope ":unit" do
     resources :shops do
       get 'import_version', on: :member
       resources :service_equipments
@@ -20,6 +19,10 @@ Rails.application.routes.draw do
         resources :esp_certs, only: [:new, :create, :edit, :update, :destroy]
       end
     end
+  end
+  scope 'catalog' do
+    resources :positions
+
     resources :types
     resources :categories
     resources :statuses

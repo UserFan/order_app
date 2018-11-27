@@ -1,4 +1,9 @@
 ru:
+  unit:
+    structural:
+      delete_unit: "Структурное подразделение удачно удален."
+    shop:
+      delete_unit: "Торговый объект удачно удален."
   report_shop:
     name: 'Объект'
     address: 'Адрес объекта'

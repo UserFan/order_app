@@ -1,7 +1,9 @@
 class Shop < ApplicationRecord
   mount_uploader :photo, ImageUploader
 
-  scope :structural, -> { where(structural_unit: true) }
+  scope :structural_unit, -> { where(structural_unit: true) }
+  scope :shop_unit, -> { where(structural_unit: false) }
+
 
   geocoded_by :address
   reverse_geocoded_by :latitude, :longitude

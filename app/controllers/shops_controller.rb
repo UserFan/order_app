@@ -1,12 +1,11 @@
 class ShopsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_shop, except: [:index, :new, :create, :version_update, :export_shops]
-  before_action :set_index, only: [:index]
-  before_action :set_structural_unit, except: [:destroy]
   after_action :verify_authorized
+  before_action :authenticate_user!, :set_structural_unit
+  before_action :set_shop, except: [:index, :new, :create, :version_update, :export_shops]
+  #before_action :set_index, only: [:index]
 
   def index
-    authorize Shop
+    authorize @@set_units
   end
 
   def show
@@ -14,23 +13,19 @@ class ShopsController < ApplicationController
   end
 
   def new
-    authorize Shop
-    @shop = Shop.new(structural_unit: @set_unit, type_id: @set_unit ? 4 : 1)
-    @users_shop = User.includes(:profile).where(admin: false).order('profiles.surname ASC')
-    @set_unit ? @type_select = Type.where(id: 4) : @type_select = Type.where.not(id: 4)
-
+    authorize @@set_units
+    @shop = @@set_units.new(type_id: @set_unit ? 4 : 1)
   end
 
   def edit
     authorize @shop
-    @set_unit ? @type_select = Type.where(id: 4) : @type_select = Type.where.not(id: 4)
   end
 
   def create
-    authorize Shop
-    @shop = Shop.create(permitted_attributes(Shop).merge!(structural_unit: @set_unit))    # Not the final implementation!
+    authorize @@set_units
+    @shop = @@set_units.create(permitted_attributes(@@set_units))    # Not the final implementation!
     if @shop.save
-      redirect_to shops_path(set_unit: @set_unit)
+      redirect_to shops_path
     else
       render 'new'
     end
@@ -40,7 +35,7 @@ class ShopsController < ApplicationController
   def update
     authorize @shop
     if @shop.update_attributes(permitted_attributes(@shop))
-      redirect_to shops_path(set_unit: @set_unit)
+      redirect_to shops_path
     else
       render 'edit'
     end
@@ -48,10 +43,12 @@ class ShopsController < ApplicationController
 
   def destroy
     authorize @shop
+
+    #@set_unit ? set_text = "Структурное подразделение" : "Торговый объект"
     if @shop.destroy
-      flash[:success] = "Торговый объект удачно удален."
+      flash[:success] = t('unit.delete_unit') # "#{set_text} удачно удален."
     else
-      flash[:error] = "Торговый объект не может буть удален. Есть связанные данные"
+      flash[:error] = t('unit.delete_unit') # "#{set_text} не может буть удален. Есть связанные данные"
     end
     redirect_to shops_path
   end
@@ -109,7 +106,7 @@ class ShopsController < ApplicationController
   def export_shops
     authorize Shop
     @shops_xls = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                       :shop_weighers, :shop_communications).where.not(:structural_unit)
+                       :shop_weighers, :shop_communications).where(structural_unit: @set_unit)
     @cashboxes_count = @shops_xls.maximum('cashboxes_count')
     @computers_count = @shops_xls.maximum('computers_count')
     @communication_count = @shops_xls.maximum('shop_communications_count')
@@ -126,35 +123,43 @@ class ShopsController < ApplicationController
   private
 
   def set_structural_unit
-    @set_unit = @@set_unit
+    if current_user.super_admin? || current_user.moderator? || current_user.guide?
+      set_shops = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
+                         :shop_weighers, :shop_communications)
+    else
+      set_shops = current_user.shops.includes(:user, :orders, :type, :cashboxes, :computers,
+                                       :shop_weighers, :shop_communications)
+    end
+
+    @users_shop = User.includes(:profile).where(admin: false).order('profiles.surname ASC')
+
+    if params[:unit] == 'structural'
+      @@set_units = set_shops.structural_unit
+      @type_select = Type.where(id: 4)
+      @structural = true
+    elsif params[:unit] == 'shop'
+      @@set_units =  set_shops.shop_unit
+      @type_select = Type.where.not(id: 4)
+      @structural = false
+    else
+      flash[:error] = "Страница не найдена!"
+      redirect_to root_path
+    end
+
+    shop_char = []
+    @q = @@set_units.ransack(params[:q])
+    @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
+    @shops = @q.result(disinct: true)
+    @shops_closed = @@set_units.ransack(closed_not_null: '1').result.count
+    @shops_open = @@set_units.ransack(closed_not_null: '0').result.count
+    @shops_count = @@set_units.size
+    @shops.each { |shop| shop_char << shop.name[0].upcase }
+    @shops_filter_char = shop_char.uniq.sort
+
   end
 
   def set_shop
-    @shop = Shop.find(params[:id])
-    @users_shop = User.includes(:profile).where(admin: false).order('profiles.surname ASC')
-  end
-
-  def set_index
-    shop_char = []
-    @@set_unit = params[:set_unit].to_bool
-    if current_user.super_admin? || current_user.moderator? || current_user.guide?
-      set_shops = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                         :shop_weighers, :shop_communications).
-                         where(structural_unit: @@set_unit)
-    else
-      set_shops = current_user.shops.includes(:user, :orders, :type, :cashboxes, :computers,
-                                       :shop_weighers, :shop_communications).
-                                       where(structural_unit: @@set_unit)
-    end
-
-    @q = set_shops.ransack(params[:q])
-    @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
-    @shops = @q.result(disinct: true)
-    @shops_closed = set_shops.ransack(closed_not_null: '1').result.count
-    @shops_open = set_shops.ransack(closed_not_null: '0').result.count
-    @shops_count = set_shops.size
-    @shops.each { |shop| shop_char << shop.name[0].upcase }
-    @shops_filter_char = shop_char.uniq.sort
+    @shop = @@set_units.find(params[:id])
   end
 
   def remote_set_connection(ip_address)
