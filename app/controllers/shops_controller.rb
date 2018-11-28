@@ -43,14 +43,11 @@ class ShopsController < ApplicationController
 
   def destroy
     authorize @shop
-
-    #@set_unit ? set_text = "Структурное подразделение" : "Торговый объект"
     if @shop.destroy
-      flash[:success] = t('unit.delete_unit') # "#{set_text} удачно удален."
+      redirect_to shops_path, notice: t("#{params[:unit]}.shops.destroy.success")
     else
-      flash[:error] = t('unit.delete_unit') # "#{set_text} не может буть удален. Есть связанные данные"
+      redirect_to shops_path, notice: t("#{params[:unit]}.shops.destroy.error")
     end
-    redirect_to shops_path
   end
 
   def import_version
@@ -61,9 +58,9 @@ class ShopsController < ApplicationController
       cash_remote = CashCash.find_by(cash_ip: cashbox.ip_cash) if CashCash.exists?
       if (cash_remote.present? && cashbox.update!(fiscal_fwversion: cash_remote.fwversion,
                          cash_set_version: cash_remote.version))
-        flash[:error] = t("version_update_text.update_success")
+        flash[:success] = t("version_update_text.update_success")
       else
-        flash[:error] =  t("version_update_text.not_update")
+        flash[:alert] =  t("version_update_text.not_update")
       end
     rescue
       flash[:error] = t("version_update_text.not_connection")
