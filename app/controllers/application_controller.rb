@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   include Pundit
-  protect_from_forgery with: :exception
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  protect_from_forgery with: :exception, prepend: true
   before_action :set_user
 
   rescue_from Pundit::NotAuthorizedError, with: :permission_denied
@@ -26,8 +26,6 @@ class ApplicationController < ActionController::Base
   def default_url_options
     { unit: params[:unit] }
   end
-
-
 
   def set_user
     Current.user = current_user

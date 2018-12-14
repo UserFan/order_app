@@ -55,10 +55,10 @@
                     td.d-none.d-sm-table-cell = equipment.description
                     td.row-skip.edit-control
                       - if policy(equipment).edit?
-                        = link_to edit_shop_service_equipment_path(id: equipment), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                          "title" => "Корректировка данных" do
-                           span.fa.fa-pencil-alt.edit-button
+                        = link_to edit_shop_service_equipment_path(id: equipment), data: { toggle: 'tooltip', placement: 'bottom' },
+                           title: "Корректировка данных" do
+                             span.fa.fa-pencil-alt.edit-button
                       - if policy(equipment).destroy? && equipment.can_destroy?
-                        = link_to shop_service_equipment_path(id: equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
-                          "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                        = link_to shop_service_equipment_path(id: equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?",
+                          toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
                              span.far.fa-trash-alt.edit-button

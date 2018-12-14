@@ -39,7 +39,6 @@
                   th = sort_link(@q, :simphone_number, 'Номер телефона', default_order: :asc)
                   th.d-none.d-sm-table-cell = sort_link(@q, :provider_name, 'Провайдер', default_order: :asc)
                   th.d-none.d-sm-table-cell Установлен на объекте
-                  //th = sort_link(@q, :shop_name, 'Установлен на объекте', default_order: :asc)
                   th.text-center.edit-control
                     i.fa.fa-list
               tbody
@@ -53,11 +52,11 @@
                     td.d-none.d-sm-table-cell = sim_card.shops.first.name if sim_card.shops.any?
                     td.edit-control
                       - if policy(sim_card).edit?
-                        = link_to [:edit, sim_card], "data-toggle" => "tooltip", "data-placement" => "bottom",
-                            "title" => "Корректировка данных" do
-                          span.fa.fa-pencil-alt.edit-button
+                        = link_to edit_sim_card_path(sim_card), data: { toggle: 'tooltip', placement: 'bottom' },
+                           title: "Корректировка данных" do
+                            span.fa.fa-pencil-alt.edit-button
                       - if policy(sim_card).destroy? && sim_card.can_destroy?
-                        = link_to sim_card, method: :delete, data: { confirm: "Вы действительно хотите удалить текущию запись?" },
-                            "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить запись" do
+                        = link_to sim_card, method: :delete, data: { confirm: "Вы действительно хотите удалить текущию запись?",
+                           toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
                              span.far.fa-trash-alt.edit-button
 = render template: "layouts/application"

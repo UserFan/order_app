@@ -49,10 +49,10 @@
                     td.d-none.d-sm-table-cell = cost_equipment.description
                     td.row-skip.edit-control
                       - if policy(cost_equipment).edit?
-                        = link_to edit_shop_cost_equipment_path(id: cost_equipment), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                          "title" => "Корректировка данных" do
+                        = link_to edit_shop_cost_equipment_path(id: cost_equipment), data: { toggle: 'tooltip', placement: 'bottom' },
+                           title: "Корректировка данных" do
                            span.fa.fa-pencil-alt.edit-button
                       - if policy(cost_equipment).destroy? && cost_equipment.can_destroy?
-                        = link_to shop_cost_equipment_path(id: cost_equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?" },
-                          "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить заявку" do
+                        = link_to shop_cost_equipment_path(id: cost_equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить текущию заявку?",
+                           toggle: 'tooltip', placement: 'bottom' }, title: "Удалить заявку" do
                              span.far.fa-trash-alt.edit-button

@@ -32,11 +32,11 @@
                     td
                       = record.name
                       - if policy(record).edit?
-                        = link_to [:edit, record], "data-toggle" => "tooltip", "data-placement" => "bottom",
-                            "title" => "Корректировка данных" do
+                        = link_to [:edit, record], data: { toggle: 'tooltip', placement: 'bottom' },
+                           title: "Корректировка данных" do
                           span.fa.fa-pencil-alt.edit-button
                       - if policy(record).destroy? && record.can_destroy?
-                        = link_to record, method: :delete, data: { confirm: "Вы действительно хотите удалить текущию запись?" },
-                            "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить запись" do
+                        = link_to record, method: :delete, data: { confirm: "Вы действительно хотите удалить текущию запись?",
+                           toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
                              span.far.fa-trash-alt.edit-button
 = render template: "layouts/application"

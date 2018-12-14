@@ -28,14 +28,14 @@
               td
                 = user.full_name
                 - if policy(user).edit?
-                  = link_to edit_user_path(user), "data-toggle" => "tooltip", "data-placement" => "bottom",
-                      "title" => "Корректировка данных сотрудника" do
-                      span.fas.fa-user-edit.edit-button
-                      //span.fa.fa-pencil-alt.edit-button
+                  = link_to edit_user_path(user), data: { toggle: 'tooltip', placement: 'bottom' },
+                     title: "Корректировка данных сотрудника" do
+                       span.fas.fa-user-edit.edit-button
+                       //span.fa.fa-pencil-alt.edit-button
                 - if policy(user).destroy?
-                  = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить сотрудника?" },
-                   "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить сотрудника" do
-                    span.far.fa-trash-alt.edit-button
+                  = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить сотрудника?",
+                     toggle: 'tooltip', placement: 'bottom' }, title: "Удалить сотрудника" do
+                       span.far.fa-trash-alt.edit-button
               / td.d-none.d-sm-table-cell = user.position.name
               td.d-none.d-sm-table-cell = user.email
               td.d-none.d-sm-table-cell = user.mobile
