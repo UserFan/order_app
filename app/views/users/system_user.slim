@@ -18,10 +18,9 @@
       table.table.shadow.p-3.mb-5.bg-white.rounded
         thead.thead-light.text-dark
           tr.text-dark
-            th =sort_link(@q, :full_name, 'Сотрудник', default_order: :asc)
-
-            th.d-none.d-sm-table-cell =sort_link(@q, :email, 'Логин', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :role_id, 'Роль в системе', default_order: :asc)
+            th = sort_link(@q, :full_name, 'Сотрудник', default_order: :asc)
+            th.d-none.d-sm-table-cell = sort_link(@q, :email, 'Логин', default_order: :asc)
+            th.d-none.d-sm-table-cell = sort_link(@q, :role_id, 'Роль в системе', default_order: :asc)
         tbody
           - @system_user.each do |user|
             tr
@@ -31,13 +30,11 @@
                     placement: 'bottom' },  title: 'Закрыть доступ' do
                      span.fa.fa-user-lock.edit-button
                 br
-                = content_tag(:span, "Последный раз вошел в систему: (#{l(user.current_sign_in_at, format: :datetime)})", class: "small text-info")
+                = content_tag(:span, "Последный раз вошел в систему: (#{l(user.current_sign_in_at, format: :datetime) unless user.current_sign_in_at.nil?})", class: "small text-info")
                 br
                 = content_tag(:span, "с IP-адреса: #{user.current_sign_in_ip}", class: "small text-success")
                 br
                 = content_tag(:span, "Кол-во рег-ции в системе: #{user.sign_in_count}", class: "small text-secondary")
               td.d-none.d-sm-table-cell = user.email
               td.d-none.d-sm-table-cell = user.role.name
-              / td.edit-control
-              /   = link_to close_access_user_path(user) do
-              /     span.fa.fa-pencil-alt.edit-button
+        
