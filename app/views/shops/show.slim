@@ -54,16 +54,19 @@
                     td
                       b Адрес:
                     td = @shop.address
+
                   tr
                     td.font-weight-bold
                       | Руководитель
                       br
                       | (объекта/подраз-я):
-                    td = @shop.user.full_name
-                  tr
-                    td.i.fa.fa-phone.fa-flip-horizontal.fa-lg
-                    td = @shop.user.mobile
-
+                    td
+                      - @user_manager.each do |manager|
+                        = manager.full_name                                        
+                        br
+                        i.fa.fa-phone.fa-flip-horizontal.fa-lg
+                        = manager.mobile
+                        hr.mb-2.mt-2
                   - if @shop.closed.present?
                     tr
                       td

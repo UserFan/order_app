@@ -49,8 +49,6 @@
                   = f.association :type, collection: @type_select, as: :radio_buttons, required: true
                 .col-sm-12.col-md-12
                   = f.input :address, as: :text, required: true
-                .col-sm-12.col-md-8
-                  = f.association :user, collection: @users_shop, label_method: :full_name, value_method: :id, include_blank: false
                 .col-sm-12.col-md-4
                   = f.input :closed, as: :date_picker, placeholder: "дата закрытия объекта", id: 'date_close_shop', autocomplete: "off", input_html: { class: 'date_mask'}
         - if policy(@shop).show_specialty?

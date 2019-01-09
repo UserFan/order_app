@@ -22,7 +22,7 @@ class Shop < ApplicationRecord
   has_many :computers, inverse_of: :shop, dependent: :restrict_with_error
   has_many :shop_weighers, inverse_of: :shop, dependent: :restrict_with_error
   has_many :shop_communications, inverse_of: :shop, dependent: :restrict_with_error
-  has_many :item_communications, through: :shop_communications, foreign_key: :shop_id  
+  has_many :item_communications, through: :shop_communications, foreign_key: :shop_id
   has_many :employees, dependent: :restrict_with_error
   has_many :users, through: :employees, foreign_key: :shop_id
 
@@ -33,6 +33,10 @@ class Shop < ApplicationRecord
 
   default_scope { order(name: :asc) }
 
-  validates :name, :address, :user_id, presence: true
+  validates :name, :address, presence: true
   validates :type_id, present: true unless :structural_unit
+
+  def shop_manager
+    self.users.where('employees.manager=true and (work_start_date <= ? and (work_end_date is null or work_end_date >= ?))', DateTime.now, DateTime.now)    
+  end
 end

@@ -10,6 +10,7 @@ class ShopsController < ApplicationController
 
   def show
     authorize @shop
+    @user_manager = @shop.shop_manager
   end
 
   def new
@@ -121,10 +122,10 @@ class ShopsController < ApplicationController
 
   def set_structural_unit
     if current_user.super_admin? || current_user.moderator? || current_user.guide?
-      set_shops = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
+      set_shops = Shop.includes(:orders, :type, :cashboxes, :computers,
                          :shop_weighers, :shop_communications)
     else
-      set_shops = current_user.shops.includes(:user, :orders, :type, :cashboxes, :computers,
+      set_shops = current_user.shops.includes(:orders, :type, :cashboxes, :computers,
                                        :shop_weighers, :shop_communications)
     end
 
