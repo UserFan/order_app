@@ -28,7 +28,7 @@
               td
                 = user.full_name
                 - if policy(user).edit?
-                  = link_to edit_user_path(user), data: { toggle: 'tooltip', placement: 'bottom' },
+                  = link_to user_path(user), data: { toggle: 'tooltip', placement: 'bottom' },
                      title: "Корректировка данных сотрудника" do
                        span.fas.fa-user-edit.edit-button
                        //span.fa.fa-pencil-alt.edit-button

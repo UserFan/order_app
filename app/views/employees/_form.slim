@@ -1,0 +1,16 @@
+= simple_form_for [@user, @employee] do |f|
+  .col-sm-12.col-md-12
+    = f.association :shop, label_method: :name, value_method: :id, required: true
+  .col-sm-12.col-md-12
+    = f.association :position, label_method: :name, value_method: :id, required: true
+  .col-sm-12.col-md-12
+    = f.input :work_start_date, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'work_start_date', input_html: { class: 'date_mask' }
+  .col-sm-12.col-md-12
+    = f.input :work_end_date, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'work_end_date', input_html: { class: 'date_mask' }
+  .col-sm-12.col-md-12
+    = f.input :manager
+  .col-sm-12.col-md-12
+    = f.input :temporary
+  .form-group.float-right.mb-0.mt-2
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", user_path(@user), class: "btn btn-outline-success m-1 btn-sm"

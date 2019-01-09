@@ -10,7 +10,7 @@ class Shop < ApplicationRecord
   after_validation :geocode, :if => lambda{ |obj| obj.address_changed? }
   after_validation :reverse_geocode
 
-  belongs_to :user, counter_cache: true
+  #belongs_to :user, counter_cache: true
   belongs_to :type, optional: true
 
   has_many :esps, inverse_of: :shop, dependent: :restrict_with_error
@@ -22,8 +22,9 @@ class Shop < ApplicationRecord
   has_many :computers, inverse_of: :shop, dependent: :restrict_with_error
   has_many :shop_weighers, inverse_of: :shop, dependent: :restrict_with_error
   has_many :shop_communications, inverse_of: :shop, dependent: :restrict_with_error
-  has_many :item_communications, through: :shop_communications, foreign_key: :shop_id
+  has_many :item_communications, through: :shop_communications, foreign_key: :shop_id  
   has_many :employees, dependent: :restrict_with_error
+  has_many :users, through: :employees, foreign_key: :shop_id
 
   accepts_nested_attributes_for :cashboxes, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :computers, reject_if: :all_blank, allow_destroy: true

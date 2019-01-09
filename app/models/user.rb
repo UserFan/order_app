@@ -1,13 +1,13 @@
 class User < ApplicationRecord
   mount_uploader :avatar, ImageUploader
 
-  belongs_to :role
-  has_many :shops, dependent: :restrict_with_error
+  belongs_to :role  
   has_many :performers, dependent: :restrict_with_error
   has_many :orders, through: :performers, foreign_key: :user_id
   has_many :executions, through: :performers, foreign_key: :user_id
   has_many :reworks, dependent: :restrict_with_error
   has_many :employees, dependent: :restrict_with_error
+  has_many :shops, through: :employees, foreign_key: :user_id
 
   has_one :profile, dependent: :destroy
 

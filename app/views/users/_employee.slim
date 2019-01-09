@@ -1,0 +1,42 @@
+.container
+  .row.justify-content-center.pt-3
+    .col-sm-12.col-md-12
+      .card.shadow.p-3.mb-5.bg-white.rounded
+        .card-header.bg-transparent.p-1
+          h6.text-primary Принят на работу
+        .card-body.pb-0
+          .col-sm-12.col-md-12
+          .row.pb-3
+            = link_to "Добавить", new_user_employee_path(user_id: @user), class: "btn btn-outline-info btn-sm"
+          .row
+            table.table.shadow.p-3.mb-5.bg-white.rounded
+              thead.thead-light.text-dark
+                tr.text-dark
+                  th = t('employee.shop_id', scope: @t_base)
+                  th.d-none.d-sm-table-cell = t('employee.position_id', scope: @t_base)
+                  th.d-none.d-sm-table-cell = t('employee.work_start_date', scope: @t_base)
+                  th.d-none.d-sm-table-cell = t('employee.work_end_date', scope: @t_base)
+                  th.d-none.d-sm-table-cell = t('employee.manager', scope: @t_base)
+                  th.d-none.d-sm-table-cell = t('employee.temporary', scope: @t_base)
+                  th.text-center.edit-control
+                    i.fa.fa-list
+              tbody
+                - @user.employees.each do |employee|
+                  tr
+                    td = employee.shop.name
+                    td.d-none.d-sm-table-cell = employee.position.name
+                    td.d-none.d-sm-table-cell
+                      = l(employee.work_start_date, format: :date) if employee.work_start_date.present?
+                    td.d-none.d-sm-table-cell
+                      = l(employee.work_end_date, format: :date) if employee.work_end_date.present?
+                    td.d-none.d-sm-table-cell = employee.manager
+                    td.d-none.d-sm-table-cell = employee.temporary
+                    td.row-skip.edit-control
+                      - if policy(employee).edit?
+                        = link_to edit_user_employee_path(user_id: @user, id: employee), data: { toggle: 'tooltip', placement: 'bottom' },
+                           title: "Корректировка данных" do
+                             span.fa.fa-pencil-alt.edit-button
+                      - if policy(employee).destroy?
+                        = link_to user_employee_path(user_id: @user, id: employee), method: :delete, data: { confirm: "Вы действительно хотите удалить запись?",
+                            toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
+                             span.far.fa-trash-alt.edit-button

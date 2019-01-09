@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
   protect_from_forgery with: :exception, prepend: true
-  before_action :set_user
+  before_action :set_user, :set_translate_default_scope
 
   rescue_from Pundit::NotAuthorizedError, with: :permission_denied
 
@@ -29,5 +29,9 @@ class ApplicationController < ActionController::Base
 
   def set_user
     Current.user = current_user
+  end
+
+  def set_translate_default_scope
+    @t_base = [:activerecord, :attributes]
   end
 end

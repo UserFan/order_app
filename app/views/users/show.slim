@@ -1,0 +1,53 @@
+.container
+  .row.justify-content-center.pt-5
+    .col-sm-12.col-md-12
+      .card.shadow.p-3.mb-5.bg-white.rounded
+        .card-header.bg-transparent.p-1
+          h5.text-primary Сведения о сотрудника
+        .card-body.pb-0
+          .col-sm-12.col-md-12
+            .row
+              .col-sm-12.col-md-2
+                -  if @user.profile.avatar?
+                  = image_tag(@user.profile.avatar.url, class: "mg-responsive img-thumbnail img-profile")
+                - else
+                  = image_tag('no_photo.jpg', class: "mg-responsive img-thumbnail img-profile")
+              .col-sm-12.col-md-10
+                .col-sm-12.col-md-12
+                  .row
+                    .col-sm-12.col-md-6
+                      span.text-info.font-weight-bold
+                        = "#{t('profile.full_name', scope: @t_base)}: "
+                      span.text-secondary
+                        = @user.profile.full_name
+                  .row.pt-3
+                    .col-sm-12.col-md-6
+                      span.text-info.font-weight-bold
+                        =  "#{t('user.email', scope: @t_base)}: "
+                      span.text-secondary
+                        = @user.email
+                  .row.pt-3
+                    .col-sm-12.col-md-6
+                      span.text-info.font-weight-bold
+                        =  "#{t('profile.mobile', scope: @t_base)}: "
+                      span.text-secondary
+                        = @user.profile.mobile
+                  .row.pt-3
+                    .col-sm-12.col-md-4
+                      span.text-info.font-weight-bold
+                        =  "#{t('profile.date_recruitment', scope: @t_base)}: "
+                      span.text-secondary
+                        = l(@user.profile.date_recruitment, format: :date)
+                    - unless @user.profile.date_quit.nil?
+                      .col-sm-12.col-md-4
+                        span.text-danger.font-weight-bold
+                          =  "#{t('profile.date_quit', scope: @t_base)}: "
+                        span.text-secondary
+                          = l(@user.profile.date_quit, format: :date)
+                  - if policy(@user).edit?
+                    .row
+                      .col-sm-12.col-md-12
+                        hr
+                        = link_to "Изменить данные сотрудника",  edit_user_path(@user), class: "btn btn-outline-info btn-sm float-right"
+            .row
+              = render 'users/employee'

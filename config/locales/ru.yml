@@ -402,7 +402,19 @@ ru:
           mobile: 'Мобильный телефон'
           date_recruitment: 'Дата приема'
           date_quit: 'Дата увольнения'
-
+      user:
+          email: 'E-mail'
+      employee:
+          shop_id: 'Торг. объект/подразделение'
+          user_id: 'Сотрудник'
+          shop: 'Торг. объект/подразделение'
+          user: 'Сотрудник'
+          position_id: 'Должность'
+          position: 'Должность'
+          work_start_date: 'Начало'
+          work_end_date: 'Конец'
+          manager: 'Руководящая должность'
+          temporary: 'Временно'
 
   activemodel:
     errors:

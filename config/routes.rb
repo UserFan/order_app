@@ -4,7 +4,8 @@ Rails.application.routes.draw do
   #devise_for :users, controllers: { registrations: 'registrations' }
   devise_for :users, controllers: { registrations: 'users' }
   resources :users do
-    get 'close_access', on: :member
+    resources :employees
+    get 'close_access', on: :member    
   end
 
   match '/catalog', to: 'pages#catalog', via: 'get'

@@ -3,7 +3,7 @@
   = f.simple_fields_for :profile do |profile|
     = render 'profile_fields', m: profile, f: f
   - if current_user.moderator? || current_user.super_admin?
-    - back_path = users_path
+    - back_path = user_path
   - else
     - back_path = root_path
   .form-group.float-right.mb-0.mt-3
