@@ -10,7 +10,7 @@ class ShopsController < ApplicationController
 
   def show
     authorize @shop
-    @user_manager = @shop.shop_manager
+    @shop_manager = @shop.shop_manager
   end
 
   def new

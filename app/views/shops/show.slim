@@ -61,11 +61,15 @@
                       br
                       | (объекта/подраз-я):
                     td
-                      - @user_manager.each do |manager|
-                        = manager.full_name                                        
+                      - @shop_manager.each do |manager|
+                        = manager.user.full_name
+                        - unless manager.temporary?
+                          = " (other)"
+                        - else
+                          = " (temporary)"
                         br
                         i.fa.fa-phone.fa-flip-horizontal.fa-lg
-                        = manager.mobile
+                        = manager.user.mobile
                         hr.mb-2.mt-2
                   - if @shop.closed.present?
                     tr

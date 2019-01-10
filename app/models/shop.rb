@@ -37,6 +37,7 @@ class Shop < ApplicationRecord
   validates :type_id, present: true unless :structural_unit
 
   def shop_manager
-    self.users.where('employees.manager=true and (work_start_date <= ? and (work_end_date is null or work_end_date >= ?))', DateTime.now, DateTime.now)    
+    self.employees.where('manager=true and (work_start_date <= ? and (work_end_date is null or work_end_date >= ?))',
+                         DateTime.now, DateTime.now).order(:temporary)
   end
 end
