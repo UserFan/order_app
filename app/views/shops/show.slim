@@ -64,9 +64,9 @@
                       - @shop_manager.each do |manager|
                         = manager.user.full_name
                         - unless manager.temporary?
-                          = " (other)"
+                          = " (Основной)"
                         - else
-                          = " (temporary)"
+                          = " (Времмено с #{l(manager.work_start_date, format: :date)} по #{l(manager.work_end_date, format: :date)})"
                         br
                         i.fa.fa-phone.fa-flip-horizontal.fa-lg
                         = manager.user.mobile
