@@ -12,5 +12,5 @@
   .col-sm-12.col-md-12
     = f.input :temporary
   .form-group.float-right.mb-0.mt-2
-    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm", data: { disable_with: "Подождите..." }
     = link_to "Отмена", user_path(@user), class: "btn btn-outline-success m-1 btn-sm"

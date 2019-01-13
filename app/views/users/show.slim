@@ -2,8 +2,9 @@
   .row.justify-content-center.pt-5
     .col-sm-12.col-md-12
       .card.shadow.p-3.mb-5.bg-white.rounded
-        .card-header.bg-transparent.p-1
-          h5.text-primary Сведения о сотрудника
+        .card-header.bg-transparent.p-2
+          span.card-title.text-primary.h5.font-weight-bold Сведения о сотрудника
+          = link_to "<i class='fa fa-times'></i>".html_safe, users_path, class: 'btn btn-outline-danger btn-sm float-right'
         .card-body.pb-0
           .col-sm-12.col-md-12
             .row
@@ -37,13 +38,13 @@
                       span.text-info.font-weight-bold
                         =  "#{t('profile.date_recruitment', scope: @t_base)}: "
                       span.text-secondary
-                        = l(@user.profile.date_recruitment, format: :date)
+                        = l(@user.profile.date_recruitment, format: :date) unless @user.profile.date_recruitment.nil?
                     - unless @user.profile.date_quit.nil?
                       .col-sm-12.col-md-4
                         span.text-danger.font-weight-bold
                           =  "#{t('profile.date_quit', scope: @t_base)}: "
                         span.text-secondary
-                          = l(@user.profile.date_quit, format: :date)
+                          = l(@user.profile.date_quit, format: :date) unless @user.profile.date_recruitment.nil?
                   - if policy(@user).edit?
                     .row
                       .col-sm-12.col-md-12

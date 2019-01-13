@@ -55,7 +55,7 @@ class ExecutionsController < ApplicationController
                  order_execution: Status::OFF_CONTROL,
                  comment: 'Снято с контроля(без исполнения)!')
     if @execution.save
-      binding.pry
+      #binding.pry
       @performer.update!(date_close_performance: DateTime.now) unless @performer.date_close_performance.present?
       redirect_to order_path(@order)
     end
