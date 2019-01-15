@@ -1,5 +1,12 @@
 var MapYa = function () { ymaps.ready(init) };
 
+$(document).ready(function () {
+  $('.refresh_version_cash').on('ajax:success', function(event, data, status, xhr){
+    console.log data
+  });
+
+});
+
 function init() {
 
     var myMap = new ymaps.Map("map", {
@@ -37,4 +44,8 @@ function init() {
 
 document.addEventListener('turbolinks:load', function () {
   MapYa();
+});
+
+document.addEventListener('turbolinks:load', function () {
+  RefreshVer();
 });

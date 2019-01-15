@@ -40,8 +40,8 @@ ul
       | &nbsp;
       = link_to "Обновить данные о версиях",
         import_version_shop_path(cashbox_id: cashbox.id,
-          host_shop: @shop.computers.present? ? @shop.computers.first.ip_address : '0.0.0.0'),
-           class: "small"
+          host_shop: @shop.computers.present? ? @shop.computers.first.ip_address : '0.0.0.0'), remote: true,
+          data: { disable_with: '<i class="fas fa-spinner fa-spin"></i>'}, class: "small refresh_version_cash"
     li
       b Фискальный апарат:&nbsp;
       u #{cashbox.fiscal.name}

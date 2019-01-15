@@ -66,7 +66,11 @@ class ShopsController < ApplicationController
     rescue
       flash[:error] = t("version_update_text.not_connection")
     end
-    redirect_to shop_path(cashbox.shop)
+    respond_to do |format|
+      #format.json { render json: { cash_set_version: cashbox.cash_set_version, fiscal_fwversion: cashbox.fiscal_fwversion } }
+      format.json { render json: { cash_set_version: 1, fiscal_fwversion: 2 } }
+      #redirect_to shop_path(cashbox.shop)
+    end
   end
 
   def version_update
