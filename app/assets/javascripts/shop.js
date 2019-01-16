@@ -1,10 +1,10 @@
 var MapYa = function () { ymaps.ready(init) };
 
 $(document).ready(function () {
-  $('.refresh_version_cash').on('ajax:success', function(event, data, status, xhr){
-    console.log data
+  $('.refresh_version_cash').onclick( function (e) {
+    console.log('Hello Fanis!')
   });
-
+//https://www.youtube.com/watch?v=oxzDc-JvqKY
 });
 
 function init() {
@@ -46,6 +46,6 @@ document.addEventListener('turbolinks:load', function () {
   MapYa();
 });
 
-document.addEventListener('turbolinks:load', function () {
-  RefreshVer();
-});
+// document.addEventListener('turbolinks:load', function () {
+//   RefreshVer();
+// });
