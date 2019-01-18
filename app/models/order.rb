@@ -2,9 +2,9 @@ class Order < ApplicationRecord
   mount_uploaders :photos, ImageUploader
 
   before_create :number_create
-  after_create :create_order_control_user_send_mail
-  after_update :change_order_change_user_send_mail
-  after_destroy :destroy_order_user_send_mail
+  # after_create :create_order_control_user_send_mail
+  # after_update :change_order_change_user_send_mail
+  # after_destroy :destroy_order_user_send_mail
 
 
   belongs_to :category

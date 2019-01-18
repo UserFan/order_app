@@ -308,6 +308,7 @@ ru:
         bank_unit: "Банковский терминал (каcсовый оборудование):"
         terminal_sn: "Серийный (S/N) №:"
         cashbox_photos_id: "Фото кассового блока (каcсовый оборудование):"
+        orders_take: "Принимать заявки от объектов"
         comment: "Комментарий:"
 
       shop/cashboxes/cash_images:
@@ -323,6 +324,7 @@ ru:
         user: "Ответственный за объект"
         closed: "Объект закрыть"
         mobile: "Мобильный телефон"
+        orders_take: "Принимать заявки от объектов"
         email: "e-mail"
 
       shop/shop_communications:

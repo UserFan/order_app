@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190109094934) do
+ActiveRecord::Schema.define(version: 20190117095001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,11 +141,11 @@ ActiveRecord::Schema.define(version: 20190109094934) do
 
   create_table "cost_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_cost", null: false
     t.bigint "cost_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_cost", null: false
     t.index ["cost_type_id"], name: "index_cost_equipments_on_cost_type_id"
     t.index ["shop_id"], name: "index_cost_equipments_on_shop_id"
   end
@@ -347,6 +347,12 @@ ActiveRecord::Schema.define(version: 20190109094934) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scaleses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scaners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -355,11 +361,11 @@ ActiveRecord::Schema.define(version: 20190109094934) do
 
   create_table "service_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_service", null: false
     t.bigint "equipment_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_service", null: false
     t.index ["equipment_type_id"], name: "index_service_equipments_on_equipment_type_id"
     t.index ["shop_id"], name: "index_service_equipments_on_shop_id"
   end
@@ -404,6 +410,7 @@ ActiveRecord::Schema.define(version: 20190109094934) do
     t.integer "shop_weighers_count", default: 0
     t.integer "shop_communications_count", default: 0
     t.boolean "structural_unit", default: false
+    t.boolean "orders_take", default: false
     t.index ["type_id"], name: "index_shops_on_type_id"
   end
 

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: 'users' }
   resources :users do
     resources :employees
-    get 'close_access', on: :member    
+    get 'close_access', on: :member
   end
 
   match '/catalog', to: 'pages#catalog', via: 'get'
@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   #resources :positions
   scope ":unit" do
     resources :shops do
-      get 'import_version', on: :member
+      get 'import_version', on: :member #format: 'json'
       resources :service_equipments
       resources :cost_equipments
       resources :esps do

@@ -8,7 +8,7 @@ class Execution < ApplicationRecord
 
   validates :performer_id, :comment, :order_execution, presence: true
 
-  before_destroy :destroy_order_execution
+  # before_destroy :destroy_order_execution
 
   def execution_result
     Status.find(order_execution).name if order_execution.present?

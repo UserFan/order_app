@@ -18,12 +18,17 @@ class OrdersController < ApplicationController
   def new
     authorize Order
     @order = OrderForm.new(Order.new(date_open: Date.today, user_id: current_user.id))
-    #binding.pry
-    @users_order =  User.includes(:profile).where(admin: false).order('profiles.surname ASC')
+    @users_order =  Employee.includes(:user, :shop).joins(:user)
+    # @users_order =  User.includes(:profile, :shops).where(admin: false).
+    # joins(:employees).where(employees: { manager: true }, shops: { orders_take: false })
+    # .order('profiles.surname ASC')
+    binding.pry
+    #@users_order =  User.includes(:profile).where(admin: false).order('profiles.surname ASC')
   end
 
   def edit
     authorize @order
+    @users_order =  Employee.includes(:user, :shop).joins(:user)
   end
 
   def create

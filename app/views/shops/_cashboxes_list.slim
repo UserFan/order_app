@@ -38,14 +38,14 @@ ul
       b Версия ПО кассы:&nbsp;
       u #{cashbox.cash_set_version}
       | &nbsp;
-      = link_to "Обновить данные о версиях",
-        import_version_shop_path(cashbox_id: cashbox.id,
-          host_shop: @shop.computers.present? ? @shop.computers.first.ip_address : '0.0.0.0'), remote: true,
-          data: { disable_with: '<i class="fas fa-spinner fa-spin"></i>'}, class: "small refresh_version_cash"
       / = link_to "Обновить данные о версиях",
       /   import_version_shop_path(cashbox_id: cashbox.id,
       /     host_shop: @shop.computers.present? ? @shop.computers.first.ip_address : '0.0.0.0'), remote: true,
       /     data: { disable_with: '<i class="fas fa-spinner fa-spin"></i>'}, class: "small refresh_version_cash"
+      = link_to "Обновить данные о версиях",
+        import_version_shop_path(cashbox_id: cashbox.id,
+          host_shop: @shop.computers.present? ? @shop.computers.first.ip_address : '0.0.0.0'),
+          data: { disable_with: '<i class="fas fa-spinner fa-spin"></i>'}, class: "small"
     li
       b Фискальный апарат:&nbsp;
       u #{cashbox.fiscal.name}

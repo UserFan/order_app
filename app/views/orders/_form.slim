@@ -24,22 +24,22 @@
             = f.input :description, as: :text, disabled: (true if (@order.date_closed.present?))
         .row
           .col-sm-12.col-md-6
-            = f.input :user_id, collection: @users_order, required: true, label_method: :full_name, value_method: :id, disabled: (true if (@order.date_closed.present?))
+            = f.input :user_id, collection: @users_order, required: true, label_method: :user_shop, value_method: :user_id, disabled: (true if (@order.date_closed.present?))
           .col-sm-12.col-md-3
             = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@order.date_closed.present?))
           .col-sm-12.col-md-3
             = f.input :date_closed, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_close_order', input_html: { class: 'date_mask'} if current_user.super_admin?
-    .row
-      .col-sm-12.col-md-12
-        .card.shadow.p-3.mb-5.bg-white.rounded
-          .card-header.bg-transparent.p-1
-            span.card-title.text-info.h5.font-weight-bold Исполнители
-          .card-body.pb-0
-            .links
-              = link_to_add_association f, :performers, force_non_association_create: true, class: 'btn btn-success btn-sm',
-                data: { association_insertion_method: :append } if !(@order.date_closed.present?)
-              = f.simple_fields_for :performers do |performer|
-                = render 'performer_fields', f: performer,  render_options: {locals: { p: performer }}
+    / .row
+    /   .col-sm-12.col-md-12
+    /     .card.shadow.p-3.mb-5.bg-white.rounded
+    /       .card-header.bg-transparent.p-1
+    /         span.card-title.text-info.h5.font-weight-bold Исполнители
+    /       .card-body.pb-0
+    /         .links
+    /           = link_to_add_association f, :performers, force_non_association_create: true, class: 'btn btn-success btn-sm',
+    /             data: { association_insertion_method: :append } if !(@order.date_closed.present?)
+    /           = f.simple_fields_for :performers do |performer|
+    /             = render 'performer_fields', f: performer,  render_options: {locals: { p: performer }}
       //.col-xs-4.col-md-4
         //= f.hidden_field :status_id
         //= f.association :status, collection: Status.where(":name = ANY(role)", name: current_user.role).order(name: :asc), label_method: :name, value_method: :id, required: true, include_blank: true, disabled: (true if (@order.date_closed.present?))

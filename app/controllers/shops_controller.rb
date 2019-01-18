@@ -66,11 +66,12 @@ class ShopsController < ApplicationController
     rescue
       flash[:error] = t("version_update_text.not_connection")
     end
-    respond_to do |format|
-      #format.json { render json: { cash_set_version: cashbox.cash_set_version, fiscal_fwversion: cashbox.fiscal_fwversion } }
-      format.json { render json: { cash_set_version: 1, fiscal_fwversion: 2 } }
-      #redirect_to shop_path(cashbox.shop)
-    end
+    redirect_to shop_path(cashbox.shop)
+    # respond_to do |format|
+    #   #format.json { render json: { cash_set_version: cashbox.cash_set_version, fiscal_fwversion: cashbox.fiscal_fwversion } }
+    #   format.json { render json: { cash_set_version: cashbox.cash_set_version, fiscal_fwversion: cashbox.fiscal_fwversion } }
+    #
+    # end
   end
 
   def version_update
@@ -109,6 +110,7 @@ class ShopsController < ApplicationController
     authorize Shop
     @shops_xls = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
                        :shop_weighers, :shop_communications).where(structural_unit: @set_unit)
+
     @cashboxes_count = @shops_xls.maximum('cashboxes_count')
     @computers_count = @shops_xls.maximum('computers_count')
     @communication_count = @shops_xls.maximum('shop_communications_count')

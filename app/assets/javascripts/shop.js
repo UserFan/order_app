@@ -1,11 +1,14 @@
 var MapYa = function () { ymaps.ready(init) };
 
-$(document).ready(function () {
-  $('.refresh_version_cash').onclick( function (e) {
-    console.log('Hello Fanis!')
-  });
-//https://www.youtube.com/watch?v=oxzDc-JvqKY
-});
+// $(document).ready(function () {
+//   $('.refresh_version_cash').on('ajax:success', function (e, data, status, xhr) {
+//
+//     var data = e.detail[0]
+//   //var name = JSON.parse(xhr.responseText);
+//     console.log(data)
+//   });
+// //https://www.youtube.com/watch?v=oxzDc-JvqKY
+// });
 
 function init() {
 

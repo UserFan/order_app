@@ -5,9 +5,9 @@ class Performer < ApplicationRecord
   has_one :execution, dependent: :restrict_with_error
   has_many :reworks, through: :executions, foreign_key: :execution_id
 
-  before_destroy :destroy_performer_send_to_mail_user
-  after_create :create_performer_send_to_mail_user
-  after_update :change_performer_send_to_mail_user
+  # before_destroy :destroy_performer_send_to_mail_user
+  # after_create :create_performer_send_to_mail_user
+  # after_update :change_performer_send_to_mail_user
 
   default_scope { order(coexecutor: :asc) }
 

@@ -49,8 +49,11 @@
                   = f.association :type, collection: @type_select, as: :radio_buttons, required: true
                 .col-sm-12.col-md-12
                   = f.input :address, as: :text, required: true
-                .col-sm-12.col-md-4
-                  = f.input :closed, as: :date_picker, placeholder: "дата закрытия объекта", id: 'date_close_shop', autocomplete: "off", input_html: { class: 'date_mask'}
+                .col-sm-12.col-md-6.pt-4
+                  = f.input :orders_take
+                - unless f.object.new_record?
+                  .col-sm-12.col-md-4
+                    = f.input :closed, as: :date_picker, placeholder: "дата закрытия объекта", id: 'date_close_shop', autocomplete: "off", input_html: { class: 'date_mask'}
         - if policy(@shop).show_specialty?
           #nav-cash.tab-pane.fade aria-labelledby="nav-cash-tab" role="tabpanel"
             .row
