@@ -1,6 +1,5 @@
 class OrdersController < ApplicationController
   before_action :set_order, except: [ :index, :new, :create ]
-  before_action :set_collection_user, only: [ :new, :edit, :create ]
   before_action :set_edit_form, only: [ :edit, :update ]
   before_action :set_index, only: [:index ]
   before_action :set_closing, only: [:closing ]
@@ -18,9 +17,9 @@ class OrdersController < ApplicationController
 
   def new
     authorize Order
-    @order = Order.new(date_open: DateTime.now, user_id: current_user.id,
-                       date_execution: DateTime.now + 3.days,
-                       status_id: Status::NEW)
+    @order = OrderForm.new(Order.new(date_open: Date.today, user_id: current_user.id))
+    @users_order =  Employee.includes(:user, :shop).
+                    where(manager: true, shops: {orders_take: true}).joins(:user)
     # @users_order =  User.includes(:profile, :shops).where(admin: false).
     # joins(:employees).where(employees: { manager: true }, shops: { orders_take: false })
     # .order('profiles.surname ASC')
@@ -30,14 +29,14 @@ class OrdersController < ApplicationController
 
   def edit
     authorize @order
+    @users_order =  Employee.includes(:user, :shop).joins(:user)
   end
 
   def create
     authorize Order
-    @order = Order.new(permitted_attributes(Order).merge(date_open: DateTime.now,
-              user_id: current_user.id, date_execution: DateTime.now + 3.days,
-              status_id: Status::NEW))
-    if @order.save
+    @order = OrderForm.new(Order.new)
+    if @order.validate(params[:order])
+      @order.save
       redirect_to orders_path
     else
       render 'new'
@@ -45,8 +44,9 @@ class OrdersController < ApplicationController
   end
 
   def update
+
     authorize @order
-    if @order.update_attributes(permitted_attributes(@order))
+    if @order.validate(params[:order])
       @order.save
       redirect_to orders_path
     else
@@ -90,16 +90,10 @@ class OrdersController < ApplicationController
   end
 
   def set_edit_form
-    @order = Order.find(params[:id])
+    @order = OrderForm.new(Order.find(params[:id]))
     $send_change = 0
+    @users_order =  User.includes(:profile).where(admin: false).order('profiles.surname ASC')
   end
-
-  def set_collection_user
-    @users_order =  Employee.includes(:user, :shop).
-                    where(manager: true, shops: {orders_take: true})
-                    .joins(:user)
-  end
-
 
   def set_closing
     case (params[:close]).to_i

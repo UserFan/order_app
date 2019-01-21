@@ -32,11 +32,11 @@
                     td.d-none.d-sm-table-cell = employee.manager
                     td.d-none.d-sm-table-cell = employee.temporary
                     td.row-skip.edit-control
-                      - if policy(employee).edit?
+                      - if policy(employee).edit? && employee.can_destroy?
                         = link_to edit_user_employee_path(user_id: @user, id: employee), data: { toggle: 'tooltip', placement: 'bottom' },
                            title: "Корректировка данных" do
                              span.fa.fa-pencil-alt.edit-button
-                      - if policy(employee).destroy?
+                      - if policy(employee).destroy? && employee.can_destroy?
                         = link_to user_employee_path(user_id: @user, id: employee), method: :delete, data: { confirm: "Вы действительно хотите удалить запись?",
                             toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
                              span.far.fa-trash-alt.edit-button

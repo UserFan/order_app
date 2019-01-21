@@ -47,7 +47,7 @@
       .col-sm-12.col-md-5
         = search_form_for (@q) do |f|
           .input-group.pb-4
-            = f.input_field :short_descript_or_shop_name_or_category_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+            = f.input_field :description_or_shop_name_or_category_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
             span.input-group-append
               button.btn.btn-outline-secondary type="submit"
                 span.fa.fa-search
@@ -63,7 +63,7 @@
               th.d-none.d-sm-table-cell =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
               //th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
               th =sort_link(@q, :shop_name, 'Инициатор', default_order: :asc)
-              th.d-none.d-sm-table-cell =sort_link(@q, :short_descript, 'Краткое описание', default_order: :asc)
+              th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Описание', default_order: :asc)
               th.d-none.d-sm-table-cell =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
               //th =sort_link(@q, :date_closed, 'Заявка выполнена', default_order: :asc)
               th.text-center.edit-control
@@ -79,8 +79,8 @@
                 //td = order.category.name
                 td
                   = order.shop.name
-                  = content_tag(:span, "Описание: #{order.short_descript}", class: "small d-md-none d-block text-info")
-                td.d-none.d-sm-table-cell = order.short_descript
+                  = content_tag(:span, "Описание: #{order.description}", class: "small d-md-none d-block text-info")
+                td.d-none.d-sm-table-cell = order.description
                 td.d-none.d-sm-table-cell = order.status.name
                 //td = l(order.date_closed, format: :date) if order.date_closed
                 td.row-skip.edit-control

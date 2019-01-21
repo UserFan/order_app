@@ -10,13 +10,15 @@ class Order < ApplicationRecord
   belongs_to :category
   belongs_to :status
   belongs_to :shop, counter_cache: true
+  belongs_to :employee, foreign_key: :answerable_manager
 
   has_many :performers, dependent: :destroy #, autosave: true
   has_many :users, through: :performers, foreign_key: :user_id, counter_cache: true
+
   has_many :executions, through: :performers, foreign_key: :order_id
   has_many :reworks, through: :executions
 
-  validates :user_id, :date_open, :date_execution, :short_descript, presence: true
+  validates :user_id, :date_open, :answerable_manager, :date_execution, :description, presence: true
 
 
   def control_user

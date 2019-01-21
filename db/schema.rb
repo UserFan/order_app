@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190117095001) do
+ActiveRecord::Schema.define(version: 20190121090127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,7 +257,6 @@ ActiveRecord::Schema.define(version: 20190117095001) do
     t.integer "category_id", default: 0, null: false
     t.datetime "date_open", null: false
     t.integer "shop_id", default: 0, null: false
-    t.string "short_descript", default: "", null: false
     t.text "description"
     t.datetime "date_closed"
     t.integer "user_id", default: 0, null: false
@@ -267,6 +266,8 @@ ActiveRecord::Schema.define(version: 20190117095001) do
     t.jsonb "photos"
     t.datetime "date_execution"
     t.string "order_number", default: "", null: false
+    t.integer "answerable_manager", default: 0, null: false
+    t.index ["answerable_manager"], name: "index_orders_on_answerable_manager"
     t.index ["category_id"], name: "index_orders_on_category_id"
     t.index ["shop_id"], name: "index_orders_on_shop_id"
     t.index ["status_id"], name: "index_orders_on_status_id"

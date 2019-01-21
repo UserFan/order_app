@@ -1,6 +1,15 @@
 .container
-  .row.p-1.justify-content-end
-    .col-sm-12.col-md-12
-      h2.font-weight-bold.text-right Редактирование заявки/контрольной карточки №#{@order.order_number}
-      hr
-  = render 'orders/form'
+  .row.justify-content-center
+    .col-sm-12.col-md-8.pt-5
+      .card.shadow.p-3.bg-white.rounded
+        .card-header.bg-transparent.p-1
+          h5.text-info  Редактирование заявки №#{@order.order_number}
+        .card-body.pl-0.pr-0.pb-0.form-group
+          = render 'orders/form'
+
+
+  / .row.p-1.justify-content-end
+  /   .col-sm-12.col-md-12
+  /     h2.font-weight-bold.text-right Редактирование заявки/контрольной карточки №#{@order.order_number}
+  /     hr
+  / = render 'orders/form'
