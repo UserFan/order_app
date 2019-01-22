@@ -1,5 +1,5 @@
 class Performer < ApplicationRecord
-  belongs_to :order
+  belongs_to :order, inverse_of: :performers
   belongs_to :user, counter_cache: :orders_count
 
   has_one :execution, dependent: :restrict_with_error

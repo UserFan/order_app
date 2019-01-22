@@ -1,0 +1,30 @@
+.container.border.border-info.d-block.d-sm-none
+  .row
+    .col-6.bg-light.p-1.border-bottom.border-info.small
+      b Создан:&nbsp;
+      = l(@order.date_open, format: :date) if @order.date_open.present?
+    .col-6.bg-light.p-1.border-bottom.border-left.border-info.small
+      b Статус:&nbsp;
+      = @order.status.name
+    .col-12.col-md-5.bg-light.p-1.border-bottom.border-info.small
+      b Категория заявки:&nbsp;
+      = @order.category.name
+    .col-12.col-md-7.p-1.bg-white.border-bottom.border-info.small
+      b От объекта:&nbsp;
+      = @order.shop.name
+    .col-12.col-md-5.p-1.bg-white.border-bottom.border-info.small
+      b Создал:&nbsp;
+      = @order.owner_user.full_name
+    .col-12.bg-light.p-1.border-info.small
+      b Описание:&nbsp;
+      = @order.description
+    - if policy(@order).show_detail?
+      .col-12.bg-white.p-1.border-top.border-info.small
+        b На контроле:
+        br
+        = @order.employee.user_shop if @order.employee.present?
+      .col-12.bg-white.p-1.border-bottom.border-info.small
+        b Срок исполнения:&nbsp;
+        = l(@order.date_execution, format: :date) if @order.date_execution.present?
+      .small
+        = render "close_control"

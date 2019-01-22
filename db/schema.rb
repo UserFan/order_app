@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190121090127) do
+ActiveRecord::Schema.define(version: 20190122105224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,11 +141,11 @@ ActiveRecord::Schema.define(version: 20190121090127) do
 
   create_table "cost_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_cost", null: false
     t.bigint "cost_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_cost", null: false
     t.index ["cost_type_id"], name: "index_cost_equipments_on_cost_type_id"
     t.index ["shop_id"], name: "index_cost_equipments_on_shop_id"
   end
@@ -266,9 +266,9 @@ ActiveRecord::Schema.define(version: 20190121090127) do
     t.jsonb "photos"
     t.datetime "date_execution"
     t.string "order_number", default: "", null: false
-    t.integer "answerable_manager", default: 0, null: false
-    t.index ["answerable_manager"], name: "index_orders_on_answerable_manager"
+    t.bigint "employee_id"
     t.index ["category_id"], name: "index_orders_on_category_id"
+    t.index ["employee_id"], name: "index_orders_on_employee_id"
     t.index ["shop_id"], name: "index_orders_on_shop_id"
     t.index ["status_id"], name: "index_orders_on_status_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
@@ -348,6 +348,12 @@ ActiveRecord::Schema.define(version: 20190121090127) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scaleses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scaners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -356,11 +362,11 @@ ActiveRecord::Schema.define(version: 20190121090127) do
 
   create_table "service_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_service", null: false
     t.bigint "equipment_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_service", null: false
     t.index ["equipment_type_id"], name: "index_service_equipments_on_equipment_type_id"
     t.index ["shop_id"], name: "index_service_equipments_on_shop_id"
   end
@@ -495,4 +501,5 @@ ActiveRecord::Schema.define(version: 20190121090127) do
   end
 
   add_foreign_key "item_communications", "sim_cards"
+  add_foreign_key "orders", "employees"
 end

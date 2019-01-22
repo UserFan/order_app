@@ -53,6 +53,7 @@
                 span.fa.fa-search
     .row.pb-4
       .col-sm-12.col-md-3
+
         = link_to "Новая",  new_order_path, class: "btn btn-outline-success" if policy(@orders).new?
     .row
       .col-sm-12.col-md-12
@@ -79,8 +80,12 @@
                 //td = order.category.name
                 td
                   = order.shop.name
-                  = content_tag(:span, "Описание: #{order.description}", class: "small d-md-none d-block text-info")
-                td.d-none.d-sm-table-cell = order.description
+                  = content_tag(:span, "#{order.description}", class: "small d-md-none d-block text-info order-descript")
+                td.d-none.d-sm-table-cell
+
+                  span.d-inline-block.text-truncate.order-descript
+                    = order.description
+
                 td.d-none.d-sm-table-cell = order.status.name
                 //td = l(order.date_closed, format: :date) if order.date_closed
                 td.row-skip.edit-control

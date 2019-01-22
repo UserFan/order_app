@@ -12,22 +12,35 @@ class OrderPolicy < ApplicationPolicy
     true
   end
 
+  def new?
+    true
+  end
+
+
+  def create?
+    true
+  end
+
   def show?
     true
   end
 
   def for_closing?
-    user.moderator? || user.super_admin? || user.guide?
+    user.moderator? || user.super_admin? || user.guide? || record.employee.user == user
   end
 
   def closing?
-    user.moderator? || user.super_admin? || user.guide?
+    user.moderator? || user.super_admin? || user.guide? || record.employee.user == user
+  end
+
+  def show_detail?
+    user.moderator? || record.employee.user == user
   end
 
   def permitted_attributes
-    [:category_id, :date_open, :date_execution, :shop_id, :answerable_manager,
+    [:category_id, :date_open, :date_execution, :shop_id, :employee_id,
      :description, :date_closed, :user_id, :status_id, :order_number,
-     photos: []] if user.super_admin? || user.moderator?
+     photos: []]
   end
 
   # def permitted_attributes

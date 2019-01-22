@@ -5,7 +5,7 @@ class Employee < ApplicationRecord
   belongs_to :shop
   belongs_to :user
 
-  has_many :orders, foreign_key: :answerable_manager, dependent: :destroy #, autosave: true
+  has_many :orders, dependent: :destroy #, autosave: true
 
 
 
@@ -17,7 +17,7 @@ class Employee < ApplicationRecord
 
 
   def user_shop
-    "#{name}(#{user.full_name})"
+    "#{name} (#{user.full_name})"
   end
 
 
