@@ -25,6 +25,10 @@ class Order < ApplicationRecord
     User.find(user_id)
   end
 
+  def owner_user
+    User.find(user_id)
+  end
+
   def control_user_changed?
      user_id_changed? ? true : (return false)
   end

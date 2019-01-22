@@ -2,23 +2,27 @@
   = render 'shared/error_messages', object: f.object
   .col-sm-12.col-md-12
     .row
-      .col-sm-12.col-md-4
+      .col-sm-12.col-md-6
         = f.association :category, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
       / .col-sm-12.col-md-3
       /   = f.input :date_open, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_open_order', required: true, input_html: { class: 'date_mask'}, disabled: (true if (@order.date_closed.present?))
-      .col-sm-12.col-md-5
+      .col-sm-12.col-md-6
         = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
+    .row
+      .col-sm-12.col-md-8
+        //= f.input :answerable_manager, collection: User.all, required: true, label_method: :full_name, value_method: :user_id, disabled: (true if (@order.date_closed.present?))
+        = f.input :answerable_manager, collection: @users_order, label_method: :user_shop, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?))
+      - unless f.object.new_record?
+        .col-sm-12.col-md-4
+          = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@order.date_closed.present?))
     .row
       .col-sm-12.col-md-12
         = f.input :description, as: :text, disabled: (true if (@order.date_closed.present?))
     .row
-      .col-sm-12.col-md-6
-        //= f.input :answerable_manager, collection: User.all, required: true, label_method: :full_name, value_method: :user_id, disabled: (true if (@order.date_closed.present?))
-        = f.input :answerable_manager, collection: @users_order, label_method: :user_shop, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?))
       - unless f.object.new_record?
-        .col-sm-12.col-md-3
-          = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@order.date_closed.present?))
-        .col-sm-12.col-md-3
+        / .col-sm-12.col-md-6
+        /   = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@order.date_closed.present?))
+        .col-sm-12.col-md-4
           = f.input :date_closed, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_close_order', input_html: { class: 'date_mask'} if current_user.super_admin?
     .row
       .col-sm-12.col-md-3
@@ -26,12 +30,15 @@
           ul
             - @order.photos.each do |photo|
               li = image_tag(photo.thumb.url)
-        = f.file_field :photos, multiple: true, title: 'Выбирете фото...', class: "btn btn-outline-primary", data: { "filename-placement": "outside" }
+        = f.file_field :photos, multiple: true,
+            title: t('form_button_caption.check_image'),
+            class: "btn btn-outline-primary",
+            data: { "filename-placement": "outside" }
 
     .row.justify-content-end
-      .form-group
+      .form-group.p-0.m-0.pt-4
         = f.button :submit, t('form_button_caption.send'),
-                   class: "btn btn-primary pull-right main-group",
+                   class: "btn btn-primary pull-right",
                    data: {disable_with: t('form_button_caption.disabled_send')}
         = link_to t('form_button_caption.cancel'), orders_path,
-                  class: "btn btn-info pull-right main-group"
+                  class: "btn btn-info pull-right"

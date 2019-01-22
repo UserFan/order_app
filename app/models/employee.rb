@@ -17,7 +17,7 @@ class Employee < ApplicationRecord
 
 
   def user_shop
-    "#{user.full_name}(#{name})"
+    "#{name}(#{user.full_name})"
   end
 
 

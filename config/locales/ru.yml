@@ -16,6 +16,7 @@ ru:
     cancel: "Отмена"
     close:  "Закрыть"
     back:   "Назад"
+    check_image: "Выбирете фото..."
   report_shop:
     name: 'Объект'
     address: 'Адрес объекта'
