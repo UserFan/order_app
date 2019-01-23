@@ -38,34 +38,34 @@ class Order < ApplicationRecord
   end
 
   def performer_executor
-    self.performers.find_by(coexecutor: false)
+    #self.performers.find_by(coexecutor: false)
   end
 
   def number_create
-    Order.last.present? ? order_last_number = Order.last.id + 1 : order_last_number = 0
+    Order.last.present? ? order_last_number = Order.last.id + 1 : order_last_number = 1
     self.order_number = "#{(category.name[0..1]).upcase}-#{Date.today.year}-#{order_last_number}" unless order_number.present?
   end
 
   private
 
   def destroy_order_user_send_mail
-    OrderMailer.with(user: control_user, order: self,
-      send_type: 'delete_order').order_send_mail_to_user.deliver_now
+    # OrderMailer.with(user: control_user, order: self,
+    #   send_type: 'delete_order').order_send_mail_to_user.deliver_now
   end
 
   def create_order_control_user_send_mail
-    OrderMailer.with(user: control_user, order: self,
-      send_type: 'new_order_control').order_send_mail_to_user.deliver_later(wait: 10.seconds)
+    # OrderMailer.with(user: control_user, order: self,
+    #   send_type: 'new_order_control').order_send_mail_to_user.deliver_later(wait: 10.seconds)
   end
 
   def change_order_change_user_send_mail
     #binding.pry
-    if changed?
-       @@change_order_flag = true
-       OrderMailer.with(user: control_user, order: self, name_model: self,
-         user_type: 'control').send_mail_to_user_order_change.deliver_now
-    else
-       @@change_order_flag = false
-    end
+    # if changed?
+    #    @@change_order_flag = true
+    #    OrderMailer.with(user: control_user, order: self, name_model: self,
+    #      user_type: 'control').send_mail_to_user_order_change.deliver_now
+    # else
+    #    @@change_order_flag = false
+    # end
   end
 end

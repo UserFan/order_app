@@ -12,8 +12,9 @@ class OrdersController < ApplicationController
 
   def show
     authorize @order
-    @executor = @order.performers.where(coexecutor: false)
-    @coexecutor = @order.performers.where(coexecutor: true)
+    @performers = @order.performers
+    # @executor = @order.performers.where(coexecutor: false)
+    # @coexecutor = @order.performers.where(coexecutor: true)
   end
 
   def new
@@ -127,8 +128,8 @@ class OrdersController < ApplicationController
 
     else
       @set_orders =  Order.includes(:shop, :category, :status, :users, :executions,
-                      :reworks).left_outer_joins(:employee, :performers).
-                      where("orders.user_id = ? OR employees.user_id = ? OR performers.user_id = ?",
+                      :reworks).left_outer_joins(:employee, performers: :employee).
+                      where("orders.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
                         current_user, current_user, current_user)
       @orders_coordination = @set_orders.where("date_closed is null and
                 status_id = ?", Status::AGREE).distinct.size
@@ -142,9 +143,9 @@ class OrdersController < ApplicationController
     end
       @set_orders_overdue = @set_orders.where("(date_closed > date_execution) OR
                           (date_closed IS NULL AND date_execution < ?) OR
-                          (performers.date_close_performance is null AND
-                           performers.date_performance < ?) OR
-                          (performers.date_close_performance < date_execution)",
+                          (performers.deadline is null AND
+                           performers.deadline < ?) OR
+                          (performers.deadline < date_execution)",
                            Date.today, Date.today).left_outer_joins(:performers).distinct
       params[:overdue] ? @q = @set_orders_overdue.ransack : @q = @set_orders.ransack(params[:q])
       @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?

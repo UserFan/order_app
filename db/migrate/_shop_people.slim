@@ -1,6 +1,0 @@
-ul
-  li
-    = "#{shop_people.full_name}-#{shop_people.position.name}(Shop: #{shop_people.shop.name}) "
-    = link_to "New", new_shop_people_path, class: "btn btn-primary btn-sm"
-    = link_to "Edit", edit_shop_people_path(shop_people), class: "btn btn-primary btn-sm"
-    = link_to "Destroy", shop_path(shop_people), method: :delete, data: { confirm: "Вы действительно хотите удалить" }, class: "btn btn-primary btn-sm"

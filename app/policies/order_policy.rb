@@ -4,8 +4,12 @@ class OrderPolicy < ApplicationPolicy
   def destroy?
     return false if record.date_closed.present?
     return false if !record.performers.empty?
-    user.moderator? || user.super_admin?
-    record.can_destroy?
+    return true if (user.moderator? || user.super_admin?) && record.can_destroy?
+    false
+  end
+
+  def new_performers?
+    user.moderator? || user.super_admin? || user.guide? || record.employee.user == user
   end
 
   def index?
@@ -26,7 +30,7 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def for_closing?
-    user.moderator? || user.super_admin? || user.guide? || record.employee.user == user
+    user.moderator? || user.super_admin? || user.guide? #|| record.employee.user == user
   end
 
   def closing?
@@ -34,7 +38,7 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def show_detail?
-    user.moderator? || record.employee.user == user
+    user.moderator? || user.super_admin? || user.guide? || record.employee.user == user
   end
 
   def permitted_attributes

@@ -31,7 +31,6 @@
     .col-sm-12.col-md-8
       = render 'middle_show'
       = render 'small_show'
-    .row
     .col-sm-12.col-md-12.pt-2
       .card.shadow.p-3.mb-3.bg-white.rounded
         .card-header.bg-transparent.p-1
@@ -39,18 +38,20 @@
         .card-body.pb-0
           ul
             li
-              b.text-primary Ответственный исполнитель:
-              - @executor.each do |executor|
+              .font-weight-bold.text-primary
+              | Исполнители:&nbsp;
+              = link_to t('form_button_caption.add_record'), '#' if policy(@order).new_performers?
+              - @performers.each do |performer|
                 hr.m-1
                 ul
-                  = render 'executors_list', performer: executor
-              br
-            - if @coexecutor.present?
-              li
-                .font-italic.text-primary Соисполнители:
-                - @coexecutor.each do |coexecutor|
-                  hr.m-1
-                  ul
-                    = render 'executors_list', performer: coexecutor
+                  = render 'performers_list', performer: performer
+            /   br
+            / - if @coexecutor.present?
+            /   li
+            /     .font-italic.text-primary Соисполнители:
+            /     - @coexecutor.each do |coexecutor|
+            /       hr.m-1
+            /       ul
+            /         = render 'executors_list', performer: coexecutor
   .row.justify-content-end.p-0.m-0
     = link_to "Закрыть", orders_path, class: "btn btn-info mb-3"

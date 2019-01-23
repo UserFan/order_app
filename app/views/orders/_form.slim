@@ -4,8 +4,6 @@
     .row
       .col-sm-12.col-md-6
         = f.association :category, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
-      / .col-sm-12.col-md-3
-      /   = f.input :date_open, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_open_order', required: true, input_html: { class: 'date_mask'}, disabled: (true if (@order.date_closed.present?))
       .col-sm-12.col-md-6
         = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
     .row

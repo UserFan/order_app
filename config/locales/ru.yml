@@ -17,6 +17,7 @@ ru:
     close:  "Закрыть"
     back:   "Назад"
     check_image: "Выбирете фото..."
+    add_record: "Добавить"
   report_shop:
     name: 'Объект'
     address: 'Адрес объекта'
@@ -387,20 +388,26 @@ ru:
         date_open: "Дата:"
         date_execution: "Срок исполнения:"
         shop: "Инициатор:"
-        answerable_manager: "Кому:"
+        employee_id: "Кому:"
         description: "Описание:"
         date_closed: "Дата закрытия:"
         photo: "Фото:"
         user_id: "Создатель:"
         status: "Статус:"
 
-      order/performers:
-          user: "Исполнитель:"
-          date_performance: "Срок исполнения (Исполнителя):"
-          date_close_performance: "Снят с контроля:"
-          coexecutor: "Соисполнитель"
-          message: "Отправить сообщение"
-          comment: "Комментарий:"
+      performers:
+        employee_id: "Исполнитель:"
+        deadline: "Срок исполнения:"
+        answerable: "Ответственный испольнитель:"
+        message: "Отправлять сообщение"
+        comment: "Комментарий:"
+
+      # order/performers:
+      #     employee_id: "Исполнитель:"
+      #     deadline: "Срок исполнения:"
+      #     answerable: "Ответственный испольнитель:"
+      #     message: "Отправлять сообщение"
+      #     comment: "Комментарий:"
       rework:
           user_id: "Пользователь"
           comment: "Написать комментарии"

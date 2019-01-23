@@ -1,15 +1,16 @@
 .col-12.col-md-3.border-top.border-info.bg-light.p-1
   - if @order.date_closed.present?
     b Закрыта:
-  -else
+  - else
     b Закрыть (результат):
+
 .col-12.col-md-9.border-top.bg-light.p-1.border-info
   - if @order.date_closed.present?
     = l(@order.date_closed, format: :date)
   - else
-      = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing?
+      = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing? && @order.executions.present?
       | &nbsp;
-      = link_to 'Испол. част.', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing?
+      = link_to 'Испол. част.', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing? && @order.executions.present?
       | &nbsp;
       = link_to 'Не испол.', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-outline-danger btn-sm" if policy(@order).closing?
       | &nbsp;

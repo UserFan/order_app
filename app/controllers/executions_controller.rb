@@ -42,7 +42,7 @@ class ExecutionsController < ApplicationController
     @order = @execution.performer.order
     @order.update!(status_id: Status::AGREE)
     if @execution.update_attributes(completed: DateTime.now, order_execution: Status::AGREE)
-       @execution.performer.update!(date_close_performance: DateTime.now) unless @execution.performer.date_close_performance.present?
+       #@execution.performer.update!(date_close_performance: DateTime.now) unless @execution.performer.date_close_performance.present?
        redirect_to order_path(@order)
     end
   end
@@ -56,7 +56,7 @@ class ExecutionsController < ApplicationController
                  comment: 'Снято с контроля(без исполнения)!')
     if @execution.save
       #binding.pry
-      @performer.update!(date_close_performance: DateTime.now) unless @performer.date_close_performance.present?
+      #@performer.update!(date_close_performance: DateTime.now) unless @performer.date_close_performance.present?
       redirect_to order_path(@order)
     end
   end
