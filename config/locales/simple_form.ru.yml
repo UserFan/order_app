@@ -445,14 +445,14 @@ ru:
           date_performance: "Срок исполнения:"
           date_close_performance: "Снят с контроля:"
           coexecutor: "Соисполнитель"
-          message: "Отправить сообщение"
+          #message: "Отправить сообщение"
           comment: "Комментарий:"
         edit:
           user: "Исполнитель:"
           date_performance: "Срок исполнения:"
           date_close_performance: "Снят с контроля:"
           coexecutor: "Соисполнитель"
-          message: "Отправить сообщение"
+          #message: "Отправить сообщение"
           comment: "Комментарий:"
       performers:
         new:
@@ -460,14 +460,14 @@ ru:
           date_performance: "Срок исполнения:"
           date_close_performance: "Снят с контроля:"
           coexecutor: "Соисполнитель"
-          message: "Отправить сообщение"
+          #message: "Отправить сообщение"
           comment: "Комментарий:"
         edit:
           user: "Исполнитель:"
           date_performance: "Срок исполнения:"
           date_close_performance: "Снят с контроля:"
           coexecutor: "Соисполнитель"
-          message: "Отправить сообщение"
+          #message: "Отправить сообщение"
           comment: "Комментарий:"
       performer:
         new:
@@ -475,14 +475,14 @@ ru:
           date_performance: "Срок исполнения:"
           date_close_performance: "Снят с контроля:"
           coexecutor: "Соисполнитель"
-          message: "Отправить сообщение"
+          #message: "Отправить сообщение"
           comment: "Комментарий:"
         edit:
           user: "Исполнитель:"
           date_performance: "Срок исполнения:"
           date_close_performance: "Снят с контроля:"
           coexecutor: "Соисполнитель"
-          message: "Отправить сообщение"
+          #message: "Отправить сообщение"
           comment: "Комментарий:"
 
       esp:

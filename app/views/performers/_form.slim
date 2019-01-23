@@ -1,0 +1,18 @@
+= simple_form_for [@order, @performer] do |f|
+  .row
+    .col-12.col-md-4.pr-0
+      = f.input :deadline, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'performer_deadline', input_html: { class: 'date_mask' }
+    .col-12.col-md-8
+      = f.input :employee_id, collection: @users_performer, label_method: :full_name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?))
+  .row
+    .col-12.col-md-6
+      = f.input :hard_ratio_average, as: :radio_buttons,
+          collection: [['1', '1-я категория сложности'], ['2', '2-я категория сложности'],  ['3', '3-я категория сложности']], label_method: :second, value_method: :first
+    .col-12.col-md-6
+      = f.input :message, disabled: true
+  .row
+    .col-12.col-md-12
+      = f.input :comment
+  .form-group.float-right.mb-0.mt-2
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm", data: { disable_with: "Подождите..." }
+    = link_to "Отмена", order_path(@order), class: "btn btn-outline-success m-1 btn-sm"

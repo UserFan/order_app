@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190122175028) do
+ActiveRecord::Schema.define(version: 20190123085628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,11 +141,11 @@ ActiveRecord::Schema.define(version: 20190122175028) do
 
   create_table "cost_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_cost", null: false
     t.bigint "cost_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_cost", null: false
     t.index ["cost_type_id"], name: "index_cost_equipments_on_cost_type_id"
     t.index ["shop_id"], name: "index_cost_equipments_on_shop_id"
   end
@@ -282,13 +282,15 @@ ActiveRecord::Schema.define(version: 20190122175028) do
 
   create_table "performers", force: :cascade do |t|
     t.bigint "order_id", default: 0, null: false
-    t.bigint "employee_id", default: 0, null: false
-    t.boolean "answerable", default: false, null: false
-    t.datetime "deadline", null: false
     t.boolean "message", default: false
     t.string "comment"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false  
+    t.datetime "updated_at", null: false
+    t.bigint "employee_id", default: 0, null: false
+    t.boolean "answerable", default: false, null: false
+    t.datetime "deadline", null: false
+    t.integer "rating_average", default: 0, null: false
+    t.integer "hard_ratio_average", default: 1, null: false
     t.index ["employee_id"], name: "index_performers_on_employee_id"
     t.index ["order_id"], name: "index_performers_on_order_id"
   end
@@ -347,6 +349,12 @@ ActiveRecord::Schema.define(version: 20190122175028) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scaleses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scaners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -355,11 +363,11 @@ ActiveRecord::Schema.define(version: 20190122175028) do
 
   create_table "service_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_service", null: false
     t.bigint "equipment_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_service", null: false
     t.index ["equipment_type_id"], name: "index_service_equipments_on_equipment_type_id"
     t.index ["shop_id"], name: "index_service_equipments_on_shop_id"
   end

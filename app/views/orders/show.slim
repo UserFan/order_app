@@ -36,14 +36,14 @@
         .card-header.bg-transparent.p-1
           span.card-title.text-info.h5.font-weight-bold Информация об исполнении:
         .card-body.pb-0
-          ul
-            li
-              .font-weight-bold.text-primary
-              | Исполнители:&nbsp;
-              = link_to t('form_button_caption.add_record'), '#' if policy(@order).new_performers?
-              - @performers.each do |performer|
-                hr.m-1
-                ul
+          .font-weight-bold
+            | Исполнители:&nbsp;
+            - if policy(@order).new_performers?
+              = link_to new_order_performer_path(@order) do
+                span.fas.fa-user-plus
+            - @performers.each do |performer|
+              hr.m-1
+              ul
                   = render 'performers_list', performer: performer
             /   br
             / - if @coexecutor.present?

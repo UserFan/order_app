@@ -12,7 +12,7 @@ class Performer < ApplicationRecord
 
   # default_scope { order(coexecutor: :asc) }
 
-  validates :employee_id, :deadline, presence: true
+  validates :employee_id, :deadline, :hard_ratio_average, presence: true
 
   def execution_off_control?
     # if self.execution.present?

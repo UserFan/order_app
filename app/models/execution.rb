@@ -4,7 +4,7 @@ class Execution < ApplicationRecord
   belongs_to :performer
 
   has_many :reworks, dependent: :destroy
-
+  has_one :order, through: :performer, foreign_key: :order_id
 
   validates :performer_id, :comment, :order_execution, presence: true
 

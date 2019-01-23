@@ -67,7 +67,7 @@ class ExecutionsController < ApplicationController
     @order = @execution.performer.order
     if @execution.destroy
       @order.update!(status_id: Status::EXECUTION)
-      @execution.performer.update!(date_close_performance: nil)
+      #@execution.performer.update!(date_close_performance: nil)
       flash[:success] = "Запись удачно удален."
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"

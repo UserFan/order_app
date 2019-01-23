@@ -50,6 +50,7 @@ Rails.application.routes.draw do
 
   resources :orders do
     get 'closing', on: :member
+    resources :performers
   end
   resources :executions do
     get 'coordination', on: :member

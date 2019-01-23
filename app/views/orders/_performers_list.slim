@@ -1,10 +1,11 @@
 li
-  b.font-weight-bold.font-weight-light #{performer.employee.user.full_name}&nbsp
-  - unless @order.date_closed.present? || (performer.execution.present? && performer.completed.present?)
+  b.font-weight-bold.font-weight-light #{performer.employee.full_name}&nbsp
+  - unless @order.date_closed.present? || (performer.execution.present? && performer.execution.completed.present?)
     = content_tag(:small, '(На контроле!)', class: 'control-order')
     - if policy(performer).completed?
-      |  &#10148;&nbsp;
-      = link_to "Снять с контроля", remove_control_execution_path(performer_id: performer.id)
+      span.small
+        |  &#10148;&nbsp;
+        = link_to "Снять с контроля", remove_control_execution_path(performer_id: performer.id)
     .blockquote-footer
       | Срок исполнения - до #{l(performer.deadline, format: :date)}&nbsp
       = content_tag(:small, "#{'('}" + t("order_day.order_left_day") + t(distance_of_time_in_words(Date.today, performer.deadline)) + "#{')'}",
@@ -12,7 +13,7 @@ li
       = content_tag(:small, "#{'('}" + t("order_day.order_overdue_day") + t(distance_of_time_in_words(Date.today, performer.deadline))+ "#{')'}",
         class: 'text-danger order-control-danger') if (Date.today > performer.deadline)
   - else
-    = content_tag(:small, " (Снята с контроля - #{l(performer.date_close_performance, format: :datetime)})",
+    = content_tag(:small, " (Снята с контроля - #{l(performer.execution.completed, format: :datetime)})",
         class: 'text-success order-control-closed')
 
 .pt-3
@@ -20,7 +21,7 @@ li
   - if performer.execution.present?
     = content_tag(:small, "(#{l(performer.execution.created_at, format: :datetime)})",
       class: 'text-muted')
-    small
+    span.small
       - if policy(performer.execution).coordination?
         |  &#9745;
         = link_to 'Согласовать', coordination_execution_path(performer.execution)
@@ -50,15 +51,17 @@ li
             .col-sm-12.col-md-12
               = render 'rework_list', rework: performer.execution.reworks.first
               .col-sm-12.pl-3.col-md-12.pl-md-5.pr-md-0.pr-0.pb-0
-                //- performer.execution.reworks[1..-1].each do |rework|
-                = render 'rework_list', rework: performer.execution.reworks.first
+                - performer.execution.reworks[1..-1].each do |rework|
+                  = render 'rework_list', rework: rework
             hr
                 - if policy(performer.execution).comment?
                   .pt-2
-                  = simple_form_for [performer.execution.reworks.build(user_id: current_user.id)], url: execution_reworks_path(execution_id: performer.execution.id, execution_work: false)do |f|
+                  = simple_form_for [performer.execution.reworks.build(user_id: current_user.id)], url: execution_reworks_path(execution_id: performer.execution.id, execution_work: false) do |f|
                     = f.input :comment, as: :text, placeholder: "Напишите текст комментарии"
                     = f.input :user_id, as: :hidden
                     .form-group.float-right.mb-0
-                      = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm"
+                      = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm",
+                         data: {disable_with: t('form_button_caption.disabled_send')}
   - else
-    = link_to "Добавить", new_execution_path(performer_id: performer.id) if policy(performer).executions?
+    span.small
+      = link_to "Добавить", new_execution_path(performer_id: performer.id) if policy(performer).executions?

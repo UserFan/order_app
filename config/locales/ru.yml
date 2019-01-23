@@ -395,10 +395,12 @@ ru:
         user_id: "Создатель:"
         status: "Статус:"
 
-      performers:
+      performer:
         employee_id: "Исполнитель:"
         deadline: "Срок исполнения:"
         answerable: "Ответственный испольнитель:"
+        rating_average: "Качество вып.работ:"
+        hard_ratio_average: "Сложность работ:"
         message: "Отправлять сообщение"
         comment: "Комментарий:"
 
@@ -473,7 +475,7 @@ ru:
       remove: "Удалить запись"
   order_day:
     order_left_day: "до срока исполнения осталось: "
-    order_overdue_day: "срок исполнения просрочен: "
+    order_overdue_day: "срок исполнения просрочен на: "
   version_update_text:
     not_connection: "Подключение к ПО кассы отсуствует!"
     not_update:  "Не удалось обновить данные. По данной кассе данные отсуствуют"

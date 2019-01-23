@@ -59,16 +59,15 @@ class OrdersController < ApplicationController
     authorize @order
     @performers = @order.performers
     @performers.find_each do |performer|
-      performer.update!(date_close_performance: DateTime.now) unless performer.date_close_performance.present?
       performer.create_execution!(completed: DateTime.now, order_execution:
                  Status::OFF_CONTROL,
                  comment: 'Сведения об исполнении не были представлены') unless performer.execution.present?
-      OrderMailer.with(user: performer.user, order: @order,
-        send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 15.seconds)
+      # OrderMailer.with(user: performer.user, order: @order,
+      #   send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 15.seconds)
     end
     @order.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
-    OrderMailer.with(user: @order.control_user, order: @order,
-      send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 10.seconds)
+    # OrderMailer.with(user: @order.control_user, order: @order,
+    #   send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 10.seconds)
     redirect_to order_path(@order)
   end
 
@@ -130,15 +129,15 @@ class OrdersController < ApplicationController
       @set_orders =  Order.includes(:shop, :category, :status, :users, :executions,
                       :reworks).left_outer_joins(:employee, performers: :employee).
                       where("orders.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
-                        current_user, current_user, current_user)
+                        current_user, current_user, current_user).distinct
       @orders_coordination = @set_orders.where("date_closed is null and
                 status_id = ?", Status::AGREE).distinct.size
 
       @orders_for_closing = @set_orders.where("date_closed is null and
                             status_id = ?", Status::COORDINATION).
-                            distinct.size if @set_orders.where(user_id: current_user)
+                            distinct.size #if @set_orders.where(user_id: current_user)
       @orders_agree = @set_orders.where("date_closed is null and status_id = ?", Status::AGREE).
-                            distinct.size if @set_orders.where(user_id: current_user)
+                            distinct.size #if @set_orders.where(user_id: current_user)
 
     end
       @set_orders_overdue = @set_orders.where("(date_closed > date_execution) OR

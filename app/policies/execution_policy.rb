@@ -26,7 +26,7 @@ class ExecutionPolicy < ApplicationPolicy
 
   def coordination?
     #binding.pry
-    (user.super_admin? || user.moderator? || user.guide?) &&
+    (user.super_admin? || user.moderator? || user.guide? || (record.order.owner_user == user)) &&
     (!(order_closed?) && (record.completed.nil?))
   end
 
@@ -35,12 +35,14 @@ class ExecutionPolicy < ApplicationPolicy
   end
 
   def rework?
-    (user.super_admin? || user.moderator? || user.guide?) &&
+    (user.super_admin? || user.moderator? || user.guide? || (record.order.owner_user == user)) &&
     (!(order_closed?) && (record.completed.nil?) && !(record.order_execution == Status::NOT_COORDINATION))
   end
 
   def comment?
-    (user.super_admin? || user.moderator? || user.guide? || user == record.performer.user) &&
+    (user.super_admin? || user.moderator? || user.guide? ||
+     user == record.performer.employee.user || record.order.owner_user == user ||
+     user == record.order.employee.user) &&
     (!(order_closed?) && (record.completed.nil?))
   end
 
