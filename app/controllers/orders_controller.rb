@@ -118,16 +118,16 @@ class OrdersController < ApplicationController
 
   def set_index
     if current_user.super_admin? || current_user.moderator? #|| current_user.guide?
-      @set_orders = Order.includes(:shop, :category, :status, :users,
-                          :executions, :reworks, :employee)
+      @set_orders = Order.includes(:shop, :category, :status, :users, :reworks, :employee).
+                          joins(performers: :execution).distinct
       @orders_for_closing = @set_orders.where("date_closed is null and status_id = ?",
-                            Status::COORDINATION).joins(:executions).distinct.size
+                            Status::COORDINATION).distinct.size
       @orders_agree = @set_orders.where("date_closed is null and status_id = ?",
-                            Status::AGREE).joins(:executions).distinct.size
+                            Status::AGREE).distinct.size
 
     else
-      @set_orders =  Order.includes(:shop, :category, :status, :users, :executions,
-                      :reworks).left_outer_joins(:employee, performers: :employee).
+      @set_orders =  Order.includes(:shop, :category, :status, :users, :reworks).
+                      left_outer_joins(:employee, :executions, performers: :employee).
                       where("orders.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
                         current_user, current_user, current_user).distinct
       @orders_coordination = @set_orders.where("date_closed is null and
@@ -140,12 +140,31 @@ class OrdersController < ApplicationController
                             distinct.size #if @set_orders.where(user_id: current_user)
 
     end
-      @set_orders_overdue = @set_orders.where("(date_closed > date_execution) OR
-                          (date_closed IS NULL AND date_execution < ?) OR
-                          (performers.deadline is null AND
-                           performers.deadline < ?) OR
-                          (performers.deadline < date_execution)",
-                           Date.today, Date.today).left_outer_joins(:performers).distinct
+      @set_orders_overdue =
+          @set_orders.where("(date_closed > date_execution)").
+                      where("(date_closed IS NULL OR date_execution < ?) OR
+                             (executions.completed IS NULL OR performers.deadline < ?)
+                             OR (executions.completed < date_execution)",
+                             Date.today, Date.today)
+
+           # AND
+           #                   ((date_closed IS NULL AND date_execution < ?) OR
+           #                   (executions.completed IS NULL AND performers.deadline < ?)
+           #                   OR (executions.completed < date_execution))",
+           #                   Date.today, Date.today)
+
+                            #
+
+
+
+
+      # @set_orders_overdue = @set_orders.where("(date_closed > date_execution) OR
+      #                     (date_closed IS NULL AND date_execution < ?) OR
+      #                     (performers.deadline is null AND
+      #                      performers.deadline < ?) OR
+      #                     (performers.deadline < date_execution)",
+      #                      Date.today, Date.today).left_outer_joins(:performers, performers: :execution).distinct
+
       params[:overdue] ? @q = @set_orders_overdue.ransack : @q = @set_orders.ransack(params[:q])
       @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
       @orders = @q.result(disinct: true)

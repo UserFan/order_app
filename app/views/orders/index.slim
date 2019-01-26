@@ -1,6 +1,6 @@
 .container
   .row.justify-content-end
-    h1.font-weight-bold Перечень заявок/контрольных карточек.
+    h1.font-weight-bold Перечень заявок.
   hr
   .row
     .col-sm-6.col-md-12.p-0.d-flex
@@ -20,17 +20,17 @@
           - if @orders_closed !=0
             span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_closed}
 
-        - if policy(@orders).for_closing?
-          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
-            | На согласовании
-            - if @orders_for_closing !=0
-              span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_for_closing}
+        //- if policy(@orders).for_closing?
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
+          | На согласовании
+          - if @orders_for_closing !=0
+            span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_for_closing}
 
-        - if policy(@orders).for_closing?
-          = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, class: "nav-item nav-link main-nav-link" do
-            | Согласованые
-            - if @orders_agree !=0
-              span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_agree}
+        //- if policy(@orders).for_closing?
+        = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, class: "nav-item nav-link main-nav-link" do
+          | Согласованые
+          - if @orders_agree !=0
+            span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_agree}
 
         = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | В доработке

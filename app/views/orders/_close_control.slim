@@ -1,17 +1,15 @@
-.col-12.col-md-3.border-top.border-info.bg-light.p-1
-  - if @order.date_closed.present?
-    b Закрыта:
-  - else
-    b Закрыть (результат):
-
-.col-12.col-md-9.border-top.bg-light.p-1.border-info
-  - if @order.date_closed.present?
+- if @order.date_closed.present?
+  .col-12.col-md-12.border-top.border-info.bg-dark.text-white.p-1
+    b Заявка закрыта:&nbsp;
     = l(@order.date_closed, format: :date)
-  - else
-      = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing? && @order.executions.present?
+- else
+  .col-12.col-md-3.border-top.border-info.bg-light.p-1
+    b Закрыть (результат):
+  .col-12.col-md-9.border-top.bg-light.p-1.border-info
+      = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing? && @order.status_id == Status::AGREE
       | &nbsp;
-      = link_to 'Испол. част.', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing? && @order.executions.present?
+      = link_to 'Испол. част-но', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing? && @order.status_id == Status::AGREE
       | &nbsp;
       = link_to 'Не испол.', closing_order_path(@order, close: Status::NOT_COMPLETED), class: "btn btn-outline-danger btn-sm" if policy(@order).closing?
       | &nbsp;
-      = link_to 'Снять со испол-я', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-outline-warning btn-sm" if policy(@order).closing?
+      = link_to 'Снять со испол-я', closing_order_path(@order, close: Status::OFF_CONTROL), class: "btn btn-outline-warning btn-sm" if policy(@order).closing? && @order.status_id == Status::AGREE

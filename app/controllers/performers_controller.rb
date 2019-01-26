@@ -6,7 +6,13 @@ class PerformersController < ApplicationController
 
   def new
     authorize Performer
-    @performer = @order.performers.build(deadline: Date.today + 2.days, message: true)
+    if @users_performer.present?
+      @performer = @order.performers.build(deadline: Date.today + 2.days, message: true)
+    else
+      flash[:error] = "Все сотрудники отдела уже являються исполнителями!"
+      redirect_to order_path(@order)
+    end
+
   end
 
   def edit
@@ -42,7 +48,7 @@ class PerformersController < ApplicationController
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to order_path(@order)
+
   end
 
   private
@@ -59,6 +65,7 @@ class PerformersController < ApplicationController
     @users_performer =  Employee.includes(:user, :shop).
                        where(manager: false, shops: {id: @order.employee.shop_id}).
                        where.not(id: @order.performers.pluck(:employee_id)).
+                       where.not(id: @order.owner_user.employees.pluck(:id)).
                        joins(:user)
   end
 

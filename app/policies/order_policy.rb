@@ -9,7 +9,11 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def new_performers?
-    user.moderator? || user.super_admin? || user.guide? || record.employee.user == user
+    (user.moderator? || user.super_admin? || user.guide? ||
+     record.employee.user == user) &&
+     ([Status::EXECUTION, Status::NOT_COORDINATION, Status::REVIVAL, Status::NEW].
+     include?(record.status_id))
+    # binding.pry
   end
 
   def index?
@@ -30,11 +34,15 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def for_closing?
-    user.moderator? || user.super_admin? || user.guide? #|| record.employee.user == user
+    #true
+    #user.moderator? || user.super_admin? || user.guide?
+    #|| record.employee.user == user || record.owner_user == user
+    #true
   end
 
   def closing?
-    user.moderator? || user.super_admin? || user.guide? || record.employee.user == user
+    user.moderator? || user.super_admin? || user.guide? ||
+    record.employee.user == user || !record.executions.present? 
   end
 
   def show_detail?
