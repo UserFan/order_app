@@ -15,6 +15,5 @@ class Status < ApplicationRecord
 
   validates :name, presence: true
 
-  delegate_missing_to :orders
 
 end

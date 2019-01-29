@@ -21,6 +21,7 @@ module OrderApp
     config.active_record.index_nested_attribute_errors = true
     config.action_mailer.deliver_later_queue_name = 'default_mailer_queue'
     config.action_dispatch.rescue_responses['Pundit::NotAuthorizedError'] = :forbidden
+    config.i18n.fallbacks = [I18n.default_locale]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

@@ -1,0 +1,22 @@
+#exampleModal.modal.fade aria-hidden="true" aria-labelledby="exampleModalLabel" role="dialog" tabindex="-1"
+  .modal-dialog role="document"
+    .modal-content
+      .modal-header
+        h5#exampleModalLabel.modal-title Modal title
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  &times;
+      .modal-body
+        /= imdb_style_rating_for performer, current_user
+        /= rating_for performer, "visual_effects"
+        / br
+        /= rating_for performer, "original_score"
+        / br
+        / Director: = rating_for performer, "original_score"
+        / br
+        = rating_for performer, "custome_design"
+
+        / = simple_form_for [performer], url: execution_coordination_path(execution_id: performer.execution.id) do |f|
+        /   = f.input :order_execution
+        /   .modal-footer
+        /     = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm",
+        /        data: {disable_with: t('form_button_caption.disabled_send')}

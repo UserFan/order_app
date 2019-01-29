@@ -15,6 +15,8 @@ class User < ApplicationRecord
 
   before_create :locked_user
 
+  ratyrate_rater
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :lockable
 

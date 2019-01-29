@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  post '/rate' => 'rater#create', :as => 'rate'
   #devise_for :users, controllers: { registrations: 'registrations' }
   devise_for :users, controllers: { registrations: 'users' }
   resources :users do
@@ -53,7 +54,8 @@ Rails.application.routes.draw do
     resources :performers
   end
   resources :executions do
-    get 'coordination', on: :member
+    #get 'coordination', on: :member
+    patch 'coordination', to: 'executions#coordination', as: :coordination    
     get 'remove_control', on: :member
     resources :reworks, only: [:new, :create]
   end

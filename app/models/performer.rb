@@ -14,6 +14,8 @@ class Performer < ApplicationRecord
 
   validates :employee_id, :deadline, :hard_ratio_average, presence: true
 
+  ratyrate_rateable 'visual_effects', 'original_score', 'director', 'custome_design'
+
   def execution_off_control?
     # if self.execution.present?
     #   self.execution.completed.present? ||

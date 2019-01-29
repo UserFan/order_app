@@ -24,6 +24,10 @@ class ExecutionPolicy < ApplicationPolicy
     new?
   end
 
+  def edit_coordination?
+    coordination?
+  end
+
   def coordination?
     #binding.pry
     (user.super_admin? || user.moderator? || user.guide? || (record.order.owner_user == user)) &&

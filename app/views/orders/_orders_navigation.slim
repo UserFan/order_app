@@ -7,36 +7,49 @@ nav.navbar-expand-md.nav-pills.navbar-light.mb-3
       .mt-4.mb-4
       .col-12.col-md-12
         = active_link_to orders_path, active: :exclusive, active: :exact, class: "nav-item nav-link" do
-          |
-          = current_user.super_admin? ? "Все заявки" : "Мои заявки"
+          span.fas.fa-tasks.text-muted
+            = current_user.super_admin? ? " Все заявки" : " Мои заявки"
           span.badge.badge-pill.badge-secondary.float-right = @orders_count if @orders_count > 0
         .col-12.col-md-12.mr-0.pr-0.pl-4
+
+          - if @orders_new > 0
+            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NEW}, set_caption: 8), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.fas.fa-envelope.text-muted&nbsp
+                Новые заявки
+              span.badge.badge-pill.badge-secondary.float-right = @orders_new
+
           - if @orders_open > 0
             = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}, set_caption: 2), active: :exact, class: "nav-item nav-link main-nav-link" do
-              | В работе
+              span.fas.fa-business-time.text-muted&nbsp
+                В работе
               span.badge.badge-pill.badge-secondary.float-right = @orders_open
 
           - if @orders_closed > 0
             = active_link_to orders_path(q: {date_closed_not_null: '1'}, set_caption: 3), active: :exact, class: "nav-item nav-link main-nav-link" do
-              | Исполненные
+              span.fas.fa-check-circle.text-muted&nbsp
+                Исполненные
               span.badge.badge-pill.badge-secondary.float-right = @orders_closed
 
           - if @orders_for_closing > 0
             = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}, set_caption: 4), active: :exact, class: "nav-item nav-link main-nav-link" do
-              | На согласовании
+              span.fas.fa-marker.text-muted&nbsp
+                На согласовании
               span.badge.badge-pill.badge-secondary.float-right = @orders_for_closing
 
           - if @orders_agree > 0
-            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, class: "nav-item nav-link main-nav-link" do
-              | Согласованые
+            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}, set_caption: 5), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.fas.fa-handshake.text-muted&nbsp
+                Согласовано
               span.badge.badge-pill.badge-secondary.float-right = @orders_agree
 
           - if @orders_not_coordination > 0
-            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
-              | В доработке
+            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}, set_caption: 6), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.fas.fa-history.text-muted&nbsp
+                В доработке
               span.badge.badge-pill.badge-secondary.float-right = @orders_not_coordination
 
           - if @orders_overdue > 0
-            = active_link_to orders_path(overdue: true), active: :exact, class: "nav-item nav-link main-nav-link" do
-              | Просроченные
+            = active_link_to orders_path(overdue: true, set_caption: 7), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.fas.fa-people-carry.text-muted&nbsp
+                Просроченные
               span.badge.badge-pill.badge-secondary.float-right = @orders_overdue
