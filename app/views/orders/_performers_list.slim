@@ -15,59 +15,64 @@ li
   - else
     = content_tag(:small, " (Срок исполнения: #{l(performer.deadline, format: :date)}, cнята с контроля: #{l(performer.execution.completed, format: :datetime)})",
         class: "#{((performer.execution.completed).to_date <= (performer.deadline).to_date) ? 'text-success order-control-closed' : 'text-danger order-control-danger'}")
+    .col-12.col-md-2.p-0
+      #PerformerRating
+      = rating_for performer, "custome_design", disable_after_rate: true
+.col-12.col-md-12.pt-2
+  .row
+    .col-12.col-md-12.pl-1
+      b.text-muted Сведения об исполнении:&nbsp;
+      - if performer.execution.present?
+        = render "modals_coordination", performer: performer
+        = content_tag(:small, "(#{l(performer.execution.created_at, format: :datetime)})",
+          class: 'text-muted')
+        span.small
+          - if policy(performer.execution).coordination?
+            |  &#9745;
+            = link_to 'Согласовать', coordination_execution_path(performer.execution), data: { target: "#exampleModal", toggle: "modal"}, remote: true
+            /coordination_execution_path(performer.execution)
+          - if policy(performer.execution).rework?
+            |  &#10000;
+            = link_to 'На доработку', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true)
+          - if policy(performer.execution).destroy?
+            |  &#10008;
+            = link_to 'Удалить', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
+                "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
 
-.pt-3
-  b.text-muted Сведения об исполнении:&nbsp;
-  - if performer.execution.present?
-    = render "modals_coordination", performer: performer
-    = content_tag(:small, "(#{l(performer.execution.created_at, format: :datetime)})",
-      class: 'text-muted')
-    span.small
-      - if policy(performer.execution).coordination?
-        |  &#9745;
-        = link_to 'Согласовать', execution_coordination_path(execution_id: performer.execution.id), data: { target: "#exampleModal", toggle: "modal"}, remote: true
-        /coordination_execution_path(performer.execution)
-      - if policy(performer.execution).rework?
-        |  &#10000;
-        = link_to 'На доработку', new_execution_rework_path(execution_id: performer.execution.id, execution_work: true)
-      - if policy(performer.execution).destroy?
-        |  &#10008;
-        = link_to 'Удалить', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
-            "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
+        hr.m-0
+        .text-secondary
+          ul.small
+            li
+              b Произведенные работы:&#10148;&nbsp
+              span #{performer.execution.comment}
+            li
+              b Статус исполнения:&#10148;&nbsp
+              span
+                = "#{performer.execution.execution_result}"
+                = content_tag(:span, " (#{l(performer.execution.completed, format: :datetime)})") if performer.execution.completed.present?
 
-    hr.m-0
-    .text-secondary
-      ul.small
-        li
-          b Произведенные работы:&#10148;&nbsp
-          span #{performer.execution.comment}
-        li
-          b Статус исполнения:&#10148;&nbsp
-          span
-            = "#{performer.execution.execution_result}"
-            = content_tag(:span, " (#{l(performer.execution.completed, format: :datetime)})") if performer.execution.completed.present?
-      p = link_to "Фотоотчет", execution_path(performer.execution) if performer.execution.images.present?
-      - if performer.execution.reworks.present?
-        .col-sm-12.p-0.col-md-12.pl-md-5
-          #order-rework
-            p.h5.text-danger.font-weight-bold
-              | Замечание
-            hr.m-0.pb-2
-            .col-sm-12.col-md-12
-              = render 'rework_list', rework: performer.execution.reworks.first
-              .col-sm-12.pl-3.col-md-12.pl-md-5.pr-md-0.pr-0.pb-0
-                - performer.execution.reworks[1..-1].each do |rework|
-                  = render 'rework_list', rework: rework
-            hr
-                - if policy(performer.execution).comment?
-                  .pt-2
-                  = simple_form_for [performer.execution.reworks.build(user_id: current_user.id)], url: execution_reworks_path(execution_id: performer.execution.id, execution_work: false) do |f|
-                    = f.input :comment, as: :text, placeholder: "Напишите текст комментарии"
-                    = f.input :user_id, as: :hidden
-                    .form-group.float-right.mb-0
-                      = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm",
-                         data: {disable_with: t('form_button_caption.disabled_send')}
+        p = link_to "Фотоотчет", execution_path(performer.execution) if performer.execution.images.present?
+        - if performer.execution.reworks.present?
+          .col-sm-12.p-0.col-md-12.pl-md-5
+            #order-rework
+              p.h5.text-danger.font-weight-bold
+                | Замечание
+              hr.m-0.pb-2
+              .col-sm-12.col-md-12
+                = render 'rework_list', rework: performer.execution.reworks.first
+                .col-sm-12.pl-3.col-md-12.pl-md-5.pr-md-0.pr-0.pb-0
+                  - performer.execution.reworks[1..-1].each do |rework|
+                    = render 'rework_list', rework: rework
+              hr
+                  - if policy(performer.execution).comment?
+                    .pt-2
+                    = simple_form_for [performer.execution.reworks.build(user_id: current_user.id)], url: execution_reworks_path(execution_id: performer.execution.id, execution_work: false) do |f|
+                      = f.input :comment, as: :text, placeholder: "Напишите текст комментарии"
+                      = f.input :user_id, as: :hidden
+                      .form-group.float-right.mb-0
+                        = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm",
+                           data: {disable_with: t('form_button_caption.disabled_send')}
 
-  - else
-    span.small
-      = link_to "Добавить", new_execution_path(performer_id: performer.id) if policy(performer).executions?
+      - else
+        span.small
+          = link_to "Добавить", new_execution_path(performer_id: performer.id) if policy(performer).executions?

@@ -27,9 +27,9 @@
 //= require inputmask.phone.extensions
 //= require cocoon
 //= require turbolinks
+//= require jquery.raty
+//= require ratyrate
 //= require_tree .
-
-
 
 var ClickRowTable = function() {
   $(".table-row td").click(function() {

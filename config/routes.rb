@@ -54,8 +54,7 @@ Rails.application.routes.draw do
     resources :performers
   end
   resources :executions do
-    #get 'coordination', on: :member
-    patch 'coordination', to: 'executions#coordination', as: :coordination    
+    get 'coordination', on: :member
     get 'remove_control', on: :member
     resources :reworks, only: [:new, :create]
   end

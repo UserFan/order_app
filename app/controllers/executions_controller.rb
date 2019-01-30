@@ -1,6 +1,6 @@
 class ExecutionsController < ApplicationController
   before_action :set_perform_execution, only: [:new, :edit, :create]
-  before_action :set_execution, only: [:update, :destroy, :show]
+  before_action :set_execution, only: [:update, :destroy, :show, :coordination]
   after_action :verify_authorized
 
   def new
@@ -38,14 +38,15 @@ class ExecutionsController < ApplicationController
   end
 
   def coordination
-    @execution = Execution.find(params[:execution_id])
     authorize @execution
-    binding.pry
     @order = @execution.performer.order
     @order.update!(status_id: Status::AGREE)
     if @execution.update_attributes(completed: DateTime.now, order_execution: Status::AGREE)
-       #@execution.performer.update!(date_close_performance: DateTime.now) unless @execution.performer.date_close_performance.present?
-       redirect_to order_path(@order)
+      respond_to do |format|
+         format.html { redirect_to order_path(@order) }
+         format.json { head :no_content }
+         format.js   { render layout: false }
+      end
     end
   end
 
