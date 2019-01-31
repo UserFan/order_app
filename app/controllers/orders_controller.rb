@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
               user_id: current_user.id, date_execution: DateTime.now + 7.days,
               status_id: Status::NEW))
     if @order.save
-      redirect_to orders_path
+      redirect_to orders_path      
     else
       render 'new'
     end
@@ -98,6 +98,11 @@ class OrdersController < ApplicationController
     @users_order =  Employee.includes(:user, :shop).
                     where(manager: true, shops: {orders_take: true})
                     .joins(:user)
+    if current_user.super_admin? || current_user.guide?
+      @shops = Shop.all
+    else
+      @shops = current_user.shops.includes(:employees).where(employees: { manager: true } )
+    end
   end
 
   def set_caption_table(set_caption)

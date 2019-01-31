@@ -8,6 +8,8 @@ class Execution < ApplicationRecord
 
   validates :performer_id, :comment, :order_execution, presence: true
 
+  ratyrate_rateable 'rating_execution'
+
   # before_destroy :destroy_order_execution
 
   def execution_result

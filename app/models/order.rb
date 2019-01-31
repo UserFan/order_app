@@ -2,8 +2,8 @@ class Order < ApplicationRecord
   mount_uploaders :photos, ImageUploader
 
   before_create :number_create
-  # after_create :create_order_control_user_send_mail
-  # after_update :change_order_change_user_send_mail
+  after_create :create_order_control_user_send_mail
+  after_update :change_order_change_user_send_mail
   # after_destroy :destroy_order_user_send_mail
 
 
@@ -20,10 +20,10 @@ class Order < ApplicationRecord
 
   validates :user_id, :date_open, :employee_id, :date_execution, :description, presence: true
 
-  
+
 
   def control_user
-    User.find(user_id)
+    self.employee.user
   end
 
   def owner_user
@@ -49,17 +49,17 @@ class Order < ApplicationRecord
 
   private
 
-  def destroy_order_user_send_mail
-    # OrderMailer.with(user: control_user, order: self,
-    #   send_type: 'delete_order').order_send_mail_to_user.deliver_now
-  end
-
   def create_order_control_user_send_mail
-    # OrderMailer.with(user: control_user, order: self,
-    #   send_type: 'new_order_control').order_send_mail_to_user.deliver_later(wait: 10.seconds)
+    OrderMailer.with(user: control_user, order: self,
+      send_type: 'new_order_control').order_send_mail_to_user.deliver_later(wait: 10.seconds)
   end
 
   def change_order_change_user_send_mail
+
+    OrderMailer.with(user: self.owner_user, order: self,
+      send_type: 'order_change_owner').order_send_mail_to_owner_user.deliver_later(wait: 30.seconds) if self.status_id == Status::EXECUTION
+
+
     #binding.pry
     # if changed?
     #    @@change_order_flag = true
@@ -69,4 +69,10 @@ class Order < ApplicationRecord
     #    @@change_order_flag = false
     # end
   end
+
+  def destroy_order_user_send_mail
+    # OrderMailer.with(user: control_user, order: self,
+    #   send_type: 'delete_order').order_send_mail_to_user.deliver_now
+  end
+
 end

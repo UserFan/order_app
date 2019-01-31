@@ -5,7 +5,7 @@
       .col-sm-12.col-md-6
         = f.association :category, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
       .col-sm-12.col-md-6
-        = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
+        = f.association :shop, collection: @shops, label_method: :name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?) || ((@order.order_number.present?) && !(current_user.super_admin?)))
     .row
       .col-sm-12.col-md-8
         //= f.input :answerable_manager, collection: User.all, required: true, label_method: :full_name, value_method: :user_id, disabled: (true if (@order.date_closed.present?))

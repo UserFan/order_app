@@ -32,6 +32,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_translate_default_scope
-    @t_base = [:activerecord, :attributes]
+    @t_base = [:activerecord, :attributes]    
   end
 end

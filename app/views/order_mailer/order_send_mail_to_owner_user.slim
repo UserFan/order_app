@@ -6,7 +6,12 @@ html
 
     h3 = t("#{@locales_path}.content_header", name: @user.full_name)
     p = @content_text
-    p Заявка поступила от: #{@order.owner_user.full_name}(#{@order.shop.name}).
+    ol
+      - @performers.each do |performer|
+        li
+          = performer.employee.user.full_name
+          - binding.pry
+          //(срок исполнения: #{l(performer.deadline, format: :date)})
     p
       small
         = t("#{@locales_path}.content_footer")

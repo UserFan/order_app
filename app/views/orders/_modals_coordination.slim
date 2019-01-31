@@ -1,14 +1,19 @@
 #exampleModal.modal.fade aria-hidden="true" aria-labelledby="exampleModalLabel" role="dialog" tabindex="-1"
-  .modal-dialog.modal-dialog-centered role="document"
+  .modal-dialog.modal-sm.p-0.modal-dialog-centered role="document"
     .modal-content
-      .modal-header.p-2
-        h5#exampleModalLabel.modal-title Modal title
+      .modal-header.p-2.text-center
+        h5#exampleModalLabel.modal-title Оцените качество работ
         button.close aria-label="Close" data-dismiss="modal" type="button"
           span aria-hidden="true"  &times;
-      .modal-body
-        = rating_for performer, "custome_design", disable_after_rate: (false if performer.execution.completed.nil?)
+      .modal-body.pl-0.pr-0.ml-0.mr-0
+        .container-fluid.pl-0.pr-0.ml-0.mr-0
+          .row
+            .col-12.col-md-12.d-flex
+              .rating_stars.text-center.p-0.m-0
+                = rating_for performer.execution, "rating_execution", space: true, cancel: false, disable_after_rate: (false if performer.execution.completed.nil?)
       .modal-footer
-        = link_to t('form_button_caption.send'),
-            coordination_execution_path(performer.execution),
-            class: "btn btn-primary pull-right",
-            data: {disable_with: t('form_button_caption.disabled_send')}
+        .mx-auto
+          = link_to 'Отправить оценку',
+              coordination_execution_path(performer.execution),
+              class: "btn btn-primary float-center",
+              data: {disable_with: t('form_button_caption.disabled_send')}

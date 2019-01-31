@@ -28,9 +28,8 @@ class ExecutionPolicy < ApplicationPolicy
 
   def coordination?
     #binding.pry
-    (user.super_admin? || user.moderator? || user.guide? || (record.order.owner_user == user))
-    # &&
-    # (!(order_closed?) && (record.completed.nil?))
+    (user.super_admin? || user.moderator? || user.guide? || (record.order.owner_user == user)) &&
+    (!(order_closed?) && (record.completed.nil?))
   end
 
   def remove_control?

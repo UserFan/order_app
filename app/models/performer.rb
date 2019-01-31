@@ -7,14 +7,14 @@ class Performer < ApplicationRecord
   has_many :reworks, through: :executions, foreign_key: :execution_id
 
   # before_destroy :destroy_performer_send_to_mail_user
-  # after_create :create_performer_send_to_mail_user
+  after_create :create_performer_send_to_mail_user
   # after_update :change_performer_send_to_mail_user
 
   # default_scope { order(coexecutor: :asc) }
 
   validates :employee_id, :deadline, :hard_ratio_average, presence: true
 
-  ratyrate_rateable 'visual_effects', 'original_score', 'director', 'custome_design'
+  ratyrate_rateable 'rating_performer'
 
   def execution_off_control?
     # if self.execution.present?
@@ -36,12 +36,8 @@ class Performer < ApplicationRecord
   end
 
   def create_performer_send_to_mail_user
-    #binding.pry
-    # OrderMailer.with(user: user, order: order, performer: self,
-    #    send_type: 'new_order_performer').order_send_mail_to_user.deliver_now
-    #
-    # send_mail_all_control_user(true)
-    #binding.pry
+    OrderMailer.with(user: self.employee.user, order: self.order,
+      send_type: 'new_order_performer').order_send_mail_to_user.deliver_later(wait: 10.seconds)
   end
 
   def change_performer_send_to_mail_user

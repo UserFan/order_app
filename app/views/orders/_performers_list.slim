@@ -15,9 +15,9 @@ li
   - else
     = content_tag(:small, " (Срок исполнения: #{l(performer.deadline, format: :date)}, cнята с контроля: #{l(performer.execution.completed, format: :datetime)})",
         class: "#{((performer.execution.completed).to_date <= (performer.deadline).to_date) ? 'text-success order-control-closed' : 'text-danger order-control-danger'}")
-    .col-12.col-md-2.p-0
-      #PerformerRating
-      = rating_for performer, "custome_design", disable_after_rate: true
+    .rating_container
+      = rating_for_avg performer.execution, "rating_execution", disable_after_rate: true, imdb_avg: true
+
 .col-12.col-md-12.pt-2
   .row
     .col-12.col-md-12.pl-1
@@ -29,7 +29,7 @@ li
         span.small
           - if policy(performer.execution).coordination?
             |  &#9745;
-            = link_to 'Согласовать', coordination_execution_path(performer.execution), data: { target: "#exampleModal", toggle: "modal"}, remote: true
+            = link_to 'Согласовать', "#exampleModal", data: { target: "#exampleModal", toggle: "modal"}, remote: true
             /coordination_execution_path(performer.execution)
           - if policy(performer.execution).rework?
             |  &#10000;
@@ -38,7 +38,6 @@ li
             |  &#10008;
             = link_to 'Удалить', execution_path(id: performer.execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
                 "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Удалить"
-
         hr.m-0
         .text-secondary
           ul.small

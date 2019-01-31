@@ -29,6 +29,18 @@ a.nav-item.nav-link {
   color: black;
 }
 
+.rating_container {
+  display: inline-block;
+  transform: scale(0.7);
+  margin: 0px;
+  padding: 0px;
+}
+
+.rating_stars {
+  // display: block;
+  // transform: scale(2);
+}
+
 // .nav-link:hover {
 //     background-color: #F9F9F9;
 //     cursor: pointer;
