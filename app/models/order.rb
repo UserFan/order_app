@@ -4,8 +4,6 @@ class Order < ApplicationRecord
   before_create :number_create
   after_create :create_order_control_user_send_mail
   after_update :change_order_change_user_send_mail
-  # after_destroy :destroy_order_user_send_mail
-
 
   belongs_to :category
   belongs_to :status
@@ -20,26 +18,12 @@ class Order < ApplicationRecord
 
   validates :user_id, :date_open, :employee_id, :date_execution, :description, presence: true
 
-
-
   def control_user
     self.employee.user
   end
 
   def owner_user
     User.find(user_id)
-  end
-
-  def control_user_changed?
-     user_id_changed? ? true : (return false)
-  end
-
-  def control_user_old
-     user_id_changed? ? User.find(user_id_was) : User.find(user_id)
-  end
-
-  def performer_executor
-    #self.performers.find_by(coexecutor: false)
   end
 
   def number_create
@@ -59,20 +43,15 @@ class Order < ApplicationRecord
     OrderMailer.with(user: self.owner_user, order: self,
       send_type: 'order_change_owner').order_send_mail_to_owner_user.deliver_later(wait: 30.seconds) if self.status_id == Status::EXECUTION
 
+    if self.date_closed.present?
+      OrderMailer.with(user: self.owner_user, order: self, execution: self.executions.first,
+        send_type: 'order_close').order_send_mail_to_user_coordination.deliver_later(wait: 10.seconds)
 
-    #binding.pry
-    # if changed?
-    #    @@change_order_flag = true
-    #    OrderMailer.with(user: control_user, order: self, name_model: self,
-    #      user_type: 'control').send_mail_to_user_order_change.deliver_now
-    # else
-    #    @@change_order_flag = false
-    # end
+      self.performers.each do |performer|
+        OrderMailer.with(user: performer.user, order: self, execution: performer.execution,
+          send_type: 'order_close').order_send_mail_to_user_coordination.deliver_later(wait: 10.seconds)
+      end
+
+    end
   end
-
-  def destroy_order_user_send_mail
-    # OrderMailer.with(user: control_user, order: self,
-    #   send_type: 'delete_order').order_send_mail_to_user.deliver_now
-  end
-
 end

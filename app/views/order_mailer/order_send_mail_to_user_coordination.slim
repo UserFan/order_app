@@ -5,13 +5,53 @@ html
   body
 
     h3 = t("#{@locales_path}.content_header", name: @user.full_name)
-    - if @user == @order.owner_user
-      p Заявка № #{@order.order_number} поступил на согласование.
-      p Исполнитель: #{@execution_performer}
-    - else
-      p Отправлен на согласование заявка №#{@order.order_number} от #{l(@order.date_open, format: :date)}
-      p Инициатор заявки: #{@order.owner_user.full_name} (#{@order.shop.name})
-      p Исполнитель: #{@execution_performer}
+    - if @send_type == 'order_close'
+      - if @user == @order.owner_user
+        p Ваша заявка №#{@order.order_number} от #{l(@order.date_closed, format: :date)} закрыта.
+        p Результат исполнения заявки: #{@order.status.name}.
+        p Дата закрытия заявки: #{l(@order.date_closed, format: :date)}.
+        - if @order.status != Status::NOT_COMPLETED
+          p Надеемся что Вы остались довольны результатами проведенных работ.
+        p Спасибо что восползовались данным сервисом. Свои пожелания и предложения можете отправить на e-mail: info@arishmae.ru
+      - else
+        p #{@content_text}
+        p Результат исполнения заявки: #{@order.status.name}.
+        p Дата закрытия заявки: #{l(@order.date_closed, format: :date)}.
+
+    - if @send_type == 'order_coordination'
+      - if @user == @order.owner_user
+        p Заявка №#{@order.order_number} поступил на согласование.
+        p Исполнитель: #{@execution_performer}
+      - else
+        p Отправлен на согласование заявка №#{@order.order_number} от #{l(@order.date_open, format: :date)}
+        p Инициатор заявки: #{@order.owner_user.full_name}(#{@order.shop.name})
+        p Исполнитель: #{@execution_performer}
+
+    - if @send_type == 'order_agree'
+       - if @user == @order.employee.user
+         p  #{@content_text}: #{@order.owner_user.full_name}(#{@order.shop.name})
+         - if (Rate.find_by_rateable_id(@execution.id)).present?
+           p Поставлено оценка за выполненные работы: #{Rate.find_by_rateable_id(@execution.id).stars}
+       - else
+          p #{@content_text}: #{@order.owner_user.full_name}(#{@order.shop.name})
+          p С Вас данная заявка снята с контроля: #{l(@execution.completed, format: :date)}
+    - if @send_type == 'order_not_coordination'
+      - if @user == @order.employee.user
+        p По заявке #{@order.order_number} есть замечания.
+        p Замечание: #{@execution.reworks.first.comment}
+        p #{@content_text}: #{@order.owner_user.full_name}(#{@order.shop.name}) не согласовал данную заявку.
+        p Отправил на согласование: #{@execution_performer}
+      - else
+         p #{@content_text}
+         p Замечание: #{@execution.reworks.first.comment}
+         p #{@order.owner_user.full_name}(#{@order.shop.name}) не согласовал данную заявку.
+    - if @send_type == 'order_off_control'
+     - if @user == @order.owner_user
+       p Заявка #{@order.order_number} со исполнителя: #{@execution_performer} снята.
+       p Причина: #{@execution.comment}
+     - else
+        p #{@content_text}
+
     br
     small
       = t("#{@locales_path}.content_footer")

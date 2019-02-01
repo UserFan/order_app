@@ -22,7 +22,6 @@ class PerformersController < ApplicationController
   def create
     authorize Performer
     @order.performers.present? ? first_performer = true : first_performer = false
-    #binding.pry
     @performer= @order.performers.create(permitted_attributes(Performer).merge(
                 deadline: @order.date_execution - 1.days))
     if @performer.save
@@ -63,11 +62,12 @@ class PerformersController < ApplicationController
   end
 
   def set_collection_user
-    @users_performer =  Employee.includes(:user, :shop).
+    @users_performer = Employee.includes(:user, :shop).
                        where(manager: false, shops: {id: @order.employee.shop_id}).
                        where.not(id: @order.performers.pluck(:employee_id)).
                        where.not(id: @order.owner_user.employees.pluck(:id)).
-                       joins(:user)
+                       where.not(id: @order.employee_id).
+                       where("work_start_date < ? AND (work_end_date IS NULL OR work_end_date > ?)", Date.today, Date.today).joins(:user)
   end
 
 

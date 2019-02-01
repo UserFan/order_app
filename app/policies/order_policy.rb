@@ -42,7 +42,8 @@ class OrderPolicy < ApplicationPolicy
 
   def closing?
     user.moderator? || user.super_admin? || user.guide? ||
-    record.employee.user == user || !record.executions.present? 
+    record.employee.user == user || !record.executions.present?
+
   end
 
   def show_detail?

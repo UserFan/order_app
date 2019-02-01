@@ -13,8 +13,6 @@ class OrdersController < ApplicationController
   def show
     authorize @order
     @performers = @order.performers
-    # @executor = @order.performers.where(coexecutor: false)
-    # @coexecutor = @order.performers.where(coexecutor: true)
   end
 
   def new
@@ -22,12 +20,7 @@ class OrdersController < ApplicationController
     @order = Order.new(date_open: DateTime.now, user_id: current_user.id,
                        date_execution: DateTime.now + 7.days,
                        status_id: Status::NEW)
-    # @users_order =  User.includes(:profile, :shops).where(admin: false).
-    # joins(:employees).where(employees: { manager: true }, shops: { orders_take: false })
-    # .order('profiles.surname ASC')
-    # binding.pry
-    #@users_order =  User.includes(:profile).where(admin: false).order('profiles.surname ASC')
-  end
+    end
 
   def edit
     authorize @order
@@ -59,15 +52,17 @@ class OrdersController < ApplicationController
     authorize @order
     @performers = @order.performers
     @performers.find_each do |performer|
-      performer.create_execution!(completed: DateTime.now, order_execution:
-                 Status::OFF_CONTROL,
-                 comment: 'Сведения об исполнении не были представлены') unless performer.execution.present?
-      # OrderMailer.with(user: performer.user, order: @order,
-      #   send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 15.seconds)
+      unless performer.execution.present?
+        performer.create_execution!(completed: DateTime.now, order_execution:
+                   Status::OFF_CONTROL,
+                   comment: 'Сведения об исполнении не были представлены')
+      else
+        performer.execution.update!(completed: DateTime.now, order_execution:
+                   Status::OFF_CONTROL,
+                   comment: "#{performer.execution.comment} (Снято с контроля без согласования)") unless performer.execution.completed.present?
+      end
     end
     @order.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
-    # OrderMailer.with(user: @order.control_user, order: @order,
-    #   send_type: 'close_order').order_send_mail_to_user.deliver_later(wait: 10.seconds)
     redirect_to order_path(@order)
   end
 
@@ -144,15 +139,11 @@ class OrdersController < ApplicationController
   end
 
   def set_index
-    @set_orders = Order.includes(:category, :users, :reworks, :status, :shop).
-                        joins(:employee, performers: :employee)
-
+    @set_orders = Order.includes(:category, :users, :reworks, :status, :shop)
 
     unless (current_user.super_admin? || current_user.moderator? || current_user.guide?)
-      @set_orders =  @set_orders.
-
-                      where("orders.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
-                        current_user, current_user, current_user)
+      @set_orders =  @set_orders.where("orders.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
+                        current_user, current_user, current_user).left_outer_joins(:employee, performers: :employee)
     end
     @orders_for_closing = @set_orders.where("date_closed is null and status_id = ?",
                           Status::COORDINATION).size
@@ -168,33 +159,13 @@ class OrdersController < ApplicationController
                           distinct.size #if @set_orders.where(user_id: current_user)
     @orders_agree = @set_orders.where("date_closed is null and status_id = ?", Status::AGREE).size #if @set_orders.where(user_id: current_user)
 
-
-
     @set_orders_overdue =
         @set_orders.where("(date_closed > date_execution)").or(@set_orders).
                     where("(date_closed IS NULL AND date_execution < ?) OR
                            (executions.completed IS NULL AND performers.deadline < ?)
                            OR (executions.completed > date_execution) OR
                            (executions.completed > performers.deadline)",
-                           Date.today, Date.today).joins(:executions)
-
-           # AND
-           #                   ((date_closed IS NULL AND date_execution < ?) OR
-           #                   (executions.completed IS NULL AND performers.deadline < ?)
-           #                   OR (executions.completed < date_execution))",
-           #                   Date.today, Date.today)
-
-                            #
-
-
-
-
-      # @set_orders_overdue = @set_orders.where("(date_closed > date_execution) OR
-      #                     (date_closed IS NULL AND date_execution < ?) OR
-      #                     (performers.deadline is null AND
-      #                      performers.deadline < ?) OR
-      #                     (performers.deadline < date_execution)",
-      #                      Date.today, Date.today).left_outer_joins(:performers, performers: :execution).distinct
+                           Date.today, Date.today).left_outer_joins(:executions)
 
     params[:overdue] ? @q = @set_orders_overdue.ransack : @q = @set_orders.ransack(params[:q])
     set_caption_table(params[:set_caption].nil? ? 1 : (params[:set_caption].to_i))

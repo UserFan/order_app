@@ -2,7 +2,7 @@
   .col-12.col-md-12.border-top.border-info.bg-dark.text-white.p-1
     b Заявка закрыта:&nbsp;
     = l(@order.date_closed, format: :date)
-- else
+- elsif @order.status_id != Status::COORDINATION
   .col-12.col-md-3.border-top.border-info.bg-light.p-1
     b Закрыть (результат):
   .col-12.col-md-9.border-top.bg-light.p-1.border-info
