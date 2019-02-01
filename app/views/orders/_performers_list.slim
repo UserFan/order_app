@@ -14,7 +14,7 @@ li
         class: 'text-danger order-control-danger') if (Date.today > performer.deadline)
   - else
     = content_tag(:small, " (Срок исполнения: #{l(performer.deadline, format: :date)}, cнята с контроля: #{l(performer.execution.completed, format: :datetime)})",
-        class: "#{(performer.execution.completed < performer.deadline) ? 'text-success order-control-closed' : 'text-danger order-control-danger'}")
+        class: "#{((performer.execution.completed).to_date <= (performer.deadline).to_date) ? 'text-success order-control-closed' : 'text-danger order-control-danger'}")
 
 .pt-3
   b.text-muted Сведения об исполнении:&nbsp;
@@ -42,6 +42,7 @@ li
           b Статус исполнения:&#10148;&nbsp
           span
             = "#{performer.execution.execution_result}"
+            = content_tag(:span, " (#{l(performer.execution.completed, format: :datetime)})") if performer.execution.completed.present?
       p = link_to "Фотоотчет", execution_path(performer.execution) if performer.execution.images.present?
       - if performer.execution.reworks.present?
         .col-sm-12.p-0.col-md-12.pl-md-5

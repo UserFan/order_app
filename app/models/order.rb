@@ -12,7 +12,7 @@ class Order < ApplicationRecord
   belongs_to :shop, counter_cache: true
   belongs_to :employee
 
-  has_many :performers, inverse_of: :order, dependent: :destroy #, autosave: true
+  has_many :performers, inverse_of: :order, dependent: :delete_all #, autosave: true
   has_many :users, through: :employee, foreign_key: :user_id, counter_cache: true
 
   has_many :executions, through: :performers, foreign_key: :order_id
