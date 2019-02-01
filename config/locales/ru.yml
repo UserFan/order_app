@@ -485,25 +485,43 @@ ru:
     content_text:
       content_header: "Уважаемый(ая) %{name}!"
       content_footer: "Данное сообщение создано автоматический. Отвечать на данное сообщение не нужно!"
+
       subject_delete_order_control: "Заявка №%{number} снят с контроля"
       content_delete_order_control: "Заявка №%{number} с Вас снят с контроля."
+
       subject_change_order: "В заявку №%{number} внесены изменения"
       content_change_order: "В заявку №%{number} были внесены изменения. Вам необходимо ознакомиться внесенными изменениями."
+
       subject_delete_order: "Заявка №%{number} удалена"
       content_delete_order: "Заявка №%{number} удалена из системы контроля заявок."
       subject_status_order: "Заявке №%{number} %{status}"
-      content_status_order: "Заявка №%{number} %{status}"
+      content_status_order: "Заявка №%{number} %{status}."
+
       subject_close_order: "Заявка №%{number} закрыта"
       content_close_order: "Заявка №%{number} закрыта."
+
       subject_new_order_control: "Поступила новая заявка №%{number}"
       content_new_order_control: "Поступила новая заявка №%{number} от %{date_start}."
       content_date_new_order_control: "Срок исполнения заявки: %{date_order}."
+
       subject_order_control_default: "Заявка №%{number} у Вас на контроле"
       content_order_control_default: "У Вас на контроле заявка №%{number}."
+
       subject_new_order_performer: "Поступила новая заявка №%{number} для исполнения"
       content_new_order_performer: "Вам назначена на исполенение новая заявка №%{number} от %{date_start}."
-      subject_order_change_owner: "Информация по вашей заявки №%{number} от %{date_start}."
+
+      subject_order_change_owner: "Информация по вашей заявки №%{number}"
       content_order_change_owner: "Ваша заявка №%{number} от %{date_start} расмотренно. По данной заявки определены следующие исполнители:"
+
+      subject_order_coordination: "Заявка №%{number} отправлен на согласование."
+      subject_order_agree: "Заявка №%{number} cогласован."
+      subject_order_not_coordination: "По заявке №%{number} есть замечания."
+      content_order_coordination: "Заявка №%{number} отправлен на согласование."
+      content_order_agree: "Заявка №%{number} cогласован."
+      content_order_not_coordination: "По заявке №%{number} есть замечания."
+
+
+
 
       content_date_new_order_performer: "Срок исполнения заявки: %{date_order}."
       subject_delete_order_performer: "Заявка №%{number} с Вас снята"

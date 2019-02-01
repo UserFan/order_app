@@ -9,9 +9,7 @@ html
     ol
       - @performers.each do |performer|
         li
-          = performer.employee.user.full_name
-          - binding.pry
-          //(срок исполнения: #{l(performer.deadline, format: :date)})
+          = "#{performer.user.full_name} (срок исполнения: #{l(performer.deadline, format: :date)})"
     p
       small
         = t("#{@locales_path}.content_footer")

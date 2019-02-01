@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
               user_id: current_user.id, date_execution: DateTime.now + 7.days,
               status_id: Status::NEW))
     if @order.save
-      redirect_to orders_path      
+      redirect_to orders_path
     else
       render 'new'
     end
@@ -144,12 +144,13 @@ class OrdersController < ApplicationController
   end
 
   def set_index
-    @set_orders = Order.includes(:category, :users, :reworks, :employee, :status, :shop).
-                        left_outer_joins(:employee, :executions, performers: :employee)
+    @set_orders = Order.includes(:category, :users, :reworks, :status, :shop).
+                        joins(:employee, performers: :employee)
+
 
     unless (current_user.super_admin? || current_user.moderator? || current_user.guide?)
-      @set_orders =  Order.includes(:users, :reworks, :status, :category, :shop).
-                      left_outer_joins(:employee, :executions, performers: :employee).
+      @set_orders =  @set_orders.
+
                       where("orders.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
                         current_user, current_user, current_user)
     end
@@ -175,7 +176,7 @@ class OrdersController < ApplicationController
                            (executions.completed IS NULL AND performers.deadline < ?)
                            OR (executions.completed > date_execution) OR
                            (executions.completed > performers.deadline)",
-                           Date.today, Date.today)
+                           Date.today, Date.today).joins(:executions)
 
            # AND
            #                   ((date_closed IS NULL AND date_execution < ?) OR

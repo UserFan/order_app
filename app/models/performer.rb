@@ -5,6 +5,7 @@ class Performer < ApplicationRecord
 
   has_one :execution, dependent: :restrict_with_error
   has_many :reworks, through: :executions, foreign_key: :execution_id
+  has_one :user, through: :employee, foreign_key: :user_id
 
   # before_destroy :destroy_performer_send_to_mail_user
   after_create :create_performer_send_to_mail_user
@@ -36,7 +37,7 @@ class Performer < ApplicationRecord
   end
 
   def create_performer_send_to_mail_user
-    OrderMailer.with(user: self.employee.user, order: self.order,
+    OrderMailer.with(user: self.user, order: self.order,
       send_type: 'new_order_performer').order_send_mail_to_user.deliver_later(wait: 10.seconds)
   end
 

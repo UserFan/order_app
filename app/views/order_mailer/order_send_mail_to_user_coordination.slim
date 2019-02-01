@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    meta content='text/html; charset=UTF-8' http-equiv='Content-Type'
+  body
+
+    h3 = t("#{@locales_path}.content_header", name: @user.full_name)
+    - if @user == @order.owner_user
+      p Заявка № #{@order.order_number} поступил на согласование.
+      p Исполнитель: #{@execution_performer}
+    - else
+      p Отправлен на согласование заявка №#{@order.order_number} от #{l(@order.date_open, format: :date)}
+      p Инициатор заявки: #{@order.owner_user.full_name} (#{@order.shop.name})
+      p Исполнитель: #{@execution_performer}
+    br
+    small
+      = t("#{@locales_path}.content_footer")
