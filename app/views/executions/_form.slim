@@ -1,6 +1,6 @@
 = simple_form_for @execution, url: @execution.new_record? ? executions_path(performer_id: params[:performer_id]) : execution_path(@execution) do |f|
   .col-sm-12.col-md-12
-    = f.input :comment, placeholder: "Коментарий", disabled: (true if f.object.comment.present?)
+    = f.input :comment, placeholder: "Комментарий", disabled: (true if f.object.comment.present?)
   .col-sm-12.col-md-12
     = f.input :order_execution, collection: Status.where(":name = ANY(role)",
               name: current_user.role).order(name: :asc),

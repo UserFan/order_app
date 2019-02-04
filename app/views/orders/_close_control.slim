@@ -6,7 +6,7 @@
   .col-12.col-md-3.border-top.border-info.bg-light.p-1
     b Закрыть (результат):
   .col-12.col-md-9.border-top.bg-light.p-1.border-info
-      = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing? && @order.status_id == Status::AGREE
+      = link_to 'Исполнена', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing? && @order.status_id == Status::AGREE
       | &nbsp;
       = link_to 'Испол. част-но', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing? && @order.status_id == Status::AGREE
       | &nbsp;

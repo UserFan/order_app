@@ -59,7 +59,7 @@ class OrdersController < ApplicationController
       else
         performer.execution.update!(completed: DateTime.now, order_execution:
                    Status::OFF_CONTROL,
-                   comment: "#{performer.execution.comment} (Снято с контроля без согласования)") unless performer.execution.completed.present?
+                   comment: "#{performer.execution.comment} (Снята с контроля без согласования)") unless performer.execution.completed.present?
       end
     end
     @order.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
@@ -70,9 +70,9 @@ class OrdersController < ApplicationController
     authorize @order
 
     if @order.destroy
-      flash[:success] = "Заявка удачно удален."
+      flash[:success] = "Заявка удачно удалена."
     else
-      flash[:error] = "Заявка не может буть удален. Есть связанные данные"
+      flash[:error] = "Заявка не может буть удалена. Есть связанные данные"
     end
     redirect_to orders_path
   end
@@ -114,13 +114,13 @@ class OrdersController < ApplicationController
       when 4
         @caption_table = "На согласовании"
       when 5
-        @caption_table = "Согласованые"
+        @caption_table = "Согласованные"
       when 6
         @caption_table = "На доработке"
       when 7
         @caption_table = "Просроченные"
       when 8
-        @caption_table = "Новые заявки"
+        @caption_table = "Новые"
       else
         @caption_table = ""
     end
@@ -174,7 +174,7 @@ class OrdersController < ApplicationController
                            (executions.completed IS NULL AND performers.deadline < ?)
                            OR (executions.completed > date_execution) OR
                            (executions.completed > performers.deadline)",
-                           Date.today, Date.today).left_outer_joins(performers: :execution).includes(:shop, :status, :category, :user)
+                           Date.today, Date.today).left_outer_joins(performers: :execution).includes(:shop, :status, :category)
 
     params[:overdue] ? @q = @set_orders_overdue.joins(:status, :shop).ransack : @q = @set_orders.joins(:status, :shop).ransack(params[:q])
     set_caption_table(params[:set_caption].nil? ? 1 : (params[:set_caption].to_i))

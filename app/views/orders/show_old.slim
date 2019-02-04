@@ -77,7 +77,7 @@
             - if @order.date_closed.present?
               = l(@order.date_closed, format: :date)
             - else
-                = link_to 'Исполнен', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing?
+                = link_to 'Исполнена', closing_order_path(@order, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@order).closing?
                 | &nbsp;
                 = link_to 'Испол. част.', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing?
                 | &nbsp;

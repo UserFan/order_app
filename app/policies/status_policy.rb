@@ -5,7 +5,7 @@ class StatusPolicy < ApplicationPolicy
   end
 
   def edit?
-    return false if (1..11).include?(record.id)
+    #return false if (1..11).include?(record.id)
     super
   end
 

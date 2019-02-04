@@ -11,7 +11,7 @@ html
         p Результат исполнения заявки: #{@order.status.name}.
         p Дата закрытия заявки: #{l(@order.date_closed, format: :date)}.
         - if @order.status != Status::NOT_COMPLETED
-          p Надеемся что Вы остались довольны результатами проведенных работ.
+          p Надеемся, что Вы остались довольны результатами проведенных работ.
         p Спасибо что восползовались данным сервисом. Свои пожелания и предложения можете отправить на e-mail: info@arishmae.ru
       - else
         p #{@content_text}
@@ -20,10 +20,10 @@ html
 
     - if @send_type == 'order_coordination'
       - if @user == @order.owner_user
-        p Заявка №#{@order.order_number} поступил на согласование.
+        p Заявка №#{@order.order_number} поступила на согласование.
         p Исполнитель: #{@execution_performer}
       - else
-        p Отправлен на согласование заявка №#{@order.order_number} от #{l(@order.date_open, format: :date)}
+        p Отправлена на согласование заявка №#{@order.order_number} от #{l(@order.date_open, format: :date)}
         p Инициатор заявки: #{@order.owner_user.full_name}(#{@order.shop.name})
         p Исполнитель: #{@execution_performer}
 
@@ -31,10 +31,10 @@ html
        - if @user == @order.employee.user
          p  #{@content_text}: #{@order.owner_user.full_name}(#{@order.shop.name})
          - if (Rate.find_by_rateable_id(@execution.id)).present?
-           p Поставлено оценка за выполненные работы: #{Rate.find_by_rateable_id(@execution.id).stars}
+           p Поставлена оценка за выполненные работы: #{Rate.find_by_rateable_id(@execution.id).stars}
        - else
           p #{@content_text}: #{@order.owner_user.full_name}(#{@order.shop.name})
-          p С Вас данная заявка снята с контроля: #{l(@execution.completed, format: :date)}
+          p С Вас данная заявка снята: #{l(@execution.completed, format: :date)}
     - if @send_type == 'order_not_coordination'
       - if @user == @order.employee.user
         p По заявке #{@order.order_number} есть замечания.

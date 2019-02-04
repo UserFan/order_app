@@ -15,7 +15,7 @@ nav.navbar-expand-md.nav-pills.navbar-light.mb-3
           - if @orders_new > 0
             = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NEW}, set_caption: 8), active: :exact, class: "nav-item nav-link main-nav-link" do
               span.fas.fa-envelope.text-muted&nbsp
-                Новые заявки
+                Новые
               span.badge.badge-pill.badge-secondary.float-right = @orders_new
 
           - if @orders_open > 0
@@ -39,7 +39,7 @@ nav.navbar-expand-md.nav-pills.navbar-light.mb-3
           - if @orders_agree > 0
             = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}, set_caption: 5), active: :exact, class: "nav-item nav-link main-nav-link" do
               span.fas.fa-handshake.text-muted&nbsp
-                Согласовано
+                Согласованные
               span.badge.badge-pill.badge-secondary.float-right = @orders_agree
 
           - if @orders_not_coordination > 0

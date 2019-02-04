@@ -48,13 +48,5 @@
                   ul
                     #Performerlist
                     = render 'performers_list', performer: performer
-            /   br
-            / - if @coexecutor.present?
-            /   li
-            /     .font-italic.text-primary Соисполнители:
-            /     - @coexecutor.each do |coexecutor|
-            /       hr.m-1
-            /       ul
-            /         = render 'executors_list', performer: coexecutor
   .row.justify-content-end.p-0.m-0
     = link_to "Закрыть", orders_path, class: "btn btn-info mb-3"

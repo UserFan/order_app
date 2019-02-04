@@ -66,7 +66,7 @@ li
                   - if policy(performer.execution).comment?
                     .pt-2
                     = simple_form_for [performer.execution.reworks.build(user_id: current_user.id)], url: execution_reworks_path(execution_id: performer.execution.id, execution_work: false) do |f|
-                      = f.input :comment, as: :text, placeholder: "Напишите текст комментарии"
+                      = f.input :comment, as: :text, placeholder: "Напишите текст комментария"
                       = f.input :user_id, as: :hidden
                       .form-group.float-right.mb-0
                         = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm",

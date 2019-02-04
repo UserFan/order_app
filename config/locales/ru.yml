@@ -2,8 +2,8 @@ ru:
   structural:
     shops:
       destroy:
-        success: "Структурное подразделение удачно удален"
-        error:   "Структурное подразделение не может буть удален. Есть связанные данные"
+        success: "Структурное подразделение удачно удалено."
+        error:   "Структурное подразделение не может буть удалено. Есть связанные данные"
   shop:
     shops:
       destroy:
@@ -43,7 +43,7 @@ ru:
     computer_system: 'Конфиг-я компьютера'
     computer_monitor: 'Монитор(комп.)'
     computer_mouse: 'Мышь(манипулятор)'
-    computer_keyboard: 'Клавиатруа(комп.)'
+    computer_keyboard: 'Клавиатура(комп.)'
     computer_stabilizer: 'Стабилизатор(комп.)'
     computer_printer: 'Принтер(МФУ)'
     computer_teamviewer: 'ID Teamviewer'
@@ -153,12 +153,12 @@ ru:
 
   fiscals:
     index:
-      caption_button: "Добавить ''Фискалный аппарат''"
-      caption_title: "Справочник ''Фискалный аппарат''"
+      caption_button: "Добавить ''Фискальный аппарат''"
+      caption_title: "Справочник ''Фискальный аппарат''"
     edit:
-      caption_text: "Корректировка ''Фискалного аппарат''"
+      caption_text: "Корректировка ''Фискального аппарат''"
     new:
-      caption_text: "Новый ''Фискалный аппарат''"
+      caption_text: "Новый ''Фискальный аппарат''"
 
   keyboards:
     index:
@@ -297,26 +297,26 @@ ru:
 
     attributes:
       shop/cashboxes:
-        organization_unit: "Юридическое лицо (каcсовый оборудование):"
-        display: "Дисплей (каcсовый оборудование):"
+        organization_unit: "Юридическое лицо (каcсовое оборудование):"
+        display: "Дисплей (каcсовое оборудование):"
         display_sn: "Серийный (S/N) №:"
-        system_unit: "Системный блок (каcсовый оборудование):"
+        system_unit: "Системный блок (каcсовое оборудование):"
         system_unit_sn: "Серийный (S/N) №:"
-        keyboard: "Клавиатура (каcсовый оборудование):"
+        keyboard: "Клавиатура (каcсовое оборудование):"
         keyboard_sn: "Серийный (S/N) №:"
-        display_client_id: "Дисплей покупателя (каcсовый оборудование):"
+        display_client_id: "Дисплей покупателя (каcсовое оборудование):"
         display_client_sn: "Серийный (S/N) №:"
-        stabilizer: "Стабилизатор напряжения (каcсовый оборудование):"
+        stabilizer: "Стабилизатор напряжения (каcсовое оборудование):"
         stabilizer_sn: "Серийный (S/N) №:"
-        apc: "ИБП (каcсовый оборудование):"
+        apc: "ИБП (каcсовое оборудование):"
         apc_sn: "Серийный (S/N) №:"
-        scaner: "Сканер (каcсовый оборудование):"
+        scaner: "Сканер (каcсовое оборудование):"
         scaner_sn: "Серийный (S/N) №:"
-        fiscal: "Фискальный аппарат (каcсовый оборудование):"
+        fiscal: "Фискальный аппарат (каcсовое оборудование):"
         fiscal_sn: "Серийный (S/N) №:"
-        bank_unit: "Банковский терминал (каcсовый оборудование):"
+        bank_unit: "Банковский терминал (каcсовое оборудование):"
         terminal_sn: "Серийный (S/N) №:"
-        cashbox_photos_id: "Фото кассового блока (каcсовый оборудование):"
+        cashbox_photos_id: "Фото кассового блока (каcсовое оборудование):"
         orders_take: "Принимать заявки от объектов"
         comment: "Комментарий:"
 
@@ -412,7 +412,7 @@ ru:
       #     comment: "Комментарий:"
       rework:
           user_id: "Пользователь"
-          comment: "Написать комментарии"
+          comment: "Написать комментарий"
       profile:
           surname: 'Фамилия'
           first_name: 'Имя'
@@ -486,8 +486,8 @@ ru:
       content_header: "Уважаемый(ая) %{name}!"
       content_footer: "Данное сообщение создано автоматически. Отвечать на данное сообщение не нужно!"
 
-      subject_delete_order_control: "Заявка №%{number} снят с контроля"
-      content_delete_order_control: "Заявка №%{number} с Вас снят с контроля."
+      subject_delete_order_control: "Заявка №%{number} снята с контроля"
+      content_delete_order_control: "Заявка №%{number} с Вас снята."
 
       subject_change_order: "В заявку №%{number} внесены изменения"
       content_change_order: "В заявку №%{number} были внесены изменения. Вам необходимо ознакомиться внесенными изменениями."
@@ -508,13 +508,13 @@ ru:
       content_new_order_performer: "Вам назначена на исполенение новая заявка №%{number} от %{date_start}."
 
       subject_order_change_owner: "Информация по вашей заявки №%{number}"
-      content_order_change_owner: "Ваша заявка №%{number} от %{date_start} расмотренна. По данной заявке определены следующие исполнители:"
+      content_order_change_owner: "Ваша заявка №%{number} от %{date_start} рассмотрена. По данной заявке определены следующие исполнители:"
 
-      subject_order_coordination: "Заявка №%{number} отправлен на согласование."
-      content_order_coordination: "Заявка №%{number} отправлен на согласование."
+      subject_order_coordination: "Заявка №%{number} отправлена на согласование."
+      content_order_coordination: "Заявка №%{number} отправлена на согласование."
 
-      subject_order_agree: "Заявка №%{number} cогласовано"
-      content_order_agree: "Заявка №%{number} cогласовано"
+      subject_order_agree: "Заявка №%{number} cогласована"
+      content_order_agree: "Заявка №%{number} cогласована"
 
       subject_order_not_coordination: "По заявке №%{number} есть замечания"
       content_order_not_coordination: "По заявке №%{number} есть замечания. Необходимо их устранить!"
