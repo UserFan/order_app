@@ -14,5 +14,4 @@ Ransack.configure do |c|
     default_arrow: '<i class="default-arrow-icon"></i>'
 
   }
-
 end
