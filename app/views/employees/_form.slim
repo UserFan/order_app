@@ -1,16 +1,16 @@
 = simple_form_for [@user, @employee] do |f|
   .col-sm-12.col-md-12
-    = f.association :shop, label_method: :name, value_method: :id, required: true
+    = f.association :shop, label_method: :name, value_method: :id, required: true, disabled: (true unless @employee.can_destroy?)
   .col-sm-12.col-md-12
-    = f.association :position, label_method: :name, value_method: :id, required: true
+    = f.association :position, label_method: :name, value_method: :id, required: true, disabled: (true unless @employee.can_destroy?)
   .col-sm-12.col-md-12
-    = f.input :work_start_date, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'work_start_date', input_html: { class: 'date_mask' }
+    = f.input :work_start_date, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'work_start_date', input_html: { class: 'date_mask' }, disabled: (true unless @employee.can_destroy?)
   .col-sm-12.col-md-12
-    = f.input :work_end_date, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'work_end_date', input_html: { class: 'date_mask' }
+    = f.input :work_end_date, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'work_end_date', input_html: { class: 'date_mask' }, disabled: (true if @employee.work_end_date.present?)
   .col-sm-12.col-md-12
-    = f.input :manager
+    = f.input :manager, disabled: (true unless @employee.can_destroy?)
   .col-sm-12.col-md-12
-    = f.input :temporary
+    = f.input :temporary, disabled: (true unless @employee.can_destroy?)
   .form-group.float-right.mb-0.mt-2
     = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm", data: { disable_with: "Подождите..." }
     = link_to "Отмена", user_path(@user), class: "btn btn-outline-success m-1 btn-sm"

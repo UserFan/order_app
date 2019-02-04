@@ -32,7 +32,7 @@
                     td.d-none.d-sm-table-cell = employee.manager
                     td.d-none.d-sm-table-cell = employee.temporary
                     td.row-skip.edit-control
-                      - if policy(employee).edit? && employee.can_destroy?
+                      - if policy(employee).edit?
                         = link_to edit_user_employee_path(user_id: @user, id: employee), data: { toggle: 'tooltip', placement: 'bottom' },
                            title: "Корректировка данных" do
                              span.fa.fa-pencil-alt.edit-button

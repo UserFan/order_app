@@ -16,41 +16,36 @@
       hr
       = render "orders_navigation"
     .col-sm-12.col-md-9
-      h3.m-1.d-none.d-sm-block = @caption_table
-      hr.p-0.mt-3.d-none.d-sm-block
+      .row
+        .col-12.col-md-4
+          h3.m-1.d-none.d-sm-block = @caption_table
+        .col-12.col-md-8.pt-2
+          .pagination.pagination-sm.float-right
+            = will_paginate @orders, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
+      hr.p-0.mt-0.d-none.d-sm-block
       table.table.table-hover#order-table
         thead.thead-light.text-dark
           tr.text-dark
             th.number-order =sort_link(@q, :order_number, '№ заявки', default_order: :asc)
             th.d-none.d-sm-table-cell =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
-            //th =sort_link(@q, :category_name, 'Категория заявки', default_order: :asc)
             th =sort_link(@q, :shop_name, 'Инициатор', default_order: :asc)
-            /th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Описание', default_order: :asc)
             th.d-none.d-sm-table-cell =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
-            //th =sort_link(@q, :date_closed, 'Заявка выполнена', default_order: :asc)
             - if policy(@orders).edit?
               th.text-center.edit-control
                 i.fa.fa-list
         tbody
-          - @orders.each do |order|
+          - @orders.find_each do |order|
             tr.table-row data-href="#{order_path(order)}"
               td.number-order
                 = order.order_number
                 = content_tag(:span, "Дата: #{l(order.date_open, format: :date)}", class: "small d-md-none d-block text-muted")
                 = content_tag(:span, "#{order.status.name}", class: "small d-md-none d-block text-success")
               td.d-none.d-sm-table-cell.order_date_open = l(order.date_open, format: :date)
-              //td = order.category.name
               td.order-descript
-                  = order.shop.name
-                  br
-                  = content_tag(:span, "#{order.description}", class: "small text-info d-inline-block text-truncate order-descript")
-              / td.d-none.d-sm-table-cell
-              /
-              /   span.d-inline-block.text-truncate.order-descript
-              /     = order.description
-
+                = order.shop.name
+                br
+                = content_tag(:span, "#{order.description}", class: "small text-info d-inline-block text-truncate order-descript")
               td.d-none.d-sm-table-cell.status_order = order.status.name
-              //td = l(order.date_closed, format: :date) if order.date_closed
               - if policy(order).edit?
                 td.row-skip.edit-control
                   = link_to edit_order_path(order), data: { toggle: 'tooltip', placement: 'bottom' },
