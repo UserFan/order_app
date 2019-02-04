@@ -14,7 +14,7 @@ li
         class: 'text-danger order-control-danger') if (Date.today > performer.deadline)
   - else
     = content_tag(:small, " (Срок исполнения: #{l(performer.deadline, format: :date)}, cнята с контроля: #{l(performer.execution.completed, format: :datetime)})",
-        class: "#{(performer.execution.completed <= performer.deadline) ? 'text-success order-control-closed' : 'text-danger order-control-danger'}")
+        class: "#{(performer.execution.completed < performer.deadline) ? 'text-success order-control-closed' : 'text-danger order-control-danger'}")
 
 .pt-3
   b.text-muted Сведения об исполнении:&nbsp;

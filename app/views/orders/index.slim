@@ -6,7 +6,8 @@
     .col-sm-6.col-md-12.p-0.d-flex
       nav.nav.nav-pills.nav-fill.flex-sm-row
         = active_link_to orders_path, active: :exact, class: "nav-item nav-link" do
-          | Всего
+          |
+          = current_user.super_admin? ? "Всего" : "Мои заявки"
           - if @orders_count !=0
           span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@orders_count}
 

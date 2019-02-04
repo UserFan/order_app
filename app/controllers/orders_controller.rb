@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
   def new
     authorize Order
     @order = Order.new(date_open: DateTime.now, user_id: current_user.id,
-                       date_execution: DateTime.now + 3.days,
+                       date_execution: DateTime.now + 7.days,
                        status_id: Status::NEW)
     # @users_order =  User.includes(:profile, :shops).where(admin: false).
     # joins(:employees).where(employees: { manager: true }, shops: { orders_take: false })
@@ -36,7 +36,7 @@ class OrdersController < ApplicationController
   def create
     authorize Order
     @order = Order.new(permitted_attributes(Order).merge(date_open: DateTime.now,
-              user_id: current_user.id, date_execution: DateTime.now + 3.days,
+              user_id: current_user.id, date_execution: DateTime.now + 7.days,
               status_id: Status::NEW))
     if @order.save
       redirect_to orders_path
@@ -119,7 +119,7 @@ class OrdersController < ApplicationController
   def set_index
     if current_user.super_admin? || current_user.moderator? #|| current_user.guide?
       @set_orders = Order.includes(:shop, :category, :status, :users, :reworks, :employee).
-                          joins(performers: :execution).distinct
+                          left_outer_joins(performers: :execution).distinct
       @orders_for_closing = @set_orders.where("date_closed is null and status_id = ?",
                             Status::COORDINATION).distinct.size
       @orders_agree = @set_orders.where("date_closed is null and status_id = ?",
@@ -141,10 +141,11 @@ class OrdersController < ApplicationController
 
     end
       @set_orders_overdue =
-          @set_orders.where("(date_closed > date_execution)").
-                      where("(date_closed IS NULL OR date_execution < ?) OR
-                             (executions.completed IS NULL OR performers.deadline < ?)
-                             OR (executions.completed < date_execution)",
+          @set_orders.where("(date_closed > date_execution)").or(@set_orders).
+                      where("(date_closed IS NULL AND date_execution < ?) OR
+                             (executions.completed IS NULL AND performers.deadline < ?)
+                             OR (executions.completed > date_execution) OR
+                             (executions.completed > performers.deadline)",
                              Date.today, Date.today)
 
            # AND

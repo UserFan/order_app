@@ -7,7 +7,7 @@ class PerformersController < ApplicationController
   def new
     authorize Performer
     if @users_performer.present?
-      @performer = @order.performers.build(deadline: Date.today + 2.days, message: true)
+      @performer = @order.performers.build(deadline: @order.date_execution - 1.days, message: true)
     else
       flash[:error] = "Все сотрудники отдела уже являються исполнителями!"
       redirect_to order_path(@order)
@@ -23,7 +23,8 @@ class PerformersController < ApplicationController
     authorize Performer
     @order.performers.present? ? first_performer = true : first_performer = false
     #binding.pry
-    @performer= @order.performers.create(permitted_attributes(Performer))
+    @performer= @order.performers.create(permitted_attributes(Performer).merge(
+                deadline: @order.date_execution - 1.days))
     if @performer.save
       @order.update!(status_id: Status::EXECUTION) unless first_performer
       redirect_to order_path(@order)
