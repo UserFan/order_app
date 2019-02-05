@@ -20,6 +20,7 @@ class Order < ApplicationRecord
 
   validates :user_id, :date_open, :employee_id, :date_execution, :description, presence: true
 
+  
 
   def control_user
     User.find(user_id)

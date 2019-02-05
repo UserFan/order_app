@@ -1,0 +1,42 @@
+nav.navbar-expand-md.nav-pills.navbar-light.mb-3
+  = content_tag(:span, "#{@caption_table}", class: "navbar-brand d-md-none small text-muted")
+  button.navbar-toggler.float-right aria-controls="navpilsNav" aria-expanded="false" aria-label="Toggle navigation" data-target="#navpilsNav" data-toggle="collapse" type="button"
+    span.navbar-toggler-icon
+  .row
+    #navpilsNav.collapse.navbar-collapse
+      .mt-4.mb-4
+      .col-12.col-md-12
+        = active_link_to orders_path, active: :exclusive, active: :exact, class: "nav-item nav-link" do
+          |
+          = current_user.super_admin? ? "Все заявки" : "Мои заявки"
+          span.badge.badge-pill.badge-secondary.float-right = @orders_count if @orders_count > 0
+        .col-12.col-md-12.mr-0.pr-0.pl-4
+          - if @orders_open > 0
+            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}, set_caption: 2), active: :exact, class: "nav-item nav-link main-nav-link" do
+              | В работе
+              span.badge.badge-pill.badge-secondary.float-right = @orders_open
+
+          - if @orders_closed > 0
+            = active_link_to orders_path(q: {date_closed_not_null: '1'}, set_caption: 3), active: :exact, class: "nav-item nav-link main-nav-link" do
+              | Исполненные
+              span.badge.badge-pill.badge-secondary.float-right = @orders_closed
+
+          - if @orders_for_closing > 0
+            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}, set_caption: 4), active: :exact, class: "nav-item nav-link main-nav-link" do
+              | На согласовании
+              span.badge.badge-pill.badge-secondary.float-right = @orders_for_closing
+
+          - if @orders_agree > 0
+            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              | Согласованые
+              span.badge.badge-pill.badge-secondary.float-right = @orders_agree
+
+          - if @orders_not_coordination > 0
+            = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              | В доработке
+              span.badge.badge-pill.badge-secondary.float-right = @orders_not_coordination
+
+          - if @orders_overdue > 0
+            = active_link_to orders_path(overdue: true), active: :exact, class: "nav-item nav-link main-nav-link" do
+              | Просроченные
+              span.badge.badge-pill.badge-secondary.float-right = @orders_overdue

@@ -100,6 +100,26 @@ class OrdersController < ApplicationController
                     .joins(:user)
   end
 
+  def set_caption_table(set_caption)
+    case set_caption
+      when 1
+        @caption_table = current_user.super_admin? ? "Все заявки" : "Мои заявки"
+      when 2
+        @caption_table = "В работе"
+      when 3
+        @caption_table = "Исполненные"
+      when 4
+        @caption_table = "На согласовании"
+      when 5
+        @caption_table = "Согласованые"
+      when 6
+        @caption_table = "На доработке"
+      when 7
+        @caption_table = "Просроченные"
+      else
+        @caption_table = ""
+    end
+  end
 
   def set_closing
     case (params[:close]).to_i
@@ -118,16 +138,16 @@ class OrdersController < ApplicationController
 
   def set_index
     if current_user.super_admin? || current_user.moderator? #|| current_user.guide?
-      @set_orders = Order.includes(:shop, :category, :status, :users, :reworks, :employee).
-                          left_outer_joins(performers: :execution).distinct
+      @set_orders = Order.select("orders.*", "statuses.name", "shops.*").includes(:category, :users, :reworks, :employee).
+                          left_outer_joins(:status, :shop, performers: :execution).distinct
       @orders_for_closing = @set_orders.where("date_closed is null and status_id = ?",
                             Status::COORDINATION).distinct.size
       @orders_agree = @set_orders.where("date_closed is null and status_id = ?",
                             Status::AGREE).distinct.size
 
     else
-      @set_orders =  Order.includes(:shop, :category, :status, :users, :reworks).
-                      left_outer_joins(:employee, :executions, performers: :employee).
+      @set_orders =  Order.includes(:users, :reworks).
+                      left_outer_joins(:shop, :status, :employee, :executions, performers: :employee).
                       where("orders.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
                         current_user, current_user, current_user).distinct
       @orders_coordination = @set_orders.where("date_closed is null and
@@ -167,6 +187,7 @@ class OrdersController < ApplicationController
       #                      Date.today, Date.today).left_outer_joins(:performers, performers: :execution).distinct
 
       params[:overdue] ? @q = @set_orders_overdue.ransack : @q = @set_orders.ransack(params[:q])
+      set_caption_table(params[:set_caption].nil? ? 1 : (params[:set_caption].to_i))
       @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
       @orders = @q.result(disinct: true)
       @orders_closed = @set_orders.where.not(date_closed: nil).size

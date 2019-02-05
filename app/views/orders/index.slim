@@ -1,7 +1,7 @@
 .container
   .row.justify-content-end
-    h1.font-weight-bold Перечень заявок.
-  hr
+    h1.font-weight-bold.mr-3 Перечень заявок
+  hr.mt-1
   .row.justify-content-end
     .col-sm-12.col-md-5
       = search_form_for (@q) do |f|
@@ -11,54 +11,13 @@
             button.btn.btn-outline-secondary type="submit"
               span.fa.fa-search
   .row
-    .col-sm-12.col-md-3
-      = link_to "Новая",  new_order_path, class: "btn btn-outline-success" if policy(@orders).new?
-  hr
-  .row
     .col-12.col-md-3
-      nav.navbar-expand-md.nav-pills.navbar-light.bg-light
-        = content_tag(:span, "sddddd", class: "navbar-brand d-md-none small text-muted")
-        /span.navbar-brand.d-md-none.d-block.text-muted sddddd
-        button.navbar-toggler aria-controls="navpilsNav" aria-expanded="false" aria-label="Toggle navigation" data-target="#navpilsNav" data-toggle="collapse" type="button"
-          span.navbar-toggler-icon
-        #navpilsNav.collapse.navbar-collapse
-          .col-12.col-md-12.mt-3
-            = active_link_to orders_path, active: :exact, class: "nav-item nav-link" do
-              |
-              = current_user.super_admin? ? "Всего" : "Мои заявки"
-              span.badge.badge-pill.badge-secondary.float-right = @orders_count if @orders_count > 0
-            .col-12.col-md-12.mr-0.pr-0.pl-4           
-              - if @orders_open > 0
-                = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::EXECUTION}), active: :exact, class: "nav-item nav-link main-nav-link" do
-                  | В работе
-                  span.badge.badge-pill.badge-secondary.float-right = @orders_open
-
-              - if @orders_closed > 0
-                = active_link_to orders_path(q: {date_closed_not_null: '1'}), active: :exact, class: "nav-item nav-link main-nav-link" do
-                  | Отработанные
-                  span.badge.badge-pill.badge-secondary.float-right = @orders_closed
-
-              - if @orders_for_closing > 0
-                = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
-                  | На согласовании
-                  span.badge.badge-pill.badge-secondary.float-right = @orders_for_closing
-
-              - if @orders_agree > 0
-                = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}), active: :exact, class: "nav-item nav-link main-nav-link" do
-                  | Согласованые
-                  span.badge.badge-pill.badge-secondary.float-right = @orders_agree
-
-              - if @orders_not_coordination > 0
-                = active_link_to orders_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}), active: :exact, class: "nav-item nav-link main-nav-link" do
-                  | В доработке
-                  span.badge.badge-pill.badge-secondary.float-right = @orders_not_coordination
-
-              - if @orders_overdue > 0
-                = active_link_to orders_path(overdue: true), active: :exact, class: "nav-item nav-link main-nav-link" do
-                  | Просроченные
-                  span.badge.badge-pill.badge-secondary.float-right = @orders_overdue
-
-    .col-sm-12.col-md-9.mt-3
+      = link_to "Новая заявка",  new_order_path, class: "btn btn-outline-success" if policy(@orders).new?
+      hr
+      = render "orders_navigation"
+    .col-sm-12.col-md-9
+      h3.m-1.d-none.d-sm-block = @caption_table
+      hr.p-0.mt-3.d-none.d-sm-block
       table.table.table-hover#order-table
         thead.thead-light.text-dark
           tr.text-dark
