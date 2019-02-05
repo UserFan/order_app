@@ -19,13 +19,13 @@
   width: 140px
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+#order-nav-pills .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
 
   color: black;
   background-color: #E9E9E9;
 }
 
-a.nav-item.nav-link {
+#navpilsNav a.nav-item.nav-link {
   color: black;
 }
 
@@ -35,18 +35,6 @@ a.nav-item.nav-link {
   margin: 0px;
   padding: 0px;
 }
-
-.rating_stars {
-  // display: block;
-  // transform: scale(2);
-}
-
-// .nav-link:hover {
-//     background-color: #F9F9F9;
-//     cursor: pointer;
-// }
-
-
 
 @media(max-width: 480px) {
   #order-table thead {
