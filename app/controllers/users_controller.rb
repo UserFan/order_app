@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     @user = User.new(permitted_attributes(User).merge(password: generated_password))    # Not the final implementation!
       authorize @user
     if @user.save
-      redirect_to user_path
+      redirect_to users_path
     else
       render 'new'
     end
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     authorize @user
     if @user.update_without_password(permitted_attributes(@user))
       if current_user.moderator? || current_user.super_admin?
-        redirect_to user_path
+        redirect_to users_path
       else
         redirect_to root_path
       end
