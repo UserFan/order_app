@@ -13,9 +13,6 @@
         .row
           .col-sm-12.col-md-8
             = m.input :surname, autocomplete: "off", required: true, autofocus: true, disabled: current_user == @user
-          / .col-sm-12.col-md-6.main-check
-          /   = f.association :role, collection: Role.where.not(id: 4).order(name: :asc), disabled: current_user == @user,
-          /               as: :radio_buttons if current_user.moderator? || current_user.super_admin?
         .row
           .col-sm-12.col-md-6
             = m.input :first_name, autocomplete: "off", required: true, disabled: current_user == @user
@@ -33,10 +30,3 @@
           - unless @user.new_record?
             .col-sm-12.col-md-6
               = m.input :date_quit, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_quit', input_html: { class: 'date_mask'}
-
-        / - if @user.locked_at.nil? && (current_user == @user || current_user.moderator? || current_user.super_admin?)
-        /   .row
-        /     .col-sm-12.col-md-6
-        /       = f.input :password, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), required: false
-        /     .col-sm-12.col-md-6
-        /       = f.input :password_confirmation, required: false
