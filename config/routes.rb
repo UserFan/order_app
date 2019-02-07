@@ -47,17 +47,31 @@ Rails.application.routes.draw do
     resources :carrier_types
     resources :equipment_types
     resources :cost_types
+    resources :type_documents
   end
 
   resources :orders do
     get 'closing', on: :member
     resources :performers
   end
+
+  resources :tasks do
+    get 'closing', on: :member
+    resources :task_performers
+  end
+
   resources :executions do
     get 'coordination', on: :member
     get 'remove_control', on: :member
     resources :reworks, only: [:new, :create]
   end
+
+  resources :task_executions do
+    get 'coordination', on: :member
+    get 'remove_control', on: :member
+    #resources :reworks, only: [:new, :create]
+  end
+
   resources :cash_images, only: [:show]
   resources :esp_certs, only: [:index, :show]
   get :version_update_log, action: :version_update, controller: 'shops'

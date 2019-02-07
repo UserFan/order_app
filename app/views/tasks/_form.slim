@@ -1,0 +1,41 @@
+= simple_form_for @task, html: {:multipart => true} do |f|
+  = render 'shared/error_messages', object: f.object
+  .col-sm-12.col-md-12
+    .row
+      .col-sm-12.col-md-6
+        = f.association :type_document, label_method: :name, value_method: :id, required: true, disabled: (true if (@task.date_closed.present?))
+      .col-sm-12.col-md-6
+        = f.input :structural_id, collection: @structural, label_method: :name, value_method: :id, required: true
+    .row
+      .col-sm-12.col-md-8
+        //= f.input :answerable_manager, collection: User.all, required: true, label_method: :full_name, value_method: :user_id, disabled: (true if (@task.date_closed.present?))
+        = f.association :user, collection: User.all, label_method: :full_name, value_method: :id, required: true, disabled: true
+      .col-sm-12.col-md-4
+        = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution_task', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@task.date_closed.present?))
+    .row
+      .col-sm-12.col-md-12
+        = f.input :description, as: :text, disabled: (true if (@task.date_closed.present?))
+    .row
+      - unless f.object.new_record?
+        / .col-sm-12.col-md-6
+        /   = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@task.date_closed.present?))
+        .col-sm-12.col-md-4
+          = f.input :date_closed, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_close_task', input_html: { class: 'date_mask'} if current_user.super_admin?
+    .row
+      .col-sm-12.col-md-3
+        - if @task.images_document
+          ul
+            - @task.images_document.each do |images_document|
+              li = image_tag(images_document.thumb.url)
+        = f.file_field :images_document, multiple: true,
+            title: t('form_button_caption.check_image'),
+            class: "btn btn-outline-primary",
+            data: { "filename-placement": "outside" }
+
+    .row.justify-content-end
+      .form-group.p-0.m-0.pt-4
+        = f.button :submit, t('form_button_caption.send_task'),
+                   class: "btn btn-primary pull-right",
+                   data: {disable_with: t('form_button_caption.disabled_send')}
+        = link_to t('form_button_caption.cancel'), tasks_path,
+                  class: "btn btn-info pull-right"

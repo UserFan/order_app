@@ -1,0 +1,8 @@
+.container
+  .col-sm-12.col-md-12
+    h4.text-center Фотоотчет для карточки №#{@task_execution.task_performer.task.task_number}
+    .row.pt-5
+      = render 'shared/priview_images', show_image: @task_execution
+  .col-sm-12.col-md-12
+    .row.pt-4.justify-content-center
+      = link_to "Закрыть", task_path(@task_execution.task_performer.task), class: "btn btn-info"

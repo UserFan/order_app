@@ -1,0 +1,28 @@
+#order-show.container
+  .col-sm-12.col-md-12
+    h2.text-right
+      b Информация по карточке №#{@task.task_number}
+    hr
+  .row
+    .col-sm-12.col-md-6
+      = render 'middle_show'
+      = render 'small_show'
+    .col-sm-12.col-md-6
+      .card.shadow.p-3.mb-3.bg-white.rounded
+        .card-header.bg-transparent.p-0.m-0
+          span.card-title.text-info.h6.font-weight-bold.m-0 Подразделения исполнители:
+        .card-body.pb-0
+          .font-weight-bold
+            | Исполнители:&nbsp;
+            - if policy(@task).new_task_performers?
+              = link_to new_task_task_performer_path(@task) do
+                span.fas.fa-user-plus
+            .col-12.col-md-12
+              .w-100
+                - @task_performers.each do |task_performer|
+                  hr.m-1
+                  ul
+                    #Performerlist
+                    = render 'tasks/performers_list', task_performer: task_performer
+  .row.justify-content-end.p-0.m-0
+    = link_to "Закрыть", tasks_path, class: "btn btn-info mb-3"

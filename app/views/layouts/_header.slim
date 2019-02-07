@@ -13,13 +13,13 @@ nav.navbar.sticky-top.navbar-expand-sm.bg-dark.navbar-dark
               = current_user.full_name
             .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
               = link_to 'Заявки', orders_path, class: "dropdown-item"
+              = link_to 'Контрольная карточка', tasks_path, class: "dropdown-item" if (current_user.guide? || current_user.super_admin? || current_user.moderator?) 
               = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item"
               = link_to 'Структурное подразделения', shops_path(unit: 'structural'), class: "dropdown-item"
               = link_to 'Торговые объекты', shops_path(unit: 'shop'), class: "dropdown-item"
               - if current_user.moderator? || current_user.super_admin?
                 = link_to 'ЭЦП', esp_certs_path, class: "dropdown-item"
                 .dropdown-divider
-
                 = link_to 'Пользователи системы', system_user_path, class: "dropdown-item"
                 = link_to 'Справочники', catalog_path, class: "dropdown-item"
                 = link_to 'Сотрудники', users_path, class: "dropdown-item"

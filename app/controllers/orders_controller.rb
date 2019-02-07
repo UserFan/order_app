@@ -92,8 +92,9 @@ class OrdersController < ApplicationController
   def set_collection_user
     @users_order =  Employee.includes(:user, :shop).
                     where(manager: true, shops: {orders_take: true}).
-                    where("work_start_date < ? AND (work_end_date IS NULL OR work_end_date > ?)", Date.today, Date.today).joins(:user)
-                    .joins(:user)
+                    where("work_start_date < ? AND (work_end_date IS NULL OR work_end_date > ?)",
+                    Date.today, Date.today).joins(:user)
+
 
     @users_order = @users_order.where( manager: true, temporary: true) if @users_order.size > 1
     if current_user.super_admin? || current_user.guide?

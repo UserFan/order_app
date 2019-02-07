@@ -12,6 +12,7 @@ class Status < ApplicationRecord
   NOT_COMPLETED = 11
 
   has_many :orders, dependent: :restrict_with_error
+  has_many :tasks, dependent: :restrict_with_error
 
   validates :name, presence: true
 

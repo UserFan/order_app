@@ -4,6 +4,7 @@ class User < ApplicationRecord
   belongs_to :role
   #has_many :performers, dependent: :restrict_with_error
   has_many :orders, through: :employee, foreign_key: :user_id
+  has_many :tasks, dependent: :restrict_with_error
   has_many :executions, through: :performers, foreign_key: :user_id
   has_many :reworks, dependent: :restrict_with_error
   has_many :employees, dependent: :restrict_with_error

@@ -45,7 +45,8 @@ var date_pic = function () {
                   '#date_close_order, #date_close_shop, #date_image_cash,' +
                   '#date_service, #date_performance, #date_cost,' +
                   '#date_recruitment, #date_quit, #work_start_date,' +
-                  '#work_end_date, #performer_deadline'
+                  '#work_end_date, #performer_deadline, #task_performer_deadline' +
+                  '#date_open_task, #date_execution_task, #date_close_task'
   $(name_selector).datetimepicker();
   $('form').on('cocoon:after-insert', function() { $(name_selector).datetimepicker() });
 };

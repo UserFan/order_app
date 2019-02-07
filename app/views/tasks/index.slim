@@ -1,0 +1,59 @@
+.container
+  .row.justify-content-end
+    h1.font-weight-bold.mr-3 Перечень контрольных карточек
+  hr.mt-1
+  .row.justify-content-end
+    .col-sm-12.col-md-5
+      = search_form_for (@q) do |f|
+        .input-group.pb-4
+          = f.input_field :description_or_shop_name_or_type_document_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+          span.input-group-append
+            button.btn.btn-outline-secondary type="submit"
+              span.fa.fa-search
+  .row
+    .col-12.col-md-3
+      = link_to "Новая карточка",  new_task_path, class: "btn btn-outline-success" if policy(@tasks).new?
+      hr
+      = render "tasks_navigation"
+    .col-sm-12.col-md-9
+      .row
+        .col-12.col-md-4
+          h3.m-1.d-none.d-sm-block = @caption_table
+        .col-12.col-md-8.pt-2
+          .pagination.pagination-sm.float-right
+            = will_paginate @tasks, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
+      hr.p-0.mt-0.d-none.d-sm-block
+      table.table.table-hover#order-table
+        thead.thead-light.text-dark
+          tr.text-dark
+            th.number-order =sort_link(@q, :order_number, '№ заявки', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
+            th =sort_link(@q, :shop_name, 'Инициатор', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
+            - if policy(@tasks).edit?
+              th.text-center.edit-control
+                i.fa.fa-list
+        tbody
+          - @tasks.find_each do |task|
+            tr.table-row data-href="#{task_path(task)}"
+              td.number-order
+                = task.task_number
+                = content_tag(:span, "Дата: #{l(task.date_open, format: :date)}", class: "small d-md-none d-block text-muted")
+                = content_tag(:span, "#{task.status.name}", class: "small d-md-none d-block text-success")
+              td.d-none.d-sm-table-cell.order_date_open = l(task.date_open, format: :date)
+              td.order-descript
+                //= task.shop.name
+                .d-inline-block.text-truncate.order-descript
+                  = task.description
+                / br
+                / = content_tag(:span, "#{order.description}", class: "small text-info d-inline-block text-truncate order-descript")
+              td.d-none.d-sm-table-cell.status_order = task.status.name
+              - if policy(task).edit?
+                td.row-skip.edit-control
+                  = link_to edit_task_path(task), data: { toggle: 'tooltip', placement: 'bottom' },
+                     title: "Корректировка данных" do
+                       span.fa.fa-pencil-alt.edit-button
+                  - if policy(task).destroy?
+                    = link_to task, method: :delete, data: { confirm: "Вы действительно хотите удалить карточку?",
+                        toggle: 'tooltip', placement: 'bottom' }, title: "Удалить карточку" do
+                         span.far.fa-trash-alt.edit-button

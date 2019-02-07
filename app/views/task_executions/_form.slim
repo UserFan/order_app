@@ -1,0 +1,14 @@
+= simple_form_for @task_execution, url: @task_execution.new_record? ? task_executions_path(task_performer_id: params[:task_performer_id]) : execution_path(@task_execution) do |f|
+  .col-sm-12.col-md-12
+    = f.input :comment, placeholder: "Комментарий", disabled: (true if f.object.comment.present?)
+  .col-sm-12.col-md-12
+    = f.input :task_execution, collection: Status.where(":name = ANY(role)",
+              name: current_user.role).order(name: :asc),
+              label_method: :name, value_method: :id,
+              required: true, include_blank: true, as: (:hidden unless current_user.admin? || current_user.moderator? || current_user.guide?)
+  .col-sm-12.col-md-12
+    = f.file_field :images_document, multiple: true, title: 'Фотоотчет...', class: "btn btn-outline-primary btn-sm", data: { "filename-placement": "outside" }
+  .col-sm-12.col-md-12
+    = f.input :completed, as: :hidden, input_html: { value: params[:remove_control] ? DateTime.now : nil }
+  .form-group.float-right.mb-0.mt-2
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"

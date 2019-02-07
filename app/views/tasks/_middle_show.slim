@@ -1,0 +1,38 @@
+.container.border.border-info.d-none.d-sm-block
+  .row
+    .col-md-6.bg-light.border-bottom.border-info.p-2
+      b Тип карточки:&nbsp;
+      = @task.type_document.name
+    .col-md-6.bg-light.border-bottom.border-left.border-info.p-2
+      b Дата карточки:&nbsp;
+      = l(@task.date_open, format: :date) if @task.date_open.present?
+  .row
+    .col-md-4.bg-white.border-bottom.border-info.p-2
+      b Статус:&nbsp;
+      = @task.status.name
+    .col-md-8.bg-white.border-left.border-bottom.border-info.p-2
+      b Карточка от:&nbsp;
+      = @task.shop.name
+  .row
+    .col-md-12.p-2.bg-white.border-bottom.border-info
+      b Создал карточку:&nbsp;
+      = @task.owner_user.full_name
+  .row
+    .col-md-12.bg-light.p-2.border-info
+      b Описание:&nbsp;
+      = @task.description
+  .row
+    .col-md-12.bg-white.p-2.border-top.border-info
+      b Файлы:&nbsp;
+
+      / - if policy(@task).show_detail?
+      /   .row
+      /     .col-sm-12.col-md-9.bg-white.p-1.border-top.border-info
+      /       b На контроле:&nbsp;
+      /       = @task.employee.user_shop if @task.employee.present?
+      /     .col-sm-12.col-md-3.bg-white.p-1.border-top.border-info.text-center.border-left
+      /         b Срок исполнения:
+      /         br
+      /         = l(@task.date_execution, format: :date) if @task.date_execution.present?
+  .row
+    = render "close_control"

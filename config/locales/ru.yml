@@ -133,6 +133,15 @@ ru:
     new:
       caption_text: "Новая ''Категория заявок''"
 
+  type_documents:
+    index:
+      caption_button: "Добавить 'Тип документа''"
+      caption_title: "Справочник ''Тип документа''"
+    edit:
+      caption_text: "Корректировка ''Тип документа''"
+    new:
+      caption_text: "Новая ''Тип документа''"
+
   commouses:
     index:
       caption_button: "Добавить новый"
