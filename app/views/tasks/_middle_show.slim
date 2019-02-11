@@ -29,7 +29,7 @@
       /   .row
       /     .col-sm-12.col-md-9.bg-white.p-1.border-top.border-info
       /       b На контроле:&nbsp;
-      /       = @task.employee.user_shop if @task.employee.present?
+      /       = @task.employee.structural_with_full_name if @task.employee.present?
       /     .col-sm-12.col-md-3.bg-white.p-1.border-top.border-info.text-center.border-left
       /         b Срок исполнения:
       /         br

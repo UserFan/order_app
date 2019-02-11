@@ -9,7 +9,7 @@
     .row
       .col-sm-12.col-md-8
         //= f.input :answerable_manager, collection: User.all, required: true, label_method: :full_name, value_method: :user_id, disabled: (true if (@order.date_closed.present?))
-        = f.input :employee_id, collection: @users_order, label_method: :user_shop, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?))
+        = f.input :employee_id, collection: @users_order, label_method: :structural_with_full_name, value_method: :id, required: true, disabled: (true if (@order.date_closed.present?))
       - unless f.object.new_record?
         .col-sm-12.col-md-4
           = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@order.date_closed.present?))

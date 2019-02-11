@@ -1,5 +1,5 @@
 li
-  b.font-weight-bold.font-weight-light #{task_performer.employee.full_name}&nbsp
+  b.font-weight-bold.font-weight-light #{task_performer.employee.structural_with_full_name}&nbsp
   - unless @task.date_closed.present? || (task_performer.task_execution.present? && task_performer.task_execution.completed.present?)
     = content_tag(:small, '(На контроле!)', class: 'control-order')
     - if policy(task_performer).completed?

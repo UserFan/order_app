@@ -63,18 +63,15 @@ class TaskPerformersController < ApplicationController
 
   def set_collection_user
     if @task.owner_user == current_user
-      @users_task_performer = Employee.includes(:user, :shop).
-                         where(manager: true).
+      @users_task_performer = Employee.employee_current_manager.
                          where.not(id: @task.task_performers.pluck(:employee_id)).
-                         where.not(user_id: @task.employee.user.id).
-                         where("work_start_date < ? AND (work_end_date IS NULL OR work_end_date > ?)", Date.today, Date.today).joins(:user)
+                         where.not(user_id: @task.employee.user.id).joins(:user)
     else
       structural = params[:structural_id] || 0
-      @users_task_performer = Employee.includes(:user, :shop).
+      @users_task_performer = Employee.employee_current_date.
                        where(manager: false, shop_id: structural).
                        where.not(id: @task.task_performers.pluck(:employee_id)).
-                       where.not(id: @task.owner_user.id).
-                       where("work_start_date < ? AND (work_end_date IS NULL OR work_end_date > ?)", Date.today, Date.today).joins(:user)
+                       where.not(id: @task.owner_user.id).joins(:user)
     end
   end
 

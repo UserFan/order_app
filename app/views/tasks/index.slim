@@ -26,10 +26,10 @@
       table.table.table-hover#order-table
         thead.thead-light.text-dark
           tr.text-dark
-            th.number-order =sort_link(@q, :order_number, '№ заявки', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :date_open, 'Дата заявки', default_order: :asc)
-            th =sort_link(@q, :shop_name, 'Инициатор', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :status_name, 'Статус заявки', default_order: :asc)
+            th.number-order =sort_link(@q, :order_number, '№ карточки', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :date_open, 'Дата', default_order: :asc)
+            th =sort_link(@q, :shop_name, 'Текст', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :status_name, 'Статус', default_order: :asc)
             - if policy(@tasks).edit?
               th.text-center.edit-control
                 i.fa.fa-list

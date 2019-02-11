@@ -21,7 +21,9 @@
             th =sort_link(@q, :full_name, 'Сотрудник', default_order: :asc)
             / th.d-none.d-sm-table-cell =sort_link(@q, :position_name, 'Должность', default_order: :asc)
             th.d-none.d-sm-table-cell =sort_link(@q, :email, 'Адрес E-mail', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :mobile, 'Мобильный телефон', default_order: :asc)
+            th.d-none.d-sm-table-cell =sort_link(@q, :mobile, 'Телефон', default_order: :asc)
+            th.d-none.d-sm-table-cell Подразделение (должность)
+            th.d-none.d-sm-table-cell Испол. обяз. (должность)
         tbody
           - @users.each do |user|
             tr
@@ -39,3 +41,5 @@
               / td.d-none.d-sm-table-cell = user.position.name
               td.d-none.d-sm-table-cell = user.email
               td.d-none.d-sm-table-cell = user.mobile
+              td.d-none.d-sm-table-cell = user.employees.employee_current_position(user, false)
+              td.d-none.d-sm-table-cell = user.employees.employee_current_position(user, true)

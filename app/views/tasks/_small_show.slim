@@ -26,7 +26,7 @@
       /     .col-12.bg-white.p-1.border-top.border-info.small
       /       b На контроле:
       /       br
-      /       = @task.employee.user_shop if @task.employee.present?
+      /       = @task.employee.structural_with_full_name if @task.employee.present?
       / .row
       /   .col-12.bg-white.p-1.border-top.border-info.small
       /     b Срок исполнения:&nbsp;
