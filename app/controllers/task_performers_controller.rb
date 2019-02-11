@@ -69,7 +69,7 @@ class TaskPerformersController < ApplicationController
                          where.not(user_id: @task.employee.user.id).
                          where("work_start_date < ? AND (work_end_date IS NULL OR work_end_date > ?)", Date.today, Date.today).joins(:user)
     else
-      params[:structural_id].nil? ? structural = 0 : structural = params[:structural_id]
+      structural = params[:structural_id] || 0
       @users_task_performer = Employee.includes(:user, :shop).
                        where(manager: false, shop_id: structural).
                        where.not(id: @task.task_performers.pluck(:employee_id)).
