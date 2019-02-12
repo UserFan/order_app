@@ -8,12 +8,10 @@
       = l(@task.date_open, format: :date) if @task.date_open.present?
     .col-md-4.bg-light.border-left.border-bottom.border-info.p-2
       b Подразделение:&nbsp;
-      | Хозяйственный отдел
-      /= @task.shop.name
+      = @task.shop.name
     .col-md-3.bg-light.border-bottom.border-left.border-info.p-2
       b Статус:&nbsp;
-      |  На соглосавании
-      //= @task.status.name
+      = @task.status.name
   .row
     .col-md-6.bg-white.border-info.p-2
       b Создал:&nbsp;

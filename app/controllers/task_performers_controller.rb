@@ -7,7 +7,10 @@ class TaskPerformersController < ApplicationController
   def new
     authorize TaskPerformer
     if @users_task_performer.present?
-      @task_performer = @task.task_performers.build(deadline: @task.date_execution - 1.days, message: true)
+      @task_performer = @task.task_performers.
+                           build(deadline: @task.date_execution - 1.days,
+                           message: true,
+                           answerable: (true if @task.owner_user == current_user))
     else
       flash[:error] = "Все сотрудники отдела уже являються исполнителями!"
       redirect_to task_path(@task)
@@ -21,11 +24,14 @@ class TaskPerformersController < ApplicationController
 
   def create
     authorize TaskPerformer
-    @task.task_performers.present? ? first_performer = true : first_performer = false
-    @task_performer= @task.task_performers.create(permitted_attributes(TaskPerformer).merge(
-                deadline: @task.date_execution - 1.days))
+    first_performer = @task.task_performers.present? || false
+    @task_performer= @task.task_performers.
+                           create(permitted_attributes(TaskPerformer).merge(
+                                  deadline: @task.date_execution - 1.days,
+                                  answerable: (true if @task.owner_user == current_user)))
     if @task_performer.save
-    @task.update!(status_id: Status::EXECUTION) unless first_performer
+      binding.pry
+      @task.update!(status_id: Status::EXECUTION) unless first_performer
       redirect_to task_path(@task)
     else
       render 'new'
