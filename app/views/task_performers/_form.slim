@@ -3,13 +3,12 @@
     .col-12.col-md-8
       = f.input :employee_id, collection: @users_task_performer, label_method: :structural_with_full_name, value_method: :id, required: true, disabled: (true if (@task.date_closed.present?))
     .col-12.col-md-4.pl-0
-      = f.input :deadline, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'task_performer_deadline', input_html: { class: 'date_mask' }, disabled: true
+      = f.input :deadline, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'task_performer_deadline', input_html: { class: 'date_mask' }, readonly: true
   .row
-    / .col-12.col-md-6
-    /   = f.input :hard_ratio_average, as: :radio_buttons,
-    /       collection: [['1', '1-я категория сложности'], ['2', '2-я категория сложности'],  ['3', '3-я категория сложности']], label_method: :second, value_method: :first
     .col-12.col-md-8
-      = f.input :message, disabled: true
+      = f.input :message, as: :boolean, readonly: true
+    .col-12.col-md-4.pl-0
+      = f.input :task_performer_id, as: :hidden, readonly: true
   .row
     .col-12.col-md-12
       = f.input :comment

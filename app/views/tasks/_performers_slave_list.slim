@@ -4,7 +4,7 @@
       b.font-weight-bold.font-weight-light #{task_performer_slave.employee.full_name}&nbsp
       - unless @task.date_closed.present? || (task_performer_slave.task_execution.present? && task_performer_slave.task_execution.completed.present?)
         = content_tag(:small, '(На контроле!)', class: 'control-order')
-        - if policy(task_performer_slave).completed?
+        - if policy(task_performer_slave).completed_slave?
           span.small
             |  &#10148;&nbsp;
             = link_to "Снять с контроля", remove_control_task_execution_path(task_performer_id: task_performer_slave.id)

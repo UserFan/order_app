@@ -77,11 +77,12 @@ li
                              data: {disable_with: t('form_button_caption.disabled_send')}
       - else
         span.small
-          | &#10148;&nbsp;
-          = link_to "Отпарвить на подписание", new_task_execution_path(task_performer_id: task_performer.id) if policy(task_performer).executions?
-          | &nbsp;&#10148;&nbsp;
+          - if policy(task_performer).executions?
+            | &#10148;&nbsp;
+            = link_to "Отправить на подписание", new_task_execution_path(task_performer_id: task_performer.id)
           - if policy(task_performer).new_task_performers_slave?
-            = link_to "Поручить сотруднику", new_task_task_performer_path(@task,  structural_id: task_performer.employee.shop_id)
+            | &nbsp;&#10148;&nbsp;
+            = link_to "Поручить сотруднику", new_task_task_performer_path(@task, task_performer_id: task_performer.id)
       - if @task_performers_slave.present?
         .row
           .col-12.col-md-12

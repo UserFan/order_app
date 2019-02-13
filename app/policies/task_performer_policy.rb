@@ -18,7 +18,18 @@ class TaskPerformerPolicy < ApplicationPolicy
   end
 
   def new_task_performers_slave?
-    record.answerable?
+    record.employee.user == user
+  end
+
+  def completed_slave?
+
+    !(record.task.date_closed.present?) && (user.super_admin? || (record.task_performer.employee.user == user)) &&
+    !(record.task_execution.present?)
+    #binding.pry
+
+    #
+    # !(record.order.date_closed.present?) && (user.admin? || user.moderator? || user.guide?) &&
+    # (record.coexecutor && !(record.execution.present?))
   end
 
   def completed?
@@ -38,7 +49,7 @@ class TaskPerformerPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:employee_id, :deadline, :comment, :message]
+    [:employee_id, :deadline, :comment, :message, :answerable, :taks_id, :task_performer_id]
   end
 
 
