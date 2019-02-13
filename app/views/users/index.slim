@@ -18,12 +18,23 @@
       table.table.shadow.p-3.mb-5.bg-white.rounded
         thead.thead-light.text-dark
           tr.text-dark
-            th =sort_link(@q, :full_name, 'Сотрудник', default_order: :asc)
+            th.p-2 = sort_link(@q, :profile_full_name, default_order: :asc) do
+              span
+                = 'Сотрудник'
+                br
+                = '(подразделение/должность)'
             / th.d-none.d-sm-table-cell =sort_link(@q, :position_name, 'Должность', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :email, 'Адрес E-mail', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :mobile, 'Телефон', default_order: :asc)
-            th.d-none.d-sm-table-cell Подразделение (должность)
-            th.d-none.d-sm-table-cell Испол. обяз. (должность)
+            th.p-2.d-none.d-sm-table-cell = sort_link(@q, :profile_mobile, default_order: :asc) do
+              span
+                = 'Телефон'
+                br
+                = '(e-mail сотрудника)'
+            th.p-2.d-none.d-sm-table-cell
+              span
+                = 'Исполняет обязанности'
+                br
+                = '(подразделение/должность)'
+
         tbody
           - @users.each do |user|
             tr
@@ -38,8 +49,13 @@
                   = link_to user, method: :delete, data: { confirm: "Вы действительно хотите удалить сотрудника?",
                      toggle: 'tooltip', placement: 'bottom' }, title: "Удалить сотрудника" do
                        span.far.fa-trash-alt.edit-button
-              / td.d-none.d-sm-table-cell = user.position.name
-              td.d-none.d-sm-table-cell = user.email
-              td.d-none.d-sm-table-cell = user.mobile
-              td.d-none.d-sm-table-cell = user.employees.employee_current_position(user, false)
+                br
+                .text-info
+                  = user.employees.employee_current_position(user, false)
+              td.d-none.d-sm-table-cell
+                = user.mobile
+                br
+                .text-info
+                  = user.email
+              //td.d-none.d-sm-table-cell = user.employees.employee_current_position(user, false)
               td.d-none.d-sm-table-cell = user.employees.employee_current_position(user, true)

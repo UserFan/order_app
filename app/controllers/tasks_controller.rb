@@ -12,7 +12,8 @@ class TasksController < ApplicationController
 
   def show
     authorize @task
-    @task_performers = @task.task_performers
+    @task_performers = @task.task_performers.where(answerable: true)
+    @task_performers_slave = @task.task_performers.where(answerable: false)
   end
 
   def new

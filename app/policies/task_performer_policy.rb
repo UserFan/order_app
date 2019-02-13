@@ -17,6 +17,10 @@ class TaskPerformerPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def new_task_performers_slave?
+    record.answerable?
+  end
+
   def completed?
 
     !(record.task.date_closed.present?) && (user.super_admin? || (record.task.employee.user == user)) &&

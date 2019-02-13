@@ -6,17 +6,25 @@ class TaskExecution < ApplicationRecord
 
   belongs_to :task_performer
 
-  #has_many :reworks, dependent: :delete_all
+  has_many :task_reworks, dependent: :delete_all
   has_one :task, through: :task_performer, foreign_key: :taks_id
 
   validates :task_performer_id, :comment, :task_execution, presence: true
 
-  #ratyrate_rateable 'rating_execution'
+  ratyrate_rateable 'rating_task_execution'
 
   # before_destroy :destroy_order_execution
 
   def execution_result
     Status.find(task_execution).name if task_execution.present?
+  end
+
+  def task_execution_answerable_user
+    #binding.pry
+    task = self.task
+    structural = task_performer.employee.shop_id
+    answerable = task.task_performers.where(answerable: true, employees: {shop_id: structural}).joins(:employee)
+    answerable.first.employee.user unless answerable.nil?
   end
 
   private

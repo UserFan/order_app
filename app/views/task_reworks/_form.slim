@@ -1,0 +1,6 @@
+= simple_form_for [@task_execution, @task_rework] do |f|
+  = f.input :comment, as: :text, placeholder: "Текст замечания"
+  = f.input :user_id, as: :hidden
+  .form-group.float-right.mb-0.mt-3
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm",
+       data: {disable_with: t('form_button_caption.disabled_send')}

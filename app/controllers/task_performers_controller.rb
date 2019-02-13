@@ -10,7 +10,7 @@ class TaskPerformersController < ApplicationController
       @task_performer = @task.task_performers.
                            build(deadline: @task.date_execution - 1.days,
                            message: true,
-                           answerable: (true if @task.owner_user == current_user))
+                           answerable: (@task.owner_user == current_user ? true : false))
     else
       flash[:error] = "Все сотрудники отдела уже являються исполнителями!"
       redirect_to task_path(@task)
@@ -28,7 +28,7 @@ class TaskPerformersController < ApplicationController
     @task_performer= @task.task_performers.
                            create(permitted_attributes(TaskPerformer).merge(
                                   deadline: @task.date_execution - 1.days,
-                                  answerable: (true if @task.owner_user == current_user)))
+                                  answerable: (@task.owner_user == current_user ? true : false)))
     if @task_performer.save
       binding.pry
       @task.update!(status_id: Status::EXECUTION) unless first_performer

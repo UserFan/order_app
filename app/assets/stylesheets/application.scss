@@ -12,6 +12,14 @@
 @import "font-awesome-compass";
 @import "pagination";
 
+#performers_slave details, #task-rework, #task-rework_slave p, h3, h4, h5, h6, span {
+  font-size: 90%;
+}
+
+.rework-comment {
+    font-size: 80% !important;
+}
+
 .form-control-label, .form-check-label, legend.col-form-label  {
   font-weight: bold
 }

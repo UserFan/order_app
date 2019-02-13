@@ -10,6 +10,11 @@ class Status < ApplicationRecord
   OFF_CONTROL = 9
   PART_COMPLETED = 10
   NOT_COMPLETED = 11
+  SIGNED = 12
+  NOT_SIGNED = 13
+  COORDINATION_MANAGER = 14
+  NOT_COORDINATION_MANAGER = 15
+  AGREE_MANAGER = 16
 
   has_many :orders, dependent: :restrict_with_error
   has_many :tasks, dependent: :restrict_with_error

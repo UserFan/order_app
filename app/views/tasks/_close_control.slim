@@ -6,10 +6,10 @@
   .col-12.col-md-1.border-top.border-info.bg-white.p-2
     b Карточку:
   .col-12.col-md-11.border-top.bg-white.p-1.border-info
-      = link_to 'Подписать', closing_task_path(@task, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@task).closing? && @task.status_id == Status::AGREE
+      = link_to 'Подписать', closing_task_path(@task, close: Status::SIGNED), class: "btn btn-outline-success btn-sm" if policy(@task).closing? && @task.status_id == Status::AGREE
       | &nbsp;
       / = link_to 'Подписать с замечаниями', closing_order_path(@order, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@order).closing? && @order.status_id == Status::AGREE
       / | &nbsp;
-      = link_to 'Не подписать', closing_task_path(@task, close: Status::NOT_COMPLETED), class: "btn btn-outline-danger btn-sm" if policy(@task).closing?
+      = link_to 'Не подписать', closing_task_path(@task, close: Status::NOT_SIGNED), class: "btn btn-outline-danger btn-sm" if policy(@task).closing?
       | &nbsp;
       = link_to 'Снять со испол-я', closing_task_path(@task, close: Status::OFF_CONTROL), class: "btn btn-outline-warning btn-sm" if policy(@task).closing? && @task.status_id == Status::AGREE

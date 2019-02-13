@@ -12,9 +12,11 @@ li
        class: 'text-success order-control-success') if (Date.today < task_performer.deadline)
       = content_tag(:small, "#{'('}" + t("order_day.order_overdue_day") + t(distance_of_time_in_words(Date.today, task_performer.deadline))+ "#{')'}",
         class: 'text-danger order-control-danger') if (Date.today > task_performer.deadline)
+
   - else
     = content_tag(:small, " (Срок исполнения: #{l(task_performer.deadline, format: :date)}, cнята с контроля: #{l(task_performer.task_execution.completed, format: :datetime)})",
         class: "#{((task_performer.task_execution.completed).to_date <= (task_performer.deadline).to_date) ? 'text-success order-control-closed' : 'text-danger order-control-danger'}")
+
     / .rating_container
     /   = rating_for_avg task_performer.task_execution, "rating_task_execution", disable_after_rate: true, imdb_avg: true
 
@@ -30,9 +32,9 @@ li
           - if policy(task_performer.task_execution).coordination?
             |  &#9745;
             = link_to 'Согласовать', "#exampleModal", data: { target: "#exampleModal", toggle: "modal"}, remote: true
-          / - if policy(task_performer.task_execution).rework?
-          /   |  &#10000;
-          /   = link_to 'На доработку', new_task_execution_rework_path(task_execution_id: task_performer.task_execution.id, task_execution_work: true)
+          - if policy(task_performer.task_execution).rework?
+            |  &#10000;
+            = link_to 'На доработку', new_task_execution_task_rework_path(task_execution_id: task_performer.task_execution.id, task_execution_work: true)
           - if policy(task_performer.task_execution).destroy?
             |  &#10008;
             = link_to 'Удалить', task_execution_path(id: task_performer.task_execution.id), method: :delete, data: { confirm: "Вы действительно хотите удалить?" },
@@ -49,28 +51,41 @@ li
                 = "#{task_performer.task_execution.execution_result}"
                 = content_tag(:span, " (#{l(task_performer.task_execution.completed, format: :datetime)})") if task_performer.task_execution.completed.present?
 
-        p = link_to "Фотоотчет", task_execution_path(task_performer.task_execution) if task_performer.task_execution.images.present?
-        - if task_performer.task_execution.reworks.present?
+        p = link_to "Фотоотчет", task_execution_path(task_performer.task_execution) if task_performer.task_execution.images_document.present?
+        - if task_performer.task_execution.task_reworks.present?
           .col-sm-12.p-0.col-md-12.pl-md-5
-            #order-rework
+            #task-rework
               p.h5.text-danger.font-weight-bold
                 | Замечание
               hr.m-0.pb-2
               .col-sm-12.col-md-12
-                = render 'rework_list', rework: task_performer.task_execution.reworks.first
+                = render 'rework_list', task_rework: task_performer.task_execution.task_reworks.first
                 .col-sm-12.pl-3.col-md-12.pl-md-5.pr-md-0.pr-0.pb-0
-                  - task_performer.task_execution.reworks[1..-1].each do |rework|
-                    = render 'rework_list', rework: rework
+                  - task_performer.task_execution.task_reworks[1..-1].each do |task_rework|
+                    = render 'rework_list', task_rework: task_rework
               hr
-                  - if policy(task_performer.task_execution).comment?
-                    .pt-2
-                    = simple_form_for [task_performer.task_execution.reworks.build(user_id: current_user.id)], url: task_execution_reworks_path(task_execution_id: task_performer.task_execution.id, task_execution_work: false) do |f|
-                      = f.input :comment, as: :text, placeholder: "Напишите текст комментария"
-                      = f.input :user_id, as: :hidden
-                      .form-group.float-right.mb-0
-                        = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm",
-                           data: {disable_with: t('form_button_caption.disabled_send')}
+              - if policy(task_performer.task_execution).comment?
+                .row
+                  .col-12.col-md-12.pt-2
 
+                    .small
+                      = simple_form_for [task_performer.task_execution.task_reworks.build(user_id: current_user.id)], url: task_execution_task_reworks_path(task_execution_id: task_performer.task_execution.id) do |f|
+                        = f.input :comment, as: :text, placeholder: "Напишите текст комментария", input_html: { class: 'form-control-sm'}
+                        = f.input :user_id, as: :hidden
+                        .form-group.float-right.mb-0
+                          = f.button :submit, "Отправить", class: "btn btn-outline-success m-1 btn-sm",
+                             data: {disable_with: t('form_button_caption.disabled_send')}
       - else
         span.small
-          = link_to "Добавить", new_task_execution_path(task_performer_id: task_performer.id) if policy(task_performer).executions?
+          | &#10148;&nbsp;
+          = link_to "Отпарвить на подписание", new_task_execution_path(task_performer_id: task_performer.id) if policy(task_performer).executions?
+          | &nbsp;&#10148;&nbsp;
+          - if policy(task_performer).new_task_performers_slave?
+            = link_to "Поручить сотруднику", new_task_task_performer_path(@task,  structural_id: task_performer.employee.shop_id)
+      - if @task_performers_slave.present?
+        .row
+          .col-12.col-md-12
+            hr.p-0.m-2
+            - @task_performers_slave.each do |task_performer_slave|
+              ul
+                = render 'tasks/performers_slave_list', task_performer_slave: task_performer_slave if task_performer_slave.employee.shop == task_performer.employee.shop

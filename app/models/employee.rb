@@ -68,7 +68,7 @@ class Employee < ApplicationRecord
 
   def self.employee_current_position(user, temporary=false)
     position = self.employee_user(user).where(temporary: temporary).first
-    position.structural_with_position  unless position.nil?
+    position.structural_with_position unless position.nil?
   end
 
 end
