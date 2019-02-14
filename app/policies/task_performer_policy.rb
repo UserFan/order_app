@@ -23,8 +23,9 @@ class TaskPerformerPolicy < ApplicationPolicy
 
   def completed_slave?
 
-    !(record.task.date_closed.present?) && (user.super_admin? || (record.task_performer.employee.user == user)) &&
+    !(record.task.date_closed.present?) && (user.super_admin? || (record.task_performer.user == user)) &&
     !(record.task_execution.present?)
+
     #binding.pry
 
     #
@@ -44,7 +45,7 @@ class TaskPerformerPolicy < ApplicationPolicy
 
   def executions?
       # executor = record.order.performers.find_by(coexecutor: false)
-      # #binding.pry
+      #binding.pry
     (user.super_admin? && !record.task.date_closed.present?) || user == record.employee.user
   end
 

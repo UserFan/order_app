@@ -152,11 +152,11 @@ ActiveRecord::Schema.define(version: 20190213163148) do
 
   create_table "cost_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_cost", null: false
     t.bigint "cost_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_cost", null: false
     t.index ["cost_type_id"], name: "index_cost_equipments_on_cost_type_id"
     t.index ["shop_id"], name: "index_cost_equipments_on_shop_id"
   end
@@ -367,6 +367,7 @@ ActiveRecord::Schema.define(version: 20190213163148) do
     t.string "dimension"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["cacheable_id", "cacheable_type"], name: "index_rating_caches_on_cacheable_id_and_cacheable_type"
     t.index ["cacheable_type", "cacheable_id"], name: "index_rating_caches_on_cacheable_type_and_cacheable_id"
   end
 
@@ -392,6 +393,12 @@ ActiveRecord::Schema.define(version: 20190213163148) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "scaleses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "scaners", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -400,11 +407,11 @@ ActiveRecord::Schema.define(version: 20190213163148) do
 
   create_table "service_equipments", force: :cascade do |t|
     t.bigint "shop_id", default: 0, null: false
-    t.datetime "date_service", null: false
     t.bigint "equipment_type_id", default: 0, null: false
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "date_service", null: false
     t.index ["equipment_type_id"], name: "index_service_equipments_on_equipment_type_id"
     t.index ["shop_id"], name: "index_service_equipments_on_shop_id"
   end
@@ -531,11 +538,11 @@ ActiveRecord::Schema.define(version: 20190213163148) do
     t.text "description", default: "", null: false
     t.datetime "date_execution", null: false
     t.datetime "date_closed"
-    t.bigint "employee_id", default: 0, null: false
     t.bigint "status_id", default: 0, null: false
     t.jsonb "images_document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "employee_id", default: 0
     t.index ["employee_id"], name: "index_tasks_on_employee_id"
     t.index ["status_id"], name: "index_tasks_on_status_id"
     t.index ["structural_id"], name: "index_tasks_on_structural_id"

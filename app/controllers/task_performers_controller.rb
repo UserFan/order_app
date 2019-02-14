@@ -6,7 +6,6 @@ class TaskPerformersController < ApplicationController
   after_action :verify_authorized
 
   def new
-
     authorize TaskPerformer
     if @users_task_performer.present?
       if @task_performer_manager.present?
@@ -15,7 +14,6 @@ class TaskPerformersController < ApplicationController
                           deadline: @task_performer_manager.deadline - 1.days,
                           message: true,
                           answerable: false)
-        binding.pry
       else
         @task_performer = @task.task_performers.build(
                              deadline: @task.date_execution - 1.days,
@@ -26,7 +24,6 @@ class TaskPerformersController < ApplicationController
       flash[:error] = "Все сотрудники отдела уже являються исполнителями!"
       redirect_to task_path(@task)
     end
-
   end
 
   def edit
@@ -46,7 +43,6 @@ class TaskPerformersController < ApplicationController
                          deadline: @task_performer_manager.deadline - 1.days,
                          message: true,
                          answerable: false))
-      binding.pry
     else
       @task_performer = @task.task_performers.create(
                            permitted_attributes(TaskPerformer).merge(
@@ -78,7 +74,6 @@ class TaskPerformersController < ApplicationController
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-
   end
 
   private
@@ -92,7 +87,6 @@ class TaskPerformersController < ApplicationController
   end
 
   def set_subordinates
-
     @task_performer_manager =
       (params[:task_performer_id].present?) ? TaskPerformer.find(params[:task_performer_id]) : nil
   end
@@ -104,12 +98,10 @@ class TaskPerformersController < ApplicationController
                          where.not(id: @task.task_performers.pluck(:employee_id)).
                          where.not(user_id: @task.employee.user.id).joins(:user)
     elsif @task_performer_manager.present?
-      structural = @task_performer_manager.employee.shop_id
       @users_task_performer = Employee.employee_current_date.
-                       where(manager: false, shop_id: structural).
+                       where(manager: false, shop_id: @task_performer_manager.employee.shop_id).
                        where.not(id: @task.task_performers.pluck(:employee_id)).
                        where.not(id: @task.owner_user.id).joins(:user)
-
     end
 
   end

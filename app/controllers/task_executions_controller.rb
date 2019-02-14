@@ -1,6 +1,6 @@
 class TaskExecutionsController < ApplicationController
   before_action :set_task_perform_execution, only: [:new, :edit, :create]
-  before_action :set_task_execution, only: [:update, :destroy, :show, :coordination]
+  before_action :set_task_execution, only: [:update, :destroy, :show, :coordination, :coordination_master]
   after_action :verify_authorized
 
   def new
@@ -20,7 +20,9 @@ class TaskExecutionsController < ApplicationController
     @task_execution_new = @task_performer.create_task_execution(permitted_attributes(TaskExecution))
     if @task_execution_new.save
       unless [Status::OFF_CONTROL].include?(@task_execution_new.task_execution)
-        @task.update!(status_id: Status::COORDINATION) if @task_performer.answerable?
+        if (@task.task_performers.where(answerable: true).size == @task.task_executions.where(task_performers: {answerable: true}).size)
+          @task.update!(status_id: Status::SIGNING )
+        end
       end
       redirect_to task_path(@task_performer.task)
     else
@@ -38,16 +40,24 @@ class TaskExecutionsController < ApplicationController
   end
 
   def coordination
+    authorize  @task_execution
+    @task = @task_execution.task_performer.task
+    task_execution_count = @task.task_executions.where(task_performers: {answerable: true}).size
+    if (@task.task_performers.where(answerable: true).size == task_execution_count) &&
+      (@task.task_executions.where(task_performers: {answerable: true }, completed: nil).size != task_execution_count)
+      @task.update!(status_id: Status::SIGNED)
+    end
+    if @task_execution.update_attributes(completed: DateTime.now, task_execution: Status::SIGNED)
+      redirect_to task_path(@task)
+    end
+  end
+
+  def coordination_master
     authorize @task_execution
     @task = @task_execution.task_performer.task
-    @task.update!(status_id: Status::AGREE) if  @task_execution.task_performer.answerable?
     if @task_execution.update_attributes(completed: DateTime.now, task_execution:
-      @task_execution.task_performer.answerable? ? Status::AGREE : Status::AGREE_MANAGER)
-      respond_to do |format|
-         format.html { redirect_to task_path(@task) }
-         format.json { head :no_content }
-         format.js   { render layout: false }
-      end
+      @task_execution.task_performer.answerable? ? Status::SIGNED : Status::AGREE_MANAGER)
+      redirect_to task_path(@task)
     end
   end
 
@@ -83,9 +93,12 @@ class TaskExecutionsController < ApplicationController
 
   def set_task_perform_execution
     @task_performer = TaskPerformer.find(params[:task_performer_id])
-    structural = (params[:answerable_structural]).to_i || 0
+
+    #structural = (params[:answerable_structural]).to_i || 0
     @task = @task_performer.task
-    @task_execution = @task_performer.task_execution || @task_performer.build_task_execution(task_execution: (structural > 0) ? Status::COORDINATION_MANAGER : Status::COORDINATION)
+    @task_execution = @task_performer.task_execution ||
+      @task_performer.build_task_execution(task_execution: (@task_performer.task_performer.present?) ? Status::COORDINATION_MANAGER : Status::SIGNING)
+
   end
 
   def set_task_execution

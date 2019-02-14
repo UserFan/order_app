@@ -15,6 +15,7 @@ class Status < ApplicationRecord
   COORDINATION_MANAGER = 14
   NOT_COORDINATION_MANAGER = 15
   AGREE_MANAGER = 16
+  SIGNING = 17
 
   has_many :orders, dependent: :restrict_with_error
   has_many :tasks, dependent: :restrict_with_error

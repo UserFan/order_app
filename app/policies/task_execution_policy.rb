@@ -25,17 +25,14 @@ class TaskExecutionPolicy < ApplicationPolicy
   end
 
   def coordination_master?
-     (user == record.task_execution_answerable_user) &&
-     (!(task_closed?) && (record.completed.nil?))
-
-    #binding.pry
+    (record.task_performer.task_performer.user == user) &&
+    (!(task_closed?) && (record.completed.nil?))
   end
 
   def coordination?
-
-    (user.super_admin? || user.moderator? || user.guide? || (record.task.owner_user == user)) &&
-    (!(task_closed?) && (record.completed.nil?))
-
+    (record.task.employee.user == user) &&
+     (!(task_closed?) && (record.completed.nil?))
+    #binding.pry
   end
 
   def remove_control?
@@ -43,8 +40,13 @@ class TaskExecutionPolicy < ApplicationPolicy
   end
 
   def rework?
-    (user.super_admin? || user.moderator? || user.guide? || (record.order.owner_user == user)) &&
-    (!(task_closed?) && (record.completed.nil?) && !(record.task_execution == Status::NOT_COORDINATION))
+    (record.task.employee.user == user) &&
+    (!(task_closed?) && (record.completed.nil?) && !(record.task_execution == Status::NOT_SIGNED))
+  end
+
+  def rework_master?
+    (record.task_performer.task_performer.user == user) &&
+    (!(task_closed?) && (record.completed.nil?) && !(record.task_execution == Status::NOT_COORDINATION_MANAGER))
   end
 
   def comment?

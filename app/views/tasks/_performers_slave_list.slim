@@ -34,7 +34,7 @@
               - if policy(task_performer_slave.task_execution).coordination_master?
                 |  &#9745;
                 = link_to 'Согласовать', "#exampleModalMaster", data: { target: "#exampleModalMaster", toggle: "modal"}, remote: true
-              - if policy(task_performer_slave.task_execution).rework?
+              - if policy(task_performer_slave.task_execution).rework_master?
                 |  &#10000;
                 = link_to 'На доработку', new_task_execution_task_rework_path(task_execution_id: task_performer_slave.task_execution.id, performer_structural: task_performer_slave.employee.shop_id)
               - if policy(task_performer_slave.task_execution).destroy?
@@ -78,4 +78,4 @@
 
           - else
             span.small
-              = link_to "Добавить", new_task_execution_path(task_performer_id: task_performer_slave.id, answerable_structural: task_performer_slave.employee.shop_id) if policy(task_performer_slave).executions?
+              = link_to "Добавить", new_task_execution_path(task_performer_id: task_performer_slave.id) if policy(task_performer_slave).executions?

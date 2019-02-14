@@ -3,6 +3,7 @@ class TaskExecution < ApplicationRecord
 
   # after_create :create_execution_user_send_mail
   # after_update :change_execution_user_send_mail
+  # before_destroy :destroy_order_execution
 
   belongs_to :task_performer
 
@@ -13,18 +14,8 @@ class TaskExecution < ApplicationRecord
 
   ratyrate_rateable 'rating_task_execution'
 
-  # before_destroy :destroy_order_execution
-
   def execution_result
     Status.find(task_execution).name if task_execution.present?
-  end
-
-  def task_execution_answerable_user
-    #binding.pry
-    task = self.task
-    structural = task_performer.employee.shop_id
-    answerable = task.task_performers.where(answerable: true, employees: {shop_id: structural}).joins(:employee)
-    answerable.first.employee.user unless answerable.nil?
   end
 
   private

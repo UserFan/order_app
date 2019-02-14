@@ -42,7 +42,7 @@ class TaskPolicy < ApplicationPolicy
 
   def closing?
     user.moderator? || user.super_admin? || user.guide? ||
-    record.employee.user == user || !record.executions.present?
+    record.employee.user == user || !record.task_executions.present?
 
   end
 

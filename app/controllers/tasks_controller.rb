@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
+  before_action :set_structural
   before_action :set_task, except: [ :index, :new, :create ]
   before_action :set_edit_form, only: [ :edit, :update ]
-  before_action :set_structural
   before_action :set_index, only: [:index ]
   before_action :set_closing, only: [:closing ]
   after_action :verify_authorized
@@ -54,20 +54,20 @@ class TasksController < ApplicationController
 
   def closing
     authorize @task
-    # @performers = @task.performers
-    # @performers.find_each do |performer|
-    #   unless performer.execution.present?
-    #     performer.create_execution!(completed: DateTime.now, order_execution:
-    #                Status::OFF_CONTROL,
-    #                comment: 'Сведения об исполнении не были представлены')
-    #   else
-    #     performer.execution.update!(completed: DateTime.now, order_execution:
-    #                Status::OFF_CONTROL,
-    #                comment: "#{performer.execution.comment} (Снята с контроля без согласования)") unless performer.execution.completed.present?
-    #   end
-    # end
-    # @task.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
-    # redirect_to order_path(@task)
+    @task_performers = @task.task_performers
+    @task_performers.find_each do |task_performer|
+      unless task_performer.task_execution.present?
+        task_performer.create_task_execution!(completed: DateTime.now, task_execution:
+                   Status::OFF_CONTROL,
+                   comment: 'Сведения об исполнении не были представлены')
+      else
+        task_performer.task_execution.update!(completed: DateTime.now, task_execution:
+                   Status::OFF_CONTROL,
+                   comment: "#{task_performer.task_execution.comment} (Снята с контроля без согласования)") unless task_performer.task_execution.completed.present?
+      end
+    end
+    @task.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
+    redirect_to task_path(@task)
   end
 
   def destroy
@@ -141,30 +141,34 @@ class TasksController < ApplicationController
   def set_index
     @set_tasks = Task.includes(:type_document, :status, :shop, :employee)
 
-    unless (current_user.super_admin? || current_user.moderator? || current_user.guide?)
+    unless (current_user.super_admin? || current_user.guide?)
       # @set_tasks =  @set_tasks.where("tasks.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
       #                   current_user, current_user, current_user).left_outer_joins(:employee, performers: :employee).distinct
 
-      @set_tasks = Task.where(employee_id: @current_employee.id).includes(:shop, :status, :type_document, :employee).distinct
-
-      # .or(Task.where("employees_performers.user_id=?", current_user)).
-      #               left_outer_joins(:employee, performers: :employee).
-      #               includes(:shop, :status, :category).distinct
+      @set_tasks = Task.where(employee_id: @current_employee.id).
+                    or(Task.where("employees_task_performers.user_id = ?", current_user)).
+                    left_outer_joins(:employee, task_performers: [:employee, :task_execution]).
+                    includes(:shop, :status, :type_document).distinct
+      @tasks_coordination = @set_tasks.includes(:shop, :status, :type_document, :task_execution).where("date_closed is null").
+                                where(task_performers: { task_performer_id: @current_employee.id }).
+                                where(task_performers: { task_executions: {task_execution: Status::COORDINATION_MANAGER}}).size
+    #  binding.pry
     end
     @tasks_for_closing = @set_tasks.includes(:shop, :status, :type_document, :user).
                           where("date_closed is null and status_id = ?",
-                          Status::COORDINATION).size
+                          Status::SIGNED).size
     @tasks_agree = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and status_id = ?",
                           Status::AGREE).size
     @tasks_new = @set_tasks.includes(:shop, :status, :type_document, :user).where(status_id: Status::NEW).size
 
-    @tasks_coordination = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and
-              status_id = ?", Status::AGREE).size
+    # @tasks_coordination = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and
+    #           status_id = ?", Status::AGREE).size
 
-    @tasks_for_closing = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and
-                          status_id = ?", Status::COORDINATION).
-                          distinct.size #if @set_tasks.where(user_id: current_user)
-    @tasks_agree = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and status_id = ?", Status::AGREE).size #if @set_tasks.where(user_id: current_user)
+
+    # @tasks_for_closing = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and
+    #                       status_id = ?", Status::COORDINATION).
+    #                       distinct.size #if @set_tasks.where(user_id: current_user)
+    # @tasks_agree = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and status_id = ?", Status::AGREE).size #if @set_tasks.where(user_id: current_user)
 
     @set_tasks_overdue =
         @set_tasks.where("(date_closed > date_execution)").or(@set_tasks).

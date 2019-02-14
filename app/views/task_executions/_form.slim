@@ -4,7 +4,7 @@
   .col-sm-12.col-md-12
     = f.input :task_execution, collection: Status.all.order(name: :asc),
               label_method: :name, value_method: :id,
-              required: true, include_blank: true, as: (:hidden unless current_user.admin? || current_user.moderator? || current_user.guide?)
+              required: true, include_blank: true, as: (:hidden unless current_user.admin?)
   .col-sm-12.col-md-12
     = f.file_field :images_document, multiple: true, title: 'Фотоотчет...', class: "btn btn-outline-primary btn-sm", data: { "filename-placement": "outside" }
   .col-sm-12.col-md-12

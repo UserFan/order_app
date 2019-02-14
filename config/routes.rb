@@ -68,6 +68,7 @@ Rails.application.routes.draw do
 
   resources :task_executions do
     get 'coordination', on: :member
+    get 'coordination_master', on: :member
     get 'remove_control', on: :member
     resources :task_reworks, only: [:new, :create]
   end

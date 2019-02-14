@@ -18,6 +18,7 @@ ru:
     back:   "Назад"
     check_image: "Выбирете фото..."
     add_record: "Добавить"
+    send_task: "Назначить исполнителей"
   report_shop:
     name: 'Объект'
     address: 'Адрес объекта'
@@ -404,6 +405,17 @@ ru:
         user_id: "Создатель:"
         status: "Статус:"
 
+      task:
+        type_document: "Тип:"
+        date_open: "Дата:"
+        date_execution: "Срок исполнения:"
+        structural_id: "От:"
+        employee: "Создал:"
+        description: "Описание:"
+        date_closed: "Дата закрытия:"
+        images_document: "Фото:"
+        status: "Статус:"
+
       performer:
         employee_id: "Исполнитель:"
         deadline: "Срок исполнения:"
@@ -413,6 +425,24 @@ ru:
         message: "Отправлять сообщение"
         comment: "Комментарий:"
 
+      task_performer:
+        employee_id: "Исполнитель:"
+        deadline: "Срок исполнения:"
+        answerable: "Ответственный испольнитель:"
+        rating_average: "Качество вып.работ:"
+        hard_ratio_average: "Сложность работ:"
+        message: "Отправлять сообщение"
+        comment: "Комментарий:"
+
+      execution:
+        comment: "Описание выполненных работ:"
+        order_execution: "Статус выполнения заявки:"
+        images: "Фотоотчет:"
+      task_execution:
+        comment: "Описание выполненных работ:"
+        order_execution: "Статус выполнения заявки:"
+        images: "Фотоотчет:"
+
       # order/performers:
       #     employee_id: "Исполнитель:"
       #     deadline: "Срок исполнения:"
@@ -420,6 +450,9 @@ ru:
       #     message: "Отправлять сообщение"
       #     comment: "Комментарий:"
       rework:
+          user_id: "Пользователь"
+          comment: "Написать комментарий"
+      task_rework:
           user_id: "Пользователь"
           comment: "Написать комментарий"
       profile:

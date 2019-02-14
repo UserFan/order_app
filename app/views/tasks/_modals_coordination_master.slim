@@ -2,7 +2,7 @@
   .modal-dialog.modal-sm.p-0.modal-dialog-centered role="document"
     .modal-content
       .modal-header.p-2.text-center
-        h5#exampleModalLabel.modal-title Оцените качество работ
+        h5#exampleModalLabel.modal-title Оцените качество выполненой работы
         button.close aria-label="Close" data-dismiss="modal" type="button"
           span aria-hidden="true"  &times;
       .modal-body.pl-0.pr-0.ml-0.mr-0
@@ -14,6 +14,6 @@
       .modal-footer
         .mx-auto
           = link_to 'Отправить оценку',
-              coordination_task_execution_path(task_performer_slave.task_execution),
+              coordination_master_task_execution_path(task_performer_slave.task_execution),
               class: "btn btn-primary float-center",
               data: {disable_with: t('form_button_caption.disabled_send')}
