@@ -1,5 +1,5 @@
 class Task < ApplicationRecord
-  mount_uploaders :images_document, ImageUploader
+  mount_uploaders :images_document, PdfUploader
 
   before_create :number_create
   # after_create :create_order_control_user_send_mail
