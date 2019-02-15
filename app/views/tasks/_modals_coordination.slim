@@ -2,7 +2,7 @@
   .modal-dialog.modal-sm.p-0.modal-dialog-centered role="document"
     .modal-content
       .modal-header.p-2.text-center
-        h5#exampleModalLabel.modal-title Оцените качество работ
+        h5#exampleModalLabel.modal-title Оцените качество работ #{task_exe.id}
         button.close aria-label="Close" data-dismiss="modal" type="button"
           span aria-hidden="true"  &times;
       .modal-body.pl-0.pr-0.ml-0.mr-0
@@ -10,10 +10,12 @@
           .row
             .col-12.col-md-12.d-flex
               .rating_stars.text-center.p-0.m-0
-                = rating_for task_performer.task_execution, "rating_task_execution", space: true, cancel: false, disable_after_rate: (false if task_performer.task_execution.completed.nil?)
+                /= rating_for @task_execution, "rating_task_execution", space: true, cancel: false, disable_after_rate: false
+
       .modal-footer
         .mx-auto
-          = link_to 'Отправить оценку',
-              coordination_task_execution_path(task_performer.task_execution),
-              class: "btn btn-primary float-center",
-              data: {disable_with: t('form_button_caption.disabled_send')}
+          button.btn.btn-primary aria-hidden="true" data-dismiss="modal" Отправить оценку
+          / = link_to 'Отправить оценку',
+          /     coordination_task_execution_path(task_performer.task_execution),
+          /     class: "btn btn-primary float-center",
+          /     data: {disable_with: t('form_button_caption.disabled_send')}

@@ -67,7 +67,8 @@ Rails.application.routes.draw do
   end
 
   resources :task_executions do
-    get 'coordination', on: :member
+    get 'coordination', on: :member, defaults: { format: :js }
+    #get 'coordination', to: 'task_executions#coordination', as: :coordination
     get 'coordination_master', on: :member
     get 'remove_control', on: :member
     resources :task_reworks, only: [:new, :create]

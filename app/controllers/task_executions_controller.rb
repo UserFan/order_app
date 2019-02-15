@@ -2,6 +2,7 @@ class TaskExecutionsController < ApplicationController
   before_action :set_task_perform_execution, only: [:new, :edit, :create]
   before_action :set_task_execution, only: [:update, :destroy, :show, :coordination, :coordination_master]
   after_action :verify_authorized
+  protect_from_forgery except: :coordination
 
   def new
     authorize TaskExecution
@@ -43,13 +44,18 @@ class TaskExecutionsController < ApplicationController
     authorize  @task_execution
     @task = @task_execution.task_performer.task
     task_execution_count = @task.task_executions.where(task_performers: {answerable: true}).size
-    if (@task.task_performers.where(answerable: true).size == task_execution_count) &&
-      (@task.task_executions.where(task_performers: {answerable: true }, completed: nil).size != task_execution_count)
-      @task.update!(status_id: Status::SIGNED)
+    # if (@task.task_performers.where(answerable: true).size == task_execution_count) &&
+    #   (@task.task_executions.where(task_performers: {answerable: true }, completed: nil).size != task_execution_count)
+    #   @task.update!(status_id: Status::SIGNED)
+    # end
+    # if @task_execution.update_attributes(completed: DateTime.now, task_execution: Status::SIGNED)
+
+    respond_to do |format|
+      format.html { redirect_to task_path(@task) }
+      format.js { render 'coordination' }
+      #binding.pry
     end
-    if @task_execution.update_attributes(completed: DateTime.now, task_execution: Status::SIGNED)
-      redirect_to task_path(@task)
-    end
+    #end
   end
 
   def coordination_master
