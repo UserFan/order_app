@@ -4,6 +4,7 @@ class TasksController < ApplicationController
   before_action :set_edit_form, only: [ :edit, :update ]
   before_action :set_index, only: [:index ]
   before_action :set_closing, only: [:closing ]
+
   after_action :verify_authorized
 
   def index
@@ -141,7 +142,7 @@ class TasksController < ApplicationController
   def set_index
     @set_tasks = Task.includes(:type_document, :status, :shop, :employee)
 
-    unless (current_user.super_admin? || current_user.guide?)
+    unless (current_user.super_admin? || current_user.guide? || current_user.moderator?)
       # @set_tasks =  @set_tasks.where("tasks.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
       #                   current_user, current_user, current_user).left_outer_joins(:employee, performers: :employee).distinct
 

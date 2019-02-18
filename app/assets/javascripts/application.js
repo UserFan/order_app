@@ -15,6 +15,8 @@
 //= require bootstrap
 //= require jquery
 //= require rails-ujs
+//= require jquery.raty
+//= require ratyrate
 //= require moment
 //= require moment/ru
 //= require bootstrap-datetimepicker
@@ -27,8 +29,6 @@
 //= require inputmask.phone.extensions
 //= require cocoon
 //= require turbolinks
-//= require jquery.raty
-//= require ratyrate
 //= require_tree .
 
 var ClickRowTable = function() {
@@ -79,6 +79,7 @@ document.addEventListener('turbolinks:load', function () {
   ClickRowTable();
   Mask_Input();
 });
+
 
 // document.addEventListener('turbolinks:load', function () {
 //   ClickRowTable();

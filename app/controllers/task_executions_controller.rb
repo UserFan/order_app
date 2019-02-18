@@ -2,7 +2,7 @@ class TaskExecutionsController < ApplicationController
   before_action :set_task_perform_execution, only: [:new, :edit, :create]
   before_action :set_task_execution, only: [:update, :destroy, :show, :coordination, :coordination_master]
   after_action :verify_authorized
-  protect_from_forgery except: :coordination
+  #protect_from_forgery except: :coordination
 
   def new
     authorize TaskExecution
@@ -52,7 +52,8 @@ class TaskExecutionsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to task_path(@task) }
-      format.js { render 'coordination' }
+      #format.js { render layout: false  }
+      format.js {render layout: false}
       #binding.pry
     end
     #end

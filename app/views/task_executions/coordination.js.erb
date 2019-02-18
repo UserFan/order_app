@@ -1,1 +1,6 @@
-$("#modal-raiting").html("<%= j render partial: 'tasks/modals_coordination', locals: {task_exe: @task_execution} %>");
+$(".modal-body").html("<%= j render 'task_execution' %>");
+$(".star").raty({
+  score: function() {
+       return $(this).attr('data-score');
+}
+});
