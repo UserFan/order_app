@@ -5,6 +5,7 @@ class TaskPerformer < ApplicationRecord
   #belongs_to :user, counter_cache: :orders_count
 
   has_one :task_execution, dependent: :restrict_with_error
+  #has_many :task_subordinates_executions,  through: :task_execution, foreign_key: :task_performer_ids
   #has_many :reworks, through: :executions, foreign_key: :execution_id
   has_one :user, through: :employee, foreign_key: :user_id
   has_many :subordinates, class_name: "TaskPerformer",

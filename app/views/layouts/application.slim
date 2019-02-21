@@ -4,6 +4,7 @@ html
     title Информационная система "АрышМае"
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'https://api-maps.yandex.ru/2.1/?lang=ru_RU', :type => "text/javascript", 'data-turbolinks-track' => true
+    = javascript_include_tag 'ratyrate.js', "data-turbolinks-track" => false
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
     meta content="width=device-width, initial-scale=1.0" name="viewport"

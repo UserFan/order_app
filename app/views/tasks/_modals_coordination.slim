@@ -6,9 +6,13 @@
         button.close aria-label="Close" data-dismiss="modal" type="button"
           span aria-hidden="true"  &times;
       .modal-body.pl-0.pr-0.ml-0.mr-0
-        = rating_for @task.task_executions.first, "rating_task_execution", space: true, cancel: false, disable_after_rate: false
+        .container-fluid.pl-0.pr-0.ml-0.mr-0
+          .row
+            .col-12.col-md-12.d-flex
+              .rating_stars.text-center.p-0.m-0
+        /= rating_for @task.task_executions.first, "rating_task_execution", space: true, cancel: false, disable_after_rate: false
       .modal-footer
-        .mx-auto
+        .modal-button.mx-auto
           button.btn.btn-primary aria-hidden="true" data-dismiss="modal" Отправить оценку
           / = link_to 'Отправить оценку',
           /     coordination_task_execution_path(task_performer.task_execution),

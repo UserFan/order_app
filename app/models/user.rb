@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :employees, dependent: :restrict_with_error
   has_many :shops, through: :employees, foreign_key: :user_id
   has_many :performers, through: :employees, foreign_key: :user_id
+  has_many :task_performers, through: :employees, foreign_key: :user_id
 
   has_one :profile, dependent: :destroy
 

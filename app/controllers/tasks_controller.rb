@@ -142,11 +142,12 @@ class TasksController < ApplicationController
   def set_index
     @set_tasks = Task.includes(:type_document, :status, :shop, :employee)
 
-    unless (current_user.super_admin? || current_user.guide? || current_user.moderator?)
+    unless (current_user.super_admin? || current_user.guide?)
       # @set_tasks =  @set_tasks.where("tasks.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
       #                   current_user, current_user, current_user).left_outer_joins(:employee, performers: :employee).distinct
 
-      @set_tasks = Task.where(employee_id: @current_employee.id).
+      #@set_tasks = Task.where(employee_id: @current_employee.id).
+      @set_tasks = Task.where("employees.user_id = ?", current_user).
                     or(Task.where("employees_task_performers.user_id = ?", current_user)).
                     left_outer_joins(:employee, task_performers: [:employee, :task_execution]).
                     includes(:shop, :status, :type_document).distinct
