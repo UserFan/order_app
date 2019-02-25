@@ -16,6 +16,12 @@ GIT
       nokogiri (>= 1.6.6)
       rubyzip (>= 1.2.1)
 
+GIT
+  remote: https://github.com/wazery/ratyrate.git
+  revision: 718e4f9e340e2c7fbf76e190f3bb298ce291b711
+  specs:
+    ratyrate (1.2.2.alpha)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -64,7 +70,7 @@ GEM
     airbrussh (1.3.1)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (8.0.0)
-    autoprefixer-rails (9.4.7)
+    autoprefixer-rails (9.4.8)
       execjs
     axlsx_rails (0.5.2)
       actionpack (>= 3.1)
@@ -178,7 +184,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.1.0)
+    json (2.2.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -251,7 +257,6 @@ GEM
       activerecord (>= 5.0)
       activesupport (>= 5.0)
       i18n
-    ratyrate (1.2.2.alpha)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -380,7 +385,7 @@ DEPENDENCIES
   rails (~> 5.1.3)
   rails-i18n
   ransack
-  ratyrate
+  ratyrate!
   reform
   reform-rails
   rubyzip (>= 1.2.1)
@@ -399,4 +404,4 @@ DEPENDENCIES
   will_paginate-bootstrap4
 
 BUNDLED WITH
-   1.16.3
+   1.16.0

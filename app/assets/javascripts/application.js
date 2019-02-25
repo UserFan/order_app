@@ -81,6 +81,8 @@ document.addEventListener('turbolinks:load', function () {
 });
 
 
+
+
 // document.addEventListener('turbolinks:load', function () {
 //   ClickRowTable();
 // });
