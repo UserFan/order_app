@@ -19,7 +19,7 @@ class TaskPerformerPolicy < ApplicationPolicy
 
   def completed?
 
-    !(record.task.date_closed.present?) && (user.super_admin? || (record.task.user == user)) &&
+    !(record.task.date_closed.present?) && (user.super_admin? || (record.task.employee.user == user)) &&
     !(record.task_execution.present?)
 
     #

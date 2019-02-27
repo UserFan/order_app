@@ -17,8 +17,8 @@ class TasksController < ApplicationController
 
   def new
     authorize Task
-    @task = Task.new(date_open: DateTime.now, user_id: current_user.id,
-                       structural_id: @structural.first.id,
+    @task = Task.new(date_open: DateTime.now, employee_id: @current_employee.id,
+                       structural_id: @current_employee.shop_id,
                        date_execution: DateTime.now + 7.days,
                        status_id: Status::NEW)
     end
@@ -29,9 +29,11 @@ class TasksController < ApplicationController
 
   def create
     authorize Task
-    @task = Task.new(permitted_attributes(Task).merge(date_open: DateTime.now,
-              user_id: current_user.id, date_execution: DateTime.now + 7.days,
-              status_id: Status::NEW))
+    @task = Task.new(permitted_attributes(Task).merge(
+                      date_open: DateTime.now,
+                      employee_id: @current_employee.id,
+                      date_execution: DateTime.now + 7.days,
+                      status_id: Status::NEW))
     if @task.save
       redirect_to tasks_path
     else
@@ -86,9 +88,10 @@ class TasksController < ApplicationController
 
   def set_structural
     if current_user.super_admin?
-        @structural = Shop.all
+      @structural = Shop.all
     else
       @structural = Shop.shop_employees(current_user.id)
+      @current_employee = Employee.employee_current(current_user.id)
     end
   end
 
@@ -135,13 +138,13 @@ class TasksController < ApplicationController
   end
 
   def set_index
-    @set_tasks = Task.includes(:type_document, :status, :shop, :user)
+    @set_tasks = Task.includes(:type_document, :status, :shop, :employee)
 
     unless (current_user.super_admin? || current_user.moderator? || current_user.guide?)
       # @set_tasks =  @set_tasks.where("tasks.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
       #                   current_user, current_user, current_user).left_outer_joins(:employee, performers: :employee).distinct
 
-      @set_tasks = Task.where(user_id: current_user).includes(:shop, :status, :type_document, :user).distinct
+      @set_tasks = Task.where(employee_id: @current_employee.id).includes(:shop, :status, :type_document, :employee).distinct
 
       # .or(Task.where("employees_performers.user_id=?", current_user)).
       #               left_outer_joins(:employee, performers: :employee).

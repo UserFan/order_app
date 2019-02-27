@@ -9,7 +9,7 @@
     .row
       .col-sm-12.col-md-8
         //= f.input :answerable_manager, collection: User.all, required: true, label_method: :full_name, value_method: :user_id, disabled: (true if (@task.date_closed.present?))
-        = f.association :user, collection: User.all, label_method: :full_name, value_method: :id, required: true, disabled: true
+        = f.association :employee, label_method: :full_name_with_position, value_method: :id, required: true, disabled: true
       .col-sm-12.col-md-4
         = f.input :date_execution, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'date_execution_task', input_html: { class: 'date_mask'}, required: true, disabled: (true if (@task.date_closed.present?))
     .row

@@ -8,7 +8,7 @@ class CreateTask < ActiveRecord::Migration[5.1]
       t.text :description,                null: false, default: ""
       t.datetime :date_execution,         null: false
       t.datetime :date_closed
-      t.references :user,                 null: false, default: 0
+      t.references :employee,             null: false, default: 0
       t.references :status,               null: false, default: 0
       t.jsonb :images_document
       t.timestamps

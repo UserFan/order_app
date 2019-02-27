@@ -1,7 +1,7 @@
 = simple_form_for [@task, @task_performer] do |f|
   .row
     .col-12.col-md-8
-      = f.input :employee_id, collection: @users_task_performer, label_method: :full_name, value_method: :id, required: true, disabled: (true if (@task.date_closed.present?))
+      = f.input :employee_id, collection: @users_task_performer, label_method: :full_name_with_structural, value_method: :id, required: true, disabled: (true if (@task.date_closed.present?))
     .col-12.col-md-4.pl-0
       = f.input :deadline, as: :date_picker, required: true, placeholder: "ДД.ММ.ГГГГ", id: 'task_performer_deadline', input_html: { class: 'date_mask' }, disabled: true
   .row

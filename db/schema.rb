@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190207110758) do
+ActiveRecord::Schema.define(version: 20190208084024) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -526,15 +526,15 @@ ActiveRecord::Schema.define(version: 20190207110758) do
     t.text "description", default: "", null: false
     t.datetime "date_execution", null: false
     t.datetime "date_closed"
-    t.bigint "user_id", default: 0, null: false
     t.bigint "status_id", default: 0, null: false
     t.jsonb "images_document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "employee_id", default: 0
+    t.index ["employee_id"], name: "index_tasks_on_employee_id"
     t.index ["status_id"], name: "index_tasks_on_status_id"
     t.index ["structural_id"], name: "index_tasks_on_structural_id"
     t.index ["type_document_id"], name: "index_tasks_on_type_document_id"
-    t.index ["user_id"], name: "index_tasks_on_user_id"
   end
 
   create_table "type_documents", force: :cascade do |t|

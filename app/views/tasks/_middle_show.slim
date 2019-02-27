@@ -1,28 +1,28 @@
 .container.border.border-info.d-none.d-sm-block
   .row
-    .col-md-6.bg-light.border-bottom.border-info.p-2
-      b Тип карточки:&nbsp;
+    .col-md-3.bg-light.border-bottom.border-info.p-2
+      b Тип:&nbsp;
       = @task.type_document.name
-    .col-md-6.bg-light.border-bottom.border-left.border-info.p-2
-      b Дата карточки:&nbsp;
+    .col-md-2.bg-light.border-bottom.border-left.border-info.p-2
+      b Дата:&nbsp;
       = l(@task.date_open, format: :date) if @task.date_open.present?
-  .row
-    .col-md-4.bg-white.border-bottom.border-info.p-2
+    .col-md-4.bg-light.border-left.border-bottom.border-info.p-2
+      b Подразделение:&nbsp;
+      | Хозяйственный отдел
+      /= @task.shop.name
+    .col-md-3.bg-light.border-bottom.border-left.border-info.p-2
       b Статус:&nbsp;
-      = @task.status.name
-    .col-md-8.bg-white.border-left.border-bottom.border-info.p-2
-      b Карточка от:&nbsp;
-      = @task.shop.name
+      |  На соглосавании
+      //= @task.status.name
   .row
-    .col-md-12.p-2.bg-white.border-bottom.border-info
-      b Создал карточку:&nbsp;
-      = @task.owner_user.full_name
-  .row
-    .col-md-12.bg-light.p-2.border-info
-      b Описание:&nbsp;
+    .col-md-6.bg-white.border-info.p-2
+      b Создал:&nbsp;
+      = @task.employee.full_name_with_position
+    .col-md-6.bg-white.border-left.border-info.p-2
+      b Текст:&nbsp;
       = @task.description
   .row
-    .col-md-12.bg-white.p-2.border-top.border-info
+    .col-md-12.bg-light.p-2.border-top.border-info
       b Файлы:&nbsp;
 
       / - if policy(@task).show_detail?

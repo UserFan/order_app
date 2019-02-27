@@ -8,7 +8,7 @@ class Task < ApplicationRecord
   belongs_to :type_document
   belongs_to :status
   belongs_to :shop, foreign_key: :structural_id
-  belongs_to :user
+  belongs_to :employee
 
   has_many :task_performers, inverse_of: :task, dependent: :delete_all #, autosave: true
   # has_many :users, through: :employee, foreign_key: :user_id, counter_cache: true
@@ -16,14 +16,10 @@ class Task < ApplicationRecord
   has_many :task_executions, through: :task_performers, foreign_key: :task_id
   # has_many :reworks, through: :executions
 
-  validates :user_id, :date_open, :date_execution, :description, :structural_id, presence: true
-
-  def control_user
-    self.employee.user
-  end
+  validates :employee_id, :date_open, :date_execution, :description, :structural_id, presence: true
 
   def owner_user
-    User.find(user_id)
+    User.find(self.employee.user_id)
   end
 
   def number_create
