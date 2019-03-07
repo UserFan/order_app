@@ -1,5 +1,7 @@
 $(".rating_stars").html("<%= j render 'task_execution' %>");
-
-$(".modal-button").html("<%= j link_to 'Отправить оценку', task_path(@task_execution.task), class: 'btn btn-primary float-center', data: { disable_with: t('form_button_caption.disabled_send') } %>");
-
 initstars();
+$(".modal-button").html(
+  "<%= j link_to 'Отправить оценку', task_path(@task_execution.task),
+   class: 'btn btn-primary float-center',
+   data: { disable_with: t('form_button_caption.disabled_send') } %>"
+);

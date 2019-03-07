@@ -8,7 +8,7 @@
   .col-12.col-md-11.border-top.bg-white.p-1.border-info
       = link_to 'Исполнена', closing_task_path(@task, close: Status::COMPLETED), class: "btn btn-outline-success btn-sm" if policy(@task).closing? && @task.status_id == Status::SIGNED
       | &nbsp;
-      = link_to 'Испол. частично', closing_order_path(@task, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@task).closing? && @task.status_id == Status::SIGNED
+      = link_to 'Испол. частично', closing_task_path(@task, close: Status::PART_COMPLETED), class: "btn btn-outline-info btn-sm" if policy(@task).closing? && @task.status_id == Status::SIGNED
       | &nbsp;
       = link_to 'Не исполнена', closing_task_path(@task, close: Status::NOT_COMPLETED), class: "btn btn-outline-danger btn-sm" if policy(@task).closing?
       | &nbsp;

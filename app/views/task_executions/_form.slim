@@ -7,7 +7,9 @@
               required: true, include_blank: true, as: (:hidden unless current_user.admin?)
   .col-sm-12.col-md-12
     = f.file_field :images_document, multiple: true, title: 'Фотоотчет...', class: "btn btn-outline-primary btn-sm", data: { "filename-placement": "outside" }
-  .col-sm-12.col-md-12
+  .col-sm-12.col-md-6
     = f.input :completed, as: :hidden, input_html: { value: params[:remove_control] ? DateTime.now : nil }
+  .col-sm-12.col-md-6
+    = f.input :manager_id, as: :hidden
   .form-group.float-right.mb-0.mt-2
     = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"

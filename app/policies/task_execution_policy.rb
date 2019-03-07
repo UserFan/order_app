@@ -61,7 +61,8 @@ class TaskExecutionPolicy < ApplicationPolicy
 
 
   def permitted_attributes
-    [:task_performer_id, :comment, :task_execution, :completed, images_document: []]
+    [:task_performer_id, :comment, :task_execution, :completed, :manager_id,
+     images_document: []]
   end
 
   private

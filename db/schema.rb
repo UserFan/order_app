@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190213163148) do
+ActiveRecord::Schema.define(version: 20190225085448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -502,6 +502,7 @@ ActiveRecord::Schema.define(version: 20190213163148) do
     t.jsonb "images_document"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "manager_id", default: 0, null: false
     t.index ["task_performer_id"], name: "index_task_executions_on_task_performer_id"
   end
 

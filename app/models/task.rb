@@ -18,6 +18,11 @@ class Task < ApplicationRecord
 
   validates :employee_id, :date_open, :date_execution, :description, :structural_id, presence: true
 
+  scope :tasks_user, -> (user) { where("employees.user_id = ?", user).
+                or(Task.where("employees_task_performers.user_id = ?", user)).
+                left_outer_joins(:employee, :task_executions, task_performers: :employee).
+                includes(:shop, :status, :type_document).distinct }
+
   def owner_user
     User.find(self.employee.user_id)
   end

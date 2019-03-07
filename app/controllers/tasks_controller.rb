@@ -140,44 +140,27 @@ class TasksController < ApplicationController
   end
 
   def set_index
-    @set_tasks = Task.includes(:type_document, :status, :shop, :employee)
-
     unless (current_user.super_admin? || current_user.guide?)
-      # @set_tasks =  @set_tasks.where("tasks.user_id = ? OR employees.user_id = ? OR employees_performers.user_id = ?",
-      #                   current_user, current_user, current_user).left_outer_joins(:employee, performers: :employee).distinct
-
-      #@set_tasks = Task.where(employee_id: @current_employee.id).
-      @set_tasks = Task.where("employees.user_id = ?", current_user).
-                    or(Task.where("employees_task_performers.user_id = ?", current_user)).
-                    left_outer_joins(:employee, task_performers: [:employee, :task_execution]).
-                    includes(:shop, :status, :type_document).distinct
-      @tasks_coordination = @set_tasks.includes(:shop, :status, :type_document, :task_execution).where("date_closed is null").
-                                where(task_performers: { task_performer_id: @current_employee.id }).
-                                where(task_performers: { task_executions: {task_execution: Status::COORDINATION_MANAGER}}).size
-    #  binding.pry
+      @set_tasks = Task.tasks_user(current_user)
+    else
+      @set_tasks = Task.includes(:type_document, :status, :shop, :employee, :task_executions)
     end
-    @tasks_for_closing = @set_tasks.includes(:shop, :status, :type_document, :user).
-                          where("date_closed is null and status_id = ?",
-                          Status::SIGNED).size
-    @tasks_agree = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and status_id = ?",
-                          Status::AGREE).size
-    @tasks_new = @set_tasks.includes(:shop, :status, :type_document, :user).where(status_id: Status::NEW).size
-
-    # @tasks_coordination = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and
-    #           status_id = ?", Status::AGREE).size
-
-
-    # @tasks_for_closing = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and
-    #                       status_id = ?", Status::COORDINATION).
-    #                       distinct.size #if @set_tasks.where(user_id: current_user)
-    # @tasks_agree = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and status_id = ?", Status::AGREE).size #if @set_tasks.where(user_id: current_user)
+    @tasks_not_coordination = @set_tasks.where(date_closed: nil).
+                          where(task_executions: { task_execution: Status::NOT_COORDINATION_MANAGER, manager_id: current_user }).size
+    @tasks_coordination = @set_tasks.where(date_closed: nil).
+                          where(task_executions: { task_execution: Status::COORDINATION_MANAGER, manager_id: current_user }).size
+    @tasks_for_closing = @set_tasks.where(date_closed: nil, status_id: Status::SIGNED).size
+    @tasks_signing = @set_tasks.where(date_closed: nil).
+                          where(task_executions: { task_execution: Status::SIGNING }).size
+    @tasks_not_signed = @set_tasks.where(date_closed: nil).
+                          where(task_executions: { task_execution: Status::NOT_SIGNED }).size
+    @tasks_agree = @set_tasks.where(date_closed: nil, status_id: Status::SIGNING).size
+    @tasks_new = @set_tasks.where(status_id: Status::NEW).size
 
     @set_tasks_overdue =
         @set_tasks.where("(date_closed > date_execution)").or(@set_tasks).
                     where("(date_closed IS NULL AND date_execution < ?)",
-                    Date.today).includes(:shop, :status, :type_document, :user)
-
-
+                    Date.today).includes(:shop, :status, :type_document)
                     # OR
                     #        (executions.completed IS NULL AND performers.deadline < ?)
                     #        OR (executions.completed > date_execution) OR
@@ -189,23 +172,9 @@ class TasksController < ApplicationController
     @q.sorts = ['statuses_name_asc shop_name asc', 'created_at desc'] if @q.sorts.empty?
     @tasks = @q.result(distinct: true).paginate(page: params[:page], per_page: 5)
     @tasks_closed = @set_tasks.includes(:shop, :status, :type_document, :user).where.not(date_closed: nil).size
-    @tasks_open = @set_tasks.includes(:shop, :status, :type_document, :user).where("date_closed is null and status_id = ?", Status::EXECUTION).size
-    @tasks_not_coordination =@set_tasks.includes(:shop, :status, :type_document, :user)
-                                        .where("date_closed is null and status_id = ?",
-                                        Status::NOT_COORDINATION).distinct.size
-    @tasks_count = @set_tasks.includes(:shop, :status, :type_document, :user).size
-    @tasks_overdue = @set_tasks_overdue.includes(:shop, :status, :type_document, :user).size
+    @tasks_open = @set_tasks.where(date_closed: nil, status_id: Status::EXECUTION).size
 
-    # params[:overdue] ? @q = @set_tasks_overdue.joins(:status, :shop).ransack : @q = @set_tasks.joins(:status, :shop).ransack(params[:q])
-    # set_caption_table(params[:set_caption].nil? ? 1 : (params[:set_caption].to_i))
-    # @q.sorts = ['statuses_name_asc shop_name asc', 'created_at desc'] if @q.sorts.empty?
-    # @tasks = @q.result(distinct: true).paginate(page: params[:page], per_page: 5)
-    # @tasks_closed = @set_tasks.includes(:shop, :status, :category, :employee, :performers).where.not(date_closed: nil).size
-    # @tasks_open = @set_tasks.includes(:shop, :status, :category, :employee, :performers).where("date_closed is null and status_id = ?", Status::EXECUTION).size
-    # @tasks_not_coordination =@set_tasks.includes(:shop, :status, :category, :employee, :performers).where("date_closed is null and status_id = ?",
-    #                             Status::NOT_COORDINATION).distinct.size
-    # @tasks_count = @set_tasks.includes(:shop, :status, :category, :employee, :performers).size
-    # @tasks_overdue = @set_tasks_overdue.includes(:shop, :status, :category, :employee, :performers).size
-
+    @tasks_count = @set_tasks.size
+    @tasks_overdue = @set_tasks_overdue.size
   end
 end

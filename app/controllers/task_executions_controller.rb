@@ -43,17 +43,19 @@ class TaskExecutionsController < ApplicationController
   def coordination
     authorize  @task_execution
     @task = @task_execution.task_performer.task
-    task_execution_count = @task.task_executions.where(task_performers: {answerable: true}).size
-    # if (@task.task_performers.where(answerable: true).size == task_execution_count) &&
-    #   (@task.task_executions.where(task_performers: {answerable: true }, completed: nil).size != task_execution_count)
-    #   @task.update!(status_id: Status::SIGNED)
-    # end
-    # if @task_execution.update_attributes(completed: DateTime.now, task_execution: Status::SIGNED)
-    respond_to do |format|
-      format.html { redirect_to task_path(@task) }
-      format.js { render layout: false }
+    task_performers_count = @task.task_performers.where(answerable: true).size
+    task_execution_count = @task.task_executions.where(task_performers: {answerable: true}).size    
+    if @task_execution.update_attributes(completed: DateTime.now, task_execution: Status::SIGNED)
+      respond_to do |format|
+        format.html { redirect_to task_path(@task) }
+        format.js { render layout: false }
+      end
     end
-    # end
+    set_status = @task.task_executions.where(task_performers: {answerable: true}, task_execution: Status::NOT_SIGNED).present? ? Status::NOT_COORDINATION : Status::SIGNED
+    if (task_performers_count == task_execution_count) &&
+      (@task.task_executions.where(task_performers: {answerable: true }, completed: nil).size != task_execution_count)
+      @task.update!(status_id: set_status)
+    end
   end
 
   def coordination_master
@@ -97,11 +99,10 @@ class TaskExecutionsController < ApplicationController
 
   def set_task_perform_execution
     @task_performer = TaskPerformer.find(params[:task_performer_id])
-
-    #structural = (params[:answerable_structural]).to_i || 0
     @task = @task_performer.task
     @task_execution = @task_performer.task_execution ||
-      @task_performer.build_task_execution(task_execution: (@task_performer.task_performer.present?) ? Status::COORDINATION_MANAGER : Status::SIGNING)
+      @task_performer.build_task_execution(manager_id: (@task_performer.task_performer.present?) ? @task_performer.task_performer.employee.user_id : 0,
+        task_execution: (@task_performer.task_performer.present?) ? Status::COORDINATION_MANAGER : Status::SIGNING)
 
   end
 

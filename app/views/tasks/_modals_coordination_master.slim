@@ -10,7 +10,9 @@
           .row
             .col-12.col-md-12.d-flex
               .rating_stars.text-center.p-0.m-0
-                = rating_for task_performer_slave.task_execution, "rating_task_execution", space: true, cancel: false, disable_after_rate: (false if task_performer_slave.task_execution.completed.nil?)
+                = rating_for task_performer_slave.task_execution,
+                  "rating_task_execution", space: true, cancel: false,
+                   disable_after_rate: (false if task_performer_slave.task_execution.completed.nil?)
       .modal-footer
         .mx-auto
           = link_to 'Отправить оценку',

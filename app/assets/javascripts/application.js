@@ -80,9 +80,6 @@ document.addEventListener('turbolinks:load', function () {
   Mask_Input();
 });
 
-
-
-
 // document.addEventListener('turbolinks:load', function () {
 //   ClickRowTable();
 // });

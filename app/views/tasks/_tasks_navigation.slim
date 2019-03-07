@@ -30,23 +30,28 @@
                 span.fas.fa-check-circle.text-muted&nbsp
                   Исполненные
                 span.badge.badge-pill.badge-secondary.float-right = @tasks_closed
+            - if @tasks_signing > 0
+              = active_link_to tasks_path(q: {date_closed_not_null: '0', task_executions_task_execution_eq: Status::SIGNING}, set_caption: 5), active: :exact, class: "nav-item nav-link main-nav-link" do
+                span.fas.fa-handshake.text-muted&nbsp
+                  На подписании
+                span.badge.badge-pill.badge-secondary.float-right = @tasks_signing
+            - if @tasks_not_signed > 0
+              = active_link_to tasks_path(q: {date_closed_not_null: '0', task_executions_task_execution_eq: Status::NOT_SIGNED}, set_caption: 5), active: :exact, class: "nav-item nav-link main-nav-link" do
+                span.fas.fa-handshake.text-muted&nbsp
+                  На доработке
+                span.badge.badge-pill.badge-secondary.float-right = @tasks_not_signed
 
-            - if @tasks_for_closing > 0
-              = active_link_to tasks_path(q: {date_closed_not_null: '0', status_id_eq: Status::COORDINATION}, set_caption: 4), active: :exact, class: "nav-item nav-link main-nav-link" do
+
+            - if @tasks_coordination != 0 && @tasks_coordination.present?
+              = active_link_to tasks_path(q: {date_closed_not_null: '0', task_executions_task_execution_eq: Status::COORDINATION_MANAGER, task_executions_manager_id_eq: current_user }, set_caption: 4), active: :exact, class: "nav-item nav-link main-nav-link" do
                 span.fas.fa-marker.text-muted&nbsp
                   На согласовании
-                span.badge.badge-pill.badge-secondary.float-right = @tasks_for_closing
+                span.badge.badge-pill.badge-secondary.float-right = @tasks_coordination
 
-            - if @tasks_agree > 0
-              = active_link_to tasks_path(q: {date_closed_not_null: '0', status_id_eq: Status::AGREE}, set_caption: 5), active: :exact, class: "nav-item nav-link main-nav-link" do
-                span.fas.fa-handshake.text-muted&nbsp
-                  Согласованные
-                span.badge.badge-pill.badge-secondary.float-right = @tasks_agree
-
-            - if @tasks_not_coordination > 0
-              = active_link_to tasks_path(q: {date_closed_not_null: '0', status_id_eq: Status::NOT_COORDINATION}, set_caption: 6), active: :exact, class: "nav-item nav-link main-nav-link" do
+            - if @tasks_not_coordination != 0 && @tasks_not_coordination.present?
+              = active_link_to tasks_path(q: {date_closed_not_null: '0', task_executions_task_execution_eq: Status::NOT_COORDINATION_MANAGER, task_executions_manager_id_eq: current_user }, set_caption: 6), active: :exact, class: "nav-item nav-link main-nav-link" do
                 span.fas.fa-history.text-muted&nbsp
-                  В доработке
+                  Не согласован
                 span.badge.badge-pill.badge-secondary.float-right = @tasks_not_coordination
 
             - if @tasks_overdue > 0
