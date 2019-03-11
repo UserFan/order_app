@@ -49,7 +49,7 @@ li
             li
               b Статус исполнения:&#10148;&nbsp
               span
-                = "#{task_performer.task_execution.execution_result}"
+                = task_performer.task_execution.execution_result
                 = content_tag(:span, " (#{l(task_performer.task_execution.completed, format: :datetime)})") if task_performer.task_execution.completed.present?
 
         p = link_to "Фотоотчет", task_execution_path(task_performer.task_execution) if task_performer.task_execution.images_document.present?
