@@ -196,9 +196,9 @@ class TasksController < ApplicationController
                     #        (executions.completed > performers.deadline)",
                     #        Date.today, Date.today).left_outer_joins(performers: :execution).includes(:shop, :status, :category)
 
-    params[:overdue] ? @q = @set_tasks_overdue.joins(:status, :shop).ransack : @q = @set_tasks.joins(:status, :shop).ransack(params[:q])
+    params[:overdue] ? @q = @set_tasks_overdue.joins(:status, :shop).ransack(params[:q]) : @q = @set_tasks.joins(:status, :shop).ransack(params[:q])
     set_caption_table(params[:set_caption].nil? ? 1 : (params[:set_caption].to_i))
-    @q.sorts = ['statuses_name_asc shop_name asc', 'created_at desc'] if @q.sorts.empty?
+    @q.sorts ||= ['shop_name.asc', 'created_at.desc']
     @tasks = @q.result(distinct: true).paginate(page: params[:page], per_page: 5)
     @tasks_overdue = @set_tasks_overdue.size
   end

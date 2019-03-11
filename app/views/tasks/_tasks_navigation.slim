@@ -7,7 +7,7 @@
       #navpilsNav.collapse.navbar-collapse
         .mt-4.mb-4
         .col-12.col-md-12
-          = active_link_to tasks_path, active: :exclusive, active: :exact, class: "nav-item nav-link" do
+          = active_link_to tasks_path, active: :exact, class: "nav-item nav-link" do
             span.fas.fa-tasks.text-muted
               = current_user.super_admin? ? " Все карточки" : " Мои карточки"
             span.badge.badge-pill.badge-secondary.float-right = @tasks_count if @tasks_count > 0
