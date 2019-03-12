@@ -34,7 +34,7 @@
               th.text-center.edit-control
                 i.fa.fa-list
         tbody
-          - @orders.find_each do |order|
+          - @orders.each do |order|
             tr.table-row data-href="#{order_path(order)}"
               td.number-order
                 = order.order_number

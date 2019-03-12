@@ -5,7 +5,7 @@ li
     - if policy(task_performer).completed?
       span.small
         |  &#10148;&nbsp;
-        = link_to "Снять с контроля", remove_control_task_execution_path(task_task_performer_id: task_performer.id)
+        = link_to "Снять с контроля", remove_control_task_execution_path(task_performer_id: task_performer.id)
     .blockquote-footer
       | Срок исполнения - до #{l(task_performer.deadline, format: :date)}&nbsp
       = content_tag(:small, "#{'('}" + t("order_day.order_left_day") + t(distance_of_time_in_words(Date.today, task_performer.deadline)) + "#{')'}",
@@ -58,7 +58,7 @@ li
         - if task_performer.task_execution.task_reworks.present?
           .col-sm-12.p-0.col-md-12.pl-md-5
             #task-rework
-              p.h5.text-danger.font-weight-bold
+              .h4.text-danger.font-weight-bold
                 | Замечание
               hr.m-0.pb-2
               .col-sm-12.col-md-12

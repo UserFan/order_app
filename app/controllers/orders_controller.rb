@@ -186,7 +186,7 @@ class OrdersController < ApplicationController
     @orders_not_coordination =@set_orders.includes(:shop, :status, :category, :employee, :performers).where("date_closed is null and status_id = ?",
                                 Status::NOT_COORDINATION).distinct.size
     @orders_count = @set_orders.includes(:shop, :status, :category, :employee, :performers).size
-    @orders_overdue = @set_orders_overdue.includes(:shop, :status, :category, :employee, :performers).size
+    @orders_overdue = @set_orders_overdue.includes(:shop, :status, :category, :employee, :performers).distinct.size
 
   end
 end

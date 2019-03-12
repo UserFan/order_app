@@ -18,7 +18,7 @@
     .col-sm-12.col-md-9
       .row
         .col-12.col-md-4
-          h3.m-1.d-none.d-sm-block = @caption_table
+          h4.m-1.d-none.d-sm-block = @caption_table
         .col-12.col-md-8.pt-2
           .pagination.pagination-sm.float-right
             = will_paginate @tasks, renderer: WillPaginate::ActionView::BootstrapLinkRenderer
@@ -26,15 +26,15 @@
       table.table.table-hover#order-table
         thead.thead-light.text-dark
           tr.text-dark
-            th.number-order =sort_link(@q, :order_number, '№ карточки', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :date_open, 'Дата', default_order: :asc)
-            th =sort_link(@q, :shop_name, 'Текст', default_order: :asc)
-            th.d-none.d-sm-table-cell =sort_link(@q, :status_name, 'Статус', default_order: :asc)
+            th.number-order = sort_link(@q, :task_number, '№ карточки', default_order: :asc)
+            th.d-none.d-sm-table-cell = sort_link(@q, :date_open, 'Дата', default_order: :desc)
+            th = sort_link(@q, :description, 'Текст', default_order: :asc)
+            th.d-none.d-sm-table-cell = sort_link(@q, :status_name, 'Статус', default_order: :asc)
             - if policy(@tasks).edit?
               th.text-center.edit-control
                 i.fa.fa-list
         tbody
-          - @tasks.find_each do |task|
+          - @tasks.each do |task|
             tr.table-row data-href="#{task_path(task)}"
               td.number-order
                 = task.task_number

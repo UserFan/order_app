@@ -18,23 +18,33 @@ class Task < ApplicationRecord
 
   validates :employee_id, :date_open, :date_execution, :description, :structural_id, presence: true
 
-  scope :taks_set, -> { includes(:shop, :status, :type_document).
-                        left_outer_joins(:employee, :task_executions,
-                        task_performers: :employee).distinct
-                      }
+  scope :task_set, -> { includes(:shop, :status, :type_document).
+                         left_outer_joins(:employee, :task_executions,
+                         task_performers: :employee).distinct }
 
-  scope :tasks_user, -> (user) { where("employees.user_id = ?", user).
-                or(Task.where("employees_task_performers.user_id = ?", user)).
-                distinct }
+  scope :task_user, -> (user) { where("employees.user_id = ?", user).
+                               or(where("employees_task_performers.user_id = ?",
+                               user)).distinct if user.present?
+                             }
 
-  scope :coordination, -> (status, user) { where(date_closed: nil).
-                                                where(task_executions: {
-                                                task_execution: status,
-                                                manager_id: user }).distinct }
+  scope :coordination, -> (status, manager) { where(date_closed: nil).
+                                              where(task_executions: {
+                                              task_execution: status,
+                                              manager_id: manager }).
+                                              distinct }
+
   scope :execution_status, -> (status) { where(date_closed: nil).
                                          where(task_executions: {
                                          task_execution: status }).distinct }
-  scope :task_status, -> (status) { where(date_closed: nil, status_id: status).distinct }
+
+  scope :task_status, -> (status) { where(date_closed: nil,
+                                    status_id: status).distinct }
+
+  scope :overdue, -> { where("(date_closed IS NULL AND date_execution < ?) OR
+                               (task_executions.completed IS NULL AND task_performers.deadline < ?)
+                               OR (task_executions.completed > date_execution) OR
+                               (task_executions.completed > task_performers.deadline)",
+                               Date.today, Date.today) }
 
   def owner_user
     User.find(self.employee.user_id)

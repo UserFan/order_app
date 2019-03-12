@@ -119,6 +119,10 @@ class TasksController < ApplicationController
         @caption_table = "Просроченные"
       when 8
         @caption_table = "Новые"
+      when 9
+        @caption_table = "На подписании"
+      when 10
+        @caption_table = "Не согласован"
       else
         @caption_table = ""
     end
@@ -141,65 +145,40 @@ class TasksController < ApplicationController
 
   def set_index
     unless (current_user.super_admin? || current_user.guide?)
-      @set_tasks = Task.taks_set.tasks_user(current_user)
-      @tasks_not_coordination = @set_tasks.coordination(
+      @set_tasks = Task.task_set.task_user(current_user)
+      @not_coordination = @set_tasks.coordination(
                                   Status::NOT_COORDINATION_MANAGER,
                                   current_user).size
 
-      @tasks_coordination = @set_tasks.coordination(
+      @coordination = @set_tasks.coordination(
                               Status::COORDINATION_MANAGER,
                               current_user).size
     else
-      @set_tasks = Task.taks_set
+      @set_tasks = Task.task_set.task_user(nil)
     end
-
-
-    @tasks_signing = @set_tasks.execution_status(Status::SIGNING).size
-    @tasks_not_signed = @set_tasks.execution_status(Status::NOT_SIGNED).size
-    @tasks_for_closing = @set_tasks.task_status(Status::SIGNED).size
-    @tasks_agree = @set_tasks.task_status(Status::SIGNING).size
-    @tasks_new = @set_tasks.task_status(Status::NEW).size
-    @tasks_open = @set_tasks.task_status(Status::EXECUTION).size
-    @tasks_open = @set_tasks.task_status(Status::EXECUTION).size
-    @tasks_closed = @set_tasks.where.not(date_closed: nil).size
+    @signing_count = @set_tasks.execution_status(Status::SIGNING).size
+    @not_signed_count = @set_tasks.execution_status(Status::NOT_SIGNED).size
+    @for_closing_count = @set_tasks.task_status(Status::SIGNED).size
+    @agree_count = @set_tasks.task_status(Status::SIGNING).size
+    @new_count = @set_tasks.task_status(Status::NEW).size
+    @open_count = @set_tasks.task_status(Status::EXECUTION).size
+    @open_count = @set_tasks.task_status(Status::EXECUTION).size
+    @closed_count = @set_tasks.where.not(date_closed: nil).size
     @tasks_count = @set_tasks.size
 
+    @set_overdue =
+        @set_tasks.where("(date_closed > date_execution)").or(@set_tasks.overdue)
+                    # where("(date_closed IS NULL AND date_execution < ?) OR
+                    #        (task_executions.completed IS NULL AND task_performers.deadline < ?)
+                    #        OR (task_executions.completed > date_execution) OR
+                    #        (task_executions.completed > task_performers.deadline)",
+                    #        Date.today, Date.today)
 
-    # @tasks_not_coordination = @set_tasks.where(date_closed: nil).
-    #                       where(task_executions: { task_execution: Status::NOT_COORDINATION_MANAGER, manager_id: current_user }).size
-    # @tasks_coordination = @set_tasks.where(date_closed: nil).
-    #                       where(task_executions: { task_execution: Status::COORDINATION_MANAGER, manager_id: current_user }).size
-    # @tasks_for_closing = @set_tasks.where(date_closed: nil, status_id: Status::SIGNED).size
-    # @tasks_signing = @set_tasks.where(date_closed: nil).
-    #                       where(task_executions: { task_execution: Status::SIGNING }).size
-    # @tasks_not_signed = @set_tasks.where(date_closed: nil).
-    #                       where(task_executions: { task_execution: Status::NOT_SIGNED }).size
-    # @tasks_agree = @set_tasks.where(date_closed: nil, status_id: Status::SIGNING).size
-    # @tasks_new = @set_tasks.where(status_id: Status::NEW).size
+    @overdue_count = @set_overdue.distinct.size
 
-    @set_tasks_overdue =
-        @set_tasks.where("(date_closed > date_execution)").or(@set_tasks).
-                    where("(date_closed IS NULL AND date_execution < ?) OR
-                           (task_executions.completed IS NULL AND task_performers.deadline < ?)
-                           OR (task_executions.completed > date_execution) OR
-                           (task_executions.completed > task_performers.deadline)",
-                           Date.today, Date.today)
-
-
-    # @set_tasks_overdue =
-    #     @set_tasks.where("(date_closed > date_execution)").or(@set_tasks).
-    #                 where("(date_closed IS NULL AND date_execution < ?)",
-    #                 Date.today).includes(:shop, :status, :type_document)
-    #                 # OR
-                    #        (executions.completed IS NULL AND performers.deadline < ?)
-                    #        OR (executions.completed > date_execution) OR
-                    #        (executions.completed > performers.deadline)",
-                    #        Date.today, Date.today).left_outer_joins(performers: :execution).includes(:shop, :status, :category)
-
-    params[:overdue] ? @q = @set_tasks_overdue.joins(:status, :shop).ransack(params[:q]) : @q = @set_tasks.joins(:status, :shop).ransack(params[:q])
+    params[:overdue] ? @q = @set_overdue.joins(:status).ransack(params[:q]) : @q = @set_tasks.joins(:status).ransack(params[:q])
     set_caption_table(params[:set_caption].nil? ? 1 : (params[:set_caption].to_i))
-    @q.sorts ||= ['shop_name.asc', 'created_at.desc']
+    @q.sorts ||= ['date_open desc', 'created_at desc']
     @tasks = @q.result(distinct: true).paginate(page: params[:page], per_page: 5)
-    @tasks_overdue = @set_tasks_overdue.size
   end
 end
