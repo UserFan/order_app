@@ -12,7 +12,7 @@
               span.fa.fa-search
   .row
     .col-12.col-md-3
-      = link_to "Новая карточка",  new_task_path, class: "btn btn-outline-success" if policy(@tasks).new?
+      = link_to "Новая карточка",  new_task_path, class: "btn btn-outline-success" if policy(@tasks).new_task?(@current_employee)
       hr
       = render "tasks_navigation"
     .col-sm-12.col-md-9

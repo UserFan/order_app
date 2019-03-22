@@ -4,7 +4,6 @@ class TasksController < ApplicationController
   before_action :set_edit_form, only: [ :edit, :update ]
   before_action :set_index, only: [:index ]
   before_action :set_closing, only: [:closing ]
-
   after_action :verify_authorized
 
   def index
@@ -19,11 +18,11 @@ class TasksController < ApplicationController
 
   def new
     authorize Task
-    @task = Task.new(date_open: DateTime.now, employee_id: @current_employee.id,
-                       structural_id: @current_employee.shop_id,
-                       date_execution: DateTime.now + 7.days,
-                       status_id: Status::NEW)
-    end
+    @task =
+      Task.new(date_open: DateTime.now, employee_id: @current_employee.id,
+               structural_id: @current_employee.shop_id, status_id: Status::NEW,
+               date_execution: DateTime.now + 7.days)
+  end
 
   def edit
     authorize @task
@@ -31,13 +30,12 @@ class TasksController < ApplicationController
 
   def create
     authorize Task
-    @task = Task.new(permitted_attributes(Task).merge(
-                      date_open: DateTime.now,
-                      employee_id: @current_employee.id,
-                      date_execution: DateTime.now + 7.days,
-                      status_id: Status::NEW))
+    @task =
+      Task.new(permitted_attributes(Task).
+        merge(date_open: DateTime.now, employee_id: @current_employee.id,
+              date_execution: DateTime.now + 7.days, status_id: Status::NEW))
     if @task.save
-      redirect_to tasks_path
+      redirect_to task_path(@task)
     else
       render 'new'
     end
@@ -57,27 +55,28 @@ class TasksController < ApplicationController
     authorize @task
     @task_performers = @task.task_performers
     @task_performers.find_each do |task_performer|
-      unless task_performer.task_execution.present?
-        task_performer.create_task_execution!(completed: DateTime.now, task_execution:
-                   Status::OFF_CONTROL,
-                   comment: 'Сведения об исполнении не были представлены')
+      execution = task_performer.task_execution
+      if execution.present? && execution.completed.nil?
+        execution.update!(task_execution: Status::OFF_CONTROL,
+          completed: DateTime.now,
+          comment: t('.not_coordination', text: execution.comment))
       else
-        task_performer.task_execution.update!(completed: DateTime.now, task_execution:
-                   Status::OFF_CONTROL,
-                   comment: "#{task_performer.task_execution.comment} (Снята с контроля без согласования)") unless task_performer.task_execution.completed.present?
+        task_performer.create_task_execution!(task_execution: Status::OFF_CONTROL,
+                                 completed: DateTime.now,
+                                 comment: t('.empty_execution'))
+
       end
     end
-    @task.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status != 0
+    @task.update!(status_id: @set_status, date_closed: DateTime.now) if @set_status > 0
     redirect_to task_path(@task)
   end
 
   def destroy
     authorize @task
-
     if @task.destroy
-      flash[:success] = "Контрольная карточка удачно удалена."
+      flash[:success] = t('.success')
     else
-      flash[:error] = "Контрольная карточка не может буть удалена. Есть связанные данные"
+      flash[:error] = t('.error')
     end
     redirect_to tasks_path
   end
@@ -103,82 +102,82 @@ class TasksController < ApplicationController
 
   def set_caption_table(set_caption)
     case set_caption
-      when 1
-        @caption_table = current_user.super_admin? ? "Все карточки" : "Мои карточки"
-      when 2
-        @caption_table = "В работе"
-      when 3
-        @caption_table = "Исполненные"
-      when 4
-        @caption_table = "На согласовании"
-      when 5
-        @caption_table = "Согласованные"
-      when 6
-        @caption_table = "На доработке"
-      when 7
-        @caption_table = "Просроченные"
-      when 8
-        @caption_table = "Новые"
-      when 9
-        @caption_table = "На подписании"
-      when 10
-        @caption_table = "Не согласован"
-      else
-        @caption_table = ""
+    when 1
+      @caption_table =
+        current_user.super_admin? ? t('.title_all') : t('.title_current')
+    when 2
+      @caption_table = t('.title_work')
+    when 3
+      @caption_table = t('.title_execution')
+    when 4
+      @caption_table = t('.title_coordination')
+    when 5
+      @caption_table = t('.agree')
+    when 6
+      @caption_table = t('.title_rework')
+    when 7
+      @caption_table = t('.title_overdue')
+    when 8
+      @caption_table = t('.title_new')
+    when 9
+      @caption_table = t('.title_signing')
+    when 10
+      @caption_table = t('.title_not_agree')
+    else
+      @caption_table = ""
     end
   end
 
   def set_closing
     case (params[:close]).to_i
-      when Status::COMPLETED
-        @set_status = Status::COMPLETED
-      when Status::PART_COMPLETED
-        @set_status = Status::PART_COMPLETED
-      when Status::NOT_COMPLETED
-        @set_status = Status::NOT_COMPLETED
-      when Status::OFF_CONTROL
-        @set_status = Status::OFF_CONTROL
-      else
-        @set_status = 0
+    when Status::COMPLETED
+      @set_status = Status::COMPLETED
+    when Status::PART_COMPLETED
+      @set_status = Status::PART_COMPLETED
+    when Status::NOT_COMPLETED
+      @set_status = Status::NOT_COMPLETED
+    when Status::OFF_CONTROL
+      @set_status = Status::OFF_CONTROL
+    else
+      @set_status = 0
+  end
+  end
+
+  def set_task_count(collection=nil)
+    unless collection.nil?
+      @signing_count = collection.execution_status(Status::SIGNING).size || 0
+      @not_signed_count =
+        collection.execution_status(Status::NOT_SIGNED).size || 0
+      @for_closing_count = collection.task_status(Status::SIGNED).size || 0
+      @agree_count = collection.task_status(Status::SIGNING).size || 0
+      @new_count = collection.task_status(Status::NEW).size || 0
+      @open_count = collection.task_status(Status::EXECUTION).size || 0
+      @open_count = collection.task_status(Status::EXECUTION).size || 0
+      @closed_count = collection.where.not(date_closed: nil).size || 0
+      @tasks_count = collection.size || 0
     end
   end
 
+
   def set_index
-    unless (current_user.super_admin? || current_user.guide?)
-      @set_tasks = Task.task_set.task_user(current_user)
-      @not_coordination = @set_tasks.coordination(
-                                  Status::NOT_COORDINATION_MANAGER,
-                                  current_user).size
-
-      @coordination = @set_tasks.coordination(
-                              Status::COORDINATION_MANAGER,
-                              current_user).size
-    else
+    if (current_user.super_admin? || current_user.guide?)
       @set_tasks = Task.task_set.task_user(nil)
+    else
+      @set_tasks = Task.task_set.task_user(current_user)
+      @not_coordination =
+        @set_tasks.coordination(Status::NOT_COORDINATION_MANAGER,
+                                current_user).size
+      @coordination =
+        @set_tasks.coordination(Status::COORDINATION_MANAGER, current_user).size
     end
-    @signing_count = @set_tasks.execution_status(Status::SIGNING).size
-    @not_signed_count = @set_tasks.execution_status(Status::NOT_SIGNED).size
-    @for_closing_count = @set_tasks.task_status(Status::SIGNED).size
-    @agree_count = @set_tasks.task_status(Status::SIGNING).size
-    @new_count = @set_tasks.task_status(Status::NEW).size
-    @open_count = @set_tasks.task_status(Status::EXECUTION).size
-    @open_count = @set_tasks.task_status(Status::EXECUTION).size
-    @closed_count = @set_tasks.where.not(date_closed: nil).size
-    @tasks_count = @set_tasks.size
-
+    set_task_count(@set_tasks)
     @set_overdue =
-        @set_tasks.where("(date_closed > date_execution)").or(@set_tasks.overdue)
-                    # where("(date_closed IS NULL AND date_execution < ?) OR
-                    #        (task_executions.completed IS NULL AND task_performers.deadline < ?)
-                    #        OR (task_executions.completed > date_execution) OR
-                    #        (task_executions.completed > task_performers.deadline)",
-                    #        Date.today, Date.today)
-
+      @set_tasks.where("(date_closed > date_execution)").or(@set_tasks.overdue)
     @overdue_count = @set_overdue.distinct.size
-
-    params[:overdue] ? @q = @set_overdue.joins(:status).ransack(params[:q]) : @q = @set_tasks.joins(:status).ransack(params[:q])
-    set_caption_table(params[:set_caption].nil? ? 1 : (params[:set_caption].to_i))
+    @q = params[:overdue] ? @set_overdue.joins(:status).ransack(params[:q]) :
+                            @set_tasks.joins(:status).ransack(params[:q])
     @q.sorts ||= ['date_open desc', 'created_at desc']
     @tasks = @q.result(distinct: true).paginate(page: params[:page], per_page: 5)
+    set_caption_table(params[:set_caption].present? ? params[:set_caption].to_i : 1)
   end
 end

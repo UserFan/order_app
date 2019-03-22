@@ -1,6 +1,7 @@
 class TaskExecutionsController < ApplicationController
   before_action :set_task_perform_execution, only: [:new, :edit, :create]
-  before_action :set_task_execution, only: [:update, :destroy, :show, :coordination, :coordination_master]
+  before_action :set_task_execution, only: [:update, :destroy, :show,
+                                            :coordination, :coordination_master]
   after_action :verify_authorized
   #protect_from_forgery except: :coordination
 
@@ -44,7 +45,7 @@ class TaskExecutionsController < ApplicationController
     authorize  @task_execution
     @task = @task_execution.task_performer.task
     task_performers_count = @task.task_performers.where(answerable: true).size
-    task_execution_count = @task.task_executions.where(task_performers: {answerable: true}).size    
+    task_execution_count = @task.task_executions.where(task_performers: {answerable: true}).size
     if @task_execution.update_attributes(completed: DateTime.now, task_execution: Status::SIGNED)
       respond_to do |format|
         format.html { redirect_to task_path(@task) }
@@ -92,7 +93,7 @@ class TaskExecutionsController < ApplicationController
     else
       flash[:error] = "Запись не может буть удален. Есть связанные данные"
     end
-    redirect_to task_path(@task_execution.task_performer.task)
+    redirect_to task_path(@task)
   end
 
   private

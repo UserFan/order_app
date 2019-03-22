@@ -1,0 +1,35 @@
+ul.pt-2
+  h6
+    b Роутер:&nbsp;
+    u #{communication.router.name}
+  h6
+    b Провайдеры:
+    - communication.item_communications.order(master: :desc).each do |item|
+      ul.pt-1
+        details
+          summary.h6.text-info
+            b #{item.provider.name} #{item.master ? '(основной)' : '(резервный)'}
+          ul
+            li.p-1
+              b Тип связи:&nbsp;
+              u #{item.communication.name}
+            li.p-1
+              b 4G Модем:&nbsp;
+              u #{item.modem_name}
+            li.p-1
+              b №(тел.) сим-карты:&nbsp;
+              - if item.sim_card.present?
+                u #{item.sim_card.simphone_number}
+            li.p-1
+              b № сим-карты:&nbsp;
+              - if item.sim_card.present?
+                u #{item.sim_card.sim_number}
+            li.p-1
+              b Логин:&nbsp;
+              u #{item.login_name}
+            li.p-1
+              b Пароль:&nbsp;
+              u #{item.pass_name}
+            li.p-1
+              b Коментарий:&nbsp;
+              u #{item.comment}

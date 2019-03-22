@@ -1,6 +1,5 @@
 class TaskPolicy < ApplicationPolicy
-
-
+  
   def destroy?
     # return false if record.date_closed.present?
     # return false if !record.performers.empty?
@@ -16,12 +15,16 @@ class TaskPolicy < ApplicationPolicy
     # binding.pry
   end
 
+  def new_task?(employee=nil)
+    (user.moderator? || user.guide?) && employee.present?
+  end
+
   def index?
     true
   end
 
   def new?
-    user.moderator? || user.guide?
+    (user.moderator? || user.guide?)
   end
 
 
@@ -33,17 +36,9 @@ class TaskPolicy < ApplicationPolicy
     true
   end
 
-  def for_closing?
-    #true
-    #user.moderator? || user.super_admin? || user.guide?
-    #|| record.employee.user == user || record.owner_user == user
-    #true
-  end
-
   def closing?
     user.moderator? || user.super_admin? || user.guide? ||
     record.employee.user == user || !record.task_executions.present?
-
   end
 
   def show_detail?
@@ -55,12 +50,4 @@ class TaskPolicy < ApplicationPolicy
      :description, :date_closed, :employee_id, :status_id, :task_number,
      images_document: []]
   end
-
-  # def permitted_attributes
-  #   [:category_id, :date_open, :date_execution, :shop_id, :short_descript,
-  #    :description,:date_closed, :user_id, :status_id, photos: [],
-  #    performers_attributes: [:id, :order_id, :user_id, :coexecutor, :date_performance,
-  #                            :date_close_performance, :message, :comment, :_destroy]] if user.super_admin? || user.moderator?
-  # end
-
 end

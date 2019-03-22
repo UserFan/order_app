@@ -1,0 +1,190 @@
+wb = xlsx_package.workbook
+caption_cash = []
+caption_shop = []
+caption_computer = []
+caption_communication = []
+caption_weighers = []
+caption = []
+
+commun_count = @communication_item_count + @communication_count
+
+@cashboxes_count.times do |i|
+  i == 0 ? number_item = '' : number_item = (i).to_s
+  caption_cash.push("#{I18n.t('report_shop.cash_organization') + number_item}",
+                    "#{I18n.t('report_shop.cash_monitor') + number_item}",
+                    "#{I18n.t('report_shop.cash_system') + number_item}",
+                    "#{I18n.t('report_shop.cash_keyboard') + number_item}",
+                    "#{I18n.t('report_shop.cash_display') + number_item}",
+                    "#{I18n.t('report_shop.cash_scaner') + number_item}",
+                    "#{I18n.t('report_shop.cash_stabilizer') + number_item}",
+                    "#{I18n.t('report_shop.cash_apc') + number_item}",
+                    "#{I18n.t('report_shop.cash_terminal') + number_item}",
+                    "#{I18n.t('report_shop.cash_fiscal') + number_item}",
+                    "#{I18n.t('report_shop.cash_fiscal_version') + number_item}",
+                    "#{I18n.t('report_shop.cash_ip_address') + number_item}",
+                    "#{I18n.t('report_shop.cash_version') + number_item}")
+end
+
+@weighers_count.times do |i|
+  i == 0 ? number_item = '' : number_item = (i).to_s
+  caption_weighers.push("#{I18n.t('report_shop.weigher_name') + number_item}",
+                    "#{I18n.t('report_shop.weigher_ip_address') + number_item}")
+end
+
+@computers_count.times do |i|
+  i == 0 ? number_item = '' : number_item = (i).to_s
+  caption_computer.push("#{I18n.t('report_shop.computer_system') + number_item}",
+                    "#{I18n.t('report_shop.computer_monitor') + number_item}",
+                    "#{I18n.t('report_shop.computer_keyboard') + number_item}",
+                    "#{I18n.t('report_shop.computer_mouse') + number_item}",
+                    "#{I18n.t('report_shop.computer_stabilizer') + number_item}",
+                    "#{I18n.t('report_shop.computer_printer') + number_item}",
+                    "#{I18n.t('report_shop.computer_teamviewer') + number_item}",
+                    "#{I18n.t('report_shop.computer_ip_address') + number_item}")
+end
+
+@communication_count.times do |count|
+  count == 0 ? number_item = '(основной)' : number_item = '(резервный)'
+  caption_communication.push("#{I18n.t('report_shop.comunication_router') + number_item}")
+  @communication_item_count.times do |i|
+    i == 0 ? number_item = '(основной)' : number_item = '(резервный)'
+    caption_communication.push("#{I18n.t('report_shop.comunication_provider') + number_item}",
+                      "#{I18n.t('report_shop.comunication_type') + number_item}",
+                      "#{I18n.t('report_shop.comunication_modem') + number_item}",
+                      "#{I18n.t('report_shop.comunication_num_phone') + number_item}",
+                      "#{I18n.t('report_shop.comunication_num_sim')+ number_item}")
+  end
+end
+
+caption_shop.push('№ п/п', I18n.t('report_shop.type'),
+                 I18n.t('report_shop.name'), I18n.t('report_shop.address'),
+                 I18n.t('report_shop.email'), I18n.t('report_shop.user'),
+                 I18n.t('report_shop.mobile'))
+
+caption = caption_shop  + caption_communication + caption_computer +
+               caption_cash+ caption_weighers
+
+wb.add_worksheet(name: "Shop") do |sheet|
+  sheet.add_row(caption)
+  shop_count = 1 if shop_count.nil?
+  @shops_xls.each do |shop|
+    data_xls = []
+    data_shop = []
+    data_cashboxes = []
+    data_computer = []
+    data_communication = []
+    data_weigher = []
+    type_cell = []
+    data_shop.push(shop_count, shop.type.name, shop.name, shop.address,
+                   shop.email, shop.user.full_name, shop.user.mobile)
+    if shop.cashboxes.any?
+      shop.cashboxes.find_each do |cashbox|
+        data_cashboxes.push(cashbox.organization_unit.name,
+                            cashbox.display.name,
+                            cashbox.system_unit.full_conf,
+                            cashbox.keyboard.name,
+                            cashbox.display_clien_name,
+                            cashbox.scaner.name,
+                            cashbox.stabilizer.name,
+                            cashbox.apc.name,
+                            cashbox.bank_unit.name,
+                            cashbox.fiscal.name,
+                            cashbox.fiscal_fwversion,
+                            cashbox.ip_cash,
+                            cashbox.cash_set_version)
+      end
+      (caption_cash.count - data_cashboxes.count).times { data_cashboxes.push('') } if data_cashboxes.count != caption_cash.count
+    else
+      (caption_cash.count).times { data_cashboxes.push('') }
+    end
+
+    if shop.computers.any?
+      shop.computers.find_each do |computer|
+        data_computer.push(computer.system_unit.full_conf,
+                            computer.display.name,
+                            computer.keyboard.name,
+                            computer.commouse.name,
+                            computer.stabilizer.name,
+                            computer.printer.name,
+                            computer.teamview_id,
+                            computer.ip_address)
+      end
+      (caption_computer.count - data_computer.count).times { data_computer.push('') } if data_computer.count != caption_computer.count
+    else
+      (caption_computer.count).times { data_computer.push('') }
+    end
+
+    if shop.shop_weighers.any?
+      shop.shop_weighers.find_each do |weigher|
+        data_weigher.push(weigher.weigher.name,
+                           weigher.ip_address)
+      end
+      (caption_weighers.count - data_weigher.count).times { data_weigher.push('') } if data_weigher.count != caption_weighers.count
+    else
+      (caption_weighers.count).times { data_weigher.push('') }
+    end
+
+    if shop.shop_communications.any?
+      shop.shop_communications.find_each do |communication|
+        data_communication.push(communication.router.name)
+        if communication.item_communications.any?
+          communication.item_communications.find_each do |item_commun|
+            data_communication.push(item_commun.provider.name,
+                                    item_commun.communication.name,
+                                    item_commun.modem_name,
+                                    item_commun.sim_card.nil? ? '' : item_commun.sim_card.simphone_number,
+                                    item_commun.sim_card.nil? ? '' : item_commun.sim_card.sim_number)
+          end
+        end
+      end
+      (caption_communication.count - data_communication.count).times { data_communication.push('') } if  data_communication.count != caption_communication.count
+    else
+      (caption_communication.count).times { data_communication.push('') }
+    end
+    #binding.pry
+
+    data_xls =  data_shop + data_communication + data_computer +
+                data_cashboxes + data_weigher
+    (data_xls.count).times { type_cell.push(%s(string)) }
+    type_cell[0] = nil
+    sheet.add_row data_xls, types: type_cell
+    shop_count += 1
+  end
+end
+
+  # I18n.t('report_shop.name') # 'Объект'
+  # I18n.t('report_shop.address') #  'Адрес объекта'
+  # I18n.t('report_shop.type') #  'Тип объекта'
+  # I18n.t('report_shop.user') #  'Ответсвенный сотрудник'
+  # I18n.t('report_shop.mobile') #  'Мобильный телефон'
+  # I18n.t('report_shop.email') #  'E-mail'
+  # I18n.t('report_shop.cash_system') #  'Конфиг-я системного блока кассы'
+  # I18n.t('report_shop.cash_monitor') #  'Монитор(касса)'
+  # I18n.t('report_shop.cash_display') #  'Дисплей покупателя'
+  # I18n.t('report_shop.cash_keyboard') #  'Клавиатура(касса)'
+  # I18n.t('report_shop.cash_stabilizer') #  'Стабилизатор(касса)'
+  # I18n.t('report_shop.cash_apc') #  'ИБП(касса)'
+  # I18n.t('report_shop.cash_scaner') #  'Сканер'
+  # I18n.t('report_shop.cash_terminal') #  'Банковский терминал'
+  # I18n.t('report_shop.cash_fiscal') #  'Фискальный аппарат'
+  # I18n.t('report_shop.cash_fiscal_version') #  'Версия ПО фиск. апп.'
+  # I18n.t('report_shop.cash_organization') #  'Организация'
+  # I18n.t('report_shop.cash_ip_address') #  'IP адрес кассы'
+  # I18n.t('report_shop.cash_version') #  'Версия ПО кассы'
+  # I18n.t('report_shop.weigher_name') #  'Марка весов'
+  # I18n.t('report_shop.weigher_ip_address') #  'IP адресс весов'
+  # I18n.t('report_shop.computer_system') #  'Конфиг-я компьютера'
+  # I18n.t('report_shop.computer_monitor') #  'Монитор(комп.)'
+  # I18n.t('report_shop.computer_mouse') #  'Мышь(манипулятор)'
+  # I18n.t('report_shop.computer_keyboard') #  'Клавиатруа(комп.)'
+  # I18n.t('report_shop.computer_stabilizer') #  'Стабилизатор(комп.)'
+  # I18n.t('report_shop.computer_printer') #  'Принтер(МФУ)'
+  # I18n.t('report_shop.computer_teamviewer') #  'ID Teamviewer'
+  # I18n.t('report_shop.computer_ip_address') #  'IP адресс(комп.)'
+  # I18n.t('report_shop.comunication_router') #  'Роутер'
+  # I18n.t('report_shop.comunication_provider') #  'Провайдер'
+  # I18n.t('report_shop.comunication_type') #  'Тип связи'
+  # I18n.t('report_shop.comunication_modem') #  'Модем(3G/4G)'
+  # I18n.t('report_shop.comunication_num_phone') #  '№ телефона сим-карты'
+  # I18n.t('report_shop.comunication_num_sim') #  '№ симкарты'
+  # I18n.t('report_shop.comunication_type_connect') #  'Канал связи'

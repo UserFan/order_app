@@ -16,7 +16,6 @@ class TaskReworksController < ApplicationController
       unless first_task_rework
         @task_execution.update!(task_execution:
           (@task_execution.task_performer.answerable?) ? Status::NOT_SIGNED : Status::NOT_COORDINATION_MANAGER , completed: nil)
-
         @task.update!(status_id: Status::NOT_COORDINATION) if @task.status_id == Status::SIGNING
       end
       redirect_to task_path(@task)

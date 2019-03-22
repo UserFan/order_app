@@ -22,6 +22,26 @@ ru:
       destroy:
         success: "Торговый объект удачно удален"
         error:   "Торговый объект не может буть удален. Есть связанные данные"
+  tasks:
+    index:
+      title_work: "В работе"
+      title_execution:  "Исполненные"
+      title_coordination: "На согласовании"
+      title_agree: "Согласованные"
+      title_rework: "На доработке"
+      title_overdue: "Просроченные"
+      title_new: "Новые"
+      title_signing: "На подписании"
+      title_not_agree: "Не согласован"
+      title_all: "Все карточки"
+      title_current: "Мои карточки"
+    destroy:
+      success:  "Контрольная карточка удачно удалена."
+      error:   "Контрольная карточка не может буть удалена. Есть связанные данные"
+    closing:
+      not_coordination: "%{text} (Снята с контроля без согласования)"
+      empty_execution:  "Сведения об исполнении не были представлены"
+
   form_button_caption:
     send:   "Отправить"
     disabled_send: "Подождите..."

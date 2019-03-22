@@ -1,0 +1,57 @@
+ul
+  h6.text-info
+    b Юридическое лицо:&nbsp;
+    u #{cashbox.organization_unit.name}
+  ul.pt-2
+    li
+      b Системный блок:&nbsp;
+      u #{cashbox.system_unit.motherboard}/
+        #{cashbox.system_unit.cpu}/
+        #{cashbox.system_unit.ram}/
+        #{cashbox.system_unit.hdd}/
+        #{cashbox.system_unit.os}
+    li
+      b Дисплей:&nbsp;
+      u #{cashbox.display.name}
+    li
+      b Калавиатура:&nbsp;
+      u #{cashbox.keyboard.name}
+    li
+      b Дисплей покупателя:&nbsp;
+      u #{cashbox.display_clien_name}
+    li
+      b Сканер:&nbsp;
+      u #{cashbox.scaner.name}
+    li
+      b Банковский терминал:&nbsp;
+      u #{cashbox.bank_unit.name}
+    li
+      b Стабилизатор:&nbsp;
+      u #{cashbox.stabilizer.name}
+    li
+      b ИБП:&nbsp;
+      u #{cashbox.apc.name}
+    li
+      b IP адрес кассы:&nbsp;
+      u #{cashbox.ip_cash}
+    li
+      b Версия ПО кассы:&nbsp;
+      u #{cashbox.cash_set_version}
+      | &nbsp;
+      / = link_to "Обновить данные о версиях",
+      /   import_version_shop_path(cashbox_id: cashbox.id,
+      /     host_shop: @shop.computers.present? ? @shop.computers.first.ip_address : '0.0.0.0'), remote: true,
+      /     data: { disable_with: '<i class="fas fa-spinner fa-spin"></i>'}, class: "small refresh_version_cash"
+      = link_to "Обновить данные о версиях",
+        import_version_shop_path(cashbox_id: cashbox.id,
+          host_shop: @shop.computers.present? ? @shop.computers.first.ip_address : '0.0.0.0'),
+          data: { disable_with: '<i class="fas fa-spinner fa-spin"></i>'}, class: "small"
+    li
+      b Фискальный апарат:&nbsp;
+      u #{cashbox.fiscal.name}
+    li
+      b Версия прошивки фискального аппарата:&nbsp;
+      u #{cashbox.fiscal_fwversion}
+    li
+      b Коментарий:&nbsp;
+      u #{cashbox.comment}
