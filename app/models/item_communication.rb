@@ -27,7 +27,9 @@ class ItemCommunication < ApplicationRecord
   def update_sim_log
     if sim_card_id_changed?
       unless sim_card_id_was.nil?
-        sim_log = SimLog.find_by(sim_card_id: sim_card_id_was)
+        sim_log = SimLog.find_by(sim_card_id: sim_card_id_was,
+                                 shop_id: shop.id,
+                                 date_end: nil)
         sim_log.update_attributes(date_end: DateTime.now) if sim_log.present?
       end
       SimLog.create!(sim_card_id: sim_card_id,
