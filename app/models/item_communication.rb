@@ -24,15 +24,28 @@ class ItemCommunication < ApplicationRecord
                    date_start: DateTime.now) if sim_card_id.present?
   end
 
+  def sim_log_change(params=nil)
+    unless params.nil?
+      sim_log = SimLog.find_by(sim_card_id: params)
+      sim_log.update_attributes(date_end: DateTime.now) if sim_log.present?
+    end
+  end
+
+
   def update_sim_log
     if sim_card_id_changed?
-      unless sim_card_id_was.nil?
-        sim_log = SimLog.find_by(sim_card_id: sim_card_id_was)
-        sim_log.update_attributes(date_end: DateTime.now) if sim_log.present?
+      if (sim_card_id_was.nil? && sim_card_id.present?)
+        SimLog.create!(sim_card_id: sim_card_id,
+                       shop_id: shop.id,
+                       date_start: DateTime.now)
+      elsif (sim_card_id_was.present? && sim_card_id.nil?)
+        sim_log_change(sim_card_id_was)
+      else
+        sim_log_change(sim_card_id_was)
+        SimLog.create!(sim_card_id: sim_card_id,
+                       shop_id: shop.id,
+                       date_start: DateTime.now)
       end
-      SimLog.create!(sim_card_id: sim_card_id,
-                     shop_id: shop.id,
-                     date_start: DateTime.now) unless sim_card_id.nil?
     end
   end
 end

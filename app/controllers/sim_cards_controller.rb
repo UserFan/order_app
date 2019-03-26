@@ -53,6 +53,14 @@ class SimCardsController < ApplicationController
     redirect_to sim_cards_path
   end
 
+  def sim_card_log
+    authorize @sim_card
+    @sim_logs = @sim_card.sim_logs
+    respond_to do |format|
+      format.js { render layout: false }
+    end
+  end
+
 
   private
 

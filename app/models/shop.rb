@@ -22,6 +22,7 @@ class Shop < ApplicationRecord
   has_many :item_communications, through: :shop_communications, foreign_key: :shop_id
   has_many :employees, dependent: :restrict_with_error
   has_many :users, through: :employees, foreign_key: :shop_id
+  has_many :sim_logs, dependent: :restrict_with_error
 
   accepts_nested_attributes_for :cashboxes, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :computers, reject_if: :all_blank, allow_destroy: true

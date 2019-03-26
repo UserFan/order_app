@@ -1,0 +1,15 @@
+table.table.table-sm
+  thead
+    tr.table-info
+      th scope="col"  Объект
+      th scope="col"  Дата начало
+      th scope="col"  Дата окончания
+  tbody
+    - @sim_logs.each do |sim_log|
+      tr
+        td
+          = sim_log.shop.name
+        td
+          = l(sim_log.date_start, format: :date) if sim_log.date_start.present?
+        td
+          = l(sim_log.date_end, format: :date) if sim_log.date_end.present?

@@ -2,6 +2,7 @@
   .col-sm-3.col-md-3.d-none.d-md-block
     = render "catalog/catalogs_list"
   .col-sm-12.col-md-9
+    = render "sim_cards/modals_sim_log"
     .row
       .container
         .text-right.pb-4.pt-3.d-md-none.d-block
@@ -46,6 +47,10 @@
                   tr
                     td
                       = sim_card.simphone_number
+                      - if sim_card.sim_logs.present?
+                        = link_to sim_card_log_sim_card_path(sim_card), data: { target: "#SimLogModal", toggle: "modal", turbolinks: true, placement: 'bottom' }, remote: true,
+                           title: "Журнал" do
+                             span.fas.fa-history.pl-2
                       = content_tag(:span, "Оператор: (#{sim_card.provider.name})", class: "small d-md-none d-block text-info")
                       = content_tag(:span, "Объект: #{sim_card.shops.first.name}", class: "small d-md-none d-block text-success") if sim_card.shops.any?
                     td.d-none.d-sm-table-cell = sim_card.provider.name

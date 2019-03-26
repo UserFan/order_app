@@ -1,0 +1,15 @@
+#SimLogModal.modal.fade aria-hidden="true" aria-labelledby="SimLogModalLabel" role="dialog" tabindex="-1"
+  .modal-dialog.modal-md.p-0.modal-dialog-centered role="document"
+    .modal-content
+      .modal-header
+        h5#SimLogModalLabel.modal-title.font-weight-bold Журнал движения сим-карты
+        button.close aria-label="Close" data-dismiss="modal" type="button"
+          span aria-hidden="true"  &times;
+      .modal-body.p-1
+        .container-fluid
+          .row
+            .col-12.col-md-12
+              #sim_logs
+      .modal-footer
+        .modal-button.mx-auto
+          button.btn.btn-primary data-dismiss="modal" type="button" Закрыть

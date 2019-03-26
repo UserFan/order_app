@@ -43,7 +43,9 @@ Rails.application.routes.draw do
     resources :bank_units
     resources :organization_units
     resources :fiscals
-    resources :sim_cards
+    resources :sim_cards do
+      get 'sim_card_log', on: :member, defaults: { format: :js }
+    end
     resources :carrier_types
     resources :equipment_types
     resources :cost_types
