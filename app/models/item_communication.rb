@@ -34,6 +34,7 @@ class ItemCommunication < ApplicationRecord
 
   def update_sim_log
     if sim_card_id_changed?
+<<<<<<< HEAD
       if (sim_card_id_was.nil? && sim_card_id.present?)
         SimLog.create!(sim_card_id: sim_card_id,
                        shop_id: shop.id,
@@ -45,6 +46,13 @@ class ItemCommunication < ApplicationRecord
         SimLog.create!(sim_card_id: sim_card_id,
                        shop_id: shop.id,
                        date_start: DateTime.now)
+=======
+      unless sim_card_id_was.nil?
+        sim_log = SimLog.find_by(sim_card_id: sim_card_id_was,
+                                 shop_id: shop.id,
+                                 date_end: nil)
+        sim_log.update_attributes(date_end: DateTime.now) if sim_log.present?
+>>>>>>> 11cfd5eb86b8476d08bce7fc2471debd5704b62e
       end
     end
   end
