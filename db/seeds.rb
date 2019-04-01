@@ -28,21 +28,23 @@ unless Status.any?
 end
 
 unless Type.any?
-  Status.create(id: 1, name: 'Магазин')
-  Status.create(id: 2, name: 'Павильон')
-  Status.create(id: 3, name: 'Магазин (самообслуживания)')
-  Status.create(id: 4, name: 'Структурное подразделение')
+  Type.create(id: 1, name: 'Магазин')
+  Type.create(id: 2, name: 'Павильон')
+  Type.create(id: 3, name: 'Магазин (самообслуживания)')
+  Type.create(id: 4, name: 'Структурное подразделение')
 end
 
 Position.create(id:1, name: 'Администратор системы') unless Position.any?
 
 unless User.any?
   User.create(id: 1,
-              full_name: 'Администратор системы',
-              position_id: 1,
               email: 'habfanis@mail.ru',
-              mobile: '+70000000000',
               role_id: 4,
               admin: true,
               password: 'fan2533hq')
+  user = User.first
+  user.create_profile!(surname: "Администратор",
+                       first_name: "системы",
+                       mobile: "+70000000000",
+                       date_recruitment: "01.01.1900".to_date)
 end
