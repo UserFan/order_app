@@ -16,10 +16,10 @@
         = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month, date_end_rsa_lteq: (Date.today).end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | Истекает(RSA) в тек. мес.
           span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_rsa_set_month}
-        = active_link_to esp_certs_path(q: {date_end_esp_gteq: (Date.today).beginning_of_month.next_month, date_end_esp_lteq: (Date.today).end_of_month.next_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+        = active_link_to esp_certs_path(q: {date_end_esp_gteq: (Date.today).beginning_of_month.next_month, date_end_esp_lteq: (Date.today).next_month.end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | Истекает(ЭЦП) в след. мес.
           span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_esp_next_month}
-        = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month.next_month, date_end_rsa_lteq: (Date.today).end_of_month.next_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+        = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month.next_month, date_end_rsa_lteq: (Date.today).next_month.end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
           | Истекает(RSA) в след. мес.
           span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_rsa_next_month}
   .col-sm-12.col-md-12.p-0.pt-4
