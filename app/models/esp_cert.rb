@@ -7,4 +7,11 @@ class EspCert < ApplicationRecord
             :date_start_rsa, :date_end_rsa, presence: true
 
   delegate_missing_to :shop
+
+  scope :count_cert_esp,
+    -> (date_start, date_end) { includes(:shop, :esp).
+                                where(date_end_esp: date_start..date_end).size }
+  scope :count_cert_rsa,
+    -> (date_start, date_end) { includes(:shop, :esp).
+                                where(date_end_rsa: date_start..date_end).size }
 end
