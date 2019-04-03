@@ -14,9 +14,10 @@ class EspCertsController < ApplicationController
     @esp_certs = @q.result(disinct: true)
     @esp_certs_count = EspCert.includes(:shop, :esp).size
     @count_esp_set_month = EspCert.count_cert_esp(date_start, date_end)
-    @count_esp_next_month = EspCert.count_cert_rsa(date_start, date_end)
-    @count_rsa_set_month = EspCert.count_cert_esp(date_start_next, date_end_next)
+    @count_esp_next_month = EspCert.count_cert_esp(date_start_next, date_end_next)
+    @count_rsa_set_month =   EspCert.count_cert_rsa(date_start, date_end)
     @count_rsa_next_month = EspCert.count_cert_rsa(date_start_next, date_end_next)
+
     # @count_esp_set_month = EspCert.includes(:shop, :esp).where(date_end_esp: date_start..date_end).size
     # @count_esp_next_month = EspCert.includes(:shop, :esp).where(date_end_esp:  date_start.next_month..Date.today.next_month.end_of_month).size
     # @count_rsa_set_month = EspCert.includes(:shop, :esp).where(date_end_rsa: date_start..date_end).size
