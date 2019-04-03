@@ -8,14 +8,15 @@ class EspCertsController < ApplicationController
     date_start = Date.today.beginning_of_month
     date_end = Date.today.end_of_month
     date_end_next = Date.today.next_month.end_of_month
+    date_start_next =  date_start.next_month
     @q = EspCert.includes(:shop, :esp).ransack(params[:q])
     @q.sorts = ['date_end_esp desc', 'created_at desc'] if @q.sorts.empty?
     @esp_certs = @q.result(disinct: true)
     @esp_certs_count = EspCert.includes(:shop, :esp).size
     @count_esp_set_month = EspCert.count_cert_esp(date_start, date_end)
     @count_esp_next_month = EspCert.count_cert_rsa(date_start, date_end)
-    @count_rsa_set_month = EspCert.count_cert_esp(date_start, date_end_next)
-    @count_rsa_next_month = EspCert.count_cert_rsa(date_start, date_end_next)
+    @count_rsa_set_month = EspCert.count_cert_esp(date_start_next, date_end_next)
+    @count_rsa_next_month = EspCert.count_cert_rsa(date_start_next, date_end_next)
     # @count_esp_set_month = EspCert.includes(:shop, :esp).where(date_end_esp: date_start..date_end).size
     # @count_esp_next_month = EspCert.includes(:shop, :esp).where(date_end_esp:  date_start.next_month..Date.today.next_month.end_of_month).size
     # @count_rsa_set_month = EspCert.includes(:shop, :esp).where(date_end_rsa: date_start..date_end).size
