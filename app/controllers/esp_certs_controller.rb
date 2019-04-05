@@ -17,11 +17,6 @@ class EspCertsController < ApplicationController
     @count_esp_next_month = EspCert.count_cert_esp(date_start_next, date_end_next)
     @count_rsa_set_month =   EspCert.count_cert_rsa(date_start, date_end)
     @count_rsa_next_month = EspCert.count_cert_rsa(date_start_next, date_end_next)
-
-    # @count_esp_set_month = EspCert.includes(:shop, :esp).where(date_end_esp: date_start..date_end).size
-    # @count_esp_next_month = EspCert.includes(:shop, :esp).where(date_end_esp:  date_start.next_month..Date.today.next_month.end_of_month).size
-    # @count_rsa_set_month = EspCert.includes(:shop, :esp).where(date_end_rsa: date_start..date_end).size
-    # @count_rsa_next_month = EspCert.includes(:shop, :esp).where(date_end_rsa: date_start.next_month..Date.today.next_month.end_of_month).size
   end
 
   def new
@@ -65,8 +60,6 @@ class EspCertsController < ApplicationController
   def export_xls
     authorize EspCert
     @esp_xls = EspCert.includes(:shop, :esp).order('shops.name asc')
-
-
     respond_to do |format|
       format.xlsx {
         render xlsx: "export_xls", filename: "esp_all.xlsx"
