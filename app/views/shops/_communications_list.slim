@@ -20,6 +20,10 @@ ul.pt-2
               b №(тел.) сим-карты:&nbsp;
               - if item.sim_card.present?
                 u #{item.sim_card.simphone_number}
+                p.small.text-success.p-0.m-0
+                  = "Трафик: #{item.sim_card.traffic}ГБ." if item.sim_card.traffic > 0
+                p.small.text-danger.p-0.m-0
+                    = "Обновление трафика: #{l(item.sim_card.update_traffic_date, format: :date)}" if item.sim_card.update_traffic.present?
             li.p-1
               b № сим-карты:&nbsp;
               - if item.sim_card.present?
