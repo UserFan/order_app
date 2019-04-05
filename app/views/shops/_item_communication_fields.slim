@@ -16,13 +16,13 @@
       .col-sm-12.col-md-3
         = f.input :modem_sn
     .row
-      .col-sm-12.col-md-3
+      .col-sm-12.col-md-4
         - sim_cards = SimCard.includes(:item_communications).where(item_communications: {id: nil})
         - if f.object.sim_card
           - sim_cards = sim_cards.to_a << f.object.sim_card
         = f.input :sim_card_id,
                   collection: sim_cards,
-                  label_method: :simphone_number, value_method: :id,
+                  label_method: :simphone_traffic, value_method: :id,
                   include_blank: true
 
 
@@ -30,5 +30,5 @@
         = f.input :login_name
       .col-sm-12.col-md-2
         = f.input :pass_name
-      .col-sm-12.col-md-5
+      .col-sm-12.col-md-4
         = f.input :comment, as: :text

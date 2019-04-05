@@ -38,7 +38,7 @@
               thead.thead-light.text-dark
                 tr.text-dark
                   th = sort_link(@q, :simphone_number, 'Номер телефона', default_order: :asc)
-                  th.d-none.d-sm-table-cell Трафик
+                  th.d-none.d-sm-table-cell = sort_link(@q, :provider_name, 'Провайдер', default_order: :asc)
                   th.d-none.d-sm-table-cell Установлен на объекте
                   th.text-center.edit-control
                     i.fa.fa-list
@@ -51,14 +51,14 @@
                         = link_to sim_card_log_sim_card_path(sim_card), data: { target: "#SimLogModal", toggle: "modal", turbolinks: true, placement: 'bottom' }, remote: true,
                            title: "Журнал" do
                              span.fas.fa-history.pl-2
-                      = content_tag(:p, "Оператор: (#{sim_card.provider.name})", class: "small text-info p-0 m-0")
+                      = content_tag(:p, "Оператор: (#{sim_card.provider.name})", class: "small d-md-none d-block text-info p-0 m-0")
                       = content_tag(:p, "Объект: #{sim_card.shops.first.name}", class: "small d-md-none d-block text-success p-0 m-0") if sim_card.shops.any?
                       = content_tag(:p, "Трафик: #{sim_card.traffic} ГБ", class: "small d-md-none d-block text-primary p-0 m-0")
-                      = content_tag(:p, "Дата обнов-я: #{l(sim_card.update_traffic_date, format: :date)}", class: "small d-md-none d-block text-muted p-0 m-0") if sim_card.update_traffic.present?
+                      = content_tag(:p, "Обновление трафика: #{l(sim_card.update_traffic_date, format: :date)}", class: "small text-danger p-0 m-0") if sim_card.update_traffic.present?
 
                     td.d-none.d-sm-table-cell
-                      = "#{sim_card.traffic} ГБ"
-                      = content_tag(:p, "Дата обнов-я: #{l(sim_card.update_traffic_date, format: :date)}", class: "small text-info p-0 m-0") if sim_card.update_traffic.present?
+                      = sim_card.provider.name
+                      = content_tag(:p, "Трафик: #{sim_card.traffic} ГБ", class: "small text-info p-0 m-0") if sim_card.update_traffic.present?
                     td.d-none.d-sm-table-cell = sim_card.shops.first.name if sim_card.shops.any?
                     td.edit-control
                       - if policy(sim_card).edit?

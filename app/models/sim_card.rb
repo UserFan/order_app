@@ -12,4 +12,8 @@ class SimCard < ApplicationRecord
   def update_traffic_date
     DateTime.new(Date.today.year, Date.today.month, self.update_traffic.day) if self.update_traffic.present?
   end
+
+  def simphone_traffic
+    "#{simphone_number} (#{traffic}ГБ)"
+  end
 end
