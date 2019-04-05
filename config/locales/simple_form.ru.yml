@@ -408,10 +408,14 @@ ru:
           simphone_number: "Номер тел. сим-карты"
           sim_number: "Номер сим-карты:"
           provider: "Провайдер:"
+          traffic: "Трафик(Гб):"
+          update_traffic: "Дата обнов-я трафика:"
         edit:
           simphone_number: "Номер тел. сим-карты"
           sim_number: "Номер сим-карты:"
           provider: "Провайдер:"
+          traffic: "Трафик(Гб):"
+          update_traffic: "Дата обнов-я трафика:"
 
       system_unit:
         new:

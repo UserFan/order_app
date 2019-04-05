@@ -1,8 +1,19 @@
 = simple_form_for(@sim_card) do |f|
   = f.error_notification
-  = f.input :simphone_number, input_html: { class: 'phone' }, required: true, autofocus: true
-  = f.input :sim_number, autocomplete: "off", required: true
-  = f.association :provider, label_method: :name, value_method: :id, include_blank: false
+  .row
+    .col-12.col-md-12
+      = f.input :simphone_number, input_html: { class: 'phone' }, required: true, autofocus: true
+  .row
+    .col-12.col-md-12
+      = f.input :sim_number, autocomplete: "off", required: true
+  .row
+    .col-12.col-md-12
+      = f.association :provider, label_method: :name, value_method: :id, include_blank: false
+  .row
+    .col-12.col-md-4
+      = f.input :traffic, autocomplete: "off", required: true
+    .col-12.col-md-6
+      = f.input :update_traffic, as: :date_picker, placeholder: "ДД.ММ.ГГГГ", id: 'update_traffic'
   .form-group.float-right.mb-0.mt-3
     = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
     = link_to "Отмена", sim_cards_path, class: "btn btn-outline-secondary m-1 btn-sm"
