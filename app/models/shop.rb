@@ -11,7 +11,6 @@ class Shop < ApplicationRecord
 
   has_many :esps, inverse_of: :shop, dependent: :restrict_with_error
   has_many :service_equipments, inverse_of: :shop, dependent: :restrict_with_error
-  has_many :cost_equipments, inverse_of: :shop, dependent: :restrict_with_error
   has_many :version_update_logs, inverse_of: :shop, dependent: :restrict_with_error
   has_many :orders, dependent: :restrict_with_error
   has_many :tasks, dependent: :restrict_with_error, foreign_key: :structural_id

@@ -19,6 +19,7 @@ class Status < ApplicationRecord
 
   has_many :orders, dependent: :restrict_with_error
   has_many :tasks, dependent: :restrict_with_error
+  has_many :report_cost_services, dependent: :restrict_with_error
 
   validates :name, presence: true
 

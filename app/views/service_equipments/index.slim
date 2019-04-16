@@ -1,64 +1,54 @@
 .container
   .row.justify-content-end
-    .text-right.pb-4.pt-3.d-md-none.d-block
-      = link_to '<< Объектам/подразделениям', shops_path
-    h2.font-weight-bold Перечень сервисных работ(#{@shop.name})
-  hr
-  .col-sm-12.col-md-12.p-0.pt-4
-    .row.justify-content-end
-      .col-sm-12.col-md-5
-        = search_form_for [@shop, @q] do |f|
-          .input-group.pb-4
-            = f.input_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
-            span.input-group-append
-              button.btn.btn-outline-secondary type="submit"
-                span.fa.fa-search
-    .row
-      .col-sm-12.col-md-3.d-flex
-        nav.nav-pills.flex-md-column.flex-sm-row
-          = active_link_to shop_service_equipments_path, active: :exact, class: "nav-item nav-link" do
-            | Все
-            span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@service_equipments_count}
-          = active_link_to shop_service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month, date_service_lteq: (DateTime.now).end_of_month}), active: :exact, class: "nav-item nav-link" do
-            | Текущий месяц
-            span.badge.badge-pill.badge-secondary.float-right.ml-2 #{@count_set_month}
-          = active_link_to shop_service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month.prev_month, date_service_lteq: (DateTime.now).end_of_month.prev_month}), active: :exact, class: "nav-item nav-link" do
-            | Предыдущий месяц
-            span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@count_prev_month}
-
-      / .row
-      /   .col-3
-      /     ul.list-unstyled
-      /       li = link_to "Все(#{@service_equipments_count})", shop_service_equipments_path
-      /       li = link_to "Текущий месяц(#{ @count_set_month})", shop_service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month, date_service_lteq: (DateTime.now).end_of_month})
-      /       li = link_to "Предыдущий месяц(#{@count_prev_month})", shop_service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month.prev_month, date_service_lteq: (DateTime.now).end_of_month.prev_month})
-      .col-sm-12.col-md-9
-        hr.d-md-none.d-block
-        .row.pb-4
-          .col-3
-            = link_to "Добавить сервис",  new_shop_service_equipment_path, class: "btn btn-outline-success btn-sm" if policy(ServiceEquipment).new?
-        .row
-          .col-sm-12.col-md-12
-            table.table.table-hover
-              thead.thead-light.text-dark
-                tr.text-dark
-                  th =sort_link(@q, :date_service, 'Дата', default_order: :desc)
-                  th =sort_link(@q, :equipment_type_name, 'Тип сервиса', default_order: :asc)
-                  th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Описание', default_order: :asc)
-                  th.text-center.edit-control
-                    i.fa.fa-list
-              tbody
-                - @equipments.each do |equipment|
-                  tr
-                    td = l(equipment.date_service, format: :date)
-                    td = equipment.equipment_type.name
-                    td.d-none.d-sm-table-cell = equipment.description
-                    td.row-skip.edit-control
-                      - if policy(equipment).edit?
-                        = link_to edit_shop_service_equipment_path(id: equipment), data: { toggle: 'tooltip', placement: 'bottom' },
-                           title: "Корректировка данных" do
-                             span.fa.fa-pencil-alt.edit-button
-                      - if policy(equipment).destroy? && equipment.can_destroy?
-                        = link_to shop_service_equipment_path(id: equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?",
-                          toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
-                             span.far.fa-trash-alt.edit-button
+    h2.font-weight-bold
+      | Перечень сервисных работ
+      - unless @shop.nil?
+        | (#{@shop.name})
+  hr.mt-1
+  .row.justify-content-end
+    .col-12.col-md-5
+      = search_form_for (@q) do |f|
+        .input-group.pb-4
+          = f.input_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+          span.input-group-append
+            button.btn.btn-outline-secondary type="submit"
+              span.fa.fa-search
+  .row
+    .col-12.col-md-3
+      = render "control_navigation"
+      hr.d-md-none.d-block
+    .col-12.col-md-9
+      .row.pb-4
+        .col-3
+          = link_to "Добавить сервис", new_service_equipment_path(shop_id: params[:shop_id]), class: "btn btn-outline-success btn-sm" if policy(ServiceEquipment).new?
+      .row
+        .col-12.col-md-12
+          table.table.table-hover
+            thead.thead-light.text-dark
+              tr.text-dark
+                th.d-none.d-sm-table-cell =sort_link(@q, :date_service, 'Дата', default_order: :desc)
+                th =sort_link(@q, :equipment_type_name, 'Тип сервиса', default_order: :asc)
+                th.d-none.d-sm-table-cell =sort_link(@q, :amount, 'На сумму', default_order: :asc)
+                th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Объект', default_order: :asc)
+                th.text-center.edit-control
+                  i.fa.fa-list
+            tbody
+              - @equipments.each do |equipment|
+                tr
+                  td.d-none.d-sm-table-cell = l(equipment.date_service, format: :date)
+                  td
+                    = equipment.equipment_type.name
+                    = content_tag(:span, "Дата: #{l(equipment.date_service, format: :date)}", class: "small d-md-none d-block text-muted")
+                    = content_tag(:span, "Объект: #{equipment.shop.name}", class: "small d-md-none d-block text-success")
+                    = content_tag(:span, "На сумму: #{equipment.amount}", class: "small d-md-none d-block text-info")
+                  td.d-none.d-sm-table-cell = equipment.amount
+                  td.d-none.d-sm-table-cell = equipment.shop.name
+                  td.row-skip.edit-control
+                    - if policy(equipment).edit?
+                      = link_to edit_service_equipment_path(id: equipment, shop_id: equipment.shop_id, filter_shop: @shop_filter), data: { toggle: 'tooltip', placement: 'bottom' },
+                         title: "Корректировка данных" do
+                           span.fa.fa-pencil-alt.edit-button
+                    - if policy(equipment).destroy? && equipment.can_destroy?
+                      = link_to service_equipment_path(id: equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?",
+                        toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
+                           span.far.fa-trash-alt.edit-button

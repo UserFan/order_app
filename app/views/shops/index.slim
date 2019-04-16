@@ -77,11 +77,8 @@
                       = link_to shop_esps_path(shop_id: shop), class: "pr-2", data: { toggle: 'tooltip', placement: 'bottom' },
                          title: "Информация по ЭЦП" do
                          span.fas.fa-key.edit-button
-                      = link_to shop_cost_equipments_path(shop_id: shop), class: "pr-2", data: { toggle: 'tooltip', placement: 'bottom' },
-                         title: "Расходы на оргтехнику" do
-                         span.fas.fa-coins.edit-button
-                      = link_to shop_service_equipments_path(shop_id: shop), class: "pr-2", data: { toggle: 'tooltip', placement: 'bottom' },
-                         title: "Сервис оборудования" do
+                      = link_to service_equipments_path(shop_id: shop, filter_shop: true), class: "pr-2", data: { toggle: 'tooltip', placement: 'bottom' },
+                         title: "Обслуживание оборудования" do
                          span.fas.fa-cogs.edit-button
                   .float-right
                     - if policy(shop).edit?

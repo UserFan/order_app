@@ -15,8 +15,6 @@ Rails.application.routes.draw do
   scope ":unit" do
     resources :shops do
       get 'import_version', on: :member #format: 'json'
-      resources :service_equipments
-      resources :cost_equipments
       resources :esps do
         resources :esp_certs, only: [:new, :create, :edit, :update, :destroy]
       end
@@ -75,7 +73,7 @@ Rails.application.routes.draw do
     get 'remove_control', on: :member
     resources :task_reworks, only: [:new, :create]
   end
-
+  resources :service_equipments
   resources :cash_images, only: [:show]
   resources :esp_certs, only: [:index, :show]
   get :version_update_log, action: :version_update, controller: 'shops'

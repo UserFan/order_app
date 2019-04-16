@@ -38,5 +38,5 @@
         = f.button :submit, t('form_button_caption.send'),
                    class: "btn btn-primary pull-right",
                    data: {disable_with: t('form_button_caption.disabled_send')}
-        = link_to t('form_button_caption.cancel'), orders_path,
+        = link_to t('form_button_caption.cancel'), :back,
                   class: "btn btn-info pull-right"

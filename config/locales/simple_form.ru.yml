@@ -550,20 +550,35 @@ ru:
         new:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
+          amount: "На сумму:"
           description: "Описание:"
         edit:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
+          amount: "На сумму:"
           description: "Описание:"
       service_equipments:
         new:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
+          amount: "На сумму:"
           description: "Описание:"
         edit:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
+          amount: "На сумму:"
           description: "Описание:"
+      cost_equipment:
+        new:
+          date_cost: "Дата:"
+          cost_type: "Тип расхода:"
+          amount: "На сумму:"
+          description: "Описание:"
+        edit:
+          date_cost: "Дата:"
+          cost_type: "Тип расхода:"
+          amount: "На сумму:"
+          description: "Описание:"    
     required:
       text: "Обязательное поле"
       mark: "*"

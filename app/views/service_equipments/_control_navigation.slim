@@ -1,0 +1,23 @@
+#order-nav-pills
+  nav.navbar-expand-md.nav-pills.navbar-light.mb-3
+    = content_tag(:span, "#{@caption_table}", class: "navbar-brand d-md-none small text-muted")
+    button.navbar-toggler.float-right aria-controls="navpilsNav" aria-expanded="false" aria-label="Toggle navigation" data-target="#navpilsNav" data-toggle="collapse" type="button"
+      span.navbar-toggler-icon
+    .clearfix
+    .row
+      #navpilsNav.collapse.navbar-collapse
+        .col-12.col-md-12
+          .mt-3.d-block.d-sm-none
+          = active_link_to service_equipments_path, active: :exact, class: "nav-item nav-link" do
+            span.fas.fa-tasks.text-muted&nbsp
+              Все
+            span.badge.badge-pill.badge-secondary.float-right  = @service_equipments_count
+          .col-12.col-md-12.mr-0.pr-0.pl-4
+            = active_link_to service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month, date_service_lteq: (DateTime.now).end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.far.fa-calendar-check.text-muted&nbsp
+                Текущий месяц
+              span.badge.badge-pill.badge-secondary.float-right = @count_set_month
+            = active_link_to service_equipments_path(q: {date_service_gteq: (DateTime.now).beginning_of_month.prev_month, date_service_lteq: (DateTime.now).end_of_month.prev_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.far.fa-calendar-plus.text-muted&nbsp
+                Предыдущий месяц
+              span.badge.badge-pill.badge-secondary.float-right  = @count_prev_month

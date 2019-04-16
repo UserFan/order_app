@@ -3,7 +3,7 @@
     h1.font-weight-bold.mr-3 Перечень контрольных карточек
   hr.mt-1
   .row.justify-content-end
-    .col-sm-12.col-md-5
+    .col-12.col-md-5
       = search_form_for (@q) do |f|
         .input-group.pb-4
           = f.input_field :description_or_shop_name_or_type_document_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
@@ -15,7 +15,7 @@
       = link_to "Новая карточка",  new_task_path, class: "btn btn-outline-success" if policy(@tasks).new_task?(@current_employee)
       hr
       = render "tasks_navigation"
-    .col-sm-12.col-md-9
+    .col-12.col-md-9
       .row
         .col-12.col-md-4
           h4.m-1.d-none.d-sm-block = @caption_table

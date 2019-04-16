@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190405081241) do
+ActiveRecord::Schema.define(version: 20190410091217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -148,17 +148,6 @@ ActiveRecord::Schema.define(version: 20190405081241) do
     t.index ["shop_id"], name: "index_computers_on_shop_id"
     t.index ["stabilizer_id"], name: "index_computers_on_stabilizer_id"
     t.index ["system_unit_id"], name: "index_computers_on_system_unit_id"
-  end
-
-  create_table "cost_equipments", force: :cascade do |t|
-    t.bigint "shop_id", default: 0, null: false
-    t.bigint "cost_type_id", default: 0, null: false
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "date_cost", null: false
-    t.index ["cost_type_id"], name: "index_cost_equipments_on_cost_type_id"
-    t.index ["shop_id"], name: "index_cost_equipments_on_shop_id"
   end
 
   create_table "cost_types", force: :cascade do |t|
@@ -371,6 +360,15 @@ ActiveRecord::Schema.define(version: 20190405081241) do
     t.index ["cacheable_type", "cacheable_id"], name: "index_rating_caches_on_cacheable_type_and_cacheable_id"
   end
 
+  create_table "report_cost_services", force: :cascade do |t|
+    t.datetime "date_report", null: false
+    t.bigint "status_id", default: 0, null: false
+    t.string "comment", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status_id"], name: "index_report_cost_services_on_status_id"
+  end
+
   create_table "reworks", force: :cascade do |t|
     t.bigint "execution_id", default: 0, null: false
     t.bigint "user_id", default: 0, null: false
@@ -412,7 +410,10 @@ ActiveRecord::Schema.define(version: 20190405081241) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "date_service", null: false
+    t.float "amount", default: 0.0, null: false
+    t.bigint "report_cost_service_id", default: 0, null: false
     t.index ["equipment_type_id"], name: "index_service_equipments_on_equipment_type_id"
+    t.index ["report_cost_service_id"], name: "index_service_equipments_on_report_cost_service_id"
     t.index ["shop_id"], name: "index_service_equipments_on_shop_id"
   end
 
