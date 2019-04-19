@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190410091217) do
+ActiveRecord::Schema.define(version: 20190417090104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -366,6 +366,7 @@ ActiveRecord::Schema.define(version: 20190410091217) do
     t.string "comment", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name_report", default: "", null: false
     t.index ["status_id"], name: "index_report_cost_services_on_status_id"
   end
 

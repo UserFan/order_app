@@ -76,6 +76,12 @@ Rails.application.routes.draw do
   resources :service_equipments
   resources :cash_images, only: [:show]
   resources :esp_certs, only: [:index, :show]
+  resources :report_cost_services do
+    delete 'remove_service_report', on: :member
+    get 'closing_report', on: :member
+    get 'open_report', on: :member
+    get 'report_service', on: :member
+  end
   get :version_update_log, action: :version_update, controller: 'shops'
   get :export_shops, action: :export_shops, controller: 'shops'
   get :export_cert_xls, action: :export_xls, controller: 'esp_certs'

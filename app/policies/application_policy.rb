@@ -7,16 +7,16 @@ class ApplicationPolicy
   end
 
   def index?
-    user.moderator? || user.super_admin?
+     user.moderator? || user.guide? || user.super_admin?
   end
 
   def show?
     scope.where(id: record.id).exists?
-    user.moderator? || user.super_admin?
+     user.guide? || user.moderator? || user.super_admin?
   end
 
   def create?
-    user.moderator? || user.super_admin? || user.guide?
+    user.super_admin? || user.guide?
   end
 
   def new?
@@ -28,11 +28,11 @@ class ApplicationPolicy
   end
 
   def edit?
-    user.moderator? || user.super_admin?
+     user.guide? || user.super_admin?
   end
 
   def destroy?
-    user.moderator? || user.super_admin?
+    user.guide? || user.super_admin? &&
     record.can_destroy?
   end
 

@@ -47,7 +47,7 @@ var date_pic = function () {
                   '#date_recruitment, #date_quit, #work_start_date,' +
                   '#work_end_date, #performer_deadline, #task_performer_deadline,' +
                   '#date_open_task, #date_execution_task, #date_close_task,' +
-                  '#update_traffic'
+                  '#update_traffic, #date_report'
   $(name_selector).datetimepicker();
   $('form').on('cocoon:after-insert', function() { $(name_selector).datetimepicker() });
 };
@@ -64,6 +64,7 @@ var Mask_Input = function() {
                                             'groupSize' : 3 });
 
   $('.date_mask').inputmask({mask: "99.99.9999"});
+  $('.month_mask').inputmask({mask: "99.9999"});
   $('#computers').on('cocoon:after-insert', function() { $('.ip_computer').inputmask({'alias': 'ip', 'greedy' : false }) });
   $('#cashboxes').on('cocoon:after-insert', function() { $('.ip_cash').inputmask({'alias': 'ip', 'greedy' : false }) });
   $('#weigher').on('cocoon:after-insert', function() { $('.ip_weigher').inputmask({'alias': 'ip', 'greedy' : false }) });

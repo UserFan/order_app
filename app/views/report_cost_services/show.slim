@@ -1,0 +1,55 @@
+.container
+  .col-sm-12.col-md-12
+    h2.text-right
+      b Отчет за #{l(@report_service.date_report, format: :month_year)}
+    hr
+  .row
+    .col-sm-12.col-md-12.pt-2
+      .card.shadow.p-3.mb-3.bg-white.rounded
+        .card-header.bg-transparent.p-0.m-0
+          span.card-title.text-info.h6.font-weight-bold.m-0 = @report_service.name_report
+        .card-body.pb-0
+          .row
+            .col-12.col-md-3
+              - if policy(@report_service).closing_report?
+                = link_to 'Утвердить отчет', closing_report_report_cost_service_path, data: { toggle: 'tooltip', placement: 'bottom' },
+                  title: "Корректировка отчета", class: "btn btn-info mb-3"
+              - if policy(@report_service).open_report?
+                = link_to 'Вернуть отчет', open_report_report_cost_service_path, data: { toggle: 'tooltip', placement: 'bottom' },
+                  title: "Корректировка отчета", class: "btn btn-info mb-3"
+            .col-12.col-md-9
+              .row.justify-content-end
+                .bg-dark.text-white.p-1
+                  | Количество позиции:&nbsp&nbsp
+                  = @service_count
+          .row
+            .col-12.col-md-12
+              hr.mt-2.mb-2
+              table.table.table-hover
+                thead.thead-light.text-dark
+                  tr.text-dark
+                    th.d-none.d-sm-table-cell Дата
+                    th Тип сервиса
+                    th.d-none.d-sm-table-cell На сумму
+                    th.d-none.d-sm-table-cell Объект
+                    th.text-center.edit-control
+                      i.fa.fa-list
+                tbody
+                  -@report_service.service_equipments.each do |equipment|
+                    tr
+                      td.d-none.d-sm-table-cell = l(equipment.date_service, format: :date)
+                      td
+                        = equipment.equipment_type.name
+                        = content_tag(:span, "Дата: #{l(equipment.date_service, format: :date)}", class: "small d-md-none d-block text-muted")
+                        = content_tag(:span, "Объект: #{equipment.shop.name}", class: "small d-md-none d-block text-success")
+                        = content_tag(:span, "На сумму: #{equipment.amount}", class: "small d-md-none d-block text-info")
+                      td.d-none.d-sm-table-cell = equipment.amount
+                      td.d-none.d-sm-table-cell = equipment.shop.name
+                      td.row-skip.edit-control
+                        - if policy(@report_service).remove_service_report?
+                          = link_to remove_service_report_report_cost_service_path(service_id: equipment.id), method: :delete, data: { confirm: "Вы действительно хотите удалить позицию из отчета?",
+                            toggle: 'tooltip', placement: 'bottom' }, title: "Удалить позицию из отчета" do
+                               span.text-danger.far.fa-times-circle.fa-lg.edit-button
+
+  .row.justify-content-end.p-0.m-0
+    = link_to "Закрыть", report_cost_services_path, class: "btn btn-info mb-3"
