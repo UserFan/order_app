@@ -1,7 +1,3 @@
-class KeyboardPolicy < ApplicationPolicy
-
-  def permitted_attributes
-    [:name] if user.super_admin? || user.moderator?
-  end
+class KeyboardPolicy < CatalogPolicy
 
 end

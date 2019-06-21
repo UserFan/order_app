@@ -23,7 +23,7 @@ class ReportCostServicePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:date_report, :status_id, :name_report, :type_service, :comment] if user.super_admin? || user.moderator?
+    [:date_report, :status_id, :name_report, :type_service, :comment] if user.super_admin? || (access_type?('edit') || access_type?('new'))
   end
 
 end

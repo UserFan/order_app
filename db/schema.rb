@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190417090104) do
+ActiveRecord::Schema.define(version: 20190620084347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_apps", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "action_app_name", default: "", null: false
+  end
+
+  create_table "action_names", force: :cascade do |t|
+    t.bigint "resource_name_id", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "action_app_id", default: 0, null: false
+    t.index ["action_app_id"], name: "index_action_names_on_action_app_id"
+    t.index ["resource_name_id"], name: "index_action_names_on_resource_name_id"
+  end
 
   create_table "apcs", force: :cascade do |t|
     t.string "name"
@@ -370,6 +384,13 @@ ActiveRecord::Schema.define(version: 20190417090104) do
     t.index ["status_id"], name: "index_report_cost_services_on_status_id"
   end
 
+  create_table "resource_names", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "table_name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "reworks", force: :cascade do |t|
     t.bigint "execution_id", default: 0, null: false
     t.bigint "user_id", default: 0, null: false
@@ -378,6 +399,16 @@ ActiveRecord::Schema.define(version: 20190417090104) do
     t.datetime "updated_at", null: false
     t.index ["execution_id"], name: "index_reworks_on_execution_id"
     t.index ["user_id"], name: "index_reworks_on_user_id"
+  end
+
+  create_table "role_priorities", force: :cascade do |t|
+    t.bigint "template_role_id", default: 0, null: false
+    t.string "imageable_type"
+    t.bigint "imageable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imageable_type", "imageable_id"], name: "index_role_priorities_on_imageable_type_and_imageable_id"
+    t.index ["template_role_id"], name: "index_role_priorities_on_template_role_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -564,6 +595,17 @@ ActiveRecord::Schema.define(version: 20190417090104) do
     t.index ["status_id"], name: "index_tasks_on_status_id"
     t.index ["structural_id"], name: "index_tasks_on_structural_id"
     t.index ["type_document_id"], name: "index_tasks_on_type_document_id"
+  end
+
+  create_table "template_roles", force: :cascade do |t|
+    t.bigint "role_id", default: 0, null: false
+    t.bigint "action_name_id", default: 0, null: false
+    t.integer "type_access", default: 0, null: false
+    t.string "name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["action_name_id"], name: "index_template_roles_on_action_name_id"
+    t.index ["role_id"], name: "index_template_roles_on_role_id"
   end
 
   create_table "type_documents", force: :cascade do |t|

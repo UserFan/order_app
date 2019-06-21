@@ -1,0 +1,7 @@
+= simple_form_for(@action_app) do |f|
+  = f.error_notification
+  = f.input :name, autocomplete: "off", required: true, autofocus: true
+  = f.input :action_app_name, required: true
+  .form-group.float-right.mb-0.mt-3
+    = f.button :submit, "Сохранить", class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", action_apps_path, class: "btn btn-outline-secondary m-1 btn-sm"

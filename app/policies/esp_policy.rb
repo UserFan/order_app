@@ -1,7 +1,7 @@
 class EspPolicy < ApplicationPolicy
 
   def permitted_attributes
-    [:carrier_type_id, :kpp] if user.super_admin? || user.moderator?
+    [:carrier_type_id, :kpp] if user.super_admin? || (access_type?('edit') || access_type?('new'))
   end
 
 end

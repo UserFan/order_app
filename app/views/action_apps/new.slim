@@ -1,0 +1,14 @@
+- content_for :catalog do
+  .col-sm-12.col-md-3.d-none.d-md-block
+    = render "catalog/catalogs_list"
+  .col-sm-12.col-md-9
+    .row
+      .container
+        .row.justify-content-center.pt-5
+          .col-sm-12.col-md-8
+            .card.shadow.p-3.mb-5.bg-white.rounded
+              .card-header.bg-transparent.p-1
+                h5.text-info = t('.caption_text')
+              .card-body.pb-0.form-group
+                = render 'action_apps/form'
+= render template: "layouts/application"

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  root  'pages#home'
 
   post '/rate' => 'rater#create', :as => 'rate'
   #devise_for :users, controllers: { registrations: 'registrations' }
@@ -11,7 +12,6 @@ Rails.application.routes.draw do
 
   match '/catalog', to: 'pages#catalog', via: 'get'
 
-  #resources :positions
   scope ":unit" do
     resources :shops do
       get 'import_version', on: :member #format: 'json'
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  scope 'catalog' do
+  scope module: :catalog do
     resources :positions
     resources :types
     resources :categories
@@ -41,13 +41,14 @@ Rails.application.routes.draw do
     resources :bank_units
     resources :organization_units
     resources :fiscals
-    resources :sim_cards do
-      get 'sim_card_log', on: :member, defaults: { format: :js }
-    end
     resources :carrier_types
     resources :equipment_types
     resources :cost_types
     resources :type_documents
+    resources :sim_cards do
+      get 'sim_card_log', on: :member, defaults: { format: :js }
+    end
+
   end
 
   resources :orders do
@@ -68,11 +69,16 @@ Rails.application.routes.draw do
 
   resources :task_executions do
     get 'coordination', on: :member, defaults: { format: :js }
-    #get 'coordination', to: 'task_executions#coordination', as: :coordination
     get 'coordination_master', on: :member
     get 'remove_control', on: :member
     resources :task_reworks, only: [:new, :create]
   end
+  resources :resource_names
+  resources :roles do
+    resources :template_roles, only: [:new, :create, :edit, :update]
+  end
+  resources :action_apps
+  resources :action_names
   resources :service_equipments
   resources :cash_images, only: [:show]
   resources :esp_certs, only: [:index, :show]
@@ -92,6 +98,6 @@ Rails.application.routes.draw do
   resources :version_update_logs, only: [:index]
 
 
-  root  'pages#home'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+
 end

@@ -1,0 +1,37 @@
+.container
+  .col-sm-12.col-md-12
+    h2.text-right Шаблон доступа
+    hr
+  .row
+    .col-sm-12.col-md-12.pt-2
+      .card.shadow.p-3.mb-3.bg-white.rounded
+        .card-header.bg-transparent.p-2.m-0
+          span.card-title.text-info.h5.font-weight-bold.m-3 = @role.name
+          - if policy(@role).edit?
+            = link_to edit_role_path(id: @role), data: { toggle: 'tooltip', placement: 'bottom' },
+               title: "Корректировка данных" do
+                 span.fa.fa-pencil-alt.edit-button
+        .card-body.pb-0
+          .row
+            .col-12.col-md-12
+              table.table.table-hover
+                thead.thead-light.text-dark
+                  tr.text-dark
+                    th.d-none.d-sm-table-cell Доступ к ресурсу
+                    th.d-none.d-sm-table-cell Разрешения
+                    th.text-center.edit-control
+                      i.fa.fa-list
+                tbody
+                  - @template_roles.order(:action_name_id).each do |template_role|
+                    tr
+                      td
+                        = template_role.resource_name_action_app_name
+                        = content_tag(:span, "Разрешения: #{template_role.type_access}", class: "small d-md-none d-block text-success")
+                      td.d-none.d-sm-table-cell = template_role.t_enum("type_access")
+                      td.row-skip.edit-control
+                        - if policy(template_role).edit?
+                          = link_to edit_role_template_role_path(template_role_id: template_role.id, role_id: template_role.role.id), data: { toggle: 'tooltip', placement: 'bottom' },
+                             title: "Корректировка данных" do
+                               span.fa.fa-pencil-alt.edit-button
+  .row.justify-content-end.p-0.m-0
+    = link_to "Закрыть", roles_path, class: "btn btn-info mb-3"

@@ -19,13 +19,13 @@ class ShopPolicy < ApplicationPolicy
   end
 
   def list?
-    user.moderator? || user.super_admin? ||
-    user.guide? || record.user == user
+    user.moderator? || user.super_admin? || user.guide? ||
+    user.employees.employee_current_date.pluck(:shop_id).include?(record.id)
   end
 
   def show?
-    user.moderator? || user.super_admin? ||
-    user.guide? || record.user == user
+    user.moderator? || user.super_admin? || user.guide? ||
+    user.employees.employee_current_date.pluck(:shop_id).include?(record.id)
   end
 
   def show_specialty?
@@ -62,7 +62,7 @@ class ShopPolicy < ApplicationPolicy
      shop_communications_attributes: [:id, :shop_id, :router_id, :router_sn, :_destroy,
      item_communications_attributes: [:id, :shop_communication_id, :provider_id, :communication_id,
                                       :modem_id, :modem_sn, :sim_card_id, :master,
-                                      :login_name, :pass_name, :comment, :_destroy]]] if user.super_admin? || user.moderator?
+                                      :login_name, :pass_name, :comment, :_destroy]]] if user.super_admin? || (access_type?('edit') || access_type?('new'))
   end
 
 end

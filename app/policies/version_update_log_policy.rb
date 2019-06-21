@@ -29,7 +29,7 @@ class VersionUpdateLogPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:shop_id, :date_log, :text_log, :result_update] if user.super_admin?
+    [:shop_id, :date_log, :text_log, :result_update] if user.super_admin? || (access_type?('edit') || access_type?('new'))
   end
 
 end

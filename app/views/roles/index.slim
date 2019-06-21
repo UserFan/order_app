@@ -1,0 +1,40 @@
+.container
+  .row.justify-content-end
+    h2.font-weight-bold Шаблоны доступа
+  hr.mt-1
+  .row.justify-content-end
+   .col-12.col-md-5
+     = search_form_for (@q) do |f|
+       .input-group.pb-4
+         = f.input_field :name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+         span.input-group-append
+           button.btn.btn-outline-secondary type="submit"
+             span.fa.fa-search
+  .row
+   .col-12
+     .row.pb-4
+       .col-3
+         = link_to "Добавить шаблон", new_role_path, class: "btn btn-outline-success btn-sm" if policy(Role).new?
+     .row
+       .col-12.col-md-12
+         table.table.table-hover
+           thead.thead-light.text-dark
+             tr.text-dark
+               th. =sort_link(@q, :name, 'Роль доступа', default_order: :desc)
+           tbody
+             - @roles.each do |role|
+               tr
+                 td
+                   = role.name
+                   - if policy(role).edit?
+                     = link_to edit_role_path(id: role), data: { toggle: 'tooltip', placement: 'bottom' },
+                        title: "Корректировка данных" do
+                          span.fa.fa-pencil-alt.edit-button
+                   - if policy(role).show?
+                     = link_to role_path(id: role), data: { toggle: 'tooltip', placement: 'bottom' },
+                        title: "Список доступа" do
+                           span.fas.fa-tools.edit-button
+                   - if policy(role).destroy?
+                     = link_to role_path(id: role), method: :delete, data: { confirm: "Вы действительно хотите удалить шаблон доступа?",
+                       toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись шаблон доступа" do
+                          span.far.fa-trash-alt.edit-button

@@ -1,7 +1,3 @@
-class TypeDocumentPolicy < ApplicationPolicy
-
-  def permitted_attributes
-    [:name] if user.super_admin? || user.moderator?
-  end
+class TypeDocumentPolicy < CatalogPolicy
 
 end

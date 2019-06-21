@@ -1,21 +1,19 @@
 class StatusPolicy < ApplicationPolicy
 
-  def update?
-   edit?
+  def edit?
+    access_type?('edit') || !(1..19).include?(record.id)
   end
 
-  def edit?
-    #return false if (1..11).include?(record.id)
-    super
+  def update?
+    edit?
   end
 
   def destroy?
-    return false if (1..11).include?(record.id)
-    super
+    access_type?('destroy') || !(1..19).include?(record.id)
   end
 
   def permitted_attributes
-    [:name, role: []] if user.super_admin? || user.moderator?
+    [:name, role: []] if user.super_admin? || (access_type?('edit') || access_type?('new'))
   end
 
 end

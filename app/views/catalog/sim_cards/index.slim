@@ -1,0 +1,72 @@
+- content_for :catalog do
+  .col-sm-3.col-md-3.d-none.d-md-block
+    = render "catalog/catalogs_list"
+  .col-sm-12.col-md-9
+    = render "catalog/sim_cards/modals_sim_log"
+    .row
+      .container
+        .text-right.pb-4.pt-3.d-md-none.d-block
+          = link_to '<< Справочникам', catalog_path
+        h2.text-right
+          b = t('.caption_title')
+        hr
+        .col-sm-12.col-md-3
+          .row
+            = link_to "#{t('.caption_button')}", new_sim_card_path, class: "btn btn-outline-success btn-sm"
+        .row.justify-content-end
+          .col-sm-12.col-md-6
+            = search_form_for (@q) do |f|
+              .input-group.my-4
+                = f.input_field :simphone_number_or_sim_number_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+                span.input-group-append
+                  button.btn.btn-outline-secondary type="submit"
+                    span.fa.fa-search
+        .row
+          .col-sm-3.col-md-12.d-flex
+            nav.nav.nav-pills.nav-fill.flex-sm-row
+              = active_link_to sim_cards_path, active: :exact, class: "nav-item nav-link" do
+                | Все сим-карты
+                span.badge.badge-pill.badge-secondary.float-right.ml-2  #{@sim_count}
+              - @sim_provider_count.each do |name, count|
+                = active_link_to sim_cards_path(q: {provider_name_cont: name}), active: :exact, class: "nav-item nav-link" do
+                  | #{name}
+                  span.badge.badge-pill.badge-secondary.float-right.ml-2 #{count}
+        hr
+        .row
+          .col-sm-12.col-md-12
+            table.table.shadow.p-3.mb-5.bg-white.rounded
+              thead.thead-light.text-dark
+                tr.text-dark
+                  th = sort_link(@q, :simphone_number, 'Номер телефона', default_order: :asc)
+                  th.d-none.d-sm-table-cell = sort_link(@q, :provider_name, 'Провайдер', default_order: :asc)
+                  th.d-none.d-sm-table-cell Установлен на объекте
+                  th.text-center.edit-control
+                    i.fa.fa-list
+              tbody
+                - @sim_cards.each do |sim_card|
+                  tr
+                    td
+                      = sim_card.simphone_number
+                      - if sim_card.sim_logs.present?
+                        = link_to sim_card_log_sim_card_path(sim_card), data: { target: "#SimLogModal", toggle: "modal", turbolinks: true, placement: 'bottom' }, remote: true,
+                           title: "Журнал" do
+                             span.fas.fa-history.pl-2
+                      = content_tag(:p, "Оператор: (#{sim_card.provider.name})", class: "small d-md-none d-block text-info p-0 m-0")
+                      = content_tag(:p, "Объект: #{sim_card.shops.first.name}", class: "small d-md-none d-block text-success p-0 m-0") if sim_card.shops.any?
+                      = content_tag(:p, "Трафик: #{sim_card.traffic} ГБ", class: "small d-md-none d-block text-primary p-0 m-0")
+                      = content_tag(:p, "Обновление трафика: #{l(sim_card.update_traffic_date, format: :date)}", class: "small text-danger p-0 m-0") if sim_card.update_traffic.present?
+
+                    td.d-none.d-sm-table-cell
+                      = sim_card.provider.name
+                      = content_tag(:p, "Трафик: #{sim_card.traffic} ГБ", class: "small text-info p-0 m-0") if sim_card.update_traffic.present?
+                    td.d-none.d-sm-table-cell = sim_card.shops.first.name if sim_card.shops.any?
+                    td.edit-control
+                      - if policy(sim_card).edit?
+                        = link_to edit_sim_card_path(sim_card), data: { toggle: 'tooltip', placement: 'bottom' },
+                           title: "Корректировка данных" do
+                            span.fa.fa-pencil-alt.edit-button
+                      - if policy(sim_card).destroy? && sim_card.can_destroy?
+                        = link_to sim_card, method: :delete, data: { confirm: "Вы действительно хотите удалить текущию запись?",
+                           toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
+                             span.far.fa-trash-alt.edit-button
+= render template: "layouts/application"

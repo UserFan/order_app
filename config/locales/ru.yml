@@ -1,4 +1,10 @@
 ru:
+  enum:
+    type_access:
+      allowed_all: "Полный доступ"
+      allowed_current: "Разрешено (только своих)"
+      not_allowed: "Запрещено"
+
   errors:
     messages:
       carrierwave_processing_error: Невозможно обработать изображение
@@ -114,227 +120,238 @@ ru:
     shop: "Объект"
     type_service: "Наименование работ"
     amount: "На сумму"
-  carrier_types:
-    index:
-      caption_button: "Добавить ''Тип носителя''"
-      caption_title: "Справочник ''Тип носителя''"
-    edit:
-      caption_text: "Корректировка ''Тип носителя''"
-    new:
-      caption_text: "Новый ''Тип носителя''"
-  equipment_types:
-    index:
-      caption_button: "Добавить ''Тип сервисного обслуживания''"
-      caption_title: "Справочник ''Тип сервисного обслуживания''"
-    edit:
-      caption_text: "Корректировка ''Тип оборудования''"
-    new:
-      caption_text: "Новый ''Тип оборудования''"
-  cost_types:
-    index:
-      caption_button: "Добавить ''Тип расхода''"
-      caption_title: "Справочник ''Тип расхода''"
-    edit:
-      caption_text: "Корректировка ''Тип расхода''"
-    new:
-      caption_text: "Новый ''Тип расхода''"
-  positions:
-    index:
-      caption_button: "Добавить ''Должность''"
-      caption_title: "Справочник ''Должность''"
-    edit:
-      caption_text: "Корректировка ''Должность''"
-    new:
-      caption_text: "Новая ''Должность''"
 
-  sim_cards:
+  action_apps:
     index:
-      caption_button: "Добавить ''Сим карту''"
-      caption_title: "Перечень ''Сим карт''"
+      caption_button: "Добавить ''Действия в приложении''"
+      caption_title: "Справочник ''Действия в приложении''"
     edit:
-      caption_text: "Корректировка ''Сим карты''"
+      caption_text: "Корректировка ''Действия в приложении''"
     new:
-      caption_text: "Новая ''Сим карта''"
+      caption_text: "Новый ''Действие в приложении''"
 
-  apcs:
-    index:
-      caption_button: "Добавить ''ИБП''"
-      caption_title: "Справочник ''Источник бесперебойного питания(ИБП)''"
-    edit:
-      caption_text: "Корректировка ''ИБП''"
-    new:
-      caption_text: "Новая ''ИБП''"
+  catalog:
+    carrier_types:
+      index:
+        caption_button: "Добавить ''Тип носителя''"
+        caption_title: "Справочник ''Тип носителя''"
+      edit:
+        caption_text: "Корректировка ''Тип носителя''"
+      new:
+        caption_text: "Новый ''Тип носителя''"
+    equipment_types:
+      index:
+        caption_button: "Добавить ''Тип сервисного обслуживания''"
+        caption_title: "Справочник ''Тип сервисного обслуживания''"
+      edit:
+        caption_text: "Корректировка ''Тип оборудования''"
+      new:
+        caption_text: "Новый ''Тип оборудования''"
+    cost_types:
+      index:
+        caption_button: "Добавить ''Тип расхода''"
+        caption_title: "Справочник ''Тип расхода''"
+      edit:
+        caption_text: "Корректировка ''Тип расхода''"
+      new:
+        caption_text: "Новый ''Тип расхода''"
+    positions:
+      index:
+        caption_button: "Добавить ''Должность''"
+        caption_title: "Справочник ''Должность''"
+      edit:
+        caption_text: "Корректировка ''Должность''"
+      new:
+        caption_text: "Новая ''Должность''"
 
-  bank_units:
-    index:
-      caption_button: "Добавить ''Банк''"
-      caption_title: "Справочник ''Банк''"
-    edit:
-      caption_text: "Корректировка ''Банк''"
-    new:
-      caption_text: "Новая ''Банк''"
+    sim_cards:
+      index:
+        caption_button: "Добавить ''Сим карту''"
+        caption_title: "Перечень ''Сим карт''"
+      edit:
+        caption_text: "Корректировка ''Сим карты''"
+      new:
+        caption_text: "Новая ''Сим карта''"
 
-  categories:
-    index:
-      caption_button: "Добавить ''Категория заявок''"
-      caption_title: "Справочник ''Категория заявок''"
-    edit:
-      caption_text: "Корректировка ''Категория заявок''"
-    new:
-      caption_text: "Новая ''Категория заявок''"
+    apcs:
+      index:
+        caption_button: "Добавить ''ИБП''"
+        caption_title: "Справочник ''Источник бесперебойного питания(ИБП)''"
+      edit:
+        caption_text: "Корректировка ''ИБП''"
+      new:
+        caption_text: "Новая ''ИБП''"
 
-  type_documents:
-    index:
-      caption_button: "Добавить 'Тип документа''"
-      caption_title: "Справочник ''Тип документа''"
-    edit:
-      caption_text: "Корректировка ''Тип документа''"
-    new:
-      caption_text: "Новая ''Тип документа''"
+    bank_units:
+      index:
+        caption_button: "Добавить ''Банк''"
+        caption_title: "Справочник ''Банк''"
+      edit:
+        caption_text: "Корректировка ''Банк''"
+      new:
+        caption_text: "Новая ''Банк''"
 
-  commouses:
-    index:
-      caption_button: "Добавить новый"
-      caption_title: "Справочник ''Манипулятор(мышь)''"
-    edit:
-      caption_text: "Корректировка ''Манипулятора(мышь)''"
-    new:
-      caption_text: "Новый ''Манипулятор(мышь)''"
+    categories:
+      index:
+        caption_button: "Добавить ''Категория заявок''"
+        caption_title: "Справочник ''Категория заявок''"
+      edit:
+        caption_text: "Корректировка ''Категория заявок''"
+      new:
+        caption_text: "Новая ''Категория заявок''"
 
-  displays:
-    index:
-      caption_button: "Добавить ''Дисплей''"
-      caption_title: "Справочник ''Дисплей''"
-    edit:
-      caption_text: "Корректировка ''Дисплей''"
-    new:
-      caption_text: "Новый ''Дисплей''"
+    type_documents:
+      index:
+        caption_button: "Добавить 'Тип документа''"
+        caption_title: "Справочник ''Тип документа''"
+      edit:
+        caption_text: "Корректировка ''Тип документа''"
+      new:
+        caption_text: "Новая ''Тип документа''"
 
-  fiscals:
-    index:
-      caption_button: "Добавить ''Фискальный аппарат''"
-      caption_title: "Справочник ''Фискальный аппарат''"
-    edit:
-      caption_text: "Корректировка ''Фискального аппарат''"
-    new:
-      caption_text: "Новый ''Фискальный аппарат''"
+    commouses:
+      index:
+        caption_button: "Добавить новый"
+        caption_title: "Справочник ''Манипулятор(мышь)''"
+      edit:
+        caption_text: "Корректировка ''Манипулятора(мышь)''"
+      new:
+        caption_text: "Новый ''Манипулятор(мышь)''"
 
-  keyboards:
-    index:
-      caption_button: "Добавить ''Клавиатура''"
-      caption_title: "Справочник ''Клавиатура''"
-    edit:
-      caption_text: "Корректировка ''Клавиатура''"
-    new:
-      caption_text: "Новая ''Клавиатура''"
+    displays:
+      index:
+        caption_button: "Добавить ''Дисплей''"
+        caption_title: "Справочник ''Дисплей''"
+      edit:
+        caption_text: "Корректировка ''Дисплей''"
+      new:
+        caption_text: "Новый ''Дисплей''"
 
-  modems:
-    index:
-      caption_button: "Добавить ''Модем''"
-      caption_title: "Справочник ''Модем''"
-    edit:
-      caption_text: "Корректировка ''Модем''"
-    new:
-      caption_text: "Новый ''Модем''"
+    fiscals:
+      index:
+        caption_button: "Добавить ''Фискальный аппарат''"
+        caption_title: "Справочник ''Фискальный аппарат''"
+      edit:
+        caption_text: "Корректировка ''Фискального аппарат''"
+      new:
+        caption_text: "Новый ''Фискальный аппарат''"
 
-  organization_units:
-    index:
-      caption_button: "Добавить ''Организация''"
-      caption_title: "Справочник ''Организация''"
-    edit:
-      caption_text: "Корректировка ''Организация''"
-    new:
-      caption_text: "Новая ''Организация''"
+    keyboards:
+      index:
+        caption_button: "Добавить ''Клавиатура''"
+        caption_title: "Справочник ''Клавиатура''"
+      edit:
+        caption_text: "Корректировка ''Клавиатура''"
+      new:
+        caption_text: "Новая ''Клавиатура''"
 
-  printers:
-    index:
-      caption_button: "Добавить ''Принтер(МФУ)''"
-      caption_title: "Справочник ''Принтер(МФУ)''"
-    edit:
-      caption_text: "Корректировка ''Принтер(МФУ)''"
-    new:
-      caption_text: "Новый ''Принтер(МФУ)''"
+    modems:
+      index:
+        caption_button: "Добавить ''Модем''"
+        caption_title: "Справочник ''Модем''"
+      edit:
+        caption_text: "Корректировка ''Модем''"
+      new:
+        caption_text: "Новый ''Модем''"
 
-  providers:
-    index:
-      caption_button: "Добавить ''Провайдер''"
-      caption_title: "Справочник ''Провайдер''"
-    edit:
-      caption_text: "Корректировка ''Провайдер''"
-    new:
-      caption_text: "Новый ''Провайдер''"
+    organization_units:
+      index:
+        caption_button: "Добавить ''Организация''"
+        caption_title: "Справочник ''Организация''"
+      edit:
+        caption_text: "Корректировка ''Организация''"
+      new:
+        caption_text: "Новая ''Организация''"
 
-  routers:
-    index:
-      caption_button: "Добавить ''Роутер''"
-      caption_title: "Справочник ''Роутер''"
-    edit:
-      caption_text: "Корректировка ''Роутер''"
-    new:
-      caption_text: "Новый ''Роутер''"
+    printers:
+      index:
+        caption_button: "Добавить ''Принтер(МФУ)''"
+        caption_title: "Справочник ''Принтер(МФУ)''"
+      edit:
+        caption_text: "Корректировка ''Принтер(МФУ)''"
+      new:
+        caption_text: "Новый ''Принтер(МФУ)''"
 
-  scaners:
-    index:
-      caption_button: "Добавить ''Сканер''"
-      caption_title: "Справочник ''Сканер''"
-    edit:
-      caption_text: "Корректировка ''Сканер''"
-    new:
-      caption_text: "Новый ''Сканер''"
+    providers:
+      index:
+        caption_button: "Добавить ''Провайдер''"
+        caption_title: "Справочник ''Провайдер''"
+      edit:
+        caption_text: "Корректировка ''Провайдер''"
+      new:
+        caption_text: "Новый ''Провайдер''"
 
-  stabilizers:
-    index:
-      caption_button: "Добавить ''Стабилизатор''"
-      caption_title: "Справочник ''Стабилизатор''"
-    edit:
-      caption_text: "Корректировка ''Стабилизатор''"
-    new:
-      caption_text: "Новый ''Стабилизатор''"
+    routers:
+      index:
+        caption_button: "Добавить ''Роутер''"
+        caption_title: "Справочник ''Роутер''"
+      edit:
+        caption_text: "Корректировка ''Роутер''"
+      new:
+        caption_text: "Новый ''Роутер''"
 
-  statuses:
-    index:
-      caption_button: "Добавить ''Статус заявок''"
-      caption_title: "Справочник ''Статус заявок''"
-    edit:
-      caption_text: "Корректировка ''Статус заявок''"
-    new:
-      caption_text: "Новый ''Статус заявок''"
+    scaners:
+      index:
+        caption_button: "Добавить ''Сканер''"
+        caption_title: "Справочник ''Сканер''"
+      edit:
+        caption_text: "Корректировка ''Сканер''"
+      new:
+        caption_text: "Новый ''Сканер''"
 
-  system_units:
-    index:
-      caption_button: "Добавить ''Системный блок''"
-      caption_title: "Справочник ''Системный блок''"
-    edit:
-      caption_text: "Корректировка ''Системный блок''"
-    new:
-      caption_text: "Новый ''Системный блок''"
+    stabilizers:
+      index:
+        caption_button: "Добавить ''Стабилизатор''"
+        caption_title: "Справочник ''Стабилизатор''"
+      edit:
+        caption_text: "Корректировка ''Стабилизатор''"
+      new:
+        caption_text: "Новый ''Стабилизатор''"
 
-  communications:
-    index:
-      caption_button: "Добавить ''Тип связи''"
-      caption_title: "Справочник ''Тип связи''"
-    edit:
-      caption_text: "Корректировка ''Тип связи''"
-    new:
-      caption_text: "Новый ''Тип связи''"
+    statuses:
+      index:
+        caption_button: "Добавить ''Статус заявок''"
+        caption_title: "Справочник ''Статус заявок''"
+      edit:
+        caption_text: "Корректировка ''Статус заявок''"
+      new:
+        caption_text: "Новый ''Статус заявок''"
 
-  types:
-    index:
-      caption_button: "Добавить ''Тип объектов''"
-      caption_title: "Справочник ''Тип объектов''"
-    edit:
-      caption_text: "Корректировка ''Тип объектов''"
-    new:
-      caption_text: "Новый ''Тип объектов''"
+    system_units:
+      index:
+        caption_button: "Добавить ''Системный блок''"
+        caption_title: "Справочник ''Системный блок''"
+      edit:
+        caption_text: "Корректировка ''Системный блок''"
+      new:
+        caption_text: "Новый ''Системный блок''"
 
-  weighers:
-    index:
-      caption_button: "Добавить ''Весы''"
-      caption_title: "Справочник ''Весы''"
-    edit:
-      caption_text: "Корректировка ''Весы''"
-    new:
-      caption_text: "Новые ''Весы''"
+    communications:
+      index:
+        caption_button: "Добавить ''Тип связи''"
+        caption_title: "Справочник ''Тип связи''"
+      edit:
+        caption_text: "Корректировка ''Тип связи''"
+      new:
+        caption_text: "Новый ''Тип связи''"
+
+    types:
+      index:
+        caption_button: "Добавить ''Тип объектов''"
+        caption_title: "Справочник ''Тип объектов''"
+      edit:
+        caption_text: "Корректировка ''Тип объектов''"
+      new:
+        caption_text: "Новый ''Тип объектов''"
+
+    weighers:
+      index:
+        caption_button: "Добавить ''Весы''"
+        caption_title: "Справочник ''Весы''"
+      edit:
+        caption_text: "Корректировка ''Весы''"
+      new:
+        caption_text: "Новые ''Весы''"
   shop:
     name: "Наименование объекта"
     address: "Адрес объекта"
@@ -354,9 +371,14 @@ ru:
           has_one: 'Невозможно удалить запись, так как существует зависимость: %{record}'
           has_many: 'Невозможно удалить запись, так как существуют зависимости: %{record}'
 
-
-
     attributes:
+      template_role:
+        enums:
+          type_access:
+            allowed_all: "Полный доступ"
+            allowed_current: "Разрешено (только своих)"
+            not_allowed: "Запрещено"
+
       shop/cashboxes:
         organization_unit: "Юридическое лицо (каcсовое оборудование):"
         display: "Дисплей (каcсовое оборудование):"

@@ -3,6 +3,7 @@ class User < ApplicationRecord
 
   belongs_to :role
   #has_many :performers, dependent: :restrict_with_error
+  has_many :role_priorities, as: :imageable
   has_many :orders, through: :employee, foreign_key: :user_id
   has_many :executions, through: :performers, foreign_key: :user_id
   has_many :reworks, dependent: :restrict_with_error
@@ -10,6 +11,8 @@ class User < ApplicationRecord
   has_many :shops, through: :employees, foreign_key: :user_id
   has_many :performers, through: :employees, foreign_key: :user_id
   has_many :task_performers, through: :employees, foreign_key: :user_id
+  has_many :template_roles, through: :role, foreign_key: :role_id
+
 
   has_one :profile, dependent: :destroy
 

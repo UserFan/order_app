@@ -6,7 +6,7 @@ class SimCardPolicy < ApplicationPolicy
 
   def permitted_attributes
     [:sim_number, :simphone_number, :provider_id,
-     :traffic, :update_traffic] if user.super_admin? || user.moderator?
+     :traffic, :update_traffic] if user.super_admin? || (access_type?('edit') || access_type?('new'))
   end
 
 end
