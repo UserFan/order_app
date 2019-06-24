@@ -4,7 +4,7 @@ class ApplicationPolicy
   def initialize(user, record)
     @user = user
     @record = record
-    name_tabl = self.class.name.split('Policy').join.downcase
+    name_tabl = self.class.name.split('Policy').join.titleize.split.join('_').downcase
     @access_record =
       @user.template_roles.where("resource_names.table_name = ?",
         name_tabl).joins(action_name: :resource_name)
@@ -37,7 +37,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    (access_type?('destroy') || user.super_admin?) &&  record.can_destroy?  
+    (access_type?('destroy') || user.super_admin?) &&  record.can_destroy?
   end
 
   def scope
@@ -62,6 +62,7 @@ class ApplicationPolicy
   def access_type?(action_name)
     type_access = @access_record.where("action_apps.action_app_name = ?", action_name).
                   joins(action_name: :action_app).pluck(:type_access)
+    #binding.pry
     if type_access.present?
       if (type_access.join == 'allowed_all') ||
          (type_access.join == 'allowed_current')
