@@ -5,7 +5,7 @@ class PagesPolicy < Struct.new(:user, :pages)
   end
 
   def catalog?
-    access_type?('catalog', 'show') || user.super_admin?  
+    access_type?('catalog', 'show') || user.super_admin?
   end
 
   def home?
@@ -15,7 +15,6 @@ class PagesPolicy < Struct.new(:user, :pages)
   private
 
   def access_type?(tabl_name, action_name)
-
     type_access =
       user.template_roles.where("resource_names.table_name = ? AND action_apps.action_app_name = ?",
         tabl_name, action_name).joins(action_name: [:action_app, :resource_name]).pluck(:type_access)

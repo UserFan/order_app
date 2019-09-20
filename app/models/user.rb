@@ -31,6 +31,17 @@ class User < ApplicationRecord
 
   validates :role_id, presence: true
 
+  def current_employees
+    self.employees.employee_current_date
+  end
+
+  def current_shops
+    self.shops.where("employees.work_start_date <= ?
+    AND (employees.work_end_date is null
+    OR employees.work_end_date >= ?)",
+    Date.today, Date.today)
+  end
+
   def super_admin?
     role_id == Role::SUPER_ADMIN_ID
   end

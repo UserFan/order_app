@@ -108,9 +108,8 @@ class ShopsController < ApplicationController
 
   def export_shops
     authorize Shop
-    @shops_xls = Shop.includes(:user, :orders, :type, :cashboxes, :computers,
-                       :shop_weighers, :shop_communications).where(structural_unit: @set_unit)
-
+    @shops_xls =
+      Shop.roles(current_user).join == 'allowed_all' ? @@set_units : Shop.where(id: current_user.current_shops)
     @cashboxes_count = @shops_xls.maximum('cashboxes_count')
     @computers_count = @shops_xls.maximum('computers_count')
     @communication_count = @shops_xls.maximum('shop_communications_count')
@@ -124,17 +123,26 @@ class ShopsController < ApplicationController
     end
   end
 
+  def cash_images
+    authorize @shop
+    @cash_image = CashImage.find(params[:cash_image_id])
+    respond_to do |format|
+      format.js { render layout: false }
+    end
+  end
+
   private
 
   def set_structural_unit
-    if current_user.super_admin? || current_user.moderator? || current_user.guide?
-      set_shops = Shop.includes(:orders, :type, :cashboxes, :computers,
-                         :shop_weighers, :shop_communications)
-    else
-      set_shops = current_user.shops.includes(:orders, :type, :cashboxes, :computers,
-                                       :shop_weighers, :shop_communications)
-    end
-
+    #if current_user.super_admin? || current_user.moderator? || current_user.guide?
+    # if policy(:shop).index_all?
+    #   set_shops = Shop.includes(:orders, :type, :cashboxes, :computers,
+    #                      :shop_weighers, :shop_communications)
+    # else
+    #   set_shops = current_user.shops.includes(:orders, :type, :cashboxes, :computers,
+    #                                    :shop_weighers, :shop_communications)
+    # end
+    set_shops = policy_scope(Shop)
     @users_shop = User.includes(:profile).where(admin: false).order('profiles.surname ASC')
 
     if params[:unit] == 'structural'
@@ -149,7 +157,6 @@ class ShopsController < ApplicationController
       flash[:error] = "Страница не найдена!"
       redirect_to root_path
     end
-
     shop_char = []
     @q = @@set_units.ransack(params[:q])
     @q.sorts = ['name asc', 'created_at desc'] if @q.sorts.empty?
@@ -163,7 +170,7 @@ class ShopsController < ApplicationController
   end
 
   def set_shop
-    @shop = @@set_units.find(params[:id])
+    @shop = policy_scope(Shop).find(params[:id])
   end
 
   def remote_set_connection(ip_address)

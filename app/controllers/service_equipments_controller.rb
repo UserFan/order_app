@@ -7,8 +7,9 @@ class ServiceEquipmentsController < ApplicationController
     authorize ServiceEquipment
     date_start = DateTime.now.beginning_of_month
     date_end = DateTime.now.end_of_month
-    @q =  @shop.nil? ? ServiceEquipment.includes(:equipment_type).ransack(params[:q]) :
-          @shop.service_equipments.includes(:equipment_type).ransack(params[:q])
+    service_equipments =
+      @shop.nil? ? policy_scope(ServiceEquipment) : @shop.service_equipments
+    @q =  service_equipments.ransack(params[:q])
     @q.sorts = ['date_service desc', 'created_at desc'] if @q.sorts.empty?
     @equipments = @q.result(disinct: true)
     @service_equipments_count = @equipments.size
@@ -67,6 +68,11 @@ class ServiceEquipmentsController < ApplicationController
   def set_shop
     @shop = params[:shop_id] ? Shop.find(params[:shop_id]) : nil
     @shop_filter ||= params[:filter_shop]
+    if policy(:ServiceEquipment).new_only?
+      @shops = current_user.shops
+    else
+      @shops = Shop.all
+    end
   end
 
   def set_equipment

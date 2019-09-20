@@ -18,7 +18,6 @@ class ReportCostServicesController < ApplicationController
     authorize ReportCostService
     @report_service = ReportCostService.new(date_report: Date.today.end_of_month,
                                             status_id: Status::GENERATED)
-
   end
 
   def edit
@@ -94,7 +93,6 @@ class ReportCostServicesController < ApplicationController
 
   def closing_report
     authorize @report_service
-
     @report_service.update_attributes!(status_id: Status::MADE)
     redirect_to report_cost_services_path
   end

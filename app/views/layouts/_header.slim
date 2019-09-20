@@ -18,7 +18,7 @@ nav.navbar.sticky-top.navbar-expand-sm.bg-dark.navbar-dark
                 = link_to 'Контрольная карточка', tasks_path, class: "dropdown-item"
               = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item" if policy(:pages).menu_item?('menu_profile')
               = link_to 'Структурное подразделения', shops_path(unit: 'structural'), class: "dropdown-item" if policy(:pages).menu_item?('menu_structural')
-              = link_to 'Торговые объекты', shops_path(unit: 'shop'), class: "dropdown-item"if policy(:pages).menu_item?('menu_shop')
+              = link_to 'Торговые объекты', shops_path(unit: 'shop'), class: "dropdown-item" if policy(:pages).menu_item?('menu_shop')
               - if policy(:pages).menu_item?('menu_esp')
                 = link_to 'ЭЦП', esp_certs_path, class: "dropdown-item"
               - if policy(:pages).menu_item?('menu_service')

@@ -44,6 +44,10 @@
                       = link_to report_cost_service_path(id: report), method: :delete, data: { confirm: "Вы действительно хотите удалить отчет?",
                         toggle: 'tooltip', placement: 'bottom' }, title: "Удалить отчет" do
                            span.far.fa-trash-alt.edit-button
+                    - if policy(report).show?
+                      = link_to report_cost_service_path(id: report), data: { toggle: 'tooltip', placement: 'bottom' },
+                        title: "Просмотр отчета" do
+                          span.far.fa-eye.edit-button
                     - if policy(report).report_service?
                       = link_to report_service_report_cost_service_path(id: report, format: "xlsx"),
                         data: { confirm: "Экспорт в (формате XLSX). Вы действительно выгрузить отчет?",

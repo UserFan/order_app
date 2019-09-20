@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   scope ":unit" do
     resources :shops do
       get 'import_version', on: :member #format: 'json'
+      get 'cash_images', on: :member, defaults: { format: :js }
       resources :esps do
         resources :esp_certs, only: [:new, :create, :edit, :update, :destroy]
       end

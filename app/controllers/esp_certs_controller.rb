@@ -9,7 +9,8 @@ class EspCertsController < ApplicationController
     date_end = Date.today.end_of_month
     date_end_next = Date.today.next_month.end_of_month
     date_start_next =  date_start.next_month
-    @q = EspCert.includes(:shop, :esp).ransack(params[:q])
+
+    @q = policy_scope(EspCert).ransack(params[:q])
     @q.sorts = ['date_end_esp desc', 'created_at desc'] if @q.sorts.empty?
     @esp_certs = @q.result(disinct: true)
     @esp_certs_count = EspCert.includes(:shop, :esp).size
@@ -59,7 +60,12 @@ class EspCertsController < ApplicationController
 
   def export_xls
     authorize EspCert
-    @esp_xls = EspCert.includes(:shop, :esp).order('shops.name asc')
+    @esp_xls =
+      if EspCert.roles(current_user).join == 'allowed_all'
+        EspCert.includes(:shop, :esp).order('shops.name asc')
+      else
+        EspCert.joins(:esp).where(esps: { shop_id: current_user.current_shops })
+      end
     respond_to do |format|
       format.xlsx {
         render xlsx: "export_xls", filename: "esp_all.xlsx"

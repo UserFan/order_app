@@ -43,20 +43,21 @@
       .btn-group.ml-auto role="group"
         .btn.btn-secondary.sort-btn
           = sort_link(@q, :name, '', default_order: :asc)
-        - if policy(@shops).version_update?
+        - if policy(@shops).export_shops?
           = link_to export_shops_path(format: "xlsx"), class: "btn btn-secondary", data: { confirm: "Предупреждение: Экспорт в(XLSX) может занят определенное время! Вы действительно хотите произвести экспорт в(XLSX) всех объектов?",
               toggle: 'tooltip', placement: 'bottom' }, title: "Экспорт в (формате XLSX) всех объектов" do
                 span.fas.fa-file-excel
-          / = link_to version_update_log_path, class: "btn btn-secondary", data: { confirm: "Предупреждение: Обновление может занят определенное время! Вы действительно хотите произвести обновление информации на всех объектах?" },
-          /     "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Обновление информации о версиях ПО на объектах" do
-          /       span.fas.fa-download
+        - if policy(Shop).version_update?
+          = link_to version_update_log_path, class: "btn btn-secondary", data: { confirm: "Предупреждение: Обновление может занят определенное время! Вы действительно хотите произвести обновление информации на всех объектах?" },
+              "data-toggle" => "tooltip", "data-placement" => "bottom", "title" => "Обновление информации о версиях ПО на объектах" do
+                span.fas.fa-download
 
   .container
     .row.justify-content-center
       .col-sm-12.col-md-12
         .card-deck
           - @shops.each do |shop|
-            - if policy(shop).list?
+            - if policy(shop).index?
               .card.shadow.p-0.mb-2.bg-white.rounded style="max-width: 15rem; min-width: 15rem;"
                 .card-img-top.text-center.p-1
                   = image_tag(shop.photo.thumb.url) if shop.photo?
@@ -73,10 +74,11 @@
                   = link_to "Заявки(#{shop.orders_count})", orders_path(q: {shop_id_eq: shop.id}) if shop.orders_count > 0
                 .card-footer
                   .float-left
-                    - if policy(shop).service_show?
+                    - if policy(shop.esps).index?
                       = link_to shop_esps_path(shop_id: shop), class: "pr-2", data: { toggle: 'tooltip', placement: 'bottom' },
                          title: "Информация по ЭЦП" do
                          span.fas.fa-key.edit-button
+                    - if policy(shop.service_equipments).index?
                       = link_to service_equipments_path(shop_id: shop, filter_shop: true), class: "pr-2", data: { toggle: 'tooltip', placement: 'bottom' },
                          title: "Обслуживание оборудования" do
                          span.fas.fa-cogs.edit-button

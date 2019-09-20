@@ -1,24 +1,26 @@
 class ReportCostServicePolicy < ApplicationPolicy
 
   def remove_service_report?
-    user.super_admin?
+    (access_all?('remove_positions') || user.super_admin?) &&
     record.status_id != Status::MADE
   end
 
   def closing_report?
-    remove_service_report?
+    (access_all?('closing_report') ||  user.super_admin?) &&
+    record.status_id != Status::MADE
   end
 
   def open_report?
-    report_service?
+    (access_all?('rollback_report') || user.super_admin?) &&
+    (record.status_id == Status::MADE)
   end
 
   def destroy?
-    remove_service_report?
+    (access_all?('destroy') || user.super_admin?)
   end
 
   def report_service?
-    user.super_admin? &&
+    (access_all?('export') || user.super_admin?) &&
     record.status_id == Status::MADE
   end
 
