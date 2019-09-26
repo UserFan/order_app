@@ -4,11 +4,10 @@ class RolesController < ApplicationController
 
   def index
     authorize Role
-    @q = Role.includes(:template_roles).ransack(params[:q])
+    @q = Role.ransack(params[:q])
     @q.sorts = ['date_end_esp desc', 'created_at desc'] if @q.sorts.empty?
     @roles = @q.result(disinct: true)
   end
-
 
   def new
     authorize Role
@@ -21,18 +20,21 @@ class RolesController < ApplicationController
 
   def show
     authorize @role
-    @template_roles = @role.template_roles
-    action_names = ActionName.all
-    action_names.each do |action_name|
-      unless @template_roles.present?
-        @role.template_roles.create!(role_id: @role.id,
-                                     action_name_id: action_name.id,
-                                     type_access: 200,
+    @template_accesses = @role.template_accesses
+    enum_resource = EnumResource.all
+    enum_resource.each do |enum_resource|
+      unless @template_accesses.present?
+        @role.template_accesses.create!(role_id: @role.id,
+                                     enum_resource_id: enum_resource.id,
+                                     enum_type_access_id: EnumTypeAccess::NOTALLOWED,
+                                     user_id: 0,
                                      name: @role.name)
       else
-        @role.template_roles.create!(role_id: @role.id,
-          action_name_id: action_name.id, type_access: 200,
-          name: @role.name) unless @template_roles.find_by(role_id: @role.id, action_name_id: action_name)
+        @role.template_accesses.create!(role_id: @role.id,
+          enum_resource_id: enum_resource.id,
+          enum_type_access_id: EnumTypeAccess::NOTALLOWED,
+          user_id: 0,
+          name: @role.name) unless @template_accesses.find_by(role_id: @role.id, enum_resource_id: enum_resource)
       end
     end
   end

@@ -1,0 +1,43 @@
+.container
+  .row.justify-content-end
+    h2.font-weight-bold
+      | Перечень ресурсов системы
+  hr.mt-1
+  .row.justify-content-end
+   .col-12.col-md-5
+     = search_form_for (@q) do |f|
+       .input-group.pb-4
+         = f.search_field :name_or_resource_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+         span.input-group-append
+           button.btn.btn-outline-secondary type="submit"
+             span.fa.fa-search
+  .row
+   .col-12.col-md-12
+     .row.pb-4
+       .col-3
+         = link_to "Добавить ресурс", new_enum_resource_path, class: "btn btn-outline-success btn-sm" if policy(EnumResource).new?
+     .row
+       .col-12.col-md-12
+         table.table.table-hover
+           thead.thead-light.text-dark
+             tr.text-dark
+               th = sort_link(@q, :name, 'Наименование', default_order: :asc)
+               th.d-none.d-sm-table-cell =sort_link(@q, :resource_name, 'Наменование ресурса', default_order: :asc)
+               th.text-center.edit-control
+                 i.fa.fa-list
+           tbody
+             - @enum_resources.each do |enum_resource|
+               tr
+                 td
+                   = enum_resource.name
+                   = content_tag(:span, "Наименование ресурса: #{enum_resource.table_name}", class: "small d-md-none d-block text-muted")
+                 td.d-none.d-sm-table-cell = enum_resource.table_name
+                 td.row-skip.edit-control
+                   - if policy(enum_resource).edit?
+                     = link_to edit_enum_resource_path(id: enum_resource), data: { toggle: 'tooltip', placement: 'bottom' },
+                        title: "Корректировка данных" do
+                          span.fa.fa-pencil-alt.edit-button
+                   - if policy(enum_resource).destroy? && enum_resource.can_destroy?
+                     = link_to enum_resource_path(id: enum_resource), method: :delete, data: { confirm: "Вы действительно хотите удалить?",
+                       toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
+                          span.far.fa-trash-alt.edit-button

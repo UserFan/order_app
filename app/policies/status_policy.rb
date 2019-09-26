@@ -1,7 +1,7 @@
 class StatusPolicy < ApplicationPolicy
 
   def edit?
-    access_type?('edit') || !(1..19).include?(record.id)
+    access_set('edit') || !(1..19).include?(record.id)
   end
 
   def update?
@@ -9,7 +9,7 @@ class StatusPolicy < ApplicationPolicy
   end
 
   def destroy?
-    access_type?('destroy') || !(1..19).include?(record.id)
+    access_set('destroy') || !(1..19).include?(record.id)
   end
 
   def permitted_attributes

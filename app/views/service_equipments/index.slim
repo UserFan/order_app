@@ -9,7 +9,7 @@
    .col-12.col-md-5
      = search_form_for (@q) do |f|
        .input-group.pb-4
-         = f.input_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+         = f.search_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
          span.input-group-append
            button.btn.btn-outline-secondary type="submit"
              span.fa.fa-search

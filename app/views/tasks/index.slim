@@ -6,7 +6,7 @@
     .col-12.col-md-5
       = search_form_for (@q) do |f|
         .input-group.pb-4
-          = f.input_field :description_or_shop_name_or_type_document_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+          = f.search_field :description_or_shop_name_or_type_document_name_or_status_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
           span.input-group-append
             button.btn.btn-outline-secondary type="submit"
               span.fa.fa-search

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   root  'pages#home'
 
   post '/rate' => 'rater#create', :as => 'rate'
@@ -74,12 +73,12 @@ Rails.application.routes.draw do
     get 'remove_control', on: :member
     resources :task_reworks, only: [:new, :create]
   end
-  resources :resource_names
+  resources :enum_resources
   resources :roles do
-    resources :template_roles, only: [:new, :create, :edit, :update]
+    resources :template_accesses, only: [:new, :create, :edit, :update]
   end
-  resources :action_apps
-  resources :action_names
+  #resources :action_apps
+  resources :enum_actions
   resources :service_equipments
   resources :cash_images, only: [:show]
   resources :esp_certs, only: [:index, :show]
@@ -97,8 +96,4 @@ Rails.application.routes.draw do
   get 'user_open_access/:id', to: 'users#edit_open_user_access', as: :edit_open_access
   patch 'user_open_access/:id', to: 'users#open_user_access', as: :open_access
   resources :version_update_logs, only: [:index]
-
-
-
-
 end

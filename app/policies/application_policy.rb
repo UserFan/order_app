@@ -6,8 +6,7 @@ class ApplicationPolicy
     @record = record
     name_tabl = self.class.name.split('Policy').join.titleize.split.join('_').downcase
     @access_record =
-      @user.template_roles.where("resource_names.table_name = ?",
-        name_tabl).joins(action_name: :resource_name)
+      @user.template_accesses.where("enum_resources.resource_name = ?", name_tabl)
     #binding.pry
   end
 
@@ -52,8 +51,7 @@ class ApplicationPolicy
       @scope = scope
       name_tabl = @scope.name.titleize.split.join('_').downcase
       @access_record =
-        @user.template_roles.where("resource_names.table_name = ?",
-          name_tabl).joins(action_name: :resource_name)
+        @user.template_accesses.where("enum_resources.resource_name = ?", name_tabl)
     end
 
     def resolve
@@ -63,7 +61,7 @@ class ApplicationPolicy
     private
 
     def access_set(action_name)
-      type_access = @access_record.where("action_apps.action_app_name = ?", action_name).
+      type_access = @access_record.where("enum_actions.action_name = ?", action_name).
                     joins(action_name: :action_app).pluck(:type_access)
 
       type_access.join if type_access.present?

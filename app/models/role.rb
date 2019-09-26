@@ -5,7 +5,7 @@ class Role < ApplicationRecord
   SUPER_ADMIN_ID = 4
 
   has_many :users, dependent: :restrict_with_error
-  has_many :template_roles, dependent: :delete_all
+  has_many :template_accesses, dependent: :delete_all
 
   validates :name, presence: true
 end

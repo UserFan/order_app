@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  mount_uploader :avatar, ImageUploader
+  #mount_uploader :avatar, ImageUploader
 
   belongs_to :role
   #has_many :performers, dependent: :restrict_with_error
@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :shops, through: :employees, foreign_key: :user_id
   has_many :performers, through: :employees, foreign_key: :user_id
   has_many :task_performers, through: :employees, foreign_key: :user_id
-  has_many :template_roles, through: :role, foreign_key: :role_id
+  has_many :template_accesses, through: :role, foreign_key: :role_id
 
 
   has_one :profile, dependent: :destroy

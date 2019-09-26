@@ -27,7 +27,7 @@
       .col-5
         = search_form_for [@q] do |f|
           .input-group.pb-4
-            = f.input_field :serial_num_esp_or_rsa_serial_or_shop_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+            = f.search_field :serial_num_esp_or_rsa_serial_or_shop_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
             span.input-group-append
               button.btn.btn-outline-secondary type="submit"
                 span.fa.fa-search

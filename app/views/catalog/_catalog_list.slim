@@ -17,7 +17,7 @@
           .col-sm-12.col-md-6
             = search_form_for (q) do |f|
               .input-group.my-4
-                = f.input_field :name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+                = f.search_field :name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
                 span.input-group-append
                   button.btn.btn-outline-secondary type="submit"
                     span.fa.fa-search

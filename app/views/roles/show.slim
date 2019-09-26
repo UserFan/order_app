@@ -22,15 +22,15 @@
                     th.text-center.edit-control
                       i.fa.fa-list
                 tbody
-                  - @template_roles.order(:action_name_id).each do |template_role|
+                  - @template_accesses.order(:enum_resource.name).each do |template_access|
                     tr
                       td
-                        = template_role.resource_name_action_app_name
-                        = content_tag(:span, "Разрешения: #{template_role.type_access}", class: "small d-md-none d-block text-success")
-                      td.d-none.d-sm-table-cell = template_role.t_enum("type_access")
+                        = template_access.enum_resource.name
+                        //= content_tag(:span, "Разрешения: #{template_.type_access}", class: "small d-md-none d-block text-success")
+                      td.d-none.d-sm-table-cell = template_access.enum_type_access.name
                       td.row-skip.edit-control
-                        - if policy(template_role).edit?
-                          = link_to edit_role_template_role_path(template_role_id: template_role.id, role_id: template_role.role.id), data: { toggle: 'tooltip', placement: 'bottom' },
+                        - if policy(template_access).edit?
+                          = link_to edit_role_template_access_path(template_access_id: template_access.id, role_id: template_access.role.id), data: { toggle: 'tooltip', placement: 'bottom' },
                              title: "Корректировка данных" do
                                span.fa.fa-pencil-alt.edit-button
   .row.justify-content-end.p-0.m-0

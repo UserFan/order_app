@@ -5,11 +5,11 @@ class TypePolicy < ApplicationPolicy
   end
 
   def edit?
-    access_type?('edit') || !(1..4).include?(record.id)
+    access_set('edit') || !(1..4).include?(record.id)
   end
 
   def destroy?
-    access_type?('destroy') || !(1..4).include?(record.id)
+    access_set('destroy') || !(1..4).include?(record.id)
   end
 
   def permitted_attributes
