@@ -61,7 +61,6 @@ unless EnumTypeAccess.any?
   EnumTypeAccess.create(id: 4, name: 'Полный доступ')
 end
 
-
 unless EnumResource.any?
   EnumResource.create(name: "Заявка", resource_name: "order", enum_action_id: 1)
   EnumResource.create(name: "Поручения", resource_name: "task", enum_action_id: 1)

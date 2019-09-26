@@ -24,17 +24,16 @@ class RolesController < ApplicationController
     enum_resource = EnumResource.all
     enum_resource.each do |enum_resource|
       unless @template_accesses.present?
-        @role.template_accesses.create!(role_id: @role.id,
+        @role.template_accesses.create!(
                                      enum_resource_id: enum_resource.id,
-                                     enum_type_access_id: EnumTypeAccess::NOTALLOWED,
+                                     enum_type_access_id: 1,
                                      user_id: 0,
                                      name: @role.name)
       else
-        @role.template_accesses.create!(role_id: @role.id,
-          enum_resource_id: enum_resource.id,
-          enum_type_access_id: EnumTypeAccess::NOTALLOWED,
+        @role.template_accesses.create!(enum_resource_id: enum_resource.id,
+          enum_type_access_id: 1,
           user_id: 0,
-          name: @role.name) unless @template_accesses.find_by(role_id: @role.id, enum_resource_id: enum_resource)
+          name: @role.name) unless @template_accesses.find_by(role_id: @role.id, enum_resource_id: enum_resource.id)
       end
     end
   end

@@ -22,7 +22,7 @@
                     th.text-center.edit-control
                       i.fa.fa-list
                 tbody
-                  - @template_accesses.order(:enum_resource.name).each do |template_access|
+                  - @template_accesses.order(:enum_resource_id).each do |template_access|
                     tr
                       td
                         = template_access.enum_resource.name

@@ -55,6 +55,6 @@ class TemplateAccessesController < ApplicationController
 
   def set_role
     @role = Role.find(params[:role_id])
-    @template_access = TemplateAccess.find(params[:template_role_id])
+    @template_access = TemplateAccess.find(params[:template_access_id])
   end
 end
