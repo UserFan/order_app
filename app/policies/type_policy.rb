@@ -5,16 +5,15 @@ class TypePolicy < ApplicationPolicy
   end
 
   def edit?
-    return false if (1..4).include?(record.id)
-    super
+    access_set('edit') || !(1..4).include?(record.id)
   end
 
   def destroy?
-    edit?
+    access_set('destroy') || !(1..4).include?(record.id)
   end
 
   def permitted_attributes
-    [:name] if user.super_admin? || user.moderator?
+    [:name] if user.super_admin? || (access_type?('edit') || access_type?('new'))
   end
 
 end

@@ -38,6 +38,11 @@ class Shop < ApplicationRecord
                                AND (employees.work_end_date is null
                                OR employees.work_end_date > ?)", Date.today,
                                Date.today).where(employees: {user_id: user}) }
+  scope :roles, -> (user) { user.template_roles.where(
+                            resource_names: {table_name: "shop"},
+                            action_apps: {action_app_name: "export"}).
+                            joins(action_name: [:action_app, :resource_name]).
+                            pluck(:type_access) }
 
 
   validates :name, :address, presence: true

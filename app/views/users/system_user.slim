@@ -9,7 +9,7 @@
     .col-sm-12.col-md-5
       = search_form_for @q do |f|
         .input-group.my-4
-          = f.input_field :profile_full_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+          = f.search_field :profile_full_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
           span.input-group-append
             button.btn.btn-outline-secondary type="submit"
               span.fa.fa-search
@@ -37,4 +37,3 @@
                 = content_tag(:span, "Кол-во рег-ции в системе: #{user.sign_in_count}", class: "small text-secondary")
               td.d-none.d-sm-table-cell = user.email
               td.d-none.d-sm-table-cell = user.role.name
-        

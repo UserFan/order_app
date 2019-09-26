@@ -1,13 +1,8 @@
 class ShopPolicy < ApplicationPolicy
 
-
   def destroy?
     return false if record.closed.present?
     user.moderator? || user.super_admin?
-  end
-
-  def index?
-    true
   end
 
   def show_unit?
@@ -15,34 +10,51 @@ class ShopPolicy < ApplicationPolicy
   end
 
   def import_version?
-    user.super_admin?
+    access_all?('cash_version_update') ||
+    user.super_admin? ||
+    shop_user?('cash_version_update')
+    #binding.pry
   end
 
-  def list?
-    user.moderator? || user.super_admin? ||
-    user.guide? || record.user == user
-  end
-
-  def show?
-    user.moderator? || user.super_admin? ||
-    user.guide? || record.user == user
+  def cash_images?
+    show?
   end
 
   def show_specialty?
-    import_version?
+    show?
+  end
+
+  def show?
+    super ||
+    shop_user?('show')
+  end
+
+  def show_info?(action_tabl)
+    access_info?(action_tabl, 'show') || user.super_admin?
+  end
+
+  def export_xls?(action_tabl)
+    access_info?(action_tabl, 'export') || user.super_admin?
   end
 
   def version_update?
-    import_version?
+    user.super_admin?
   end
 
   def export_shops?
-    import_version?
+    access_all?('export') || access_only?('export') || user.super_admin?
   end
 
-  def service_show?
-    import_version?
+  class Scope < Scope
+    def resolve
+      if access_set('index') == 'allowed_all' || user.super_admin?
+        scope.all
+      elsif access_set('index') == 'allowed_current'
+        scope.where(id: user.current_shops)
+      end
+    end
   end
+
 
   def permitted_attributes
     [:name, :email, :address, :type_id, :photo, :closed, :orders_take,
@@ -54,15 +66,45 @@ class ShopPolicy < ApplicationPolicy
                             :fiscal_id, :fiscal_sn, :organization_unit_id,
                             :cashbox_photos_id, :ip_cash, :comment, :_destroy,
      cash_images_attributes: [:id, :cashbox_id, :date_add, :_destroy, images: []]],
-     computers_attributes: [:id, :shop_id, :display_id, :display_sn, :system_unit_id,
-                            :system_unit_sn, :keyboard_id, :keyboard_sn,
-                            :commouse_id, :commouse_sn, :stabilizer_id, :stabilizer_sn,
-                            :printer_id, :printer_sn, :teamview_id, :ip_address, :comment, :_destroy],
-     shop_weighers_attributes: [:id, :shop_id, :weigher_id, :weigher_sn, :ip_address, :comment, :_destroy],
-     shop_communications_attributes: [:id, :shop_id, :router_id, :router_sn, :_destroy,
-     item_communications_attributes: [:id, :shop_communication_id, :provider_id, :communication_id,
-                                      :modem_id, :modem_sn, :sim_card_id, :master,
-                                      :login_name, :pass_name, :comment, :_destroy]]] if user.super_admin? || user.moderator?
+     computers_attributes: [:id, :shop_id, :display_id, :display_sn,
+                            :system_unit_id, :system_unit_sn, :keyboard_id,
+                            :keyboard_sn, :commouse_id, :commouse_sn,
+                            :stabilizer_id, :stabilizer_sn, :printer_id,
+                            :printer_sn, :teamview_id, :ip_address, :comment,
+                             :_destroy],
+     shop_weighers_attributes: [:id, :shop_id, :weigher_id, :weigher_sn,
+                                :ip_address, :comment, :_destroy],
+     shop_communications_attributes: [:id, :shop_id, :router_id, :router_sn,
+                                      :_destroy,
+     item_communications_attributes: [:id, :shop_communication_id, :provider_id,
+                                      :communication_id, :modem_id, :modem_sn,
+                                      :sim_card_id, :master, :login_name,
+                                      :pass_name, :comment,
+                                      :_destroy]]] if user.super_admin? ||
+                                                      (access_type?('edit') ||
+                                                      access_type?('new'))
+  end
+
+  private
+
+  def shop_user?(action_name)
+    user.current_shops.where(id: shop.id).exists? if access_only?(action_name)
+  end
+
+  def shop
+   record
+  end
+
+  def access_info?(tabl_name, action_name)
+    type_access =
+      user.template_roles.where("resource_names.table_name = ? AND action_apps.action_app_name = ?",
+        tabl_name, action_name).joins(action_name: [:action_app, :resource_name]).pluck(:type_access)
+    if type_access.present?
+      return true if type_access.join == 'allowed_all'
+      user.current_shops.where(id: shop.id).exists? if type_access.join == 'allowed_current'
+    else
+      return false
+    end
   end
 
 end

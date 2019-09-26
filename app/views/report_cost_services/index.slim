@@ -1,0 +1,55 @@
+.container
+  .row.justify-content-end
+    h2.font-weight-bold Перечень отчетов
+  hr.mt-1
+  .row.justify-content-end
+    .col-12.col-md-5
+      = search_form_for (@q) do |f|
+        .input-group.pb-4
+          = f.search_field :date_report_or_name_report_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+          span.input-group-append
+            button.btn.btn-outline-secondary type="submit"
+              span.fa.fa-search
+  .row
+    .col-12.col-md-12
+      .row.pb-4
+        .col-3
+          = link_to "Сформировать отчет", new_report_cost_service_path, class: "btn btn-outline-success btn-sm" if policy(ReportCostService).new?
+      .row
+        .col-12.col-md-12
+          table.table.table-hover
+            thead.thead-light.text-dark
+              tr.text-dark
+                th.d-none.d-sm-table-cell =sort_link(@q, :date_report, 'Период', default_order: :desc)
+                th =sort_link(@q, :name_report, 'Наименование отчета', default_order: :asc)
+                th.d-none.d-sm-table-cell =sort_link(@q, :status_id, 'Статус', default_order: :asc)
+                /th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Объект', default_order: :asc)
+                th.text-center.edit-control
+                  i.fa.fa-list
+            tbody
+              - @report_services.each do |report|
+                tr
+                  td.d-none.d-sm-table-cell = l(report.date_report, format: :month_year)
+                  td
+                    = report.name_report
+                    = content_tag(:span, "Дата: #{l(report.date_report, format: :month_year)}", class: "small d-md-none d-block text-muted")
+                    = content_tag(:span, "Статус: #{report.status.name}", class: "small d-md-none d-block text-info")
+                  td.d-none.d-sm-table-cell = report.status.name
+                  td.row-skip.edit-control
+                    - if policy(report).edit?
+                      = link_to edit_report_cost_service_path(id: report), data: { toggle: 'tooltip', placement: 'bottom' },
+                         title: "Корректировка отчета" do
+                           span.fa.fa-pencil-alt.edit-button
+                    - if policy(report).destroy?
+                      = link_to report_cost_service_path(id: report), method: :delete, data: { confirm: "Вы действительно хотите удалить отчет?",
+                        toggle: 'tooltip', placement: 'bottom' }, title: "Удалить отчет" do
+                           span.far.fa-trash-alt.edit-button
+                    - if policy(report).show?
+                      = link_to report_cost_service_path(id: report), data: { toggle: 'tooltip', placement: 'bottom' },
+                        title: "Просмотр отчета" do
+                          span.far.fa-eye.edit-button
+                    - if policy(report).report_service?
+                      = link_to report_service_report_cost_service_path(id: report, format: "xlsx"),
+                        data: { confirm: "Экспорт в (формате XLSX). Вы действительно выгрузить отчет?",
+                        toggle: 'tooltip', placement: 'bottom' }, title: "Экспорт в (формате XLSX)" do
+                           span.fas.fa-file-excel.fa-lg.edit-button

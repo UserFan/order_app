@@ -1,0 +1,20 @@
+= simple_form_for @report_service,
+  defaults: { input_html: { class: 'form-control-sm' } } do |f|
+  = f.error_notification
+  .row
+    .col-12.col-md-4.form-control-sm
+      = f.input :date_report, as: :datemonth_picker, required: true,
+                id: 'date_report', disabled: (true unless f.object.new_record?),
+                input_html: { class: '.month_mask form-control-sm' }
+    .col-12.col-md-8.form-control-sm
+      = f.association :status, disabled: (true if f.object.new_record?)
+    .col-12.col-md-12.form-control-sm
+      = f.input :name_report, required: true
+    .col-12.col-md-12.form-control-sm
+      = f.input :type_service, collection: @type_services, label_method: :name,
+                 value_method: :id, include_blank: true
+    .col-12.col-md-12.form-control-sm
+      = f.input :comment, as: :text, placeholder: "Коментарий"
+  .form-group.float-right.mb-0.mt-3
+    = f.submit f.object.new_record? ? 'Сформировать' : 'Сохранить', class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", report_cost_services_path, class: "btn btn-outline-secondary m-1 btn-sm"

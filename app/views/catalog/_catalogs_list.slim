@@ -1,27 +1,58 @@
 .row
   .list-group.pt-5
-    = link_to 'Должности', positions_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Категория заявок', categories_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Банки', bank_units_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Организация', organization_units_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Фиксальные аппараты', fiscals_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Статус заявок', statuses_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Типы объектов', types_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Мониторы', displays_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Системный блок', system_units_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Клавиатура', keyboards_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Манипуляторы (мышь)', commouses_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Принтеры (МФУ)', printers_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Стабилизаторы напряжения', stabilizers_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Источник бесперебойного питания', apcs_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Весы', weighers_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Сканеры', scaners_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Роутеры', routers_path, class: "list-group-item list-group-item-action p-2"
-    = link_to '4G-модемы', modems_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Операторы связи', providers_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Сим карты', sim_cards_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Тип связи', communications_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Тип носителя', carrier_types_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Тип сервисного обслуживания', equipment_types_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Тип расхода', cost_types_path, class: "list-group-item list-group-item-action p-2"
-    = link_to 'Тип документа', type_documents_path, class: "list-group-item list-group-item-action p-2"
+    = link_to 'Должности', positions_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:position).index?
+    = link_to 'Категория заявок', categories_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:category).index?
+    = link_to 'Банки', bank_units_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:bank_unit).index?
+    = link_to 'Организация', organization_units_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:organization_unit).index?
+    = link_to 'Фиксальные аппараты', fiscals_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:fiscal).index?
+    = link_to 'Статус заявок', statuses_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:status).index?
+    = link_to 'Типы объектов', types_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:type).index?
+    = link_to 'Мониторы', displays_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:display).index?
+    = link_to 'Системный блок', system_units_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:system_unit).index?
+    = link_to 'Клавиатура', keyboards_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:keyboard).index?
+    = link_to 'Манипуляторы (мышь)', commouses_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:commouse).index?
+    = link_to 'Принтеры (МФУ)', printers_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:printer).index?
+    = link_to 'Стабилизаторы напряжения', stabilizers_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:stabilizer).index?
+    = link_to 'Источник бесперебойного питания', apcs_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:apc).index?
+    = link_to 'Весы', weighers_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:weigher).index?
+    = link_to 'Сканеры', scaners_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:scaner).index?
+    = link_to 'Роутеры', routers_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:router).index?
+    = link_to '4G-модемы', modems_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:modem).index?
+    = link_to 'Операторы связи', providers_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:provider).index?
+    = link_to 'Сим карты', sim_cards_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:sim_card).index?
+    = link_to 'Тип связи', communications_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:communication).index?
+    = link_to 'Тип носителя', carrier_types_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:carrier_type).index?
+    = link_to 'Тип сервисного обслуживания', equipment_types_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:equipment_type).index?
+    = link_to 'Тип расхода', cost_types_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:cost_type).index?
+    = link_to 'Тип документа', type_documents_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:type_document).index?
+    = link_to 'Ресурсы', resource_names_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:resource_name).index?
+    = link_to 'Настройка доступа', action_names_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:action_name).index?
+    = link_to 'Действия в приложении', action_apps_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:action_app).index?

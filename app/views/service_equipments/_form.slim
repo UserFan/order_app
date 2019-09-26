@@ -8,7 +8,8 @@
                 placeholder: "ДД.ММ.ГГГГ", id: 'date_service',
                 input_html: { class: 'date_mask form-control-sm' }
     .col-12.col-md-8.form-control-sm
-      = f.association :shop, disabled: (true unless f.object.new_record?)
+      = f.association :shop, collection: @shops, label_method: :name, value_method: :id,
+                      disabled: (true unless f.object.new_record?)
     .col-12.col-md-8.form-control-sm
       = f.association :equipment_type, label_method: :name, value_method: :id,
                       include_blank: false

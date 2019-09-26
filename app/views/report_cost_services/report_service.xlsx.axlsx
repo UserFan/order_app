@@ -1,0 +1,42 @@
+wb = xlsx_package.workbook
+wb.use_autowidth = true
+
+wb.styles do |s|
+ caption_style = s.add_style bg_color: "F87CEFA", fg_color: "00",
+                             alignment: { horizontal: :center,
+                                          vertical: :center,
+                                          wrap_text: true},
+                             border: { style: :thin, color: "00" }
+
+ content_style_h = { bg_color: "FFFFFE0", fg_color: "00",
+                     alignment: { vertical: :center},
+                     border: { style: :thin, color: "00" } }
+
+ content_style = s.add_style(content_style_h)
+ content_date_style = s.add_style content_style_h.merge(format_code: "dd.mm.yyyy")
+
+ caption_service = []
+ caption_service.push('№ п/п', I18n.t('report_service.date_service'),
+                  I18n.t('report_service.shop'),
+                  I18n.t('report_service.type_service'),
+                  I18n.t('report_service.amount'))
+
+  wb.add_worksheet(name: "Report") do |sheet|
+
+    sheet.add_row ["#{I18n.t('report_service.name_report')} #{@report_service.name_report}"]
+    sheet.add_row ["#{I18n.t('report_service.date_report')} #{l(@report_service.date_report, format: :month_year)}"]
+    sheet.add_row []
+    sheet.add_row (caption_service), style: caption_style
+    service_count = 1 if service_count.nil?
+    @services.each do |service|
+      data_xls = []
+      data_xls.push(service_count, service.date_service, service.shop.name, service.equipment_type.name, service.amount)
+      sheet.add_row data_xls, types: [nil, nil, :string, :string, nil],
+                              style: [content_style, content_date_style, content_style,
+                                      content_style, content_style]
+      sheet.column_widths 4.5, 11.5, nil, nil, nil
+      sheet.rows[3].height = 35
+      service_count += 1
+    end
+  end
+end

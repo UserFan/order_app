@@ -1,7 +1,3 @@
-class CommousePolicy < ApplicationPolicy
-
-  def permitted_attributes
-    [:name] if user.super_admin? || user.moderator?
-  end
-
+class CommousePolicy < CatalogPolicy
+  
 end

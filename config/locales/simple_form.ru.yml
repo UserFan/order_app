@@ -1,4 +1,3 @@
-
 ru:
   errors:
     messages:
@@ -14,6 +13,18 @@ ru:
       min_size_error: "Размер файла должен быть больше, чем %{min_size}"
       max_size_error: "Размер файла должен быть меньше, чем %{max_size}"
   simple_form:
+    options:
+      template_role:
+        type_access:
+          all_access: "Полный доступ"
+          create_access: "Создание"
+          edit_access: "Корректировка"
+          destroy_access: "Удаление"
+          show_access: "Просмотр"
+          index_access: "Список"
+          current_access: "Доступ только своим данным"
+          record_all_access: "Доступ данным всех"
+          none_access: "Доступ запрещен"
     labels:
       user:
         new:
@@ -552,33 +563,61 @@ ru:
           equipment_type: "Тип сервиса:"
           amount: "На сумму:"
           description: "Описание:"
+          shop: "Объект"
         edit:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
           amount: "На сумму:"
           description: "Описание:"
+          shop: "Объект"
       service_equipments:
         new:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
           amount: "На сумму:"
           description: "Описание:"
+          shop: "Объект"
         edit:
           date_service: "Дата:"
           equipment_type: "Тип сервиса:"
           amount: "На сумму:"
           description: "Описание:"
-      cost_equipment:
+          shop: "Объект"
+      action_app:
         new:
-          date_cost: "Дата:"
-          cost_type: "Тип расхода:"
-          amount: "На сумму:"
-          description: "Описание:"
+          name: "Наименование:"
+          action_app_name: "Действия в приложении:"
         edit:
-          date_cost: "Дата:"
-          cost_type: "Тип расхода:"
-          amount: "На сумму:"
-          description: "Описание:"    
+          name: "Наименование:"
+          action_app_name: "Действия в приложении:"
+      action_name:
+        new:
+          resource_name: "Ресурс:"
+          action_app: "Действия в приложении:"
+        edit:
+          resource_name: "Ресурс:"
+          action_app: "Действия в приложении:"
+      resource_name:
+        new:
+          name: "Наименование:"
+          table_name: "Ресурс:"
+        edit:
+          name: "Наименование:"
+          table_name: "Ресурс:"
+      template_role:
+        new:
+          name: "Роль в системы:"
+          action_name: "Действия в ресурсе"
+          type_access: "Разрешения:"
+        edit:
+          name: "Роль в системы:"
+          action_name: "Действия в ресурсе"
+          type_access: "Разрешения:"
+      role:
+        new:
+          name: "Наименование:"
+        edit:
+          name: "Наименование:"
     required:
       text: "Обязательное поле"
       mark: "*"

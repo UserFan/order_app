@@ -14,7 +14,7 @@ class EspsController < ApplicationController
   end
 
   def edit
-    authorize @esp
+    authorize @esp    
   end
 
   def create

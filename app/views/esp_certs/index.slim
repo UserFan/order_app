@@ -27,7 +27,7 @@
       .col-5
         = search_form_for [@q] do |f|
           .input-group.pb-4
-            = f.input_field :serial_num_esp_or_rsa_serial_or_shop_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+            = f.search_field :serial_num_esp_or_rsa_serial_or_shop_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
             span.input-group-append
               button.btn.btn-outline-secondary type="submit"
                 span.fa.fa-search
@@ -48,9 +48,17 @@
               th =sort_link(@q, :shop_name, 'Объект', default_order: :asc)
           tbody
             - @esp_certs.each do |esp_cert|
-              tr
-                td = link_to "#{esp_cert.serial_num_esp}", shop_esps_path(shop_id: esp_cert.shop)
-                td = l(esp_cert.date_end_esp, format: :date)
-                td = esp_cert.rsa_serial
-                td = l(esp_cert.date_end_rsa, format: :date)
-                td = esp_cert.shop.name
+              - if policy(esp_cert.esp).show?
+                tr
+                  td = link_to "#{esp_cert.serial_num_esp}", shop_esps_path(shop_id: esp_cert.shop)
+                  td = l(esp_cert.date_end_esp, format: :date)
+                  td = esp_cert.rsa_serial
+                  td = l(esp_cert.date_end_rsa, format: :date)
+                  td = esp_cert.shop.name
+              - else
+                tr.table-danger
+                  td.table-danger colspan="4" Нет доступа для просмотра!
+                  / td.table-danger Нет доступа для просмотра!
+                  / td.table-danger Нет доступа для просмотра!
+                  / td.table-danger Нет доступа для просмотра!
+                  td.table-danger = esp_cert.shop.name

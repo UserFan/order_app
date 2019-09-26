@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190410091217) do
+ActiveRecord::Schema.define(version: 2019_09_26_101452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,46 @@ ActiveRecord::Schema.define(version: 20190410091217) do
     t.index ["position_id"], name: "index_employees_on_position_id"
     t.index ["shop_id"], name: "index_employees_on_shop_id"
     t.index ["user_id"], name: "index_employees_on_user_id"
+  end
+
+  create_table "enum_actions", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "action_name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "enum_equipments", force: :cascade do |t|
+    t.string "make_name", default: "", null: false
+    t.bigint "enum_type_equipment_id", default: 1, null: false
+    t.string "serial_number", default: ""
+    t.string "qr_code", default: ""
+    t.text "feature", default: ""
+    t.jsonb "image_equipment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["enum_type_equipment_id"], name: "index_enum_equipments_on_enum_type_equipment_id"
+  end
+
+  create_table "enum_resources", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "resource_name", default: "", null: false
+    t.bigint "enum_action_id", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["enum_action_id"], name: "index_enum_resources_on_enum_action_id"
+  end
+
+  create_table "enum_type_accesses", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "enum_type_equipments", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "equipment_types", force: :cascade do |t|
@@ -365,6 +405,7 @@ ActiveRecord::Schema.define(version: 20190410091217) do
     t.string "comment", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name_report", default: "", null: false
     t.index ["status_id"], name: "index_report_cost_services_on_status_id"
   end
 
@@ -556,6 +597,20 @@ ActiveRecord::Schema.define(version: 20190410091217) do
     t.index ["status_id"], name: "index_tasks_on_status_id"
     t.index ["structural_id"], name: "index_tasks_on_structural_id"
     t.index ["type_document_id"], name: "index_tasks_on_type_document_id"
+  end
+
+  create_table "template_accesses", force: :cascade do |t|
+    t.bigint "role_id", default: 0, null: false
+    t.bigint "enum_resource_id", default: 0, null: false
+    t.bigint "user_id", default: 0, null: false
+    t.bigint "enum_type_access_id", default: 0, null: false
+    t.string "name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["enum_resource_id"], name: "index_template_accesses_on_enum_resource_id"
+    t.index ["enum_type_access_id"], name: "index_template_accesses_on_enum_type_access_id"
+    t.index ["role_id"], name: "index_template_accesses_on_role_id"
+    t.index ["user_id"], name: "index_template_accesses_on_user_id"
   end
 
   create_table "type_documents", force: :cascade do |t|

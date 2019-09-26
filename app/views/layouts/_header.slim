@@ -12,18 +12,30 @@ nav.navbar.sticky-top.navbar-expand-sm.bg-dark.navbar-dark
             a#navbarDropdownMenuLink.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
               = current_user.full_name
             .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
-              = link_to 'Заявки', orders_path, class: "dropdown-item"
-              = link_to 'Контрольная карточка', tasks_path, class: "dropdown-item"
-              = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item"
-              = link_to 'Структурное подразделения', shops_path(unit: 'structural'), class: "dropdown-item"
-              = link_to 'Торговые объекты', shops_path(unit: 'shop'), class: "dropdown-item"
-              - if current_user.moderator? || current_user.super_admin?
+              - if policy(:pages).menu_item?('menu_order')
+                = link_to 'Заявки', orders_path, class: "dropdown-item"
+              - if policy(:pages).menu_item?('menu_task')
+                = link_to 'Контрольная карточка', tasks_path, class: "dropdown-item"
+              = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item" if policy(:pages).menu_item?('menu_profile')
+              = link_to 'Структурное подразделения', shops_path(unit: 'structural'), class: "dropdown-item" if policy(:pages).menu_item?('menu_structural')
+              = link_to 'Торговые объекты', shops_path(unit: 'shop'), class: "dropdown-item" if policy(:pages).menu_item?('menu_shop')
+              - if policy(:pages).menu_item?('menu_esp')
                 = link_to 'ЭЦП', esp_certs_path, class: "dropdown-item"
+              - if policy(:pages).menu_item?('menu_service')
                 = link_to 'Сервисное обслуживания', service_equipments_path, class: "dropdown-item"
+              - if policy(:pages).menu_item?('menu_report')
                 .dropdown-divider
-                = link_to 'Пользователи системы', system_user_path, class: "dropdown-item"
+                = link_to 'Отчеты', report_cost_services_path, class: "dropdown-item"
+              - if policy(:pages).menu_item?('menu_access')
+                .dropdown-divider
+                = link_to 'Пользователи системы', system_user_path, class: "dropdown-item" if policy(:pages).menu_item?('menu_user_access')
+                = link_to 'Шаблон доступа', roles_path, class: "dropdown-item" if policy(:pages).menu_item?('menu_templates_access')
+              - if policy(:pages).menu_item?('catalog')
+                .dropdown-divider
                 = link_to 'Справочники', catalog_path, class: "dropdown-item"
-                = link_to 'Сотрудники', users_path, class: "dropdown-item"
+                - if policy(:pages).menu_item?('menu_employee')
+                  .dropdown-divider
+                  = link_to 'Сотрудники', users_path, class: "dropdown-item"
               .dropdown-divider
               = link_to 'Выход', destroy_user_session_path, method: 'delete', class: "dropdown-item"
               /! Dropdown

@@ -1,0 +1,9 @@
+= simple_form_for @role,
+  defaults: { input_html: { class: 'form-control-sm' } } do |f|
+  = f.error_notification
+  .row
+    .col-12.form-control-sm
+      = f.input :name, required: true
+  .form-group.float-right.mb-0.mt-3
+    = f.submit 'Сохранить', class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", :back, class: "btn btn-outline-secondary m-1 btn-sm"

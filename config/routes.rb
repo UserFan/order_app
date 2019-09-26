@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-
+  root  'pages#home'
 
   post '/rate' => 'rater#create', :as => 'rate'
   #devise_for :users, controllers: { registrations: 'registrations' }
@@ -11,16 +11,16 @@ Rails.application.routes.draw do
 
   match '/catalog', to: 'pages#catalog', via: 'get'
 
-  #resources :positions
   scope ":unit" do
     resources :shops do
       get 'import_version', on: :member #format: 'json'
+      get 'cash_images', on: :member, defaults: { format: :js }
       resources :esps do
         resources :esp_certs, only: [:new, :create, :edit, :update, :destroy]
       end
     end
   end
-  scope 'catalog' do
+  scope module: :catalog do
     resources :positions
     resources :types
     resources :categories
@@ -41,13 +41,14 @@ Rails.application.routes.draw do
     resources :bank_units
     resources :organization_units
     resources :fiscals
-    resources :sim_cards do
-      get 'sim_card_log', on: :member, defaults: { format: :js }
-    end
     resources :carrier_types
     resources :equipment_types
     resources :cost_types
     resources :type_documents
+    resources :sim_cards do
+      get 'sim_card_log', on: :member, defaults: { format: :js }
+    end
+
   end
 
   resources :orders do
@@ -68,14 +69,25 @@ Rails.application.routes.draw do
 
   resources :task_executions do
     get 'coordination', on: :member, defaults: { format: :js }
-    #get 'coordination', to: 'task_executions#coordination', as: :coordination
     get 'coordination_master', on: :member
     get 'remove_control', on: :member
     resources :task_reworks, only: [:new, :create]
   end
+  resources :enum_resources
+  resources :roles do
+    resources :template_accesses, only: [:new, :create, :edit, :update]
+  end
+  #resources :action_apps
+  resources :enum_actions
   resources :service_equipments
   resources :cash_images, only: [:show]
   resources :esp_certs, only: [:index, :show]
+  resources :report_cost_services do
+    delete 'remove_service_report', on: :member
+    get 'closing_report', on: :member
+    get 'open_report', on: :member
+    get 'report_service', on: :member
+  end
   get :version_update_log, action: :version_update, controller: 'shops'
   get :export_shops, action: :export_shops, controller: 'shops'
   get :export_cert_xls, action: :export_xls, controller: 'esp_certs'
@@ -84,8 +96,4 @@ Rails.application.routes.draw do
   get 'user_open_access/:id', to: 'users#edit_open_user_access', as: :edit_open_access
   patch 'user_open_access/:id', to: 'users#open_user_access', as: :open_access
   resources :version_update_logs, only: [:index]
-
-
-  root  'pages#home'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

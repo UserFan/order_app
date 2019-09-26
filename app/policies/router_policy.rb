@@ -1,7 +1,3 @@
-class RouterPolicy < ApplicationPolicy
-
-  def permitted_attributes
-    [:name] if user.super_admin? || user.moderator?
-  end
-
+class RouterPolicy < CatalogPolicy
+  
 end

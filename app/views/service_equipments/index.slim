@@ -6,49 +6,49 @@
         | (#{@shop.name})
   hr.mt-1
   .row.justify-content-end
-    .col-12.col-md-5
-      = search_form_for (@q) do |f|
-        .input-group.pb-4
-          = f.input_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
-          span.input-group-append
-            button.btn.btn-outline-secondary type="submit"
-              span.fa.fa-search
+   .col-12.col-md-5
+     = search_form_for (@q) do |f|
+       .input-group.pb-4
+         = f.search_field :date_service_or_equipment_type_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+         span.input-group-append
+           button.btn.btn-outline-secondary type="submit"
+             span.fa.fa-search
   .row
-    .col-12.col-md-3
-      = render "control_navigation"
-      hr.d-md-none.d-block
-    .col-12.col-md-9
-      .row.pb-4
-        .col-3
-          = link_to "Добавить сервис", new_service_equipment_path(shop_id: params[:shop_id]), class: "btn btn-outline-success btn-sm" if policy(ServiceEquipment).new?
-      .row
-        .col-12.col-md-12
-          table.table.table-hover
-            thead.thead-light.text-dark
-              tr.text-dark
-                th.d-none.d-sm-table-cell =sort_link(@q, :date_service, 'Дата', default_order: :desc)
-                th =sort_link(@q, :equipment_type_name, 'Тип сервиса', default_order: :asc)
-                th.d-none.d-sm-table-cell =sort_link(@q, :amount, 'На сумму', default_order: :asc)
-                th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Объект', default_order: :asc)
-                th.text-center.edit-control
-                  i.fa.fa-list
-            tbody
-              - @equipments.each do |equipment|
-                tr
-                  td.d-none.d-sm-table-cell = l(equipment.date_service, format: :date)
-                  td
-                    = equipment.equipment_type.name
-                    = content_tag(:span, "Дата: #{l(equipment.date_service, format: :date)}", class: "small d-md-none d-block text-muted")
-                    = content_tag(:span, "Объект: #{equipment.shop.name}", class: "small d-md-none d-block text-success")
-                    = content_tag(:span, "На сумму: #{equipment.amount}", class: "small d-md-none d-block text-info")
-                  td.d-none.d-sm-table-cell = equipment.amount
-                  td.d-none.d-sm-table-cell = equipment.shop.name
-                  td.row-skip.edit-control
-                    - if policy(equipment).edit?
-                      = link_to edit_service_equipment_path(id: equipment, shop_id: equipment.shop_id, filter_shop: @shop_filter), data: { toggle: 'tooltip', placement: 'bottom' },
-                         title: "Корректировка данных" do
-                           span.fa.fa-pencil-alt.edit-button
-                    - if policy(equipment).destroy? && equipment.can_destroy?
-                      = link_to service_equipment_path(id: equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?",
-                        toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
-                           span.far.fa-trash-alt.edit-button
+   .col-12.col-md-3
+     = render "control_navigation"
+     hr.d-md-none.d-block
+   .col-12.col-md-9
+     .row.pb-4
+       .col-3
+         = link_to "Добавить сервис", new_service_equipment_path(shop_id: params[:shop_id]), class: "btn btn-outline-success btn-sm" if policy(ServiceEquipment).new_record?(params[:shop_id])
+     .row
+       .col-12.col-md-12
+         table.table.table-hover
+           thead.thead-light.text-dark
+             tr.text-dark
+               th.d-none.d-sm-table-cell =sort_link(@q, :date_service, 'Дата', default_order: :desc)
+               th =sort_link(@q, :equipment_type_name, 'Тип сервиса', default_order: :asc)
+               th.d-none.d-sm-table-cell =sort_link(@q, :amount, 'На сумму', default_order: :asc)
+               th.d-none.d-sm-table-cell =sort_link(@q, :description, 'Объект', default_order: :asc)
+               th.text-center.edit-control
+                 i.fa.fa-list
+           tbody
+             - @equipments.each do |equipment|
+               tr
+                 td.d-none.d-sm-table-cell = l(equipment.date_service, format: :date)
+                 td
+                   = equipment.equipment_type.name
+                   = content_tag(:span, "Дата: #{l(equipment.date_service, format: :date)}", class: "small d-md-none d-block text-muted")
+                   = content_tag(:span, "Объект: #{equipment.shop.name}", class: "small d-md-none d-block text-success")
+                   = content_tag(:span, "На сумму: #{equipment.amount}", class: "small d-md-none d-block text-info")
+                 td.d-none.d-sm-table-cell = equipment.amount
+                 td.d-none.d-sm-table-cell = equipment.shop.name
+                 td.row-skip.edit-control
+                   - if policy(equipment).edit?
+                     = link_to edit_service_equipment_path(id: equipment, shop_id: equipment.shop_id, filter_shop: @shop_filter), data: { toggle: 'tooltip', placement: 'bottom' },
+                        title: "Корректировка данных" do
+                          span.fa.fa-pencil-alt.edit-button
+                   - if policy(equipment).destroy? && equipment.can_destroy?
+                     = link_to service_equipment_path(id: equipment), method: :delete, data: { confirm: "Вы действительно хотите удалить заявку?",
+                       toggle: 'tooltip', placement: 'bottom' }, title: "Удалить запись" do
+                          span.far.fa-trash-alt.edit-button

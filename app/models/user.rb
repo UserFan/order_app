@@ -1,8 +1,9 @@
 class User < ApplicationRecord
-  mount_uploader :avatar, ImageUploader
+  #mount_uploader :avatar, ImageUploader
 
   belongs_to :role
   #has_many :performers, dependent: :restrict_with_error
+  has_many :role_priorities, as: :imageable
   has_many :orders, through: :employee, foreign_key: :user_id
   has_many :executions, through: :performers, foreign_key: :user_id
   has_many :reworks, dependent: :restrict_with_error
@@ -10,6 +11,8 @@ class User < ApplicationRecord
   has_many :shops, through: :employees, foreign_key: :user_id
   has_many :performers, through: :employees, foreign_key: :user_id
   has_many :task_performers, through: :employees, foreign_key: :user_id
+  has_many :template_accesses, through: :role, foreign_key: :role_id
+
 
   has_one :profile, dependent: :destroy
 
@@ -27,6 +30,17 @@ class User < ApplicationRecord
   delegate_missing_to :profile
 
   validates :role_id, presence: true
+
+  def current_employees
+    self.employees.employee_current_date
+  end
+
+  def current_shops
+    self.shops.where("employees.work_start_date <= ?
+    AND (employees.work_end_date is null
+    OR employees.work_end_date >= ?)",
+    Date.today, Date.today)
+  end
 
   def super_admin?
     role_id == Role::SUPER_ADMIN_ID

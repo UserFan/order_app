@@ -1,7 +1,3 @@
-class CarrierTypePolicy < ApplicationPolicy
-
-  def permitted_attributes
-    [:name] if user.super_admin? || user.moderator?
-  end
-
+class CarrierTypePolicy < CatalogPolicy
+  
 end

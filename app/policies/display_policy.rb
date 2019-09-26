@@ -1,7 +1,3 @@
-class DisplayPolicy < ApplicationPolicy
-
-  def permitted_attributes
-    [:name] if user.super_admin? || user.moderator?
-  end
+class DisplayPolicy < CatalogPolicy
 
 end

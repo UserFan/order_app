@@ -1,0 +1,16 @@
+= simple_form_for [@role, @template_access],
+  defaults: { input_html: { class: 'form-control-sm' } } do |f|
+  = f.error_notification
+  .row
+    .col-12.col-md-8.form-control-sm
+      = f.input :name, required: true, disabled: true
+  .row
+    .col-12.col-md-10.form-control-sm
+      = f.association :enum_resource, label_method: :resource_name, value_method: :id,
+                      include_blank: false, disabled: (true unless f.object.new_record?)
+  .row
+    .col-12.col-md-6.form-control-sm
+      = f.association :enum_type_access, label_method: :name, value_method: :id, include_blank: false
+  .form-group.float-right.mb-0.mt-3
+    = f.submit 'Сохранить', class: "btn btn-outline-success m-1 btn-sm"
+    = link_to "Отмена", :back, class: "btn btn-outline-secondary m-1 btn-sm"
