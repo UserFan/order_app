@@ -26,12 +26,12 @@
                th.text-center.edit-control
                  i.fa.fa-list
            tbody
-             - @enum_resources.each do |enum_resource|
+             - @enum_resources.order(:resource_name).each do |enum_resource|
                tr
                  td
                    = enum_resource.name
-                   = content_tag(:span, "Наименование ресурса: #{enum_resource.table_name}", class: "small d-md-none d-block text-muted")
-                 td.d-none.d-sm-table-cell = enum_resource.table_name
+                   = content_tag(:span, "Наименование ресурса: #{enum_resource.resource_name}", class: "small d-md-none d-block text-muted")
+                 td.d-none.d-sm-table-cell = enum_resource.resource_name
                  td.row-skip.edit-control
                    - if policy(enum_resource).edit?
                      = link_to edit_enum_resource_path(id: enum_resource), data: { toggle: 'tooltip', placement: 'bottom' },

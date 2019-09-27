@@ -6,21 +6,22 @@ class ApplicationPolicy
     @record = record
     name_tabl = self.class.name.split('Policy').join.titleize.split.join('_').downcase
     @access_record =
-      @user.template_accesses.where("enum_resources.resource_name = ?", name_tabl)
+      @user.template_accesses.where(enum_resources: { resource_name: name_tabl }).
+            includes(:enum_resource)
     #binding.pry
   end
 
   def index?
-    access_all?('index') || access_only?('index') || user.super_admin?
+    access_all?('default') || access_read?('default') || user.super_admin?
   end
 
   def show?
     scope.where(id: record.id).exists?
-    access_all?('show') || user.super_admin?
+    access_all?('default') || access_read?('default') || user.super_admin?
   end
 
   def create?
-    access_all?('new') || user.super_admin?
+    access_all?('default') || access_write?('default') || user.super_admin?
   end
 
   def new?
@@ -28,7 +29,7 @@ class ApplicationPolicy
   end
 
   def update?
-    access_all?('edit') || user.super_admin?
+    access_all?('default') || access_write?('default') || user.super_admin?
   end
 
   def edit?
@@ -36,7 +37,7 @@ class ApplicationPolicy
   end
 
   def destroy?
-    (access_all?('destroy') || user.super_admin?) && record.can_destroy?
+    (user.super_admin?) && record.can_destroy?
   end
 
   def scope
@@ -51,7 +52,8 @@ class ApplicationPolicy
       @scope = scope
       name_tabl = @scope.name.titleize.split.join('_').downcase
       @access_record =
-        @user.template_accesses.where("enum_resources.resource_name = ?", name_tabl)
+        @user.template_accesses.where(enum_resources: { resource_name: name_tabl }).
+                                      includes(:enum_resource)
     end
 
     def resolve
@@ -61,28 +63,36 @@ class ApplicationPolicy
     private
 
     def access_set(action_name)
-      type_access = @access_record.where("enum_actions.action_name = ?", action_name).
-                    joins(action_name: :action_app).pluck(:type_access)
+      type_access = @access_record.where(enum_actions: { action_name: action_name }).
+                    joins(enum_resource: :enum_action).pluck(:enum_type_access_id)
 
-      type_access.join if type_access.present?
+      type_access.join.to_i if type_access.present?
     end
   end
 
   private
 
-  def access_all?(action_name)
-    access_set(action_name) == 'allowed_all'
-  end
-
-  def access_only?(action_name)
-    access_set(action_name) == 'allowed_current'
-  end
-
   def access_set(action_name)
-    type_access = @access_record.where("action_apps.action_app_name = ?", action_name).
-                  joins(action_name: :action_app).pluck(:type_access)
+    type_access = @access_record.where(enum_actions: { action_name: action_name }).
+                  joins(enum_resource: :enum_action).pluck(:enum_type_access_id)
 
-    type_access.join if type_access.present?
+    type_access.join.to_i if type_access.present?
+  end
+
+  def access_all?(action_name)
+    access_set(action_name) == EnumTypeAccess::ALLALOWED
+  end
+
+  def access_read?(action_name)
+    access_set(action_name) == EnumTypeAccess::READONLY
+  end
+
+  def access_write?(action_name)
+    access_set(action_name) == EnumTypeAccess::READWRITEONLY
+  end
+
+  def access_not?(action_name)
+    access_set(action_name) == EnumTypeAccess::NOTALLOWED
   end
 
 end

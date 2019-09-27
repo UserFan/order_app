@@ -2,7 +2,7 @@ class ShopPolicy < ApplicationPolicy
 
   def destroy?
     return false if record.closed.present?
-    user.moderator? || user.super_admin?
+    user.super_admin?
   end
 
   def show_unit?
@@ -42,14 +42,14 @@ class ShopPolicy < ApplicationPolicy
   end
 
   def export_shops?
-    access_all?('export') || access_only?('export') || user.super_admin?
+    access_all?('export') || access_write?('export') || user.super_admin?
   end
 
   class Scope < Scope
     def resolve
-      if access_set('index') == 'allowed_all' || user.super_admin?
+      if access_set('default') == EnumTypeAccess::ALLALOWED || user.super_admin?
         scope.all
-      elsif access_set('index') == 'allowed_current'
+      elsif access_set('default') == (EnumTypeAccess::READONLY || EnumTypeAccess::READWRITEONLY)
         scope.where(id: user.current_shops)
       end
     end
@@ -95,13 +95,14 @@ class ShopPolicy < ApplicationPolicy
    record
   end
 
-  def access_info?(tabl_name, action_name)
+  def access_info?(resource_name, action_name)
     type_access =
-      user.template_roles.where("resource_names.table_name = ? AND action_apps.action_app_name = ?",
-        tabl_name, action_name).joins(action_name: [:action_app, :resource_name]).pluck(:type_access)
+      user.template_accesses.where(enum_resources: { resource_name: resource_name },
+        enum_actions: { action_name: action_name }).includes(:enum_resource).
+          joins(enum_resource: :enum_action).pluck(:enum_type_access_id)
     if type_access.present?
-      return true if type_access.join == 'allowed_all'
-      user.current_shops.where(id: shop.id).exists? if type_access.join == 'allowed_current'
+      return true if type_access.join.to_i == EnumTypeAccess::ALLALOWED
+      user.current_shops.where(id: shop.id).exists? if type_access.join.to_i == EnumTypeAccess::READWRITEONLY
     else
       return false
     end

@@ -50,9 +50,7 @@
       class: "list-group-item list-group-item-action p-2" if policy(:cost_type).index?
     = link_to 'Тип документа', type_documents_path,
       class: "list-group-item list-group-item-action p-2" if policy(:type_document).index?
-    = link_to 'Ресурсы', resource_names_path,
-      class: "list-group-item list-group-item-action p-2" if policy(:resource_name).index?
-    = link_to 'Настройка доступа', action_names_path,
-      class: "list-group-item list-group-item-action p-2" if policy(:action_name).index?
-    = link_to 'Действия в приложении', action_apps_path,
-      class: "list-group-item list-group-item-action p-2" if policy(:action_app).index?
+    = link_to 'Ресурсы', enum_resources_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:enum_resource).index?
+    = link_to 'Действия в приложении', enum_actions_path,
+      class: "list-group-item list-group-item-action p-2" if policy(:enum_action).index?

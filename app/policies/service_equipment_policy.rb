@@ -2,17 +2,17 @@ class ServiceEquipmentPolicy < ApplicationPolicy
 
   def index?
     super ||
-    shop_user?('index')
+    shop_user?('default')
   end
 
   def show?
     super ||
-    shop_user?('show')
+    shop_user?('default')
   end
 
   def create?
     super ||
-    shop_user?('new')
+    shop_user?('default')
   end
 
   def new?
@@ -33,26 +33,26 @@ class ServiceEquipmentPolicy < ApplicationPolicy
 
   def update?
     super ||
-    shop_user?('edit')
+    shop_user?('default')
   end
 
   def destroy?
     super ||
-    shop_user?('destroy')
+    shop_user?('default')
   end
 
   class Scope < Scope
     def resolve
-      if access_set('index') == 'allowed_all' || user.super_admin?
+      if access_set('default') == EnumTypeAccess::ALLALOWED || user.super_admin?
         scope.all
-      elsif access_set('index') == 'allowed_current'
+      elsif access_set('default') == (EnumTypeAccess::READONLY || EnumTypeAccess::READWRITEONLY)
         scope.where(shop_id: user.current_shops)
       end
     end
   end
 
   def new_only?
-    access_only?('new')
+    access_write?('default')
   end
 
 
@@ -64,14 +64,11 @@ class ServiceEquipmentPolicy < ApplicationPolicy
   private
 
   def shop_user?(action_name)
-    if access_only?(action_name)
-      if action_name == 'edit' || action_name == 'destroy'
-        user.current_shops.where(id: record.shop_id).exists?
-      else
-        record.where(shop_id: user.current_shops).exists?
-      end
+    if access_write?(action_name)
+      user.current_shops.where(id: record.shop_id).exists?
     else
-      return true if access_all?(action_name)
+      record.where(shop_id: user.current_shops).exists?
     end
+    return true if access_all?(action_name)
   end
 end

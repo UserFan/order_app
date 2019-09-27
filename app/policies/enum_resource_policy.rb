@@ -1,4 +1,4 @@
-class ResourceNamePolicy < ApplicationPolicy
+class EnumResourcePolicy < ApplicationPolicy
 
   def index?
     user.super_admin?
@@ -29,7 +29,7 @@ class ResourceNamePolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    [:name, :table_name] if user.super_admin? || (access_type?('edit') || access_type?('new'))
+    [:name, :resource_name, :enum_action_id] if user.super_admin?
   end
 
 end

@@ -47,9 +47,9 @@ class EspCertPolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      if access_set('index') == 'allowed_all' || user.super_admin?
+      if access_set('default') == EnumTypeAccess::ALLALOWED || user.super_admin?
         scope.all
-      elsif access_set('index') == 'allowed_current'
+      elsif access_set('default') == (EnumTypeAccess::READONLY || EnumTypeAccess::READWRITEONLY)
         scope.joins(:esp).where(esps: { shop_id: user.current_shops })
       end
     end
@@ -65,8 +65,8 @@ class EspCertPolicy < ApplicationPolicy
   def shop_user?(action_name)
     if access_all?(action_name)
       return true
-    elsif access_only?(action_name)
-      if action_name == 'edit' || action_name == 'destroy' || action_name == 'show'
+    elsif access_read?(action_name)
+      if action_name == 'default'
         user.current_shops.where(id: record.shop_id).exists?
       else
         record.joins(:esp).where(esps: { shop_id: user.current_shops }).exists?
