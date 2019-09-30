@@ -2,12 +2,13 @@ class EspPolicy < ApplicationPolicy
 
   def index?
     super ||
-    shop_user?('index')
+    shop_user?('default')
+    binding.pry
   end
 
   def show?
     super ||
-    shop_user?('show')
+    shop_user?('default')
   end
 
   def create?
@@ -24,16 +25,16 @@ class EspPolicy < ApplicationPolicy
 
   def update?
     super ||
-    shop_user?('edit')
+    shop_user?('default')
   end
 
   def destroy?
     super ||
-    shop_user?('destroy')
+    shop_user?('default')
   end
 
   def new_record?(shop)
-    if access_only?('new') && !shop.nil?
+    if access_write?('default') && !shop.nil?
       user.current_shops.where(id: shop).exists?
     else
       return true if create?
@@ -64,11 +65,8 @@ class EspPolicy < ApplicationPolicy
     if access_all?(action_name)
       return true
     elsif access_read?(action_name)
-      if action_name == 'default'
-        user.current_shops.where(id: record.shop_id).exists?
-      else
-        record.where(shop_id: user.current_shops).exists?
-      end
+      (user.current_shops.where(id: record.shop_id).exists? ||
+      record.where(shop_id: user.current_shops).exists?)
     end
   end
 
