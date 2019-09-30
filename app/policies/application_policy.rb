@@ -12,12 +12,14 @@ class ApplicationPolicy
   end
 
   def index?
-    access_all?('default') || access_read?('default') || user.super_admin?
+    access_all?('default') || access_read?('default') ||
+    access_write?('default') || user.super_admin?
   end
 
   def show?
     scope.where(id: record.id).exists?
-    access_all?('default') || access_read?('default') || user.super_admin?
+    access_all?('default') || access_read?('default') ||
+    access_write?('default') || user.super_admin?
   end
 
   def create?

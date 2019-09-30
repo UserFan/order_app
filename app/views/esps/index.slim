@@ -6,7 +6,8 @@
   hr
   .row.pb-4
     .col-sm-12.col-md-2
-      - if policy(Esp).new_record?(params[:shop_id])
+      /- if policy(Esp).new_record?(params[:shop_id])
+      - if policy(Esp).new?
         = link_to "Добавить носитель ЭЦП", new_shop_esp_path, class: "btn btn-outline-success  btn-sm"
   ol
     - @esps.each do |esp|
@@ -34,7 +35,8 @@
                 button.close aria-label="Close" data-dismiss="alert" type="button"
                  span aria-hidden="true"  &times;
       .row
-        - if policy(EspCert).new_record?(params[:shop_id])
+        /- if policy(EspCert).new_record?(params[:shop_id])
+        - if policy(EspCert).new?
           ul
             li = link_to "Добавить сертификат", new_shop_esp_esp_cert_path(esp_id: esp)
       .row

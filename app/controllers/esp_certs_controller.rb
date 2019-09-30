@@ -9,7 +9,6 @@ class EspCertsController < ApplicationController
     date_end = Date.today.end_of_month
     date_end_next = Date.today.next_month.end_of_month
     date_start_next =  date_start.next_month
-
     @q = policy_scope(EspCert).ransack(params[:q])
     @q.sorts = ['date_end_esp desc', 'created_at desc'] if @q.sorts.empty?
     @esp_certs = @q.result(disinct: true)
@@ -18,11 +17,13 @@ class EspCertsController < ApplicationController
     @count_esp_next_month = EspCert.count_cert_esp(date_start_next, date_end_next)
     @count_rsa_set_month =   EspCert.count_cert_rsa(date_start, date_end)
     @count_rsa_next_month = EspCert.count_cert_rsa(date_start_next, date_end_next)
+
   end
 
   def new
-    authorize EspCert
+    #authorize EspCert
     @esp_cert = @esp.esp_certs.build
+    authorize @esp_cert
   end
 
   def edit
@@ -30,8 +31,9 @@ class EspCertsController < ApplicationController
   end
 
   def create
-    authorize EspCert
+    #authorize EspCert
     @esp_cert = @esp.esp_certs.create(permitted_attributes(EspCert))
+    authorize @esp_cert
     if @esp_cert.save
       redirect_to shop_esps_path(@esp.shop)
     else
@@ -59,13 +61,14 @@ class EspCertsController < ApplicationController
   end
 
   def export_xls
-    authorize EspCert
+    #authorize EspCert
     @esp_xls =
       if EspCert.roles(current_user).join == 'allowed_all'
         EspCert.includes(:shop, :esp).order('shops.name asc')
       else
         EspCert.joins(:esp).where(esps: { shop_id: current_user.current_shops })
       end
+      authorize @esp_xls
     respond_to do |format|
       format.xlsx {
         render xlsx: "export_xls", filename: "esp_all.xlsx"

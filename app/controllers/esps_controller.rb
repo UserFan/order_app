@@ -4,22 +4,23 @@ class EspsController < ApplicationController
   after_action :verify_authorized
 
   def index
-    authorize Esp
     @esps = @shop.esps
+    authorize @esps
   end
 
   def new
-    authorize Esp
     @esp = @shop.esps.build
+    authorize @esp
   end
 
   def edit
-    authorize @esp    
+    authorize @esp
   end
 
   def create
-    authorize Esp
+    #authorize Esp
     @esp = @shop.esps.create(permitted_attributes(Esp))
+    authorize @esp
     if @esp.save
       redirect_to shop_esps_path(@shop)
     else
