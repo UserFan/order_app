@@ -36,10 +36,15 @@ class User < ApplicationRecord
   end
 
   def current_shops
-    self.shops.where("employees.work_start_date <= ?
-    AND (employees.work_end_date is null
-    OR employees.work_end_date >= ?)",
-    Date.today, Date.today)
+    if self.admin
+      Shop.where(closed: nil, structural_unit: false)
+    else
+      self.shops.where("employees.work_start_date <= ?
+      AND (employees.work_end_date is null
+      OR employees.work_end_date >= ?)
+      AND structural_unit = false AND closed is null",
+      Date.today, Date.today)
+    end
   end
 
   def super_admin?

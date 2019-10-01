@@ -20,7 +20,7 @@
    .col-12.col-md-9
      .row.pb-4
        .col-3
-         = link_to "Добавить сервис", new_service_equipment_path(shop_id: params[:shop_id]), class: "btn btn-outline-success btn-sm" if policy(ServiceEquipment).new_record?(params[:shop_id])
+         = link_to "Добавить сервис", new_service_equipment_path(shop_id: params[:shop_id]), class: "btn btn-outline-success btn-sm" if policy(ServiceEquipment).new?
      .row
        .col-12.col-md-12
          table.table.table-hover

@@ -94,3 +94,4 @@ gem 'will_paginate', '~> 3.1.1'
 gem 'will_paginate-bootstrap4'
 gem 'ratyrate', github: 'wazery/ratyrate'
 gem 'bootsnap', require: false
+gem 'by_star', git: "git://github.com/radar/by_star"

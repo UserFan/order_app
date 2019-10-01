@@ -9,15 +9,15 @@ class EspCert < ApplicationRecord
   delegate_missing_to :shop
 
   scope :count_cert_esp,
-    -> (date_start, date_end) { includes(:shop, :esp).
-                                where(date_end_esp: date_start..date_end).size }
-  scope :count_cert_rsa,
-    -> (date_start, date_end) { includes(:shop, :esp).
-                                where(date_end_rsa: date_start..date_end).size }
+    -> (date_start) { by_month(date_start, field: :date_end_esp).size }
 
-  scope :roles, -> (user) { user.template_roles.where(
-                            resource_names: {table_name: "esp_cert"},
-                            action_apps: {action_app_name: "export"}).
-                            joins(action_name: [:action_app, :resource_name]).
-                            pluck(:type_access) }
+  scope :count_cert_rsa,
+    -> (date_start) { by_month(date_start, field: :date_end_rsa).size }
+
+
+  # scope :roles, -> (user) { user.template_roles.where(
+  #                           resource_names: {table_name: "esp_cert"},
+  #                           action_apps: {action_app_name: "export"}).
+  #                           joins(action_name: [:action_app, :resource_name]).
+  #                           pluck(:type_access) }
 end

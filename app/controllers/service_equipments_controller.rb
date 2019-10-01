@@ -4,7 +4,7 @@ class ServiceEquipmentsController < ApplicationController
   after_action :verify_authorized
 
   def index
-    authorize ServiceEquipment
+    # authorize ServiceEquipment
     date_start = DateTime.now.beginning_of_month
     date_end = DateTime.now.end_of_month
     service_equipments =
@@ -15,12 +15,13 @@ class ServiceEquipmentsController < ApplicationController
     @service_equipments_count = @equipments.size
     @count_set_month = @equipments.where('date_service >= ?' 'and date_service <= ?', date_start, date_end).size
     @count_prev_month = @equipments.where('date_service >= ?' 'and date_service <= ?', date_start-1.month, date_end-1.month).size
+    authorize @equipments
   end
 
   def new
     authorize ServiceEquipment
     unless @shop.nil?
-      @equipment = ServiceEquipment.new(shop_id: @shop.id)
+      @equipment = @shop.service_equipments.build
     else
       @equipment = ServiceEquipment.new
     end
@@ -36,8 +37,8 @@ class ServiceEquipmentsController < ApplicationController
 
   def create
     authorize ServiceEquipment
-    @equipment = ServiceEquipment.create(permitted_attributes(ServiceEquipment))
-    if @equipment.save
+    @equipment = @shop.nil? ? ServiceEquipment : @shop.service_equipments
+    if @equipment.create(permitted_attributes(ServiceEquipment))
       redirect_to service_equipments_path(shop_id: @shop)
     else
       render 'new'
@@ -68,11 +69,12 @@ class ServiceEquipmentsController < ApplicationController
   def set_shop
     @shop = params[:shop_id] ? Shop.find(params[:shop_id]) : nil
     @shop_filter ||= params[:filter_shop]
-    if policy(:ServiceEquipment).new_only?
-      @shops = current_user.shops
-    else
-      @shops = Shop.all
-    end
+    #binding.pry
+    #if policy(:ServiceEquipment).new?
+    @shops = current_user.current_shops
+    #else
+    #  @shops = Shop.all
+  #  end
   end
 
   def set_equipment

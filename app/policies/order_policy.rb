@@ -16,9 +16,9 @@ class OrderPolicy < ApplicationPolicy
     # binding.pry
   end
 
-  def index?
-    true
-  end
+  # def index?
+  #   true
+  # end
 
   def new?
     true

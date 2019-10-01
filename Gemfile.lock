@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/radar/by_star
+  revision: ad164dac667b8e2dfa7f937d5d278831fb2e02d1
+  specs:
+    by_star (4.0.0)
+      activesupport (>= 3.2.0)
+
+GIT
   remote: https://github.com/knapo/jquery-inputmask-rails.git
   revision: 20df4fa329da0235b1e2ae3f0e225ce33fcc029c
   specs:
@@ -376,6 +383,7 @@ DEPENDENCIES
   bootstrap (= 4.1.1)
   bootstrap-datetimepicker-rails
   bootstrap_file_input_rails
+  by_star!
   byebug
   capistrano
   capistrano-bundler

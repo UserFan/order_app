@@ -1,5 +1,5 @@
-= simple_form_for @equipment,
-  url: service_equipments_path(shop_id: @shop.present? ? @shop.id : nil),
+= simple_form_for [@shop, @equipment],
+  #url: service_equipments_path(shop_id: @shop.present? ? @shop.id : nil),
   defaults: { input_html: { class: 'form-control-sm' } } do |f|
   = f.error_notification
   .row

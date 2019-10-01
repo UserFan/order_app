@@ -11,15 +11,21 @@ class ApplicationPolicy
     #binding.pry
   end
 
-  def index?
-    access_all?('default') || access_read?('default') ||
-    access_write?('default') || user.super_admin?
+  def index?(shop=nil)
+    user.super_admin? || access_all?('default') ||
+    unless shop.nil?
+     ((access_read?('default') || access_write?('default')) &&
+      user.current_shops.include?(shop))
+    else
+     (access_read?('default') || access_write?('default'))
+    end
   end
 
   def show?
     scope.where(id: record.id).exists?
-    access_all?('default') || access_read?('default') ||
-    access_write?('default') || user.super_admin?
+    index?
+    # access_all?('default') || access_read?('default') ||
+    # access_write?('default') || user.super_admin?
   end
 
   def create?
@@ -40,6 +46,12 @@ class ApplicationPolicy
 
   def destroy?
     (user.super_admin?) && record.can_destroy?
+  end
+
+  def link_view?(shop)
+    user.super_admin? || access_all?('default') ||
+    ((access_read?('default') || access_write?('default')) &&
+     user.current_shops.include?(shop))
   end
 
   def scope

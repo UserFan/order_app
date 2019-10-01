@@ -49,7 +49,7 @@ class ShopPolicy < ApplicationPolicy
     def resolve
       if access_set('default') == EnumTypeAccess::ALLALOWED || user.super_admin?
         scope.all
-      elsif access_set('default') == (EnumTypeAccess::READONLY || EnumTypeAccess::READWRITEONLY)
+      elsif access_set('default') == EnumTypeAccess::READONLY || EnumTypeAccess::READWRITEONLY
         scope.where(id: user.current_shops)
       end
     end

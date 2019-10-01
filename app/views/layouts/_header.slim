@@ -12,16 +12,16 @@ nav.navbar.sticky-top.navbar-expand-sm.bg-dark.navbar-dark
             a#navbarDropdownMenuLink.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
               = current_user.full_name
             .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
-              - if policy(:pages).menu_item?('menu_order')
+              - if policy(:order).index?
                 = link_to 'Заявки', orders_path, class: "dropdown-item"
-              - if policy(:pages).menu_item?('menu_task')
+              - if policy(:task).index?
                 = link_to 'Контрольная карточка', tasks_path, class: "dropdown-item"
-              = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item" if policy(:pages).menu_item?('menu_profile')
+              = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item" if policy(:user).edit?
               = link_to 'Структурное подразделения', shops_path(unit: 'structural'), class: "dropdown-item" if policy(:pages).menu_item?('menu_structural')
               = link_to 'Торговые объекты', shops_path(unit: 'shop'), class: "dropdown-item" if policy(:pages).menu_item?('menu_shop')
-              - if policy(:pages).menu_item?('menu_esp')
+              - if policy(:esp).index?
                 = link_to 'ЭЦП', esp_certs_path, class: "dropdown-item"
-              - if policy(:pages).menu_item?('menu_service')
+              - if policy(:service_equipment).index?
                 = link_to 'Сервисное обслуживания', service_equipments_path, class: "dropdown-item"
               - if policy(:pages).menu_item?('menu_report')
                 .dropdown-divider
