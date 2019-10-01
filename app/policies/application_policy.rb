@@ -11,14 +11,19 @@ class ApplicationPolicy
     #binding.pry
   end
 
-  def index?(shop=nil)
+  # def index?(shop=nil)
+  #   return true if user.super_admin? || access_all?('default')
+  #
+  #   return true if shop.present? && ((access_read?('default') || access_write?('default')) &&
+  #                  user.current_shops.include?(shop))
+  #   return true if shop.nil? && (access_read?('default') || access_write?('default'))
+  #
+  #   binding.pry
+  # end
+
+  def index?
     user.super_admin? || access_all?('default') ||
-    unless shop.nil?
-     ((access_read?('default') || access_write?('default')) &&
-      user.current_shops.include?(shop))
-    else
-     (access_read?('default') || access_write?('default'))
-    end
+    access_read?('default') || access_write?('default')
   end
 
   def show?
@@ -52,6 +57,10 @@ class ApplicationPolicy
     user.super_admin? || access_all?('default') ||
     ((access_read?('default') || access_write?('default')) &&
      user.current_shops.include?(shop))
+  end
+
+  def view_menu?
+    user.super_admin? || !access_not?('default')
   end
 
   def scope

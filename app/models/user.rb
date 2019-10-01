@@ -12,8 +12,7 @@ class User < ApplicationRecord
   has_many :performers, through: :employees, foreign_key: :user_id
   has_many :task_performers, through: :employees, foreign_key: :user_id
   has_many :template_accesses, through: :role, foreign_key: :role_id
-
-
+  
   has_one :profile, dependent: :destroy
 
   accepts_nested_attributes_for :profile, reject_if: :all_blank, allow_destroy: true

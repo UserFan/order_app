@@ -12,16 +12,16 @@ nav.navbar.sticky-top.navbar-expand-sm.bg-dark.navbar-dark
             a#navbarDropdownMenuLink.nav-link.dropdown-toggle aria-expanded="false" aria-haspopup="true" data-toggle="dropdown" href="#"
               = current_user.full_name
             .dropdown-menu aria-labelledby="navbarDropdownMenuLink"
-              - if policy(:order).index?
+              - if policy(:order).view_menu?
                 = link_to 'Заявки', orders_path, class: "dropdown-item"
-              - if policy(:task).index?
+              - if policy(:task).view_menu?
                 = link_to 'Контрольная карточка', tasks_path, class: "dropdown-item"
               = link_to 'Профиль', edit_user_path(current_user.id), class: "dropdown-item" if policy(:user).edit?
               = link_to 'Структурное подразделения', shops_path(unit: 'structural'), class: "dropdown-item" if policy(:pages).menu_item?('menu_structural')
               = link_to 'Торговые объекты', shops_path(unit: 'shop'), class: "dropdown-item" if policy(:pages).menu_item?('menu_shop')
-              - if policy(:esp).index?
+              - if policy(:esp).view_menu?
                 = link_to 'ЭЦП', esp_certs_path, class: "dropdown-item"
-              - if policy(:service_equipment).index?
+              - if policy(:service_equipment).view_menu?
                 = link_to 'Сервисное обслуживания', service_equipments_path, class: "dropdown-item"
               - if policy(:pages).menu_item?('menu_report')
                 .dropdown-divider
