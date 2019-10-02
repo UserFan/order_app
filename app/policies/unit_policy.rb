@@ -1,0 +1,17 @@
+class UnitPolicy < ApplicationPolicy
+
+  def new?
+    access_all?('default') ||  user.super_admin? ||
+    (access_write?('default') && user.shops.include?(record.shop))
+  end
+
+  class Scope < Scope
+    def resolve
+     if access_set('default') == EnumTypeAccess::ALLALOWED || user.super_admin?
+       scope.all
+     elsif access_set('default') == EnumTypeAccess::READONLY || EnumTypeAccess::READWRITEONLY
+       scope.where(shop_id: user.current_shops)
+     end
+    end
+  end
+end

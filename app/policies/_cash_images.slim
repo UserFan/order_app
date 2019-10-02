@@ -1,0 +1,20 @@
+.container
+  .col-sm-12.col-md-12
+    .row.pt-5
+      .row.justify-content-center
+        .col-sm-12.col-md-12.main-foto
+          /p Снимки кассового блока от #{l(@cash_image.date_add, format: :date)}
+          - if @cash_image.images?
+            #carouselExampleControls.carousel.slide data-ride="carousel"
+              /! Slides
+              .carousel-inner
+                - @cash_image.images.each_with_index do |photo, index|
+                  div class=("#{index == 0 ? 'carousel-item active' : 'carousel-item'}")
+                    = image_tag(photo.large.url, class: "d-block w-100")
+              /! Controls
+              a.carousel-control-prev data-slide="prev" href="#carouselExampleControls" role="button"
+                span.carousel-control-prev-icon aria-hidden="true"
+                span.sr-only Previous
+              a.carousel-control-next data-slide="next" href="#carouselExampleControls" role="button"
+                span.carousel-control-next-icon aria-hidden="true"
+                span.sr-only Next

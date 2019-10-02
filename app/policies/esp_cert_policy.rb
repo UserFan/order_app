@@ -1,4 +1,6 @@
-class EspCertPolicy < ApplicationPolicy
+class EspCertPolicy < UnitPolicy
+
+
 
   # def index?
   #   super

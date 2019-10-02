@@ -7,7 +7,7 @@
   .row.pb-4
     .col-sm-12.col-md-2
       /- if policy(Esp).new_record?(params[:shop_id])
-      - if policy(Esp).new?
+      - if policy(@shop.esps.build).new?
         = link_to "Добавить носитель ЭЦП", new_shop_esp_path, class: "btn btn-outline-success  btn-sm"
   ol
     - @esps.each do |esp|
@@ -36,7 +36,7 @@
                  span aria-hidden="true"  &times;
       .row
         /- if policy(EspCert).new_record?(params[:shop_id])
-        - if policy(EspCert).new?
+        - if policy(esp.esp_certs.build).new?
           ul
             li = link_to "Добавить сертификат", new_shop_esp_esp_cert_path(esp_id: esp)
       .row
@@ -75,10 +75,10 @@
                               | #{l(esp_cert.date_end_rsa, format: :date)}
                         .card-footer
                           .float-right
-                            - if policy(esp_cert).edit?
-                              = link_to edit_shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), data: { toggle: 'tooltip', placement: 'bottom' },
-                                 title: "Корректировка данных" do
-                                 span.fa.fa-pencil-alt.edit-button
+                            / - if policy(esp_cert).edit?
+                            /   = link_to edit_shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), data: { toggle: 'tooltip', placement: 'bottom' },
+                            /      title: "Корректировка данных" do
+                            /      span.fa.fa-pencil-alt.edit-button
                             - if policy(esp_cert).destroy? && esp_cert.can_destroy?
                               = link_to shop_esp_esp_cert_path(esp_id: esp, id: esp_cert), method: :delete, data: { confirm: "Вы действительно хотите удалить  сертификат ЭЦП?",
                                  toggle: 'tooltip', placement: 'bottom' }, title: "Удалить сертификат ЭЦП" do

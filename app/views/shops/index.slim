@@ -74,7 +74,7 @@
                   = link_to "Заявки(#{shop.orders_count})", orders_path(q: {shop_id_eq: shop.id}) if shop.orders_count > 0
                 .card-footer
                   .float-left
-                    - if policy(Esp).index?
+                    - if policy(policy_scope(shop.esps)).index?
                       = link_to shop_esps_path(shop_id: shop), class: "pr-2", data: { toggle: 'tooltip', placement: 'bottom' },
                          title: "Информация по ЭЦП" do
                          span.fas.fa-key.edit-button

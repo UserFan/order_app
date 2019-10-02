@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   protect_from_forgery with: :exception, prepend: true
   before_action :set_user, :set_translate_default_scope
-  after_action :verify_authorized
+  #after_action :verify_authorized
 
   rescue_from Pundit::NotAuthorizedError, with: :permission_denied
 

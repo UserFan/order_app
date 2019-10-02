@@ -12,8 +12,10 @@ class EspsController < ApplicationController
   end
 
   def new
-    @esp = @shop.esps.build
+    @esp = policy_scope(@shop.esps).build
     authorize @esp
+    #authorize @esp
+    binding.pry
   end
 
   def edit
@@ -22,7 +24,7 @@ class EspsController < ApplicationController
 
   def create
     #authorize Esp
-    @esp = @shop.esps.create(permitted_attributes(Esp))
+    @esp = policy_scope(@shop.esps).create(permitted_attributes(Esp))
     authorize @esp
     if @esp.save
       redirect_to shop_esps_path(@shop)
@@ -57,7 +59,7 @@ class EspsController < ApplicationController
   end
 
   def set_esp
-    @esp = @shop.esps.find(params[:id])
+    @esp = policy_scope(@shop.esps).find(params[:id])
     authorize @esp
   end
 end

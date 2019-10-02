@@ -34,15 +34,15 @@ class ApplicationPolicy
   end
 
   def create?
-    access_all?('default') || access_write?('default') || user.super_admin?
+    new?
   end
 
   def new?
-    create?
+    access_all?('default') ||  user.super_admin? || access_write?('default')
   end
 
   def update?
-    access_all?('default') || access_write?('default') || user.super_admin?
+    new?
   end
 
   def edit?

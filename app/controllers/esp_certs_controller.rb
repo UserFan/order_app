@@ -20,7 +20,7 @@ class EspCertsController < ApplicationController
 
   def new
     #authorize EspCert
-    @esp_cert = @esp.esp_certs.build
+    @esp_cert = policy_scope(@esp.esp_certs).build
     authorize @esp_cert
   end
 
@@ -77,7 +77,7 @@ class EspCertsController < ApplicationController
   private
 
   def set_esp
-    @esp = Esp.find(params[:esp_id])
+    @esp =  policy_scope(Esp).find(params[:esp_id])
     @shop = Shop.find(params[:shop_id])
   end
 
