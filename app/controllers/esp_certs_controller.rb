@@ -4,9 +4,9 @@ class EspCertsController < ApplicationController
   after_action :verify_authorized
 
   def index
-
+    #authorize EspCert
     date_start = Date.today.beginning_of_month
-    date_start_next =  date_start.next_month
+    date_start_next = date_start.next_month
     @q = policy_scope(EspCert).ransack(params[:q])
     @q.sorts = ['date_end_esp desc', 'created_at desc'] if @q.sorts.empty?
     @esp_certs = @q.result(disinct: true)

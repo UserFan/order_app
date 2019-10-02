@@ -4,18 +4,18 @@ class ServiceEquipmentsController < ApplicationController
   after_action :verify_authorized
 
   def index
-    authorize ServiceEquipment
+    #authorize ServiceEquipment
     date_start = DateTime.now.beginning_of_month
     date_end = DateTime.now.end_of_month
     service_equipments =
-      @shop.nil? ? policy_scope(ServiceEquipment) : @shop.service_equipments
+      @shop.nil? ? policy_scope(ServiceEquipment) : policy_scope(@shop.service_equipments)
     @q =  service_equipments.ransack(params[:q])
     @q.sorts = ['date_service desc', 'created_at desc'] if @q.sorts.empty?
     @equipments = @q.result(disinct: true)
     @service_equipments_count = @equipments.size
     @count_set_month = @equipments.where('date_service >= ?' 'and date_service <= ?', date_start, date_end).size
     @count_prev_month = @equipments.where('date_service >= ?' 'and date_service <= ?', date_start-1.month, date_end-1.month).size
-    #authorize @equipments
+    authorize @equipments
   end
 
   def new

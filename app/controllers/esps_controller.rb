@@ -2,10 +2,10 @@ class EspsController < ApplicationController
   before_action :set_shop
   before_action :set_esp, only: [:update, :destroy, :edit]
   after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
+  #after_action :verify_policy_scoped, only: :index
 
   def index
-    @esps = policy_scope(Esp)
+    @esps = policy_scope(@shop.esps)
     authorize @esps
     #binding.pry
     #binding.pry
@@ -58,6 +58,6 @@ class EspsController < ApplicationController
 
   def set_esp
     @esp = @shop.esps.find(params[:id])
-    authorize @shop.esps
+    authorize @esp
   end
 end

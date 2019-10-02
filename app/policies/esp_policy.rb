@@ -1,8 +1,8 @@
 class EspPolicy < ApplicationPolicy
-  def index?
-    super || user.current_shops.include?(record.pluck(:shop_id))
-    #binding.pry
-  end
+  # def index?
+  #   super || user.current_shops.include?(record.pluck(:shop_id))
+  #   #binding.pry
+  # end
   # def export_xls?
   #   (access_read?('export') || access_write?('export')) ||
   #   access_all?('export') || user.admin?
