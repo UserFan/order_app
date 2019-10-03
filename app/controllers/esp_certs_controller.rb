@@ -20,8 +20,9 @@ class EspCertsController < ApplicationController
 
   def new
     #authorize EspCert
+    authorize @shop, policy_class: EspCertPolicy
     @esp_cert = policy_scope(@esp.esp_certs).build
-    authorize @esp_cert
+    #authorize @shop
   end
 
   def edit

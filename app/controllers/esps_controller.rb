@@ -1,7 +1,7 @@
 class EspsController < ApplicationController
   before_action :set_shop
   before_action :set_esp, only: [:update, :destroy, :edit]
-  after_action :verify_authorized, except: :index
+  after_action :verify_authorized
   #after_action :verify_policy_scoped, only: :index
 
   def index
@@ -12,10 +12,11 @@ class EspsController < ApplicationController
   end
 
   def new
+    authorize @shop, policy_class: EspPolicy
     @esp = policy_scope(@shop.esps).build
-    authorize @esp
+
     #authorize @esp
-    binding.pry
+    #binding.pry
   end
 
   def edit
