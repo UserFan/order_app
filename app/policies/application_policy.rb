@@ -8,41 +8,27 @@ class ApplicationPolicy
     @access_record =
       @user.template_accesses.where(enum_resources: { resource_name: name_tabl }).
             includes(:enum_resource)
-    #binding.pry
   end
 
-  # def index?(shop=nil)
-  #   return true if user.super_admin? || access_all?('default')
-  #
-  #   return true if shop.present? && ((access_read?('default') || access_write?('default')) &&
-  #                  user.current_shops.include?(shop))
-  #   return true if shop.nil? && (access_read?('default') || access_write?('default'))
-  #
-  #   binding.pry
-  # end
-
   def index?
-    user.super_admin? || access_all?('default') ||
-    access_read?('default') || access_write?('default')
+    user.super_admin? || !access_not?('default')
   end
 
   def show?
     scope.where(id: record.id).exists?
-    index?
-    # access_all?('default') || access_read?('default') ||
-    # access_write?('default') || user.super_admin?
+    user.super_admin? || !access_not?('default')
   end
 
   def create?
-    new?
-  end
-
-  def new?
     access_all?('default') ||  user.super_admin? || access_write?('default')
   end
 
+  def new?
+    create?
+  end
+
   def update?
-    new?
+    create?
   end
 
   def edit?
@@ -51,12 +37,6 @@ class ApplicationPolicy
 
   def destroy?
     (user.super_admin?) && record.can_destroy?
-  end
-
-  def link_view?(shop)
-    user.super_admin? || access_all?('default') ||
-    ((access_read?('default') || access_write?('default')) &&
-     user.current_shops.include?(shop))
   end
 
   def view_menu?

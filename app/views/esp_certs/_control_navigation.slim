@@ -1,0 +1,44 @@
+#esp_cert-nav-pills
+  nav.navbar-expand-md.nav-pills.navbar-light.mb-3
+    = content_tag(:span, "#{@caption_table}", class: "navbar-brand d-md-none small text-muted")
+    button.navbar-toggler.float-right aria-controls="navpilsNav" aria-expanded="false" aria-label="Toggle navigation" data-target="#navpilsNav" data-toggle="collapse" type="button"
+      span.navbar-toggler-icon
+    .clearfix
+    .row
+      #navpilsNav.collapse.navbar-collapse
+        .col-12.col-md-12
+          .mt-3.d-block.d-sm-none
+          = active_link_to esp_certs_path, active: :exact, class: "nav-item nav-link" do
+            span.fas.fa-tasks.text-muted&nbsp
+              Все
+            span.badge.badge-pill.badge-secondary.float-right  = @esp_certs_count
+          hr.m-1.p-1
+          .col-12.col-md-12.mr-0.pr-0.pl-4.ml-1.pb-0
+            .row
+              h6.text-muted
+                | Истекает срок (ЭЦП):
+          .row
+          .col-12.col-md-12.mr-0.pr-0.pl-2
+            = active_link_to esp_certs_path(q: {date_end_esp_gteq: (Date.today).beginning_of_month, date_end_esp_lteq: (Date.today).end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.far.fa-calendar-check.text-muted&nbsp
+                В текущем месяце
+              span.badge.badge-pill.badge-secondary.float-right = @count_esp_set_month
+            = active_link_to esp_certs_path(q: {date_end_esp_gteq: (Date.today).beginning_of_month.next_month, date_end_esp_lteq: (Date.today).next_month.end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.far.fa-calendar-plus.text-muted&nbsp
+                В следующем месяце
+              span.badge.badge-pill.badge-secondary.float-right  = @count_esp_next_month
+          hr.m-1.p-1
+          .col-12.col-md-12.mr-0.pr-0.pl-4.ml-1.pb-0
+            .row
+              h6.text-muted
+                | Истекает срок (RSA):
+          .row
+          .col-12.col-md-12.mr-0.pr-0.pl-2
+            = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month.next_month, date_end_rsa_lteq: (Date.today).next_month.end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.far.fa-calendar-check.text-muted&nbsp
+                В текущем месяце
+              span.badge.badge-pill.badge-secondary.float-right  = @count_rsa_next_month
+            = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month, date_end_rsa_lteq: (Date.today).end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
+              span.far.fa-calendar-plus.text-muted&nbsp
+                В следующем месяце
+              span.badge.badge-pill.badge-secondary.float-right  = @count_rsa_set_month

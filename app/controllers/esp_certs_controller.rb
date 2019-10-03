@@ -4,7 +4,6 @@ class EspCertsController < ApplicationController
   after_action :verify_authorized
 
   def index
-    #authorize EspCert
     date_start = Date.today.beginning_of_month
     date_start_next = date_start.next_month
     @q = policy_scope(EspCert).ransack(params[:q])
@@ -19,20 +18,18 @@ class EspCertsController < ApplicationController
   end
 
   def new
-    #authorize EspCert
     authorize @shop, policy_class: EspCertPolicy
     @esp_cert = policy_scope(@esp.esp_certs).build
-    #authorize @shop
   end
 
   def edit
-    authorize @esp_cert
+    authorize @shop, :access_unit?, policy_class: EspCertPolicy
+    #authorize @esp_cert
   end
 
   def create
-    #authorize EspCert
+    authorize @shop, policy_class: EspCertPolicy
     @esp_cert = @esp.esp_certs.create(permitted_attributes(EspCert))
-    authorize @esp_cert
     if @esp_cert.save
       redirect_to shop_esps_path(@esp.shop)
     else
@@ -41,7 +38,7 @@ class EspCertsController < ApplicationController
   end
 
   def update
-    authorize @esp_cert
+    authorize @shop, policy_class: EspCertPolicy
     if @esp_cert.update_attributes(permitted_attributes(@esp_cert))
      redirect_to shop_esps_path(@esp.shop)
     else
@@ -61,18 +58,20 @@ class EspCertsController < ApplicationController
 
   def export_xls
     #authorize EspCert
-    # @esp_xls =
-    #   if EspCert.roles(current_user).join == 'allowed_all'
-    #     EspCert.includes(:shop, :esp).order('shops.name asc')
-    #   else
-    #     EspCert.joins(:esp).where(esps: { shop_id: current_user.current_shops })
-    #   end
-    #   authorize @esp_xls
-    # respond_to do |format|
-    #   format.xlsx {
-    #     render xlsx: "export_xls", filename: "esp_all.xlsx"
-    #     }
-    # end
+    @esp_xls = policy_scope(EspCert)
+
+
+      # if EspCert.roles(current_user).join == 'allowed_all'
+      #   EspCert.includes(:shop, :esp).order('shops.name asc')
+      # else
+      #   EspCert.joins(:esp).where(esps: { shop_id: current_user.current_shops })
+      # end
+    authorize @esp_xls
+    respond_to do |format|
+      format.xlsx {
+        render xlsx: "export_xls", filename: "esp_all.xlsx"
+        }
+    end
   end
 
   private

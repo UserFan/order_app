@@ -1,13 +1,12 @@
 class UnitPolicy < ApplicationPolicy
+  def new?
+    access_all?('default') || user.super_admin? ||
+    (access_write?('default') && user.current_shops.include?(record))
+  end
 
   def access_unit?
     access_all?('default') || user.super_admin? ||
     ((access_read?('default') || access_write?('default')) && user.current_shops.include?(record))
-  end
-
-  def new?
-    access_all?('default') || user.super_admin? ||
-    (access_write?('default') && user.current_shops.include?(record))
   end
 
   class Scope < Scope

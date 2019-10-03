@@ -3,62 +3,48 @@
     .text-right.pb-4.pt-3.d-md-none.d-block
       = link_to '<< Объектам/подразделениям', shops_path
     h2.font-weight-bold Перечень ЭЦП
-  hr
-  .col-sm-12.col-md-12
-    .row
-      nav.nav.nav-pills.nav-fill.flex-column.flex-sm-row.p-0
-        = active_link_to esp_certs_path, active: :exact, class: "nav-item nav-link main-nav-link" do
-          | Всего
-          span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@esp_certs_count}
-        = active_link_to esp_certs_path(q: {date_end_esp_gteq: (Date.today).beginning_of_month, date_end_esp_lteq: (Date.today).end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
-          | Истекает(ЭЦП) в тек. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_esp_set_month}
-        = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month, date_end_rsa_lteq: (Date.today).end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
-          | Истекает(RSA) в тек. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_rsa_set_month}
-        = active_link_to esp_certs_path(q: {date_end_esp_gteq: (Date.today).beginning_of_month.next_month, date_end_esp_lteq: (Date.today).next_month.end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
-          | Истекает(ЭЦП) в след. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_esp_next_month}
-        = active_link_to esp_certs_path(q: {date_end_rsa_gteq: (Date.today).beginning_of_month.next_month, date_end_rsa_lteq: (Date.today).next_month.end_of_month}), active: :exact, class: "nav-item nav-link main-nav-link" do
-          | Истекает(RSA) в след. мес.
-          span.badge.badge-pill.badge-secondary.float-right.ml-1 #{@count_rsa_next_month}
-  .col-sm-12.col-md-12.p-0.pt-4
-    .row.justify-content-end
-      .col-5
-        = search_form_for [@q] do |f|
-          .input-group.pb-4
-            = f.search_field :serial_num_esp_or_rsa_serial_or_shop_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
-            span.input-group-append
-              button.btn.btn-outline-secondary type="submit"
-                span.fa.fa-search
-    .row
-      .col-sm-12.col-md-2.ml-auto
-          = link_to "Экспорт в (xlsx)", export_cert_xls_path(format: "xlsx"), class: "btn btn-outline-success btn-sm", data: { turbolinks: false, confirm: "Предупреждение: Экспорт в(XLSX) может занят определенное время! Вы действительно хотите произвести экспорт в(XLSX) всех ЭЦП?",
-              toggle: 'tooltip', placement: 'bottom' }, title: "Экспорт в(XLSX) всех объектов" if policy(@esp_certs).export_xls?
-    hr.pt-2
-    .row
-      .col-sm-12.col-md-12
-        table.table.table-hover
-          thead.thead-light.text-dark
-            tr.text-dark
-              th =sort_link(@q, :serial_num_esp, 'Серийный номер ЭЦП')
-              th =sort_link(@q, :date_end_esp, 'Истекает', default_order: :desc)
-              th =sort_link(@q, :rsa_serial, 'Идентификатор RSA')
-              th =sort_link(@q, :date_end_rsa, 'Истекает(RSA)', default_order: :desc)
-              th =sort_link(@q, :shop_name, 'Объект', default_order: :asc)
-          tbody
-            - @esp_certs.each do |esp_cert|
-              - if policy(esp_cert.esp).show?
-                tr
-                  td = link_to "#{esp_cert.serial_num_esp}", shop_esps_path(shop_id: esp_cert.shop)
-                  td = l(esp_cert.date_end_esp, format: :date)
-                  td = esp_cert.rsa_serial
-                  td = l(esp_cert.date_end_rsa, format: :date)
-                  td = esp_cert.shop.name
-              - else
-                tr.table-danger
-                  td.table-danger colspan="4" Нет доступа для просмотра!
-                  / td.table-danger Нет доступа для просмотра!
-                  / td.table-danger Нет доступа для просмотра!
-                  / td.table-danger Нет доступа для просмотра!
-                  td.table-danger = esp_cert.shop.name
+
+  hr.mt-1
+  .row.justify-content-end
+   .col-12.col-md-5
+     = search_form_for (@q) do |f|
+       .input-group.pb-4
+         = f.search_field :serial_num_esp_or_rsa_serial_or_shop_name_cont, label: false, placeholder: 'Поиск', class: "form-control border border-secondary"
+         span.input-group-append
+           button.btn.btn-outline-secondary type="submit"
+             span.fa.fa-search
+
+  .row
+    .col-12.col-md-3
+      = render "control_navigation"
+      hr.d-md-none.d-block
+    .col-12.col-md-9
+      .row.pb-4
+        .col-3
+          = link_to "Экспорт в (xlsx)", export_cert_xls_path(format: "xlsx"),
+              class: "btn btn-outline-success btn-sm",
+              data: { turbolinks: false,
+              confirm: "Предупреждение: Экспорт в(XLSX) может занят определенное время! Вы действительно хотите произвести экспорт в(XLSX) всех ЭЦП?",
+              toggle: 'tooltip',
+              placement: 'bottom' }, title: "Экспорт в(XLSX) всех объектов" if policy(@esp_certs).export_xls?
+      .row
+        .col-12.col-md-12
+          table.table.table-hover
+            thead.thead-light.text-dark
+              tr.text-dark
+                th =sort_link(@q, :shop_name, 'Объект', default_order: :asc)
+                th.d-none.d-sm-table-cell =sort_link(@q, :date_end_esp, 'Истекает', default_order: :desc)
+                th.d-none.d-sm-table-cell =sort_link(@q, :date_end_rsa, 'Истекает (RSA)', default_order: :desc)
+            tbody
+              - @esp_certs.each do |esp_cert|
+                - if policy(esp_cert.esp).show?
+                  tr
+                    td
+                       = link_to "#{esp_cert.shop.name}", shop_esps_path(shop_id: esp_cert.shop)
+                       = content_tag(:p, "S/N ЭЦП: #{esp_cert.serial_num_esp}", class: "small text-info p-0 m-0")
+                       = content_tag(:p, "RSA ИД: #{esp_cert.rsa_serial}", class: "small text-success p-0 m-0")
+                       = content_tag(:p, "Истекает ЭЦП: #{l(esp_cert.date_end_esp, format: :date)}", class: "small d-md-none d-block text-muted p-0 m-0")
+                       = content_tag(:p, "Истекает RSA: #{l(esp_cert.date_end_rsa, format: :date)}", class: "small d-md-none d-block text-muted p-0 m-0")
+                    td.d-none.d-sm-table-cell = l(esp_cert.date_end_esp, format: :date)
+                    td.d-none.d-sm-table-cell= l(esp_cert.date_end_rsa, format: :date)
+  
