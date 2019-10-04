@@ -33,7 +33,7 @@
             thead.thead-light.text-dark
               tr.text-dark
                 th =sort_link(@q, :shop_name, 'Объект', default_order: :asc)
-                th.d-none.d-sm-table-cell =sort_link(@q, :date_end_esp, 'Истекает', default_order: :desc)
+                th.d-none.d-sm-table-cell =sort_link(@q, :date_end_esp, 'Истекает (ЭЦП)', default_order: :desc)
                 th.d-none.d-sm-table-cell =sort_link(@q, :date_end_rsa, 'Истекает (RSA)', default_order: :desc)
             tbody
               - @esp_certs.each do |esp_cert|
@@ -47,4 +47,3 @@
                        = content_tag(:p, "Истекает RSA: #{l(esp_cert.date_end_rsa, format: :date)}", class: "small d-md-none d-block text-muted p-0 m-0")
                     td.d-none.d-sm-table-cell = l(esp_cert.date_end_esp, format: :date)
                     td.d-none.d-sm-table-cell= l(esp_cert.date_end_rsa, format: :date)
-  
